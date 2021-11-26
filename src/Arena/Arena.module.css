@@ -1,4 +1,6 @@
 .arena {
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  --arena-border-color: rgb(73, 66, 111);
+  background-color: var(--arena-border-color);
+  border: 2px solid var(--arena-border-color);
+  border-radius: 5px;
 }
