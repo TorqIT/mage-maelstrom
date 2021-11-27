@@ -26,7 +26,8 @@ export const Arena: React.FC<ArenaProps> = ({ width, height, teams }) => {
                 <Tile
                   key={x}
                   combatant={occupant?.combatant}
-                  teamColor={occupant?.color}
+                  teamColor={occupant?.team.color}
+                  flip={occupant?.team.flip}
                 />
               );
             })}
@@ -41,7 +42,7 @@ function findOccupant(teams: ActiveTeam[], x: number, y: number) {
   for (const team of teams) {
     for (const entrant of team.entrants) {
       if (entrant.status.coord.x === x && entrant.status.coord.y === y) {
-        return { combatant: entrant.combatant, color: team.color };
+        return { combatant: entrant.combatant, team: team };
       }
     }
   }

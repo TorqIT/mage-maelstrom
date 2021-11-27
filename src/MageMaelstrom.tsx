@@ -1,6 +1,6 @@
 import React from "react";
 import { Arena } from "./Arena";
-import { ActiveTeam, Entrant } from "./Combatant";
+import { ActiveTeam } from "./Combatant";
 import { Stack } from "./Common";
 import { TeamDisplay } from "./HUD";
 import styles from "./MageMaelstrom.module.css";
@@ -8,6 +8,7 @@ import styles from "./MageMaelstrom.module.css";
 const leftTeam: ActiveTeam = {
   name: "a",
   color: "#c00",
+  flip: false,
   entrants: [
     {
       combatant: { name: "a", icon: "/burst.png" },
@@ -23,6 +24,7 @@ const leftTeam: ActiveTeam = {
 const rightTeam: ActiveTeam = {
   name: "a",
   color: "#00c",
+  flip: true,
   entrants: [
     {
       combatant: { name: "a", icon: "/burst.png" },

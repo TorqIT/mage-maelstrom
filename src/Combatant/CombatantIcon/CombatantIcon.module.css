@@ -7,3 +7,7 @@
   border-width: 2px;
   border-style: solid;
 }
+
+.flip {
+  transform: scaleX(-1);
+}

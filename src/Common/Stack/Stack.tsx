@@ -33,6 +33,7 @@ export interface StackProps {
    * of the textbox would be visible, while safe would realign it so that the start is
    * at least visible
    */
+  reverse?: boolean;
   safe?: boolean;
   /**
    * **Avoid using this prop.** *Reserved for integration with third-party libraries.*
@@ -82,14 +83,22 @@ function buildStyle({
   gap,
   stretch,
   fill,
+  reverse,
   safe,
 }: Pick<
   StackProps,
-  "direction" | "alignment" | "gap" | "stretch" | "fill" | "safe"
+  "direction" | "alignment" | "gap" | "stretch" | "fill" | "safe" | "reverse"
 >) {
   const flexStyle: React.CSSProperties = {
     display: "flex",
-    flexDirection: direction == "horizontal" ? "row" : "column",
+    flexDirection:
+      direction === "horizontal"
+        ? reverse
+          ? "row-reverse"
+          : "row"
+        : reverse
+        ? "column-reverse"
+        : "column",
     flexWrap: "nowrap",
   };
 
@@ -156,6 +165,7 @@ export const StackParent: React.FC<StackProps> = ({
   fill,
   safe,
   className,
+  reverse,
   style,
   children,
 }) => {
@@ -172,7 +182,15 @@ export const StackParent: React.FC<StackProps> = ({
     <div
       className={className}
       style={{
-        ...buildStyle({ direction, alignment, gap, stretch, fill, safe }),
+        ...buildStyle({
+          direction,
+          alignment,
+          gap,
+          stretch,
+          fill,
+          safe,
+          reverse,
+        }),
         ...style,
       }}
     >

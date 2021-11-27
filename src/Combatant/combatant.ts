@@ -22,5 +22,6 @@ export interface Team {
 }
 
 export interface ActiveTeam extends Omit<Team, "combatants"> {
+  flip: boolean;
   entrants: Entrant[];
 }

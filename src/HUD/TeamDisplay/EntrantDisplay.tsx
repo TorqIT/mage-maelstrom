@@ -1,5 +1,6 @@
 import React from "react";
 import { CombatantIcon, Entrant } from "../../Combatant";
+import { Stack } from "../../Common";
 import styles from "./EntrantDisplay.module.css";
 
 export interface EntrantDisplayProps {
@@ -15,9 +16,16 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.iconWrapper}>
-        <CombatantIcon combatant={entrant.combatant} teamColor={color} />
-      </div>
+      <Stack reverse={flip} fill>
+        <div className={styles.iconWrapper}>
+          <CombatantIcon
+            combatant={entrant.combatant}
+            teamColor={color}
+            horizontalFlip={flip}
+          />
+        </div>
+        <div>hello</div>
+      </Stack>
     </div>
   );
 };
