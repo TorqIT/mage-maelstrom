@@ -1,0 +1,19 @@
+.wrapper {
+  padding: 20px;
+  background-color: rgb(73, 73, 108);
+
+  --upper-left-border: rgb(134, 134, 169);
+  --lower-right-border: rgb(61, 61, 109);
+
+  border-width: 3px;
+  border-style: solid;
+  border-left-color: var(--upper-left-border);
+  border-top-color: var(--upper-left-border);
+  border-right-color: var(--lower-right-border);
+  border-bottom-color: var(--lower-right-border);
+}
+
+.iconWrapper {
+  width: 100px;
+  height: 100px;
+}

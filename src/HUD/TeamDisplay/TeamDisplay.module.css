@@ -1,0 +1,13 @@
+.wrapper {
+  --upper-left-border: rgb(118, 118, 154);
+  --lower-right-border: rgb(46, 46, 84);
+
+  width: 320px;
+  border-width: 3px;
+  border-style: solid;
+  background-color: rgb(11, 11, 17);
+  border-left-color: var(--upper-left-border);
+  border-top-color: var(--upper-left-border);
+  border-right-color: var(--lower-right-border);
+  border-bottom-color: var(--lower-right-border);
+}

@@ -1,7 +1,7 @@
 .tile {
   width: 38px;
   height: 38px;
-  background-color: rgb(27, 27, 46);
+  background-color: rgb(23, 23, 39);
   border: 2px solid var(--arena-border-color);
   border-radius: 5px;
 }

@@ -6,6 +6,7 @@ export interface Combatant {
 }
 
 export interface CombatantStatus {
+  id: number;
   coord: Coordinate;
 }
 
