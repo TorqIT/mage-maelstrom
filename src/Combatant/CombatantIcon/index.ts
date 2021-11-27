@@ -1,0 +1,1 @@
+export { CombatantIcon } from "./CombatantIcon";
