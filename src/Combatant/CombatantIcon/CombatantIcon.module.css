@@ -4,5 +4,6 @@
 }
 
 .iconWrapper {
-  border: 2px solid #c00;
+  border-width: 2px;
+  border-style: solid;
 }

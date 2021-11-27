@@ -13,3 +13,13 @@ export interface Entrant {
   combatant: Combatant;
   status: CombatantStatus;
 }
+
+export interface Team {
+  name: string;
+  color: string;
+  combatants: Combatant[];
+}
+
+export interface ActiveTeam extends Omit<Team, "combatants"> {
+  entrants: Entrant[];
+}

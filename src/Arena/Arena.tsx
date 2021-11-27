@@ -2,15 +2,15 @@ import React from "react";
 import { Stack } from "../Common";
 import { Tile } from "./Tile";
 import styles from "./Arena.module.css";
-import { Entrant } from "../Combatant";
+import { ActiveTeam } from "../Combatant";
 
 export interface ArenaProps {
   width: number;
   height: number;
-  entrants: Entrant[];
+  teams: ActiveTeam[];
 }
 
-export const Arena: React.FC<ArenaProps> = ({ width, height, entrants }) => {
+export const Arena: React.FC<ArenaProps> = ({ width, height, teams }) => {
   const columns = Array.from(Array(width).keys());
   const rows = Array.from(Array(height).keys());
 
@@ -19,19 +19,30 @@ export const Arena: React.FC<ArenaProps> = ({ width, height, entrants }) => {
       <Stack direction="vertical" className={styles.arena}>
         {rows.map((y) => (
           <Stack key={y}>
-            {columns.map((x) => (
-              <Tile
-                key={x}
-                combatant={
-                  entrants.find(
-                    (e) => e.status.coord.x === x && e.status.coord.y === y
-                  )?.combatant
-                }
-              />
-            ))}
+            {columns.map((x) => {
+              const occupant = findOccupant(teams, x, y);
+
+              return (
+                <Tile
+                  key={x}
+                  combatant={occupant?.combatant}
+                  teamColor={occupant?.color}
+                />
+              );
+            })}
           </Stack>
         ))}
       </Stack>
     </Stack>
   );
 };
+
+function findOccupant(teams: ActiveTeam[], x: number, y: number) {
+  for (const team of teams) {
+    for (const entrant of team.entrants) {
+      if (entrant.status.coord.x === x && entrant.status.coord.y === y) {
+        return { combatant: entrant.combatant, color: team.color };
+      }
+    }
+  }
+}

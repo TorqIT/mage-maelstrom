@@ -4,12 +4,15 @@ import styles from "./Tile.module.css";
 
 export interface TileProps {
   combatant?: Combatant;
+  teamColor?: string;
 }
 
-export const Tile: React.FC<TileProps> = ({ combatant }) => {
+export const Tile: React.FC<TileProps> = ({ combatant, teamColor }) => {
   return (
     <div className={styles.tile}>
-      {combatant && <CombatantIcon combatant={combatant} />}
+      {combatant && teamColor && (
+        <CombatantIcon combatant={combatant} teamColor={teamColor} />
+      )}
     </div>
   );
 };
