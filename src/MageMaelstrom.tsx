@@ -1,51 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Arena } from "./Arena";
-import { ActiveTeam } from "./Combatant";
+import { ActiveTeam, Team } from "./Combatant";
 import { Stack } from "./Common";
 import { TeamDisplay } from "./HUD";
+import { useGameManager } from "./Logic/GameManagerProvider";
 import styles from "./MageMaelstrom.module.css";
 
-const leftTeam: ActiveTeam = {
+const left: Team = {
   name: "a",
   color: "#c00",
-  flip: false,
-  entrants: [
-    {
-      combatant: { name: "a", icon: "/burst.png" },
-      status: { id: 0, coord: { x: 10, y: 9 } },
-    },
-    {
-      combatant: { name: "a", icon: "/burst.png" },
-      status: { id: 1, coord: { x: 5, y: 15 } },
-    },
+  combatants: [
+    { name: "a", icon: "/burst.png" },
+    { name: "a", icon: "/burst.png" },
   ],
 };
 
-const rightTeam: ActiveTeam = {
+const right: Team = {
   name: "a",
   color: "#00c",
-  flip: true,
-  entrants: [
-    {
-      combatant: { name: "a", icon: "/burst.png" },
-      status: { id: 2, coord: { x: 2, y: 2 } },
-    },
-    {
-      combatant: { name: "a", icon: "/burst.png" },
-      status: { id: 3, coord: { x: 1, y: 0 } },
-    },
+  combatants: [
+    { name: "a", icon: "/burst.png" },
+    { name: "a", icon: "/burst.png" },
   ],
 };
 
 export interface MageMaelstromProps {}
 
 export const MageMaelstrom: React.FC<MageMaelstromProps> = ({}) => {
+  const { leftTeam, rightTeam, startGame } = useGameManager();
+
+  useEffect(() => {
+    startGame(left, right);
+  }, [startGame]);
+
   return (
     <div id={styles.mageMaelstrom}>
       <div style={{ paddingTop: 70 }}>
         <Stack alignment="middle" stretch>
           <TeamDisplay team={leftTeam} />
-          <Arena width={20} height={20} teams={[leftTeam, rightTeam]} />
+          <Arena />
           <TeamDisplay team={rightTeam} />
         </Stack>
       </div>

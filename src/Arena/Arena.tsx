@@ -3,16 +3,15 @@ import { Stack } from "../Common";
 import { Tile } from "./Tile";
 import styles from "./Arena.module.css";
 import { ActiveTeam } from "../Combatant";
+import { useGameManager } from "../Logic/GameManagerProvider";
 
-export interface ArenaProps {
-  width: number;
-  height: number;
-  teams: ActiveTeam[];
-}
+export interface ArenaProps {}
 
-export const Arena: React.FC<ArenaProps> = ({ width, height, teams }) => {
-  const columns = Array.from(Array(width).keys());
-  const rows = Array.from(Array(height).keys());
+export const Arena: React.FC<ArenaProps> = ({}) => {
+  const { leftTeam, rightTeam, arenaWidth, arenaHeight } = useGameManager();
+
+  const columns = Array.from(Array(arenaWidth).keys());
+  const rows = Array.from(Array(arenaHeight).keys());
 
   return (
     <Stack alignment="middle">
@@ -20,7 +19,11 @@ export const Arena: React.FC<ArenaProps> = ({ width, height, teams }) => {
         {rows.map((y) => (
           <Stack key={y}>
             {columns.map((x) => {
-              const occupant = findOccupant(teams, x, y);
+              const occupant = findOccupant(
+                leftTeam && rightTeam ? [leftTeam, rightTeam] : [],
+                x,
+                y
+              );
 
               return (
                 <Tile
@@ -41,7 +44,7 @@ export const Arena: React.FC<ArenaProps> = ({ width, height, teams }) => {
 function findOccupant(teams: ActiveTeam[], x: number, y: number) {
   for (const team of teams) {
     for (const entrant of team.entrants) {
-      if (entrant.status.coord.x === x && entrant.status.coord.y === y) {
+      if (entrant.status.coords.x === x && entrant.status.coords.y === y) {
         return { combatant: entrant.combatant, team: team };
       }
     }
