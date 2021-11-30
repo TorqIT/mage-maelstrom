@@ -1,0 +1,30 @@
+.openSlot {
+  background-color: rgb(12, 12, 19);
+
+  --upper-left-border: rgb(114, 114, 145);
+  --lower-right-border: rgb(47, 47, 84);
+
+  border-width: 3px;
+  border-style: solid;
+  border-left-color: var(--upper-left-border);
+  border-top-color: var(--upper-left-border);
+  border-right-color: var(--lower-right-border);
+  border-bottom-color: var(--lower-right-border);
+}
+
+.openTeamSlot {
+  min-width: 100px;
+  min-height: 100px;
+  padding: 20px;
+}
+
+.pool {
+  margin: 50px;
+  height: calc(100vh - 340px);
+  overflow-y: auto;
+}
+
+.versus {
+  font-family: Versus;
+  font-size: 100px;
+}
