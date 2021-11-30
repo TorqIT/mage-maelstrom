@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Arena } from "./Arena";
-import { ActiveTeam, Team } from "./Combatant";
+import { Team } from "./Combatant";
 import { Stack } from "./Common";
 import { TeamDisplay } from "./HUD";
-import { useGameManager } from "./Logic/GameManagerProvider";
+import { useGameManager } from "./Logic";
 import styles from "./MageMaelstrom.module.css";
 
 const left: Team = {

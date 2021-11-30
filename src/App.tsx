@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
-import { GameManagerProvider } from "./Logic/GameManagerProvider";
-import { MageMaelstrom } from "./MageMaelstrom";
+import { GameManagerProvider, MageMaelstrom } from "./MageMaelstrom";
 
 function App() {
   return (
