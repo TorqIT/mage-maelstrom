@@ -1,0 +1,54 @@
+.niceButton {
+  background-color: rgb(46, 37, 54);
+  color: white;
+  padding: 10px;
+  font-family: "Body";
+  cursor: pointer;
+  user-select: none;
+  border-radius: 3px;
+  border: 3px solid rgb(23, 22, 24);
+  border-top-color: rgb(158, 140, 173);
+  border-left-color: rgb(158, 140, 173);
+  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.3);
+  margin: 0px 20px 2px 0px;
+  font-size: 18px;
+}
+
+.niceButton.large {
+  font-size: 30px;
+  padding: 16px 12px;
+}
+
+.niceButton.pressedIn {
+  background-color: rgb(227, 219, 235);
+  color: rgb(46, 37, 54);
+  margin: 1px 19px 1px 1px;
+}
+
+.niceButton.pressedIn:hover {
+  background-color: rgb(203, 191, 214);
+}
+
+.niceButton:disabled,
+.niceButton:hover:disabled {
+  background-color: rgb(122, 115, 128);
+  color: rgb(218, 217, 228);
+  border-top-color: rgb(158, 140, 173);
+  border-left-color: rgb(158, 140, 173);
+  border-bottom-color: rgb(101, 97, 105);
+  border-right-color: rgb(101, 97, 105);
+}
+
+.niceButton:hover {
+  background-color: rgb(64, 53, 75);
+}
+
+.niceButton:hover:active {
+  background-color: rgb(17, 14, 20);
+  box-shadow: -2px -2px 2px 0px rgba(0, 0, 0, 0.3) inset;
+  border-top-color: rgb(23, 22, 24);
+  border-left-color: rgb(23, 22, 24);
+  border-bottom-color: rgb(158, 140, 173);
+  border-right-color: rgb(158, 140, 173);
+  margin: 2px 18px 0px 2px;
+}

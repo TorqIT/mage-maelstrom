@@ -5,11 +5,15 @@ import styles from "./SelectableTeam.module.css";
 
 export interface SelectableTeamProps {
   team: Team;
+  onClick?: () => void;
 }
 
-export const SelectableTeam: React.FC<SelectableTeamProps> = ({ team }) => {
+export const SelectableTeam: React.FC<SelectableTeamProps> = ({
+  team,
+  onClick,
+}) => {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} onClick={onClick}>
       <div className={styles.name}>{team.name}</div>
       <Stack gap={20}>
         {team.combatants.map((c) => (

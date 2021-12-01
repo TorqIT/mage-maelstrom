@@ -7,3 +7,8 @@
   font-family: "SmallTitle";
   src: url("./MageMaelstrom/Fonts/Deutsch.ttf");
 }
+
+@font-face {
+  font-family: "Body";
+  src: url("./MageMaelstrom/Fonts/Brand.woff");
+}
