@@ -28,7 +28,9 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
   return (
     <div>
       <Stack alignment="middle">
-        <Stack.Item></Stack.Item>
+        <Stack.Item>
+          <div className="mageMaelstromTitle">Mage Maelstrom</div>
+        </Stack.Item>
         <Stack.Item>
           <Stack alignment="middle" gap={20}>
             <div className={classNames(styles.openSlot, styles.openTeamSlot)}>

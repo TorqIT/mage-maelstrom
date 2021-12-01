@@ -11,20 +11,23 @@ export interface MageMaelstromProps {
 }
 
 export const MageMaelstrom: React.FC<MageMaelstromProps> = ({ teams }) => {
-  const { leftTeam, rightTeam, startGame } = useGameManager();
+  const { leftTeam, rightTeam } = useGameManager();
 
   return (
     <div id={styles.mageMaelstrom}>
-      <div style={{ paddingTop: 70 }}>
+      <div>
         {(!leftTeam || !rightTeam) && <TeamSelector teams={teams} />}
         {leftTeam && rightTeam && (
-          <Stack alignment="middle" stretch>
-            <>
+          <div>
+            <div className="mageMaelstromTitle" style={{ padding: "30px 0px" }}>
+              Mage Maelstrom
+            </div>
+            <Stack alignment="middle" stretch>
               <TeamDisplay team={leftTeam} />
               <Arena />
               <TeamDisplay team={rightTeam} />
-            </>
-          </Stack>
+            </Stack>
+          </div>
         )}
       </div>
     </div>

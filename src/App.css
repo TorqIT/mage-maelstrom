@@ -12,3 +12,14 @@
   font-family: "Body";
   src: url("./MageMaelstrom/Fonts/Brand.woff");
 }
+
+@font-face {
+  font-family: "Title";
+  src: url("./MageMaelstrom/Fonts/ringbearer.woff2");
+}
+
+.mageMaelstromTitle {
+  font-family: Title;
+  font-size: 64px;
+  text-align: center;
+}
