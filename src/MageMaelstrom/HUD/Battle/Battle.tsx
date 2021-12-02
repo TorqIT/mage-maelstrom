@@ -8,7 +8,8 @@ import { NiceButton } from "../NiceButton";
 export interface BattleProps {}
 
 export const Battle: React.FC<BattleProps> = ({}) => {
-  const { leftTeam, rightTeam, tick, currentTick } = useGameManager();
+  const { leftTeam, rightTeam, tick, currentTick, toggleLooping } =
+    useGameManager();
 
   if (!leftTeam || !rightTeam) {
     return null;
@@ -20,7 +21,10 @@ export const Battle: React.FC<BattleProps> = ({}) => {
         <div className="mageMaelstromTitle" style={{ padding: "30px 0px" }}>
           Mage Maelstrom
         </div>
-        <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
+        <Stack gap={20}>
+          <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
+          <NiceButton onClick={toggleLooping}>Toggle Looping</NiceButton>
+        </Stack>
       </Stack>
 
       <Stack alignment="middle" stretch>

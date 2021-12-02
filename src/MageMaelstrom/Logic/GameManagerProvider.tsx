@@ -15,6 +15,7 @@ export interface GameManagerData extends GameManagerProviderProps {
   currentTick?: number;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
   tick: () => void;
+  toggleLooping: () => void;
 }
 
 const GameManagerContext = createContext<GameManagerData | null>(null);
@@ -61,6 +62,24 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     setCurrentTick(gameManager?.getCurrentTick());
   }, [gameManager]);
 
+  const [shouldLoop, setShouldLoop] = useState(false);
+
+  useEffect(() => {
+    if (!shouldLoop) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      tick();
+    }, 0);
+
+    return () => clearInterval(timer);
+  }, [shouldLoop, tick]);
+
+  const toggleLooping = useCallback(() => {
+    setShouldLoop(!shouldLoop);
+  }, [shouldLoop]);
+
   return (
     <GameManagerContext.Provider
       value={{
@@ -71,6 +90,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         arenaHeight,
         tick,
         currentTick,
+        toggleLooping,
       }}
     >
       {children}
