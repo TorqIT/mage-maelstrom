@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import { Arena } from "./Arena";
+import React from "react";
+import { Battle } from "./HUD/Battle/Battle";
 import { Team } from "./Combatant";
-import { Stack } from "./Common";
-import { TeamDisplay, TeamSelector } from "./HUD";
+import { TeamSelector } from "./HUD";
 import { useGameManager } from "./Logic";
 import styles from "./MageMaelstrom.module.css";
 
@@ -17,18 +16,7 @@ export const MageMaelstrom: React.FC<MageMaelstromProps> = ({ teams }) => {
     <div id={styles.mageMaelstrom}>
       <div>
         {(!leftTeam || !rightTeam) && <TeamSelector teams={teams} />}
-        {leftTeam && rightTeam && (
-          <div>
-            <div className="mageMaelstromTitle" style={{ padding: "30px 0px" }}>
-              Mage Maelstrom
-            </div>
-            <Stack alignment="middle" stretch>
-              <TeamDisplay team={leftTeam} />
-              <Arena />
-              <TeamDisplay team={rightTeam} />
-            </Stack>
-          </div>
-        )}
+        {leftTeam && rightTeam && <Battle />}
       </div>
     </div>
   );
