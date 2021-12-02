@@ -1,12 +1,14 @@
 import {
+  Action,
+  ActionType,
   ActiveTeam,
   Combatant,
   Entrant,
   IdentifiedCombatant,
   IdentifiedTeam,
+  MovementAction,
   Team,
 } from "../Combatant";
-import { Action } from "../Combatant/actions";
 
 export class GameManager {
   private arenaWidth: number;
@@ -60,7 +62,7 @@ export class GameManager {
   }
 
   private getNextTurn(entrant: Entrant) {
-    return this.currentTick + 100;
+    return this.currentTick + 10;
   }
 
   public getLeftTeam() {
@@ -71,10 +73,63 @@ export class GameManager {
     return this.rightTeam;
   }
 
-  public nextTick() {
+  public tick() {
+    if (!this.leftTeam || !this.rightTeam) {
+      return;
+    }
+
     this.currentTick++;
-    this.checkActions();
+
+    const actionsToPerform = this.leftTeam.entrants
+      .filter((e) => e.status.nextTurn === this.currentTick)
+      .map((e) => ({
+        entrant: e,
+        action: e.combatant.act(),
+      }))
+      .concat(
+        this.rightTeam.entrants
+          .filter((e) => e.status.nextTurn === this.currentTick)
+          .map((e) => ({
+            entrant: e,
+            action: e.combatant.act(),
+          }))
+      );
+
+    actionsToPerform.forEach((a) => {
+      this.performAction(a.entrant, a.action);
+    });
+
+    return actionsToPerform.length > 0;
   }
 
-  private checkActions() {}
+  private performAction(entrant: Entrant, action: Action) {
+    switch (action.type) {
+      case ActionType.Movement:
+        this.move(entrant, action);
+        break;
+    }
+
+    entrant.status.nextTurn = this.getNextTurn(entrant);
+  }
+
+  private move(entrant: Entrant, action: MovementAction) {
+    switch (action.direction) {
+      case "left":
+        entrant.status.coords.x--;
+        break;
+      case "right":
+        entrant.status.coords.x++;
+        break;
+      case "up":
+        entrant.status.coords.y++;
+        break;
+      case "down":
+        entrant.status.coords.y--;
+        break;
+    }
+  }
+
+  public getCurrentTick() {
+    return this.currentTick;
+  }
 }

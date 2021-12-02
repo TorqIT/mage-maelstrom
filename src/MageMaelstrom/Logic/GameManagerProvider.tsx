@@ -12,7 +12,9 @@ import { GameManager } from "./GameManager";
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ActiveTeam;
   rightTeam?: ActiveTeam;
+  currentTick?: number;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
+  tick: () => void;
 }
 
 const GameManagerContext = createContext<GameManagerData | null>(null);
@@ -35,6 +37,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
 
   const [leftTeam, setLeftTeam] = useState<ActiveTeam>();
   const [rightTeam, setRightTeam] = useState<ActiveTeam>();
+  const [currentTick, setCurrentTick] = useState<number>();
 
   const startGame = useCallback(
     (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => {
@@ -42,13 +45,33 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
 
       setLeftTeam(gameManager?.getLeftTeam());
       setRightTeam(gameManager?.getRightTeam());
+      setCurrentTick(gameManager?.getCurrentTick());
     },
     [gameManager]
   );
 
+  const tick = useCallback(() => {
+    const change = gameManager?.tick();
+
+    if (change) {
+      setLeftTeam(gameManager?.getLeftTeam());
+      setRightTeam(gameManager?.getRightTeam());
+    }
+
+    setCurrentTick(gameManager?.getCurrentTick());
+  }, [gameManager]);
+
   return (
     <GameManagerContext.Provider
-      value={{ leftTeam, rightTeam, startGame, arenaWidth, arenaHeight }}
+      value={{
+        leftTeam,
+        rightTeam,
+        startGame,
+        arenaWidth,
+        arenaHeight,
+        tick,
+        currentTick,
+      }}
     >
       {children}
     </GameManagerContext.Provider>

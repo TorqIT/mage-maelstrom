@@ -1,4 +1,4 @@
-enum ActionType {
+export enum ActionType {
   Movement,
 }
 
