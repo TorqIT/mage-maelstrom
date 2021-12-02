@@ -1,10 +1,10 @@
 import React from "react";
-import { CombatantIcon, Team } from "../../Combatant";
+import { CombatantIcon, IdentifiedTeam } from "../../Combatant";
 import { Stack } from "../../Common";
 import styles from "./SelectableTeam.module.css";
 
 export interface SelectableTeamProps {
-  team: Team;
+  team: IdentifiedTeam;
   onClick?: () => void;
 }
 
@@ -17,7 +17,7 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
       <div className={styles.name}>{team.name}</div>
       <Stack gap={20}>
         {team.combatants.map((c) => (
-          <div key={c.name} className={styles.iconWrapper}>
+          <div key={c.id} className={styles.iconWrapper}>
             <CombatantIcon combatant={c} teamColor={team.color} />
           </div>
         ))}

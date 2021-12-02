@@ -1,6 +1,7 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Team } from "../..";
+import { IdentifiedTeam } from "../../Combatant";
 import { Stack } from "../../Common";
 import { useGameManager } from "../../Logic";
 import { NiceButton } from "../NiceButton";
@@ -12,12 +13,29 @@ export interface TeamSelectorProps {
 }
 
 export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
-  const [left, setLeft] = useState<Team>();
-  const [right, setRight] = useState<Team>();
+  const [left, setLeft] = useState<IdentifiedTeam>();
+  const [right, setRight] = useState<IdentifiedTeam>();
+
+  const idCounterRef = useRef(1);
+
+  const identifiedTeams = useMemo(
+    () =>
+      teams.map(
+        (t): IdentifiedTeam => ({
+          ...t,
+          id: idCounterRef.current++,
+          combatants: t.combatants.map((c) => ({
+            ...c,
+            id: idCounterRef.current++,
+          })),
+        })
+      ),
+    [teams]
+  );
 
   const { startGame } = useGameManager();
 
-  const clickTeam = (team: Team) => {
+  const clickTeam = (team: IdentifiedTeam) => {
     if (!left) {
       setLeft(team);
     } else if (!right) {
@@ -64,12 +82,8 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
       </Stack>
       <div className={classNames(styles.openSlot, styles.pool)}>
         <Stack style={{ flexWrap: "wrap" }}>
-          {teams.map((t) => (
-            <SelectableTeam
-              key={t.name}
-              team={t}
-              onClick={() => clickTeam(t)}
-            />
+          {identifiedTeams.map((t) => (
+            <SelectableTeam key={t.id} team={t} onClick={() => clickTeam(t)} />
           ))}
         </Stack>
       </div>

@@ -6,13 +6,13 @@ import {
   useRef,
   useState,
 } from "react";
-import { ActiveTeam, Team } from "../Combatant";
+import { ActiveTeam, IdentifiedTeam, Team } from "../Combatant";
 import { GameManager } from "./GameManager";
 
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ActiveTeam;
   rightTeam?: ActiveTeam;
-  startGame: (leftTeam: Team, rightTeam: Team) => void;
+  startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
 }
 
 const GameManagerContext = createContext<GameManagerData | null>(null);
@@ -37,7 +37,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
   const [rightTeam, setRightTeam] = useState<ActiveTeam>();
 
   const startGame = useCallback(
-    (leftTeam: Team, rightTeam: Team) => {
+    (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => {
       gameManager?.startGame(leftTeam, rightTeam);
 
       setLeftTeam(gameManager?.getLeftTeam());
