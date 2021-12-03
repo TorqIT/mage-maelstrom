@@ -1,4 +1,5 @@
 import { Coordinate } from "../Arena";
+import { Helpers } from "../Logic";
 import { Action } from "./actions";
 
 type Identified<T extends object> = T & {
@@ -8,7 +9,7 @@ type Identified<T extends object> = T & {
 export interface Combatant {
   name: string;
   icon: string;
-  act: (canPerform: (action: Action) => boolean) => Action;
+  act: (helpers: Helpers) => Action;
 }
 
 export type IdentifiedCombatant = Identified<Combatant>;

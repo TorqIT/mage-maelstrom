@@ -9,7 +9,9 @@ import {
   IdentifiedTeam,
   MovementAction,
 } from "../Combatant";
+import { ActionResult } from "./actionResult";
 import { GameSpecs } from "./gameSpecs";
+import { buildHelpers } from "./helpers";
 
 export class GameManager {
   private specs: GameSpecs;
@@ -87,14 +89,18 @@ export class GameManager {
       .filter((e) => e.status.nextTurn === this.currentTick)
       .map((e) => ({
         entrant: e,
-        action: e.combatant.act((a: Action) => this.canPerformAction(e, a)),
+        action: e.combatant.act(
+          buildHelpers((a: Action) => this.getActionResult(e, a))
+        ),
       }))
       .concat(
         this.rightTeam.entrants
           .filter((e) => e.status.nextTurn === this.currentTick)
           .map((e) => ({
             entrant: e,
-            action: e.combatant.act((a: Action) => this.canPerformAction(e, a)),
+            action: e.combatant.act(
+              buildHelpers((a: Action) => this.getActionResult(e, a))
+            ),
           }))
       );
 
@@ -105,10 +111,14 @@ export class GameManager {
     return results.some((r) => r);
   }
 
+  private buildHelpers() {
+    return {};
+  }
+
   private tryPerformAction(entrant: Entrant, action: Action) {
     entrant.status.nextTurn = this.getNextTurn(entrant);
 
-    if (this.canPerformAction(entrant, action)) {
+    if (this.getActionResult(entrant, action) === ActionResult.Success) {
       this.performAction(entrant, action);
 
       return true;
@@ -117,27 +127,36 @@ export class GameManager {
     return false;
   }
 
-  private canPerformAction(entrant: Entrant, action: Action) {
+  private getActionResult(entrant: Entrant, action: Action): ActionResult {
     switch (action.type) {
       case ActionType.Movement:
         return this.canPerformMovementAction(entrant, action);
     }
 
-    return false;
+    return ActionResult.UnknownAction;
   }
 
   private canPerformMovementAction(entrant: Entrant, action: Action) {
     const result = moveCoordinate(entrant.status.coords, action.direction);
 
-    return (
-      result.x >= 0 &&
-      result.x < this.specs.arena.width &&
-      result.y >= 0 &&
-      result.y < this.specs.arena.height &&
-      !this.getEntrantArray()
+    if (
+      result.x < 0 ||
+      result.x >= this.specs.arena.width ||
+      result.y < 0 ||
+      result.y >= this.specs.arena.height
+    ) {
+      return ActionResult.OutOfArena;
+    }
+
+    if (
+      this.getEntrantArray()
         .filter((e) => e.status.id !== entrant.status.id)
         .some((e) => coordsEqual(e.status.coords, result))
-    );
+    ) {
+      return ActionResult.TileOccupied;
+    }
+
+    return ActionResult.Success;
   }
 
   private performAction(entrant: Entrant, action: Action) {
