@@ -54,8 +54,14 @@ export class GameManager {
       memory: combatant.init(),
       status: {
         id: this.idTracker++,
-        health: combatant.strength * this.specs.stats.healthPerStrength,
-        mana: combatant.intelligence * this.specs.stats.manaPerInt,
+        health: {
+          value: combatant.strength * this.specs.stats.healthPerStrength,
+          max: combatant.strength * this.specs.stats.healthPerStrength,
+        },
+        mana: {
+          value: combatant.intelligence * this.specs.stats.manaPerInt,
+          max: combatant.intelligence * this.specs.stats.manaPerInt,
+        },
         coords: {
           x: Math.floor(Math.random() * this.specs.arena.width),
           y: Math.floor(Math.random() * this.specs.arena.height),
@@ -65,8 +71,10 @@ export class GameManager {
     };
   }
 
-  private getNextTurn() {
-    return this.currentTick + 10;
+  private getNextTurn(agility: number) {
+    return Math.floor(
+      this.currentTick + 100 / Math.pow(this.specs.stats.agilityBonus, agility)
+    );
   }
 
   public getLeftTeam() {
@@ -117,7 +125,7 @@ export class GameManager {
   }
 
   private tryPerformAction(entrant: Entrant<object>, action: Action) {
-    entrant.status.nextTurn = this.getNextTurn();
+    entrant.status.nextTurn = this.getNextTurn(entrant.combatant.agility);
 
     if (this.getActionResult(entrant, action) === ActionResult.Success) {
       this.performAction(entrant, action);

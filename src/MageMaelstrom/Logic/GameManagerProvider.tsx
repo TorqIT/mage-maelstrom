@@ -31,13 +31,17 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
 }) => {
   const [gameManager, setGameManager] = useState<GameManager>();
 
-  useEffect(() => {
-    setGameManager(new GameManager(specs));
-  }, [specs]);
-
   const [leftTeam, setLeftTeam] = useState<ActiveTeam>();
   const [rightTeam, setRightTeam] = useState<ActiveTeam>();
   const [currentTick, setCurrentTick] = useState<number>();
+
+  useEffect(() => {
+    setGameManager(new GameManager(specs));
+
+    setLeftTeam(undefined);
+    setRightTeam(undefined);
+    setCurrentTick(-1);
+  }, [specs]);
 
   const startGame = useCallback(
     (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => {

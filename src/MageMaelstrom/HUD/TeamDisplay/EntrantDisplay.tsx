@@ -1,6 +1,7 @@
 import React from "react";
 import { CombatantIcon, Entrant } from "../../Combatant";
 import { Stack } from "../../Common";
+import { HealthBar } from "../HealthBar";
 import styles from "./EntrantDisplay.module.css";
 
 export interface EntrantDisplayProps {
@@ -24,8 +25,13 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
             horizontalFlip={flip}
           />
         </div>
-        <div>hello</div>
       </Stack>
+      <div style={{ marginTop: 10 }}>
+        <HealthBar
+          health={entrant.status.health.value}
+          max={entrant.status.health.max}
+        />
+      </div>
     </div>
   );
 };

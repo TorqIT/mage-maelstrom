@@ -20,11 +20,16 @@ export type IdentifiedCombatant<Memory extends object> = Identified<
   Combatant<Memory>
 >;
 
+interface Meter {
+  value: number;
+  max: number;
+}
+
 export interface CombatantStatus {
   id: number;
   coords: Coordinate;
-  health: number;
-  mana: number;
+  health: Meter;
+  mana: Meter;
   nextTurn: number;
 }
 

@@ -8,13 +8,13 @@ function App() {
     <GameManagerProvider
       specs={{
         arena: {
-          width: 16,
-          height: 16,
+          width: 18,
+          height: 14,
         },
         stats: {
           healthPerStrength: 10,
           healthRegenPerStrength: 0.5,
-          agilityBonus: 1.02,
+          agilityBonus: 1.03,
           manaPerInt: 7,
           manaRegenPerInt: 0.1,
         },

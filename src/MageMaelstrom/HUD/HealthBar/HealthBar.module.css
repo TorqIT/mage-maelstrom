@@ -1,0 +1,23 @@
+.healthBar {
+  flex: 1;
+  background-color: #1c1142;
+  font-size: 30px;
+  height: 30px;
+  position: relative;
+  font-family: "Versus";
+}
+
+.filledHealthBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #ff1131;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.4s;
+}
+
+.tiny {
+  font-size: 18px;
+}
