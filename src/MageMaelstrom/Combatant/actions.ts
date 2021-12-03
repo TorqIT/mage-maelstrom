@@ -1,16 +1,18 @@
+import { MovementDirection } from "../Arena";
+
 export enum ActionType {
   Movement,
 }
 
 export interface MovementAction {
   type: ActionType.Movement;
-  direction: "left" | "right" | "up" | "down";
+  direction: MovementDirection;
 }
 
 export type Action = MovementAction;
 
 const actions = {
-  move: (direction: "left" | "right" | "up" | "down"): MovementAction => {
+  move: (direction: MovementDirection): MovementAction => {
     return {
       type: ActionType.Movement,
       direction,

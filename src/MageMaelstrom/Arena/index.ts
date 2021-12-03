@@ -1,2 +1,2 @@
 export { Arena } from "./Arena";
-export type { Coordinate } from "./coordinate";
+export * from "./coordinate";

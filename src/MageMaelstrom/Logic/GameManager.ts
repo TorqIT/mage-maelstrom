@@ -1,3 +1,5 @@
+import arrayShuffle from "array-shuffle";
+import { coordsEqual, moveCoordinate } from "../Arena";
 import {
   Action,
   ActionType,
@@ -9,10 +11,10 @@ import {
   MovementAction,
   Team,
 } from "../Combatant";
+import { GameSpecs } from "./gameSpecs";
 
 export class GameManager {
-  private arenaWidth: number;
-  private arenaHeight: number;
+  private specs: GameSpecs;
 
   private leftTeam?: ActiveTeam;
   private rightTeam?: ActiveTeam;
@@ -22,8 +24,7 @@ export class GameManager {
   private currentTick = 0;
 
   public constructor(arenaWidth: number, arenaHeight: number) {
-    this.arenaWidth = arenaWidth;
-    this.arenaHeight = arenaHeight;
+    this.specs = { arena: { width: arenaWidth, height: arenaHeight } };
   }
 
   public startGame(left: IdentifiedTeam, right: IdentifiedTeam) {
@@ -53,8 +54,8 @@ export class GameManager {
       status: {
         id: this.idTracker++,
         coords: {
-          x: Math.floor(Math.random() * this.arenaWidth),
-          y: Math.floor(Math.random() * this.arenaHeight),
+          x: Math.floor(Math.random() * this.specs.arena.width),
+          y: Math.floor(Math.random() * this.specs.arena.height),
         },
         nextTurn: 0,
       },
@@ -71,6 +72,10 @@ export class GameManager {
 
   public getRightTeam() {
     return this.rightTeam;
+  }
+
+  public getCurrentTick() {
+    return this.currentTick;
   }
 
   public tick() {
@@ -95,11 +100,46 @@ export class GameManager {
           }))
       );
 
-    actionsToPerform.forEach((a) => {
-      this.performAction(a.entrant, a.action);
-    });
+    const results = arrayShuffle(actionsToPerform).map((a) =>
+      this.tryPerformAction(a.entrant, a.action)
+    );
 
-    return actionsToPerform.length > 0;
+    return results.some((r) => r);
+  }
+
+  private tryPerformAction(entrant: Entrant, action: Action) {
+    entrant.status.nextTurn = this.getNextTurn(entrant);
+
+    if (this.canPerformAction(entrant, action)) {
+      this.performAction(entrant, action);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  private canPerformAction(entrant: Entrant, action: Action) {
+    switch (action.type) {
+      case ActionType.Movement:
+        return this.canPerformMovementAction(entrant, action);
+    }
+
+    return false;
+  }
+
+  private canPerformMovementAction(entrant: Entrant, action: Action) {
+    const result = moveCoordinate(entrant.status.coords, action.direction);
+
+    return (
+      result.x >= 0 &&
+      result.x < this.specs.arena.width &&
+      result.y >= 0 &&
+      result.y < this.specs.arena.height &&
+      !this.getEntrantArray()
+        .filter((e) => e.status.id !== entrant.status.id)
+        .some((e) => coordsEqual(e.status.coords, result))
+    );
   }
 
   private performAction(entrant: Entrant, action: Action) {
@@ -108,28 +148,20 @@ export class GameManager {
         this.move(entrant, action);
         break;
     }
-
-    entrant.status.nextTurn = this.getNextTurn(entrant);
   }
 
   private move(entrant: Entrant, action: MovementAction) {
-    switch (action.direction) {
-      case "left":
-        entrant.status.coords.x--;
-        break;
-      case "right":
-        entrant.status.coords.x++;
-        break;
-      case "up":
-        entrant.status.coords.y++;
-        break;
-      case "down":
-        entrant.status.coords.y--;
-        break;
-    }
+    entrant.status.coords = moveCoordinate(
+      entrant.status.coords,
+      action.direction
+    );
   }
 
-  public getCurrentTick() {
-    return this.currentTick;
+  private getEntrantArray() {
+    if (!this.leftTeam || !this.rightTeam) {
+      return [];
+    }
+
+    return this.leftTeam.entrants.concat(this.rightTeam.entrants);
   }
 }
