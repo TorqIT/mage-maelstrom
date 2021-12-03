@@ -5,7 +5,21 @@ import { teams } from "./Teams";
 
 function App() {
   return (
-    <GameManagerProvider arenaWidth={16} arenaHeight={16}>
+    <GameManagerProvider
+      specs={{
+        arena: {
+          width: 16,
+          height: 16,
+        },
+        stats: {
+          healthPerStrength: 10,
+          healthRegenPerStrength: 0.5,
+          agilityBonus: 1.02,
+          manaPerInt: 7,
+          manaRegenPerInt: 0.1,
+        },
+      }}
+    >
       <MageMaelstrom teams={teams} />
     </GameManagerProvider>
   );

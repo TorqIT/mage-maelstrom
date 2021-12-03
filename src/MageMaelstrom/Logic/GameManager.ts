@@ -23,8 +23,8 @@ export class GameManager {
 
   private currentTick = 0;
 
-  public constructor(arenaWidth: number, arenaHeight: number) {
-    this.specs = { arena: { width: arenaWidth, height: arenaHeight } };
+  public constructor(specs: GameSpecs) {
+    this.specs = specs;
   }
 
   public startGame(left: IdentifiedTeam, right: IdentifiedTeam) {
@@ -54,6 +54,8 @@ export class GameManager {
       memory: combatant.init(),
       status: {
         id: this.idTracker++,
+        health: combatant.strength * this.specs.stats.healthPerStrength,
+        mana: combatant.intelligence * this.specs.stats.manaPerInt,
         coords: {
           x: Math.floor(Math.random() * this.specs.arena.width),
           y: Math.floor(Math.random() * this.specs.arena.height),

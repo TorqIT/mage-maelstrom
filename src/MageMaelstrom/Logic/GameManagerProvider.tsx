@@ -8,6 +8,7 @@ import {
 } from "react";
 import { ActiveTeam, IdentifiedTeam, Team } from "../Combatant";
 import { GameManager } from "./GameManager";
+import { GameSpecs } from "./gameSpecs";
 
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ActiveTeam;
@@ -21,20 +22,18 @@ export interface GameManagerData extends GameManagerProviderProps {
 const GameManagerContext = createContext<GameManagerData | null>(null);
 
 export interface GameManagerProviderProps {
-  arenaWidth: number;
-  arenaHeight: number;
+  specs: GameSpecs;
 }
 
 export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
-  arenaWidth,
-  arenaHeight,
+  specs,
   children,
 }) => {
   const [gameManager, setGameManager] = useState<GameManager>();
 
   useEffect(() => {
-    setGameManager(new GameManager(arenaWidth, arenaHeight));
-  }, [arenaWidth, arenaHeight]);
+    setGameManager(new GameManager(specs));
+  }, [specs]);
 
   const [leftTeam, setLeftTeam] = useState<ActiveTeam>();
   const [rightTeam, setRightTeam] = useState<ActiveTeam>();
@@ -86,8 +85,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         leftTeam,
         rightTeam,
         startGame,
-        arenaWidth,
-        arenaHeight,
+        specs,
         tick,
         currentTick,
         toggleLooping,

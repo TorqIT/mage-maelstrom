@@ -9,6 +9,9 @@ type Identified<T extends object> = T & {
 export interface Combatant<Memory extends object> {
   name: string;
   icon: string;
+  strength: number;
+  agility: number;
+  intelligence: number;
   init: () => Memory;
   act: (helpers: Helpers, memory: Memory) => Action;
 }
@@ -20,6 +23,8 @@ export type IdentifiedCombatant<Memory extends object> = Identified<
 export interface CombatantStatus {
   id: number;
   coords: Coordinate;
+  health: number;
+  mana: number;
   nextTurn: number;
 }
 

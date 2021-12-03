@@ -8,6 +8,11 @@ const sampleTeam: Team = {
     {
       name: "Cool Guy",
       icon: "/burst.png",
+
+      strength: 5,
+      agility: 5,
+      intelligence: 5,
+
       init: () => ({}),
       act: () => {
         return actions.move("left");
@@ -16,6 +21,11 @@ const sampleTeam: Team = {
     {
       name: "Attack Person",
       icon: "/burst.png",
+
+      strength: 5,
+      agility: 5,
+      intelligence: 5,
+
       init: () => ({}),
       act: () => {
         return actions.move("left");

@@ -14,6 +14,11 @@ const wowDude: Combatant<Memory> = {
     dirPriority: ["left", "up", "right", "down"],
     target: 0,
   }),
+
+  strength: 5,
+  agility: 5,
+  intelligence: 5,
+
   act: (helpers, memory) => {
     while (
       !helpers.canPerform(actions.move(memory.dirPriority[memory.target]))
@@ -33,6 +38,11 @@ const otherTeam: Team = {
     {
       name: "BIG",
       icon: "/burst.png",
+
+      strength: 5,
+      agility: 5,
+      intelligence: 5,
+
       init: () => ({}),
       act: () => {
         return actions.move("left");

@@ -8,10 +8,10 @@ import { useGameManager } from "../Logic/GameManagerProvider";
 export interface ArenaProps {}
 
 export const Arena: React.FC<ArenaProps> = ({}) => {
-  const { leftTeam, rightTeam, arenaWidth, arenaHeight } = useGameManager();
+  const { leftTeam, rightTeam, specs } = useGameManager();
 
-  const columns = Array.from(Array(arenaWidth).keys());
-  const rows = Array.from(Array(arenaHeight).keys());
+  const columns = Array.from(Array(specs.arena.width).keys());
+  const rows = Array.from(Array(specs.arena.height).keys());
 
   return (
     <Stack alignment="middle">
