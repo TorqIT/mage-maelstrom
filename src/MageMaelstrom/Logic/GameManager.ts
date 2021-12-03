@@ -45,12 +45,13 @@ export class GameManager {
   }
 
   private toEntrant(
-    combatant: IdentifiedCombatant,
+    combatant: IdentifiedCombatant<object>,
     team: IdentifiedTeam
-  ): Entrant {
+  ): Entrant<object> {
     return {
       combatant,
       team,
+      memory: combatant.init(),
       status: {
         id: this.idTracker++,
         coords: {
@@ -62,7 +63,7 @@ export class GameManager {
     };
   }
 
-  private getNextTurn(entrant: Entrant) {
+  private getNextTurn() {
     return this.currentTick + 10;
   }
 
@@ -90,7 +91,8 @@ export class GameManager {
       .map((e) => ({
         entrant: e,
         action: e.combatant.act(
-          buildHelpers((a: Action) => this.getActionResult(e, a))
+          buildHelpers((a: Action) => this.getActionResult(e, a)),
+          e.memory
         ),
       }))
       .concat(
@@ -99,7 +101,8 @@ export class GameManager {
           .map((e) => ({
             entrant: e,
             action: e.combatant.act(
-              buildHelpers((a: Action) => this.getActionResult(e, a))
+              buildHelpers((a: Action) => this.getActionResult(e, a)),
+              e.memory
             ),
           }))
       );
@@ -111,12 +114,8 @@ export class GameManager {
     return results.some((r) => r);
   }
 
-  private buildHelpers() {
-    return {};
-  }
-
-  private tryPerformAction(entrant: Entrant, action: Action) {
-    entrant.status.nextTurn = this.getNextTurn(entrant);
+  private tryPerformAction(entrant: Entrant<object>, action: Action) {
+    entrant.status.nextTurn = this.getNextTurn();
 
     if (this.getActionResult(entrant, action) === ActionResult.Success) {
       this.performAction(entrant, action);
@@ -127,7 +126,10 @@ export class GameManager {
     return false;
   }
 
-  private getActionResult(entrant: Entrant, action: Action): ActionResult {
+  private getActionResult(
+    entrant: Entrant<object>,
+    action: Action
+  ): ActionResult {
     switch (action.type) {
       case ActionType.Movement:
         return this.canPerformMovementAction(entrant, action);
@@ -136,7 +138,7 @@ export class GameManager {
     return ActionResult.UnknownAction;
   }
 
-  private canPerformMovementAction(entrant: Entrant, action: Action) {
+  private canPerformMovementAction(entrant: Entrant<object>, action: Action) {
     const result = moveCoordinate(entrant.status.coords, action.direction);
 
     if (
@@ -159,7 +161,7 @@ export class GameManager {
     return ActionResult.Success;
   }
 
-  private performAction(entrant: Entrant, action: Action) {
+  private performAction(entrant: Entrant<object>, action: Action) {
     switch (action.type) {
       case ActionType.Movement:
         this.move(entrant, action);
@@ -167,7 +169,7 @@ export class GameManager {
     }
   }
 
-  private move(entrant: Entrant, action: MovementAction) {
+  private move(entrant: Entrant<object>, action: MovementAction) {
     entrant.status.coords = moveCoordinate(
       entrant.status.coords,
       action.direction

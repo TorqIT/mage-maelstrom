@@ -4,7 +4,7 @@ import { Stack } from "../../Common";
 import styles from "./EntrantDisplay.module.css";
 
 export interface EntrantDisplayProps {
-  entrant: Entrant;
+  entrant: Entrant<any>;
   color: string;
   flip?: boolean;
 }

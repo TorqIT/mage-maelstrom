@@ -3,7 +3,7 @@ import { Combatant, CombatantIcon } from "../Combatant";
 import styles from "./Tile.module.css";
 
 export interface TileProps {
-  combatant?: Combatant;
+  combatant?: Combatant<any>;
   teamColor?: string;
   flip?: boolean;
 }

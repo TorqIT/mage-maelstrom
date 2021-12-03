@@ -5,7 +5,7 @@ import { Combatant } from "../combatant";
 import styles from "./CombatantIcon.module.css";
 
 export interface CombatantIconProps {
-  combatant: Combatant;
+  combatant: Combatant<any>;
   teamColor: string;
   horizontalFlip?: boolean;
 }
