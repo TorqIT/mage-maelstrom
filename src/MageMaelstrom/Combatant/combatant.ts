@@ -8,7 +8,7 @@ type Identified<T extends object> = T & {
 export interface Combatant {
   name: string;
   icon: string;
-  act: () => Action;
+  act: (canPerform: (action: Action) => boolean) => Action;
 }
 
 export type IdentifiedCombatant = Identified<Combatant>;

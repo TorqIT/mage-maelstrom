@@ -19,10 +19,10 @@ export function moveCoordinate(
       nextCoord.x++;
       break;
     case "up":
-      nextCoord.y++;
+      nextCoord.y--;
       break;
     case "down":
-      nextCoord.y--;
+      nextCoord.y++;
       break;
   }
 

@@ -8,8 +8,12 @@ const otherTeam: Team = {
     {
       name: "Wow Dude",
       icon: "/burst.png",
-      act: () => {
-        return actions.move("left");
+      act: (canPerform) => {
+        if (canPerform(actions.move("left"))) {
+          return actions.move("left");
+        } else {
+          return actions.move("up");
+        }
       },
     },
     {

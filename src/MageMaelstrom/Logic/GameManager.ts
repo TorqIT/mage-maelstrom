@@ -4,12 +4,10 @@ import {
   Action,
   ActionType,
   ActiveTeam,
-  Combatant,
   Entrant,
   IdentifiedCombatant,
   IdentifiedTeam,
   MovementAction,
-  Team,
 } from "../Combatant";
 import { GameSpecs } from "./gameSpecs";
 
@@ -89,14 +87,14 @@ export class GameManager {
       .filter((e) => e.status.nextTurn === this.currentTick)
       .map((e) => ({
         entrant: e,
-        action: e.combatant.act(),
+        action: e.combatant.act((a: Action) => this.canPerformAction(e, a)),
       }))
       .concat(
         this.rightTeam.entrants
           .filter((e) => e.status.nextTurn === this.currentTick)
           .map((e) => ({
             entrant: e,
-            action: e.combatant.act(),
+            action: e.combatant.act((a: Action) => this.canPerformAction(e, a)),
           }))
       );
 
