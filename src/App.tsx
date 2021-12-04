@@ -7,6 +7,11 @@ function App() {
   return (
     <GameManagerProvider
       specs={{
+        rules: {
+          maxCombatants: 2,
+          minStat: 5,
+          maxTotalStats: 50,
+        },
         arena: {
           width: 16,
           height: 12,

@@ -1,4 +1,9 @@
 export interface GameSpecs {
+  rules: {
+    maxCombatants: number;
+    minStat: number;
+    maxTotalStats: number;
+  };
   arena: {
     width: number;
     height: number;

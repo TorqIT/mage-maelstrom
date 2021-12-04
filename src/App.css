@@ -10,6 +10,11 @@
 
 @font-face {
   font-family: "Body";
+  src: url("./MageMaelstrom/Fonts/afterglow.woff2");
+}
+
+@font-face {
+  font-family: "Button";
   src: url("./MageMaelstrom/Fonts/Brand.woff");
 }
 

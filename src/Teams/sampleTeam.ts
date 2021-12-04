@@ -24,7 +24,7 @@ const sampleTeam: Team = {
 
       strength: 5,
       agility: 5,
-      intelligence: 5,
+      intelligence: 25,
 
       init: () => ({}),
       act: () => {
