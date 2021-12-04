@@ -66,7 +66,10 @@ export class GameManager {
           x: Math.floor(Math.random() * this.specs.arena.width),
           y: Math.floor(Math.random() * this.specs.arena.height),
         },
-        nextTurn: 0,
+        nextTurn: Math.floor(
+          Math.random() *
+            (100 / Math.pow(this.specs.stats.agilityBonus, combatant.agility))
+        ),
       },
     };
   }

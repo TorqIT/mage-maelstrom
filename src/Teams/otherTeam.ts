@@ -16,7 +16,7 @@ const wowDude: Combatant<Memory> = {
   }),
 
   strength: 5,
-  agility: 5,
+  agility: 15,
   intelligence: 5,
 
   act: (helpers, memory) => {
