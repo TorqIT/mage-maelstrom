@@ -32,3 +32,7 @@ export function moveCoordinate(
 export function coordsEqual(first: Coordinate, second: Coordinate) {
   return first.x === second.x && first.y === second.y;
 }
+
+export function isNextTo(first: Coordinate, second: Coordinate) {
+  return Math.abs(first.x - second.x) + Math.abs(first.y - second.y) === 1;
+}

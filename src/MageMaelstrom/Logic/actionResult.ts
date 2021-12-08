@@ -3,4 +3,7 @@ export enum ActionResult {
   OutOfArena,
   TileOccupied,
   UnknownAction,
+
+  OutOfRange,
+  CombatantNotFound,
 }

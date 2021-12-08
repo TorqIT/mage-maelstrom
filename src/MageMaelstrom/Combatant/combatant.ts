@@ -13,7 +13,11 @@ export interface Combatant<Memory extends object> {
   agility: number;
   intelligence: number;
   init: () => Memory;
-  act: (helpers: Helpers, memory: Memory) => Action;
+  act: (
+    helpers: Helpers,
+    visibleEnemies: CombatantStatus[],
+    memory: Memory
+  ) => Action;
 }
 
 export type IdentifiedCombatant<Memory extends object> = Identified<
@@ -53,4 +57,12 @@ export interface IdentifiedTeam extends Omit<Identified<Team>, "combatants"> {
 export interface ActiveTeam extends Omit<IdentifiedTeam, "combatants"> {
   flip: boolean;
   entrants: Entrant<any>[];
+}
+
+export function getPrimaryStat(combatant: Combatant<object>) {
+  return Math.max(
+    combatant.agility,
+    combatant.strength,
+    combatant.intelligence
+  );
 }

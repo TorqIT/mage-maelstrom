@@ -1,10 +1,12 @@
 import arrayShuffle from "array-shuffle";
-import { coordsEqual, moveCoordinate } from "../Arena";
+import { coordsEqual, isNextTo, moveCoordinate } from "../Arena";
 import {
   Action,
   ActionType,
   ActiveTeam,
+  AttackAction,
   Entrant,
+  getPrimaryStat,
   IdentifiedCombatant,
   IdentifiedTeam,
   MovementAction,
@@ -115,6 +117,7 @@ export class GameManager {
         entrant: e,
         action: e.combatant.act(
           buildHelpers((a: Action) => this.getActionResult(e, a)),
+          this.rightTeam?.entrants.map((e) => e.status) ?? [],
           e.memory
         ),
       }))
@@ -125,6 +128,7 @@ export class GameManager {
             entrant: e,
             action: e.combatant.act(
               buildHelpers((a: Action) => this.getActionResult(e, a)),
+              this.leftTeam?.entrants.map((e) => e.status) ?? [],
               e.memory
             ),
           }))
@@ -156,12 +160,17 @@ export class GameManager {
     switch (action.type) {
       case ActionType.Movement:
         return this.canPerformMovementAction(entrant, action);
+      case ActionType.Attack:
+        return this.canPerformAttackAction(entrant, action);
     }
 
     return ActionResult.UnknownAction;
   }
 
-  private canPerformMovementAction(entrant: Entrant<object>, action: Action) {
+  private canPerformMovementAction(
+    entrant: Entrant<object>,
+    action: MovementAction
+  ) {
     const result = moveCoordinate(entrant.status.coords, action.direction);
 
     if (
@@ -184,10 +193,33 @@ export class GameManager {
     return ActionResult.Success;
   }
 
+  private canPerformAttackAction(
+    entrant: Entrant<object>,
+    action: AttackAction
+  ) {
+    if (typeof action.target === "string") {
+      return ActionResult.Success;
+    }
+
+    const targetEntrant = this.getEntrantArray().find(
+      (e) => e.status.id === action.target
+    );
+
+    if (!targetEntrant) {
+      return ActionResult.CombatantNotFound;
+    }
+    return isNextTo(entrant.status.coords, targetEntrant.status.coords)
+      ? ActionResult.Success
+      : ActionResult.OutOfRange;
+  }
+
   private performAction(entrant: Entrant<object>, action: Action) {
     switch (action.type) {
       case ActionType.Movement:
         this.move(entrant, action);
+        break;
+      case ActionType.Attack:
+        this.attack(entrant, action);
         break;
     }
   }
@@ -197,6 +229,25 @@ export class GameManager {
       entrant.status.coords,
       action.direction
     );
+  }
+
+  private attack(entrant: Entrant<object>, action: AttackAction) {
+    let targetEntrant: Entrant<object> | undefined;
+
+    if (typeof action.target === "string") {
+      const targetCoord = moveCoordinate(entrant.status.coords, action.target);
+      targetEntrant = this.getEntrantArray().find((e) =>
+        coordsEqual(e.status.coords, targetCoord)
+      );
+    } else {
+      targetEntrant = this.getEntrantArray().find(
+        (e) => e.status.id === action.target
+      );
+    }
+
+    if (targetEntrant) {
+      targetEntrant.status.health.value -= getPrimaryStat(entrant.combatant);
+    }
   }
 
   private getEntrantArray() {

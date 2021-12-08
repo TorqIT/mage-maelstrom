@@ -19,7 +19,15 @@ const wowDude: Combatant<Memory> = {
   agility: 15,
   intelligence: 5,
 
-  act: (helpers, memory) => {
+  act: (helpers, visibleEnemies, memory) => {
+    const attackableEnemy = visibleEnemies.find((s) =>
+      helpers.canPerform(actions.attack(s.id))
+    );
+
+    if (attackableEnemy) {
+      return actions.attack(attackableEnemy.id);
+    }
+
     while (
       !helpers.canPerform(actions.move(memory.dirPriority[memory.target]))
     ) {
