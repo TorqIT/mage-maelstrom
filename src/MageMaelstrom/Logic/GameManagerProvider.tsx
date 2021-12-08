@@ -16,6 +16,7 @@ export interface GameManagerData extends GameManagerProviderProps {
   currentTick?: number;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
   tick: () => void;
+  tickUntilNextAction: () => void;
   toggleLooping: () => void;
 }
 
@@ -98,6 +99,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         startGame,
         specs,
         tick,
+        tickUntilNextAction,
         currentTick,
         toggleLooping,
       }}

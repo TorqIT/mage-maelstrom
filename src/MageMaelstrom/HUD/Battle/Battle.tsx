@@ -8,8 +8,14 @@ import { NiceButton } from "../NiceButton";
 export interface BattleProps {}
 
 export const Battle: React.FC<BattleProps> = ({}) => {
-  const { leftTeam, rightTeam, tick, currentTick, toggleLooping } =
-    useGameManager();
+  const {
+    leftTeam,
+    rightTeam,
+    tick,
+    tickUntilNextAction,
+    currentTick,
+    toggleLooping,
+  } = useGameManager();
 
   if (!leftTeam || !rightTeam) {
     return null;
@@ -17,14 +23,22 @@ export const Battle: React.FC<BattleProps> = ({}) => {
 
   return (
     <div>
-      <Stack gap="gutter" alignment="middle">
-        <div className="mageMaelstromTitle" style={{ padding: "30px 0px" }}>
-          Mage Maelstrom
-        </div>
-        <Stack gap={20}>
-          <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
-          <NiceButton onClick={toggleLooping}>Toggle Looping</NiceButton>
-        </Stack>
+      <Stack alignment="middle">
+        <Stack.Item>
+          <div
+            className="mageMaelstromTitle"
+            style={{ padding: "30px 0px", textAlign: "center" }}
+          >
+            Mage Maelstrom
+          </div>
+        </Stack.Item>
+        <Stack.Item>
+          <Stack gap={20} alignment="middle">
+            <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
+            <NiceButton onClick={tickUntilNextAction}>Next Action</NiceButton>
+            <NiceButton onClick={toggleLooping}>Toggle Looping</NiceButton>
+          </Stack>
+        </Stack.Item>
       </Stack>
 
       <Stack alignment="middle" stretch>
