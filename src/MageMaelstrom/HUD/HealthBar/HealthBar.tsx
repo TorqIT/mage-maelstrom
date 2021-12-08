@@ -4,9 +4,10 @@ import styles from "./HealthBar.module.css";
 export interface HealthBarProps {
   max: number;
   health: number;
+  color?: string;
 }
 
-export const HealthBar: React.FC<HealthBarProps> = ({ max, health }) => {
+export const HealthBar: React.FC<HealthBarProps> = ({ max, health, color }) => {
   const displayHealth = Math.ceil(health);
 
   return (
@@ -24,7 +25,7 @@ export const HealthBar: React.FC<HealthBarProps> = ({ max, health }) => {
       </div>
       <div
         className={styles.filledHealthBar}
-        style={{ width: (health / max) * 100 + "%" }}
+        style={{ width: (health / max) * 100 + "%", backgroundColor: color }}
       >
         <div
           style={{

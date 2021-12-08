@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 20px;
+  padding: 8px;
   background-color: rgb(73, 73, 108);
 
   --upper-left-border: rgb(134, 134, 169);
@@ -11,9 +11,16 @@
   border-top-color: var(--upper-left-border);
   border-right-color: var(--lower-right-border);
   border-bottom-color: var(--lower-right-border);
+  color: rgb(241, 241, 204);
 }
 
 .iconWrapper {
   width: 82px;
   height: 82px;
+}
+
+.name {
+  font-weight: bold;
+  font-family: Button;
+  font-size: 20px;
 }
