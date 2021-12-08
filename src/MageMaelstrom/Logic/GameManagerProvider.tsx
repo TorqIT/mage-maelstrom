@@ -65,6 +65,13 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     setCurrentTick(gameManager?.getCurrentTick());
   }, [gameManager]);
 
+  const tickUntilNextAction = useCallback(() => {
+    gameManager?.tickUntilNextAction();
+    setLeftTeam(gameManager?.getLeftTeam());
+    setRightTeam(gameManager?.getRightTeam());
+    setCurrentTick(gameManager?.getCurrentTick());
+  }, [gameManager]);
+
   const [shouldLoop, setShouldLoop] = useState(false);
 
   useEffect(() => {
@@ -73,11 +80,11 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     }
 
     const timer = setInterval(() => {
-      tick();
-    }, 0);
+      tickUntilNextAction();
+    }, 100);
 
     return () => clearInterval(timer);
-  }, [shouldLoop, tick]);
+  }, [shouldLoop, tickUntilNextAction]);
 
   const toggleLooping = useCallback(() => {
     setShouldLoop(!shouldLoop);

@@ -92,6 +92,16 @@ export class GameManager {
     return this.currentTick;
   }
 
+  public tickUntilNextAction() {
+    let tickCounter = 0;
+
+    while (tickCounter < 500) {
+      if (this.tick()) {
+        return;
+      }
+    }
+  }
+
   public tick() {
     if (!this.leftTeam || !this.rightTeam) {
       return;
