@@ -1,5 +1,6 @@
 import React from "react";
-import { CombatantDefinition, CombatantIcon } from "../Combatant";
+import { CombatantDefinition } from "../Combatant";
+import { CombatantIcon } from "../HUD";
 import styles from "./Tile.module.css";
 
 export interface TileProps {

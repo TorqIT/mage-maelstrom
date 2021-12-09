@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
+import { CombatantDefinition } from "../../Combatant";
 import { Stack } from "../../Common";
-import { CombatantDefinition } from "../combatant";
 import styles from "./CombatantIcon.module.css";
 
 export interface CombatantIconProps {

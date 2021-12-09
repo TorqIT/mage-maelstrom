@@ -10,7 +10,7 @@ import { Helpers } from "../MageMaelstrom/Logic";
 export class GoLeft extends Combatant {
   public define(): CombatantDefinition {
     return {
-      name: "BIG",
+      name: "I GO LEFT",
       icon: "/burst.png",
 
       strength: 5,

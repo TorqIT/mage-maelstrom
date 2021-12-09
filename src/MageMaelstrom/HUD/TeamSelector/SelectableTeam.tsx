@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { useMemo } from "react";
-import { CombatantIcon, IdentifiedTeam } from "../../Combatant";
+import { CombatantIcon } from "..";
+import { IdentifiedTeam } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
 import { useGameManager } from "../../Logic";
 import styles from "./SelectableTeam.module.css";

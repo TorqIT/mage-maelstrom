@@ -1,5 +1,6 @@
 import React from "react";
-import { CombatantIcon, ReadonlyEntrant } from "../../Combatant";
+import { CombatantIcon } from "..";
+import { ReadonlyEntrant } from "../../Combatant";
 import { Stack } from "../../Common";
 import { HealthBar } from "../HealthBar";
 import styles from "./EntrantDisplay.module.css";
