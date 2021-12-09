@@ -1,9 +1,9 @@
 import React from "react";
-import { Combatant, CombatantIcon } from "../Combatant";
+import { CombatantDefinition, CombatantIcon } from "../Combatant";
 import styles from "./Tile.module.css";
 
 export interface TileProps {
-  combatant?: Combatant<any>;
+  combatant?: CombatantDefinition;
   teamColor?: string;
   flip?: boolean;
 }

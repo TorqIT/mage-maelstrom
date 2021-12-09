@@ -1,10 +1,10 @@
 import React from "react";
-import { ActiveTeam } from "../../Combatant";
+import { ReadonlyActiveTeam } from "../../Combatant";
 import { EntrantDisplay } from "./EntrantDisplay";
 import styles from "./TeamDisplay.module.css";
 
 export interface TeamDisplayProps {
-  team: ActiveTeam;
+  team: ReadonlyActiveTeam;
 }
 
 export const TeamDisplay: React.FC<TeamDisplayProps> = ({ team }) => {

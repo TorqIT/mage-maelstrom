@@ -22,17 +22,17 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
 
   const identifiedTeams = useMemo(
     () =>
-      teams.map((t) => ({
-        team: {
+      teams.map((t) => {
+        const team: IdentifiedTeam = {
           ...t,
           id: idCounterRef.current++,
-          combatants: t.combatants.map((c) => ({
-            ...c,
-            id: idCounterRef.current++,
-          })),
-        } as IdentifiedTeam,
-        validationResult: validate(t, specs),
-      })),
+        };
+
+        return {
+          team,
+          validationResult: validate(t, specs),
+        };
+      }),
     [teams, specs]
   );
 

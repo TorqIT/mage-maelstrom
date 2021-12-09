@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import React from "react";
 import { Stack } from "../../Common";
-import { Combatant } from "../combatant";
+import { CombatantDefinition } from "../combatant";
 import styles from "./CombatantIcon.module.css";
 
 export interface CombatantIconProps {
-  combatant: Combatant<any>;
+  combatant: CombatantDefinition;
   teamColor: string;
   horizontalFlip?: boolean;
 }

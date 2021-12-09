@@ -3,16 +3,15 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
-import { ActiveTeam, IdentifiedTeam, Team } from "../Combatant";
+import { IdentifiedTeam, ReadonlyActiveTeam } from "../Combatant";
 import { GameManager } from "./GameManager";
 import { GameSpecs } from "./gameSpecs";
 
 export interface GameManagerData extends GameManagerProviderProps {
-  leftTeam?: ActiveTeam;
-  rightTeam?: ActiveTeam;
+  leftTeam?: ReadonlyActiveTeam;
+  rightTeam?: ReadonlyActiveTeam;
   currentTick?: number;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
   tick: () => void;
@@ -32,8 +31,8 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
 }) => {
   const [gameManager, setGameManager] = useState<GameManager>();
 
-  const [leftTeam, setLeftTeam] = useState<ActiveTeam>();
-  const [rightTeam, setRightTeam] = useState<ActiveTeam>();
+  const [leftTeam, setLeftTeam] = useState<ReadonlyActiveTeam>();
+  const [rightTeam, setRightTeam] = useState<ReadonlyActiveTeam>();
   const [currentTick, setCurrentTick] = useState<number>();
 
   useEffect(() => {

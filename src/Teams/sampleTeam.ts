@@ -1,37 +1,10 @@
 import { Team } from "../MageMaelstrom";
-import { actions } from "../MageMaelstrom/Combatant/actions";
+import { GoLeft } from "./goLeft";
 
 const sampleTeam: Team = {
   name: "The Wowzers",
   color: "#c00",
-  combatants: [
-    {
-      name: "Cool Guy",
-      icon: "/burst.png",
-
-      strength: 5,
-      agility: 5,
-      intelligence: 5,
-
-      init: () => ({}),
-      act: () => {
-        return actions.move("left");
-      },
-    },
-    {
-      name: "Attack Person",
-      icon: "/burst.png",
-
-      strength: 5,
-      agility: 5,
-      intelligence: 25,
-
-      init: () => ({}),
-      act: () => {
-        return actions.move("left");
-      },
-    },
-  ],
+  CombatantSubclasses: [GoLeft, GoLeft],
 };
 
 export { sampleTeam };

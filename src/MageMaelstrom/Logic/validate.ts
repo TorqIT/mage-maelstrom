@@ -7,13 +7,15 @@ export function validate(
 ): { good: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  if (team.combatants.length > specs.rules.maxCombatants) {
+  if (team.CombatantSubclasses.length > specs.rules.maxCombatants) {
     errors.push(
       `Teams cannot have more than ${specs.rules.maxCombatants} combatants`
     );
   }
 
-  team.combatants.forEach((combatant) => {
+  team.CombatantSubclasses.forEach((SubCombatant) => {
+    const combatant = new SubCombatant().getDef();
+
     if (combatant.strength < specs.rules.minStat) {
       errors.push(
         `${combatant.name}'s strength (${combatant.strength}) is too low (min: ${specs.rules.minStat})`

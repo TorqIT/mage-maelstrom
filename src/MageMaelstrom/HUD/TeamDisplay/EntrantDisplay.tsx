@@ -1,11 +1,11 @@
 import React from "react";
-import { CombatantIcon, Entrant } from "../../Combatant";
+import { CombatantIcon, ReadonlyEntrant } from "../../Combatant";
 import { Stack } from "../../Common";
 import { HealthBar } from "../HealthBar";
 import styles from "./EntrantDisplay.module.css";
 
 export interface EntrantDisplayProps {
-  entrant: Entrant<any>;
+  entrant: ReadonlyEntrant;
   color: string;
   flip?: boolean;
 }
