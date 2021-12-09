@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { useMemo } from "react";
 import { CombatantIcon, IdentifiedTeam } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
+import { useGameManager } from "../../Logic";
 import styles from "./SelectableTeam.module.css";
 
 export interface SelectableTeamProps {
@@ -15,11 +16,15 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
   errors,
   onClick,
 }) => {
+  const { buildCombatant } = useGameManager();
   const isSelectable = errors == null || errors?.length === 0;
 
   const intializedCombatants = useMemo(
-    () => team.CombatantSubclasses.map((SubCombatant) => new SubCombatant()),
-    [team]
+    () =>
+      team.CombatantSubclasses.map((SubCombatant) =>
+        buildCombatant(SubCombatant)
+      ),
+    [team, buildCombatant]
   );
 
   return (
@@ -42,8 +47,8 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
         <div className={styles.name}>{team.name}</div>
         <Stack gap={20}>
           {intializedCombatants.map((c) => (
-            <div key={c.getId()} className={styles.iconWrapper}>
-              <CombatantIcon combatant={c.getDef()} teamColor={team.color} />
+            <div key={c?.getId()} className={styles.iconWrapper}>
+              <CombatantIcon combatant={c?.getDef()} teamColor={team.color} />
             </div>
           ))}
         </Stack>

@@ -5,7 +5,7 @@ import { CombatantDefinition } from "../combatant";
 import styles from "./CombatantIcon.module.css";
 
 export interface CombatantIconProps {
-  combatant: CombatantDefinition;
+  combatant?: CombatantDefinition;
   teamColor: string;
   horizontalFlip?: boolean;
 }
@@ -20,8 +20,8 @@ export const CombatantIcon: React.FC<CombatantIconProps> = ({
       <Stack fill>
         <img
           className={classNames(styles.icon, { [styles.flip]: horizontalFlip })}
-          src={combatant.icon}
-          alt={combatant.name}
+          src={combatant?.icon}
+          alt={combatant?.name}
         ></img>
       </Stack>
     </div>

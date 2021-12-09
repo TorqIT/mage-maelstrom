@@ -14,7 +14,7 @@ export function validate(
   }
 
   team.CombatantSubclasses.forEach((SubCombatant) => {
-    const combatant = new SubCombatant().getDef();
+    const combatant = new SubCombatant(specs).getDef();
 
     if (combatant.strength < specs.rules.minStat) {
       errors.push(

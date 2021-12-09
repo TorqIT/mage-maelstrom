@@ -30,6 +30,10 @@ export class GameManager {
     this.specs = specs;
   }
 
+  public buildCombatant(SubCombatant: CombatantSubclass) {
+    return new SubCombatant(this.specs);
+  }
+
   public startGame(left: IdentifiedTeam, right: IdentifiedTeam) {
     this.currentTick = -1;
 
@@ -48,37 +52,27 @@ export class GameManager {
   }
 
   private toEntrant(SubCombatant: CombatantSubclass): Entrant {
-    const combatant = new SubCombatant();
+    const combatant = new SubCombatant(this.specs);
 
     return {
       combatant,
       status: {
         id: this.idTracker++,
         health: {
-          value: combatant.getStrength() * this.specs.stats.healthPerStrength,
-          max: combatant.getStrength() * this.specs.stats.healthPerStrength,
+          value: combatant.getMaxHealth(),
+          max: combatant.getMaxHealth(),
         },
         mana: {
-          value: combatant.getIntelligence() * this.specs.stats.manaPerInt,
-          max: combatant.getIntelligence() * this.specs.stats.manaPerInt,
+          value: combatant.getMaxMana(),
+          max: combatant.getMaxMana(),
         },
         coords: {
           x: Math.floor(Math.random() * this.specs.arena.width),
           y: Math.floor(Math.random() * this.specs.arena.height),
         },
-        nextTurn: Math.floor(
-          Math.random() *
-            (100 /
-              Math.pow(this.specs.stats.agilityBonus, combatant.getAgility()))
-        ),
+        nextTurn: Math.floor(Math.random() * combatant.getTurnDelay()),
       },
     };
-  }
-
-  private getNextTurn(agility: number) {
-    return Math.floor(
-      this.currentTick + 100 / Math.pow(this.specs.stats.agilityBonus, agility)
-    );
   }
 
   public getLeftTeam() {
@@ -153,7 +147,7 @@ export class GameManager {
   }
 
   private tryPerformAction(entrant: Entrant, action: Action) {
-    entrant.status.nextTurn = this.getNextTurn(entrant.combatant.getAgility());
+    entrant.status.nextTurn += entrant.combatant.getTurnDelay();
 
     if (this.getActionResult(entrant, action) === ActionResult.Success) {
       this.performAction(entrant, action);

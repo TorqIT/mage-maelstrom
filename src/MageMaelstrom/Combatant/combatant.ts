@@ -1,5 +1,5 @@
 import { Coordinate } from "../Arena";
-import { Helpers } from "../Logic";
+import { GameSpecs, Helpers } from "../Logic";
 import { Action } from "./actions";
 
 type Identified<T extends object> = T & {
@@ -18,10 +18,12 @@ export abstract class Combatant {
   private static idCounter = 0;
 
   private def: CombatantDefinition;
+  private gameSpecs: GameSpecs;
   private id: number;
 
-  public constructor() {
+  public constructor(specs: GameSpecs) {
     this.def = this.define();
+    this.gameSpecs = specs;
     this.id = Combatant.idCounter++;
   }
 
@@ -48,6 +50,28 @@ export abstract class Combatant {
     return Math.max(this.def.strength, this.def.agility, this.def.intelligence);
   }
 
+  public getMaxHealth() {
+    return this.def.strength * this.gameSpecs.stats.healthPerStrength;
+  }
+
+  public getHealthRegen() {
+    return this.def.strength * this.gameSpecs.stats.healthRegenPerStrength;
+  }
+
+  public getMaxMana() {
+    return this.def.intelligence * this.gameSpecs.stats.manaPerInt;
+  }
+
+  public getManaRegen() {
+    return this.def.intelligence * this.gameSpecs.stats.manaRegenPerInt;
+  }
+
+  public getTurnDelay() {
+    return Math.ceil(
+      100 / Math.pow(this.gameSpecs.stats.agilityBonus, this.def.agility)
+    );
+  }
+
   public getDef() {
     return this.def;
   }
@@ -57,7 +81,7 @@ export abstract class Combatant {
   }
 }
 
-export type CombatantSubclass = new () => Combatant;
+export type CombatantSubclass = new (specs: GameSpecs) => Combatant;
 
 interface Meter {
   value: number;

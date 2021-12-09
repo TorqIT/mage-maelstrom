@@ -5,7 +5,12 @@ import {
   useEffect,
   useState,
 } from "react";
-import { IdentifiedTeam, ReadonlyActiveTeam } from "../Combatant";
+import {
+  Combatant,
+  CombatantSubclass,
+  IdentifiedTeam,
+  ReadonlyActiveTeam,
+} from "../Combatant";
 import { GameManager } from "./GameManager";
 import { GameSpecs } from "./gameSpecs";
 
@@ -13,6 +18,7 @@ export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ReadonlyActiveTeam;
   rightTeam?: ReadonlyActiveTeam;
   currentTick?: number;
+  buildCombatant: (SubCombatant: CombatantSubclass) => Combatant | undefined;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
   tick: () => void;
   tickUntilNextAction: () => void;
@@ -90,6 +96,12 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     setShouldLoop(!shouldLoop);
   }, [shouldLoop]);
 
+  const buildCombatant = useCallback(
+    (SubCombatant: CombatantSubclass) =>
+      gameManager?.buildCombatant(SubCombatant),
+    [gameManager]
+  );
+
   return (
     <GameManagerContext.Provider
       value={{
@@ -101,6 +113,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         tickUntilNextAction,
         currentTick,
         toggleLooping,
+        buildCombatant,
       }}
     >
       {children}
