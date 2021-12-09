@@ -1,4 +1,4 @@
-import { Coordinate } from "../Arena";
+import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { GameSpecs, Helpers } from "../Logic";
 import { Action } from "./actions";
 
@@ -96,6 +96,11 @@ export interface CombatantStatus {
   nextTurn: number;
 }
 
+export interface ReadonlyCombatantStatus
+  extends Omit<CombatantStatus, "coords"> {
+  coords: ReadonlyCoordinate;
+}
+
 export interface Entrant {
   combatant: Combatant;
   status: CombatantStatus;
@@ -103,7 +108,7 @@ export interface Entrant {
 
 export interface ReadonlyEntrant {
   combatant: CombatantDefinition;
-  status: CombatantStatus;
+  status: ReadonlyCombatantStatus;
 }
 
 export interface Team {

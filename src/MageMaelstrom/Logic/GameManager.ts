@@ -1,15 +1,17 @@
 import arrayShuffle from "array-shuffle";
-import { coordsEqual, isNextTo, moveCoordinate } from "../Arena";
+import { Coordinate } from "../Arena";
 import {
   Action,
   ActionType,
   ActiveTeam,
   AttackAction,
+  CombatantStatus,
   CombatantSubclass,
   Entrant,
   IdentifiedTeam,
   MovementAction,
   ReadonlyActiveTeam,
+  ReadonlyCombatantStatus,
   ReadonlyEntrant,
 } from "../Combatant";
 import { ActionResult } from "./actionResult";
@@ -66,34 +68,43 @@ export class GameManager {
           value: combatant.getMaxMana(),
           max: combatant.getMaxMana(),
         },
-        coords: {
-          x: Math.floor(Math.random() * this.specs.arena.width),
-          y: Math.floor(Math.random() * this.specs.arena.height),
-        },
+        coords: new Coordinate(
+          Math.floor(Math.random() * this.specs.arena.width),
+          Math.floor(Math.random() * this.specs.arena.height)
+        ),
         nextTurn: Math.floor(Math.random() * combatant.getTurnDelay()),
       },
     };
   }
 
   public getLeftTeam() {
-    return this.leftTeam ? this.toReadOnly(this.leftTeam) : undefined;
+    return this.leftTeam ? this.toReadonlyActiveTeam(this.leftTeam) : undefined;
   }
 
   public getRightTeam() {
-    return this.rightTeam ? this.toReadOnly(this.rightTeam) : undefined;
+    return this.rightTeam
+      ? this.toReadonlyActiveTeam(this.rightTeam)
+      : undefined;
   }
 
-  private toReadOnly(team: ActiveTeam): ReadonlyActiveTeam {
+  private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
     return {
       ...team,
-      entrants: team.entrants.map((e) => this.toReadOnlyEntrant(e)),
+      entrants: team.entrants.map((e) => this.toReadonlyEntrant(e)),
     };
   }
 
-  private toReadOnlyEntrant(entrant: Entrant): ReadonlyEntrant {
+  private toReadonlyEntrant(entrant: Entrant): ReadonlyEntrant {
     return {
       combatant: entrant.combatant.getDef(),
-      status: entrant.status,
+      status: this.toReadonlyStatus(entrant.status),
+    };
+  }
+
+  private toReadonlyStatus(status: CombatantStatus): ReadonlyCombatantStatus {
+    return {
+      ...status,
+      coords: status.coords.toReadonly(),
     };
   }
 
@@ -170,13 +181,13 @@ export class GameManager {
   }
 
   private canPerformMovementAction(entrant: Entrant, action: MovementAction) {
-    const result = moveCoordinate(entrant.status.coords, action.direction);
+    const result = Coordinate.getSide(entrant.status.coords, action.direction);
 
     if (
-      result.x < 0 ||
-      result.x >= this.specs.arena.width ||
-      result.y < 0 ||
-      result.y >= this.specs.arena.height
+      result.getX() < 0 ||
+      result.getX() >= this.specs.arena.width ||
+      result.getY() < 0 ||
+      result.getY() >= this.specs.arena.height
     ) {
       return ActionResult.OutOfArena;
     }
@@ -184,7 +195,7 @@ export class GameManager {
     if (
       this.getEntrantArray()
         .filter((e) => e.status.id !== entrant.status.id)
-        .some((e) => coordsEqual(e.status.coords, result))
+        .some((e) => e.status.coords.equals(result))
     ) {
       return ActionResult.TileOccupied;
     }
@@ -204,7 +215,7 @@ export class GameManager {
     if (!targetEntrant) {
       return ActionResult.CombatantNotFound;
     }
-    return isNextTo(entrant.status.coords, targetEntrant.status.coords)
+    return entrant.status.coords.isNextTo(targetEntrant.status.coords)
       ? ActionResult.Success
       : ActionResult.OutOfRange;
   }
@@ -221,7 +232,7 @@ export class GameManager {
   }
 
   private move(entrant: Entrant, action: MovementAction) {
-    entrant.status.coords = moveCoordinate(
+    entrant.status.coords = Coordinate.getSide(
       entrant.status.coords,
       action.direction
     );
@@ -231,9 +242,12 @@ export class GameManager {
     let targetEntrant: Entrant | undefined;
 
     if (typeof action.target === "string") {
-      const targetCoord = moveCoordinate(entrant.status.coords, action.target);
+      const targetCoord = Coordinate.getSide(
+        entrant.status.coords,
+        action.target
+      );
       targetEntrant = this.getEntrantArray().find((e) =>
-        coordsEqual(e.status.coords, targetCoord)
+        e.status.coords.equals(targetCoord)
       );
     } else {
       targetEntrant = this.getEntrantArray().find(
