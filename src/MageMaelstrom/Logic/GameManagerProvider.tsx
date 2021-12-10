@@ -13,6 +13,8 @@ import {
 } from "../Combatant";
 import { GameManager } from "./GameManager";
 import { GameSpecs } from "./gameSpecs";
+import { useGameControls } from "./hooks/useGameControls";
+import { useManagerInstance } from "./hooks/useManagerInstance";
 
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ReadonlyActiveTeam;
@@ -35,72 +37,15 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
   specs,
   children,
 }) => {
-  const [gameManager, setGameManager] = useState<GameManager>();
-
-  const [leftTeam, setLeftTeam] = useState<ReadonlyActiveTeam>();
-  const [rightTeam, setRightTeam] = useState<ReadonlyActiveTeam>();
-  const [currentTick, setCurrentTick] = useState<number>();
-
-  useEffect(() => {
-    setGameManager(new GameManager(specs));
-
-    setLeftTeam(undefined);
-    setRightTeam(undefined);
-    setCurrentTick(-1);
-  }, [specs]);
-
-  const startGame = useCallback(
-    (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => {
-      gameManager?.startGame(leftTeam, rightTeam);
-
-      setLeftTeam(gameManager?.getLeftTeam());
-      setRightTeam(gameManager?.getRightTeam());
-      setCurrentTick(gameManager?.getCurrentTick());
-    },
-    [gameManager]
-  );
-
-  const tick = useCallback(() => {
-    const change = gameManager?.tick();
-
-    if (change) {
-      setLeftTeam(gameManager?.getLeftTeam());
-      setRightTeam(gameManager?.getRightTeam());
-    }
-
-    setCurrentTick(gameManager?.getCurrentTick());
-  }, [gameManager]);
-
-  const tickUntilNextAction = useCallback(() => {
-    gameManager?.tickUntilNextAction();
-    setLeftTeam(gameManager?.getLeftTeam());
-    setRightTeam(gameManager?.getRightTeam());
-    setCurrentTick(gameManager?.getCurrentTick());
-  }, [gameManager]);
-
-  const [shouldLoop, setShouldLoop] = useState(false);
-
-  useEffect(() => {
-    if (!shouldLoop) {
-      return;
-    }
-
-    const timer = setInterval(() => {
-      tickUntilNextAction();
-    }, 100);
-
-    return () => clearInterval(timer);
-  }, [shouldLoop, tickUntilNextAction]);
-
-  const toggleLooping = useCallback(() => {
-    setShouldLoop(!shouldLoop);
-  }, [shouldLoop]);
-
-  const buildCombatant = useCallback(
-    (SubCombatant: CombatantSubclass) =>
-      gameManager?.buildCombatant(SubCombatant),
-    [gameManager]
-  );
+  const { gameManager, leftTeam, rightTeam, currentTick } =
+    useManagerInstance(specs);
+  const {
+    startGame,
+    tick,
+    toggleLooping,
+    tickUntilNextAction,
+    buildCombatant,
+  } = useGameControls(gameManager);
 
   return (
     <GameManagerContext.Provider

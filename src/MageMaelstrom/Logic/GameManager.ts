@@ -17,6 +17,8 @@ import { ActionResult } from "./actionResult";
 import { GameSpecs } from "./gameSpecs";
 import { buildHelpers } from "./helpers";
 
+type OnChangeListener = () => void;
+
 export class GameManager {
   private specs: GameSpecs;
 
@@ -27,8 +29,18 @@ export class GameManager {
 
   private currentTick = 0;
 
+  private onChange?: OnChangeListener;
+
   public constructor(specs: GameSpecs) {
     this.specs = specs;
+  }
+
+  public setOnChange(onChange: OnChangeListener) {
+    this.onChange = onChange;
+  }
+
+  public clearOnChange() {
+    this.onChange = undefined;
   }
 
   public buildCombatant(SubCombatant: CombatantSubclass) {
@@ -40,6 +52,8 @@ export class GameManager {
 
     this.leftTeam = this.buildActiveTeam(left, false);
     this.rightTeam = this.buildActiveTeam(right, true);
+
+    this.onChange && this.onChange();
   }
 
   private buildActiveTeam(team: IdentifiedTeam, isRight: boolean): ActiveTeam {
@@ -85,15 +99,18 @@ export class GameManager {
 
   public tickUntilNextAction() {
     let tickCounter = 0;
+    let ticked = false;
 
-    while (tickCounter < 500) {
-      if (this.tick()) {
-        return;
+    while (tickCounter < 500 && !ticked) {
+      if (this.tick(false)) {
+        ticked = true;
       }
     }
+
+    this.onChange && this.onChange();
   }
 
-  public tick() {
+  public tick(triggerChangeEvents: boolean) {
     if (!this.leftTeam || !this.rightTeam) {
       return;
     }
@@ -108,6 +125,10 @@ export class GameManager {
     const results = arrayShuffle(actionsToPerform).map((a) =>
       this.tryPerformAction(a.entrant, a.action)
     );
+
+    if (triggerChangeEvents) {
+      this.onChange && this.onChange();
+    }
 
     return results.some((r) => r);
   }
