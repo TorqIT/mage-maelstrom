@@ -2,7 +2,7 @@ import { Combatant, Team } from "../MageMaelstrom";
 import { MovementDirection } from "../MageMaelstrom/Arena";
 import {
   CombatantDefinition,
-  CombatantStatus,
+  ReadonlyEntrantStatus,
 } from "../MageMaelstrom/Combatant";
 import { Action, actions } from "../MageMaelstrom/Combatant/actions";
 import { Helpers } from "../MageMaelstrom/Logic";
@@ -23,7 +23,10 @@ class WowDude extends Combatant {
     };
   }
   public init(): void {}
-  public act(helpers: Helpers, visibleEnemies: CombatantStatus[]): Action {
+  public act(
+    helpers: Helpers,
+    visibleEnemies: ReadonlyEntrantStatus[]
+  ): Action {
     const attackableEnemy = visibleEnemies.find((s) =>
       helpers.canPerform(actions.attack(s.id))
     );

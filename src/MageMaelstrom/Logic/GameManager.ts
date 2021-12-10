@@ -5,13 +5,12 @@ import {
   ActionType,
   ActiveTeam,
   AttackAction,
-  CombatantStatus,
+  Combatant,
   CombatantSubclass,
   Entrant,
   IdentifiedTeam,
   MovementAction,
   ReadonlyActiveTeam,
-  ReadonlyCombatantStatus,
   ReadonlyEntrant,
 } from "../Combatant";
 import { ActionResult } from "./actionResult";
@@ -49,32 +48,18 @@ export class GameManager {
       name: team.name,
       color: team.color,
       flip: isRight,
-      entrants: team.CombatantSubclasses.map((c) => this.toEntrant(c)),
+      entrants: team.CombatantSubclasses.map(
+        (SubCombatant) =>
+          new Entrant(new SubCombatant(this.specs), this.generateCoord())
+      ),
     };
   }
 
-  private toEntrant(SubCombatant: CombatantSubclass): Entrant {
-    const combatant = new SubCombatant(this.specs);
-
-    return {
-      combatant,
-      status: {
-        id: this.idTracker++,
-        health: {
-          value: combatant.getMaxHealth(),
-          max: combatant.getMaxHealth(),
-        },
-        mana: {
-          value: combatant.getMaxMana(),
-          max: combatant.getMaxMana(),
-        },
-        coords: new Coordinate(
-          Math.floor(Math.random() * this.specs.arena.width),
-          Math.floor(Math.random() * this.specs.arena.height)
-        ),
-        nextTurn: Math.floor(Math.random() * combatant.getTurnDelay()),
-      },
-    };
+  private generateCoord() {
+    return new Coordinate(
+      Math.floor(Math.random() * this.specs.arena.width),
+      Math.floor(Math.random() * this.specs.arena.height)
+    );
   }
 
   public getLeftTeam() {
@@ -90,21 +75,7 @@ export class GameManager {
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
     return {
       ...team,
-      entrants: team.entrants.map((e) => this.toReadonlyEntrant(e)),
-    };
-  }
-
-  private toReadonlyEntrant(entrant: Entrant): ReadonlyEntrant {
-    return {
-      combatant: entrant.combatant.getDef(),
-      status: this.toReadonlyStatus(entrant.status),
-    };
-  }
-
-  private toReadonlyStatus(status: CombatantStatus): ReadonlyCombatantStatus {
-    return {
-      ...status,
-      coords: status.coords.toReadonly(),
+      entrants: team.entrants.map((e) => e.toReadonly()),
     };
   }
 
@@ -130,22 +101,22 @@ export class GameManager {
     this.currentTick++;
 
     const actionsToPerform = this.leftTeam.entrants
-      .filter((e) => e.status.nextTurn === this.currentTick)
+      .filter((e) => e.getNextTurn() === this.currentTick)
       .map((e) => ({
         entrant: e,
-        action: e.combatant.act(
+        action: e.act(
           buildHelpers((a: Action) => this.getActionResult(e, a)),
-          this.rightTeam?.entrants.map((e) => e.status) ?? []
+          this.rightTeam?.entrants.map((e) => e.getStatus()) ?? []
         ),
       }))
       .concat(
         this.rightTeam.entrants
-          .filter((e) => e.status.nextTurn === this.currentTick)
+          .filter((e) => e.getNextTurn() === this.currentTick)
           .map((e) => ({
             entrant: e,
-            action: e.combatant.act(
+            action: e.act(
               buildHelpers((a: Action) => this.getActionResult(e, a)),
-              this.leftTeam?.entrants.map((e) => e.status) ?? []
+              this.leftTeam?.entrants.map((e) => e.getStatus()) ?? []
             ),
           }))
       );
@@ -158,7 +129,7 @@ export class GameManager {
   }
 
   private tryPerformAction(entrant: Entrant, action: Action) {
-    entrant.status.nextTurn += entrant.combatant.getTurnDelay();
+    entrant.updateNextTurn();
 
     if (this.getActionResult(entrant, action) === ActionResult.Success) {
       this.performAction(entrant, action);
@@ -181,7 +152,7 @@ export class GameManager {
   }
 
   private canPerformMovementAction(entrant: Entrant, action: MovementAction) {
-    const result = Coordinate.getSide(entrant.status.coords, action.direction);
+    const result = Coordinate.getSide(entrant.getCoords(), action.direction);
 
     if (
       result.getX() < 0 ||
@@ -194,8 +165,8 @@ export class GameManager {
 
     if (
       this.getEntrantArray()
-        .filter((e) => e.status.id !== entrant.status.id)
-        .some((e) => e.status.coords.equals(result))
+        .filter((e) => e.getId() !== entrant.getId())
+        .some((e) => e.getCoords().equals(result))
     ) {
       return ActionResult.TileOccupied;
     }
@@ -209,13 +180,13 @@ export class GameManager {
     }
 
     const targetEntrant = this.getEntrantArray().find(
-      (e) => e.status.id === action.target
+      (e) => e.getId() === action.target
     );
 
     if (!targetEntrant) {
       return ActionResult.CombatantNotFound;
     }
-    return entrant.status.coords.isNextTo(targetEntrant.status.coords)
+    return entrant.getCoords().isNextTo(targetEntrant.getCoords())
       ? ActionResult.Success
       : ActionResult.OutOfRange;
   }
@@ -232,10 +203,7 @@ export class GameManager {
   }
 
   private move(entrant: Entrant, action: MovementAction) {
-    entrant.status.coords = Coordinate.getSide(
-      entrant.status.coords,
-      action.direction
-    );
+    entrant.getCoords().move(action.direction);
   }
 
   private attack(entrant: Entrant, action: AttackAction) {
@@ -243,20 +211,20 @@ export class GameManager {
 
     if (typeof action.target === "string") {
       const targetCoord = Coordinate.getSide(
-        entrant.status.coords,
+        entrant.getCoords(),
         action.target
       );
       targetEntrant = this.getEntrantArray().find((e) =>
-        e.status.coords.equals(targetCoord)
+        e.getCoords().equals(targetCoord)
       );
     } else {
       targetEntrant = this.getEntrantArray().find(
-        (e) => e.status.id === action.target
+        (e) => e.getId() === action.target
       );
     }
 
     if (targetEntrant) {
-      targetEntrant.status.health.value -= entrant.combatant.getDamage();
+      targetEntrant.takeDamage(entrant.getDamage());
     }
   }
 

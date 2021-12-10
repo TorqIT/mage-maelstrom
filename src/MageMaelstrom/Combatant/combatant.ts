@@ -1,10 +1,6 @@
-import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { GameSpecs, Helpers } from "../Logic";
 import { Action } from "./actions";
-
-type Identified<T extends object> = T & {
-  id: number;
-};
+import { ReadonlyEntrantStatus } from "./entrant";
 
 export interface CombatantDefinition {
   name: string;
@@ -13,6 +9,10 @@ export interface CombatantDefinition {
   agility: number;
   intelligence: number;
 }
+
+export type ActParameters = Parameters<
+  (helpers: Helpers, visibleEnemies: ReadonlyEntrantStatus[]) => {}
+>;
 
 export abstract class Combatant {
   private static idCounter = 0;
@@ -31,10 +31,7 @@ export abstract class Combatant {
 
   public abstract init(): void;
 
-  public abstract act(
-    helpers: Helpers,
-    visibleEnemies: CombatantStatus[]
-  ): Action;
+  public abstract act(...params: ActParameters): Action;
 
   public getStrength() {
     return this.def.strength;
@@ -82,51 +79,3 @@ export abstract class Combatant {
 }
 
 export type CombatantSubclass = new (specs: GameSpecs) => Combatant;
-
-interface Meter {
-  value: number;
-  max: number;
-}
-
-export interface CombatantStatus {
-  id: number;
-  coords: Coordinate;
-  health: Meter;
-  mana: Meter;
-  nextTurn: number;
-}
-
-export interface ReadonlyCombatantStatus
-  extends Omit<CombatantStatus, "coords"> {
-  coords: ReadonlyCoordinate;
-}
-
-export interface Entrant {
-  combatant: Combatant;
-  status: CombatantStatus;
-}
-
-export interface ReadonlyEntrant {
-  combatant: CombatantDefinition;
-  status: ReadonlyCombatantStatus;
-}
-
-export interface Team {
-  name: string;
-  color: string;
-  CombatantSubclasses: CombatantSubclass[];
-}
-
-export type IdentifiedTeam = Identified<Team>;
-
-export interface ActiveTeam
-  extends Omit<IdentifiedTeam, "CombatantSubclasses"> {
-  flip: boolean;
-  entrants: Entrant[];
-}
-
-export interface ReadonlyActiveTeam
-  extends Omit<IdentifiedTeam, "CombatantSubclasses"> {
-  flip: boolean;
-  entrants: ReadonlyEntrant[];
-}
