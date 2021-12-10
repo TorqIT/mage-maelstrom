@@ -16,6 +16,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
     tickUntilNextAction,
     currentTick,
     toggleLooping,
+    doFullReset,
     isLooping,
   } = useGameManager();
 
@@ -25,7 +26,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
 
   return (
     <div style={{ padding: "0px 100px" }}>
-      <Stack alignment="middle">
+      <Stack alignment="middle" gap={50}>
         <div
           className="mageMaelstromTitle"
           style={{ padding: "30px 0px", textAlign: "center" }}
@@ -33,12 +34,16 @@ export const Battle: React.FC<BattleProps> = ({}) => {
           Mage Maelstrom
         </div>
         <Stack.Item>
-          <Stack gap={20} alignment="middle">
-            <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
-            <NiceButton onClick={tickUntilNextAction}>Next Action</NiceButton>
-            <NiceButton pressed={isLooping} onClick={toggleLooping}>
-              {isLooping ? "Start " : "Stop "} Looping
-            </NiceButton>
+          <Stack gap="apart" alignment="middle">
+            <Stack gap={20}>
+              <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
+              <NiceButton onClick={tickUntilNextAction}>Next Action</NiceButton>
+              <NiceButton pressed={isLooping} onClick={toggleLooping}>
+                {isLooping ? "Start " : "Stop "} Looping
+              </NiceButton>
+            </Stack>
+
+            <NiceButton onClick={doFullReset}>New Game</NiceButton>
           </Stack>
         </Stack.Item>
       </Stack>

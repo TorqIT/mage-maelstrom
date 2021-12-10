@@ -25,6 +25,7 @@ export interface GameManagerData extends GameManagerProviderProps {
   logs: BattleLogEvent[];
   buildCombatant: (SubCombatant: CombatantSubclass) => Combatant | undefined;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
+  doFullReset: () => void;
   tick: () => void;
   tickUntilNextAction: () => void;
   toggleLooping: () => void;
@@ -40,8 +41,15 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
   specs,
   children,
 }) => {
-  const { gameManager, leftTeam, rightTeam, currentTick, victor, logs } =
-    useManagerInstance(specs);
+  const {
+    gameManager,
+    leftTeam,
+    rightTeam,
+    currentTick,
+    victor,
+    logs,
+    doFullReset,
+  } = useManagerInstance(specs);
   const {
     startGame,
     tick,
@@ -65,6 +73,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         currentTick,
         toggleLooping,
         buildCombatant,
+        doFullReset,
       }}
     >
       {children}
