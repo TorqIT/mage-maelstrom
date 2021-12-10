@@ -4,6 +4,7 @@ import { Stack } from "../../Common";
 import { TeamDisplay } from "..";
 import { useGameManager } from "../../Logic";
 import { NiceButton } from "../NiceButton";
+import { BattleLogs } from "../BattleLogs";
 
 export interface BattleProps {}
 
@@ -42,10 +43,16 @@ export const Battle: React.FC<BattleProps> = ({}) => {
         </Stack.Item>
       </Stack>
 
-      <Stack stretch>
-        <TeamDisplay team={leftTeam} />
-        <Arena />
-        <TeamDisplay team={rightTeam} />
+      <Stack gap={20} alignment="middle" stretch>
+        <div>
+          <Stack stretch>
+            <TeamDisplay team={leftTeam} />
+            <Arena />
+            <TeamDisplay team={rightTeam} />
+          </Stack>
+        </div>
+
+        <BattleLogs />
       </Stack>
     </div>
   );

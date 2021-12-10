@@ -5,17 +5,16 @@ import {
   ActionType,
   ActiveTeam,
   AttackAction,
-  Combatant,
   CombatantSubclass,
   Entrant,
   IdentifiedTeam,
   MovementAction,
   ReadonlyActiveTeam,
-  ReadonlyEntrant,
 } from "../Combatant";
 import { ActionResult } from "./actionResult";
 import { GameSpecs } from "./gameSpecs";
 import { buildHelpers } from "./helpers";
+import { BattleLogEvent, LogType } from "./logs";
 
 type OnChangeListener = () => void;
 
@@ -25,14 +24,15 @@ export class GameManager {
   private leftTeam?: ActiveTeam;
   private rightTeam?: ActiveTeam;
 
-  private idTracker = 0;
-
   private currentTick = 0;
 
   private onChange?: OnChangeListener;
 
+  private logs: BattleLogEvent[];
+
   public constructor(specs: GameSpecs) {
     this.specs = specs;
+    this.logs = [];
   }
 
   public setOnChange(onChange: OnChangeListener) {
@@ -52,6 +52,8 @@ export class GameManager {
 
     this.leftTeam = this.buildActiveTeam(left, false);
     this.rightTeam = this.buildActiveTeam(right, true);
+
+    this.logs = [];
 
     this.onChange && this.onChange();
   }
@@ -84,6 +86,10 @@ export class GameManager {
     return this.rightTeam
       ? this.toReadonlyActiveTeam(this.rightTeam)
       : undefined;
+  }
+
+  public getLogs() {
+    return this.logs;
   }
 
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
@@ -127,6 +133,15 @@ export class GameManager {
     const results = arrayShuffle(actionsToPerform).map((a) =>
       this.tryPerformAction(a.entrant, a.action)
     );
+
+    const potentialVictor = this.getVictor();
+
+    if (potentialVictor !== undefined) {
+      this.logs.push({
+        type: LogType.Victory,
+        team: potentialVictor,
+      });
+    }
 
     if (triggerChangeEvents) {
       this.onChange && this.onChange();

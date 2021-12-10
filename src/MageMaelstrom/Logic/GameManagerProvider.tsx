@@ -15,12 +15,14 @@ import { GameManager } from "./GameManager";
 import { GameSpecs } from "./gameSpecs";
 import { useGameControls } from "./hooks/useGameControls";
 import { useManagerInstance } from "./hooks/useManagerInstance";
+import { BattleLogEvent } from "./logs";
 
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ReadonlyActiveTeam;
   rightTeam?: ReadonlyActiveTeam;
   currentTick?: number;
   isLooping: boolean;
+  logs: BattleLogEvent[];
   buildCombatant: (SubCombatant: CombatantSubclass) => Combatant | undefined;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
   tick: () => void;
@@ -38,7 +40,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
   specs,
   children,
 }) => {
-  const { gameManager, leftTeam, rightTeam, currentTick, victor } =
+  const { gameManager, leftTeam, rightTeam, currentTick, victor, logs } =
     useManagerInstance(specs);
   const {
     startGame,
@@ -57,6 +59,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         startGame,
         specs,
         tick,
+        logs,
         isLooping,
         tickUntilNextAction,
         currentTick,

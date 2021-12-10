@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ReadonlyActiveTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
 import { GameSpecs } from "../gameSpecs";
+import { BattleLogEvent } from "../logs";
 
 export function useManagerInstance(specs: GameSpecs) {
   const [gameManager, setGameManager] = useState<GameManager>();
@@ -10,6 +11,7 @@ export function useManagerInstance(specs: GameSpecs) {
   const [rightTeam, setRightTeam] = useState<ReadonlyActiveTeam>();
   const [currentTick, setCurrentTick] = useState<number>();
   const [victor, setVictor] = useState<ReadonlyActiveTeam | null>();
+  const [logs, setLogs] = useState<BattleLogEvent[]>([]);
 
   useEffect(() => {
     setGameManager(new GameManager(specs));
@@ -18,6 +20,7 @@ export function useManagerInstance(specs: GameSpecs) {
     setRightTeam(undefined);
     setCurrentTick(-1);
     setVictor(undefined);
+    setLogs([]);
   }, [specs]);
 
   useEffect(() => {
@@ -26,10 +29,11 @@ export function useManagerInstance(specs: GameSpecs) {
       setRightTeam(gameManager.getRightTeam());
       setCurrentTick(gameManager.getCurrentTick());
       setVictor(gameManager.getVictor());
+      setLogs(gameManager.getLogs());
     });
 
     return () => gameManager?.clearOnChange();
   }, [gameManager]);
 
-  return { gameManager, leftTeam, rightTeam, currentTick, victor };
+  return { gameManager, leftTeam, rightTeam, currentTick, victor, logs };
 }
