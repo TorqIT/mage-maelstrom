@@ -100,32 +100,30 @@ export class GameManager {
 
     this.currentTick++;
 
-    const actionsToPerform = this.leftTeam.entrants
-      .filter((e) => e.getNextTurn() === this.currentTick)
-      .map((e) => ({
-        entrant: e,
-        action: e.act(
-          buildHelpers((a: Action) => this.getActionResult(e, a)),
-          this.rightTeam?.entrants.map((e) => e.getStatus()) ?? []
-        ),
-      }))
-      .concat(
-        this.rightTeam.entrants
-          .filter((e) => e.getNextTurn() === this.currentTick)
-          .map((e) => ({
-            entrant: e,
-            action: e.act(
-              buildHelpers((a: Action) => this.getActionResult(e, a)),
-              this.leftTeam?.entrants.map((e) => e.getStatus()) ?? []
-            ),
-          }))
-      );
+    const actionsToPerform = this.performTeamActions(
+      this.leftTeam,
+      this.rightTeam
+    ).concat(this.performTeamActions(this.rightTeam, this.leftTeam));
 
     const results = arrayShuffle(actionsToPerform).map((a) =>
       this.tryPerformAction(a.entrant, a.action)
     );
 
     return results.some((r) => r);
+  }
+
+  private performTeamActions(team: ActiveTeam, enemyTeam: ActiveTeam) {
+    return team.entrants
+      .filter((e) => e.getNextTurn() === this.currentTick && !e.isDead())
+      .map((e) => ({
+        entrant: e,
+        action: e.act(
+          buildHelpers((a: Action) => this.getActionResult(e, a)),
+          enemyTeam.entrants
+            .filter((e) => !e.isDead())
+            .map((e) => e.getStatus()) ?? []
+        ),
+      }));
   }
 
   private tryPerformAction(entrant: Entrant, action: Action) {
@@ -165,7 +163,7 @@ export class GameManager {
 
     if (
       this.getEntrantArray()
-        .filter((e) => e.getId() !== entrant.getId())
+        .filter((e) => e.getId() !== entrant.getId() && !e.isDead())
         .some((e) => e.getCoords().equals(result))
     ) {
       return ActionResult.TileOccupied;
@@ -186,6 +184,11 @@ export class GameManager {
     if (!targetEntrant) {
       return ActionResult.CombatantNotFound;
     }
+
+    if (targetEntrant.isDead()) {
+      return ActionResult.TargetIsDead;
+    }
+
     return entrant.getCoords().isNextTo(targetEntrant.getCoords())
       ? ActionResult.Success
       : ActionResult.OutOfRange;

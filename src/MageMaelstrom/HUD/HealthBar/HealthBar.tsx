@@ -8,7 +8,7 @@ export interface HealthBarProps {
 }
 
 export const HealthBar: React.FC<HealthBarProps> = ({ max, health, color }) => {
-  const displayHealth = Math.ceil(health);
+  const displayHealth = Math.max(0, Math.ceil(health));
 
   return (
     <div className={styles.healthBar}>
@@ -25,7 +25,10 @@ export const HealthBar: React.FC<HealthBarProps> = ({ max, health, color }) => {
       </div>
       <div
         className={styles.filledHealthBar}
-        style={{ width: (health / max) * 100 + "%", backgroundColor: color }}
+        style={{
+          width: (displayHealth / max) * 100 + "%",
+          backgroundColor: color,
+        }}
       >
         <div
           style={{

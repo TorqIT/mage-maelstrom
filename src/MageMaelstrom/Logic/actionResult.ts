@@ -6,4 +6,5 @@ export enum ActionResult {
 
   OutOfRange,
   CombatantNotFound,
+  TargetIsDead,
 }

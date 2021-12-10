@@ -64,6 +64,10 @@ export class Entrant {
     return this.combatant.getDamage();
   }
 
+  public isDead() {
+    return this.health.value <= 0;
+  }
+
   public act(...params: ActParameters) {
     return this.combatant.act(...params);
   }

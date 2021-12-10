@@ -44,7 +44,11 @@ export const Arena: React.FC<ArenaProps> = ({}) => {
 function findOccupant(teams: ReadonlyActiveTeam[], x: number, y: number) {
   for (const team of teams) {
     for (const entrant of team.entrants) {
-      if (entrant.status.coords.x === x && entrant.status.coords.y === y) {
+      if (
+        entrant.status.coords.x === x &&
+        entrant.status.coords.y === y &&
+        entrant.status.health.value > 0
+      ) {
         return { combatant: entrant.combatant, team: team };
       }
     }
