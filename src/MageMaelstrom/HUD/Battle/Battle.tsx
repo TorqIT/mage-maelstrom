@@ -15,6 +15,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
     tickUntilNextAction,
     currentTick,
     toggleLooping,
+    isLooping,
   } = useGameManager();
 
   if (!leftTeam || !rightTeam) {
@@ -22,26 +23,26 @@ export const Battle: React.FC<BattleProps> = ({}) => {
   }
 
   return (
-    <div>
+    <div style={{ padding: "0px 100px" }}>
       <Stack alignment="middle">
-        <Stack.Item>
-          <div
-            className="mageMaelstromTitle"
-            style={{ padding: "30px 0px", textAlign: "center" }}
-          >
-            Mage Maelstrom
-          </div>
-        </Stack.Item>
+        <div
+          className="mageMaelstromTitle"
+          style={{ padding: "30px 0px", textAlign: "center" }}
+        >
+          Mage Maelstrom
+        </div>
         <Stack.Item>
           <Stack gap={20} alignment="middle">
             <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
             <NiceButton onClick={tickUntilNextAction}>Next Action</NiceButton>
-            <NiceButton onClick={toggleLooping}>Toggle Looping</NiceButton>
+            <NiceButton pressed={isLooping} onClick={toggleLooping}>
+              {isLooping ? "Start " : "Stop "} Looping
+            </NiceButton>
           </Stack>
         </Stack.Item>
       </Stack>
 
-      <Stack alignment="middle" stretch>
+      <Stack stretch>
         <TeamDisplay team={leftTeam} />
         <Arena />
         <TeamDisplay team={rightTeam} />

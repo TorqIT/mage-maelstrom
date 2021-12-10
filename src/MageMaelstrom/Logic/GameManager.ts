@@ -105,6 +105,8 @@ export class GameManager {
       if (this.tick(false)) {
         ticked = true;
       }
+
+      tickCounter++;
     }
 
     this.onChange && this.onChange();
@@ -258,5 +260,25 @@ export class GameManager {
     }
 
     return this.leftTeam.entrants.concat(this.rightTeam.entrants);
+  }
+
+  public getVictor() {
+    if (!this.leftTeam || !this.rightTeam) {
+      return undefined;
+    }
+
+    if (this.leftTeam?.entrants.every((e) => e.isDead())) {
+      if (this.rightTeam?.entrants.every((e) => e.isDead())) {
+        return null;
+      }
+
+      return this.toReadonlyActiveTeam(this.rightTeam);
+    }
+
+    if (this.rightTeam?.entrants.every((e) => e.isDead())) {
+      return this.toReadonlyActiveTeam(this.leftTeam);
+    }
+
+    return undefined;
   }
 }

@@ -9,6 +9,7 @@ export function useManagerInstance(specs: GameSpecs) {
   const [leftTeam, setLeftTeam] = useState<ReadonlyActiveTeam>();
   const [rightTeam, setRightTeam] = useState<ReadonlyActiveTeam>();
   const [currentTick, setCurrentTick] = useState<number>();
+  const [victor, setVictor] = useState<ReadonlyActiveTeam | null>();
 
   useEffect(() => {
     setGameManager(new GameManager(specs));
@@ -16,6 +17,7 @@ export function useManagerInstance(specs: GameSpecs) {
     setLeftTeam(undefined);
     setRightTeam(undefined);
     setCurrentTick(-1);
+    setVictor(undefined);
   }, [specs]);
 
   useEffect(() => {
@@ -23,10 +25,11 @@ export function useManagerInstance(specs: GameSpecs) {
       setLeftTeam(gameManager.getLeftTeam());
       setRightTeam(gameManager.getRightTeam());
       setCurrentTick(gameManager.getCurrentTick());
+      setVictor(gameManager.getVictor());
     });
 
     return () => gameManager?.clearOnChange();
   }, [gameManager]);
 
-  return { gameManager, leftTeam, rightTeam, currentTick };
+  return { gameManager, leftTeam, rightTeam, currentTick, victor };
 }

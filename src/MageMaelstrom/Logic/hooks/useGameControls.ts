@@ -2,7 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { CombatantSubclass, IdentifiedTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
 
-export function useGameControls(gameManager?: GameManager) {
+export function useGameControls(
+  gameManager: GameManager | undefined,
+  hasVictor: boolean
+) {
   const startGame = useCallback(
     (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => {
       gameManager?.startGame(leftTeam, rightTeam);
@@ -19,6 +22,12 @@ export function useGameControls(gameManager?: GameManager) {
   }, [gameManager]);
 
   const [isLooping, setLooping] = useState(false);
+
+  useEffect(() => {
+    if (hasVictor) {
+      setLooping(false);
+    }
+  }, [hasVictor]);
 
   useEffect(() => {
     if (!isLooping) {
