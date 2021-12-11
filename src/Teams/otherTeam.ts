@@ -6,7 +6,6 @@ import {
 } from "../MageMaelstrom/Combatant";
 import { Action, actions } from "../MageMaelstrom/Combatant/actions";
 import { Helpers } from "../MageMaelstrom/Logic";
-import { GoLeft } from "./goLeft";
 
 class WowDude extends Combatant {
   private dirPriority: MovementDirection[] = ["left", "up", "right", "down"];
@@ -46,7 +45,7 @@ class WowDude extends Combatant {
 const otherTeam: Team = {
   name: "Very Cool Team",
   color: "#00c",
-  CombatantSubclasses: [WowDude, GoLeft],
+  CombatantSubclasses: [WowDude, WowDude],
 };
 
 export { otherTeam };

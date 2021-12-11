@@ -39,7 +39,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
               <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
               <NiceButton onClick={tickUntilNextAction}>Next Action</NiceButton>
               <NiceButton pressed={isLooping} onClick={toggleLooping}>
-                {isLooping ? "Start " : "Stop "} Looping
+                {isLooping ? "Stop " : "Start "} Looping
               </NiceButton>
             </Stack>
 

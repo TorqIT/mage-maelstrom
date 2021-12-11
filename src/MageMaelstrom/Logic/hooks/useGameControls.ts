@@ -14,12 +14,16 @@ export function useGameControls(
   );
 
   const tick = useCallback(() => {
-    gameManager?.tick(true);
-  }, [gameManager]);
+    if (!hasVictor) {
+      gameManager?.tick(true);
+    }
+  }, [gameManager, hasVictor]);
 
   const tickUntilNextAction = useCallback(() => {
-    gameManager?.tickUntilNextAction();
-  }, [gameManager]);
+    if (!hasVictor) {
+      gameManager?.tickUntilNextAction();
+    }
+  }, [gameManager, hasVictor]);
 
   const [isLooping, setLooping] = useState(false);
 
@@ -42,8 +46,10 @@ export function useGameControls(
   }, [isLooping, tickUntilNextAction]);
 
   const toggleLooping = useCallback(() => {
-    setLooping(!isLooping);
-  }, [isLooping]);
+    if (!hasVictor) {
+      setLooping(!isLooping);
+    }
+  }, [hasVictor, isLooping]);
 
   const buildCombatant = useCallback(
     (SubCombatant: CombatantSubclass) =>

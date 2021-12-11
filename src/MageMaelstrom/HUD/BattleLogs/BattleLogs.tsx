@@ -21,7 +21,11 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
       {logs.map((l) => {
         const LogDisplay = getLogRenderer(l);
 
-        return <LogDisplay log={l} />;
+        return (
+          <div className={styles.log}>
+            <LogDisplay log={l} />
+          </div>
+        );
       })}
     </div>
   );

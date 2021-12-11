@@ -4,12 +4,25 @@
 
   min-width: 400px;
   height: calc(100vh - 200px);
+  background-color: rgb(11, 11, 17);
+  overflow-y: auto;
+}
+
+.log {
+  --upper-left-border: rgb(143, 143, 183);
+  --lower-right-border: rgb(33, 33, 53);
+
+  padding: 10px;
+  background-color: rgb(46, 46, 70);
+}
+
+.log,
+.wrapper {
   border-width: 3px;
   border-style: solid;
-  background-color: rgb(11, 11, 17);
+
   border-left-color: var(--upper-left-border);
   border-top-color: var(--upper-left-border);
   border-right-color: var(--lower-right-border);
   border-bottom-color: var(--lower-right-border);
-  overflow-y: auto;
 }

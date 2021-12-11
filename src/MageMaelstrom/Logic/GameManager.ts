@@ -30,9 +30,12 @@ export class GameManager {
 
   private logs: BattleLogEvent[];
 
+  private battleIsOver: boolean;
+
   public constructor(specs: GameSpecs) {
     this.specs = specs;
     this.logs = [];
+    this.battleIsOver = false;
   }
 
   public setOnChange(onChange: OnChangeListener) {
@@ -104,6 +107,10 @@ export class GameManager {
   }
 
   public tickUntilNextAction() {
+    if (this.battleIsOver) {
+      return;
+    }
+
     let tickCounter = 0;
     let ticked = false;
 
@@ -119,8 +126,8 @@ export class GameManager {
   }
 
   public tick(triggerChangeEvents: boolean) {
-    if (!this.leftTeam || !this.rightTeam) {
-      return;
+    if (!this.leftTeam || !this.rightTeam || this.battleIsOver) {
+      return false;
     }
 
     this.currentTick++;
@@ -141,6 +148,8 @@ export class GameManager {
         type: LogType.Victory,
         team: potentialVictor,
       });
+
+      this.battleIsOver = true;
     }
 
     if (triggerChangeEvents) {
