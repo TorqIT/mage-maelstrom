@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useGameManager } from "../../Logic";
 import { BattleLogEvent, LogType } from "../../Logic/logs";
 import { AttackLogDisplay } from "./AttackLogDisplay";
@@ -9,6 +9,12 @@ export interface BattleLogsProps {}
 
 export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
   const { logs } = useGameManager();
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView();
+  }, [logs]);
 
   const renderLog = (log: BattleLogEvent) => {
     switch (log.type) {
@@ -26,6 +32,7 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
           {renderLog(l)}
         </div>
       ))}
+      <div ref={scrollRef}></div>
     </div>
   );
 };

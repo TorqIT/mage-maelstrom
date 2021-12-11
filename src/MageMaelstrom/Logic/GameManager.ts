@@ -99,7 +99,7 @@ export class GameManager {
   }
 
   public getLogs() {
-    return this.logs;
+    return this.logs.slice();
   }
 
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
