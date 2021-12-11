@@ -11,6 +11,7 @@ import {
   MovementAction,
   ReadonlyActiveTeam,
 } from "../Combatant";
+import { nextId } from "../Common";
 import { ActionResult } from "./actionResult";
 import { GameSpecs } from "./gameSpecs";
 import { buildHelpers } from "./helpers";
@@ -31,8 +32,6 @@ export class GameManager {
   private logs: BattleLogEvent[];
 
   private battleIsOver: boolean;
-
-  private idCounter = 0;
 
   public constructor(specs: GameSpecs) {
     this.specs = specs;
@@ -156,7 +155,7 @@ export class GameManager {
 
     if (potentialVictor !== undefined) {
       this.logs.push({
-        id: this.idCounter++,
+        id: nextId(),
         type: LogType.Victory,
         teamId: potentialVictor !== null ? potentialVictor.id : null,
       });
@@ -284,14 +283,7 @@ export class GameManager {
     }
 
     if (targetEntrant) {
-      this.logs.push({
-        id: this.idCounter++,
-        type: LogType.Attack,
-        attacker: entrant.getId(),
-        target: targetEntrant.getId(),
-      });
-
-      targetEntrant.takeDamage(entrant.getDamage());
+      this.logs.push(entrant.attack(targetEntrant));
     }
   }
 

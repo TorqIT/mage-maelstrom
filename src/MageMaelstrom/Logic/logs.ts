@@ -16,6 +16,8 @@ export interface AttackLog extends BaseLog {
   type: LogType.Attack;
   attacker: number;
   target: number;
+  damage: number;
+  remainingHealth: number;
 }
 
 export type BattleLogEvent = VictoryLog | AttackLog;

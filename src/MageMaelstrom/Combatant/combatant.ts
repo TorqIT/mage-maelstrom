@@ -1,3 +1,4 @@
+import { nextId } from "../Common";
 import { GameSpecs, Helpers } from "../Logic";
 import { Action } from "./actions";
 import { ReadonlyEntrantStatus } from "./entrant";
@@ -15,8 +16,6 @@ export type ActParameters = Parameters<
 >;
 
 export abstract class Combatant {
-  private static idCounter = 0;
-
   private def: CombatantDefinition;
   private gameSpecs: GameSpecs;
   private id: number;
@@ -24,7 +23,7 @@ export abstract class Combatant {
   public constructor(specs: GameSpecs) {
     this.def = this.define();
     this.gameSpecs = specs;
-    this.id = Combatant.idCounter++;
+    this.id = nextId();
   }
 
   public abstract define(): CombatantDefinition;

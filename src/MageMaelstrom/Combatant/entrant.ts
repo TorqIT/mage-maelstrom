@@ -1,5 +1,7 @@
 import { Team } from ".";
 import { Coordinate, ReadonlyCoordinate } from "../Arena";
+import { nextId } from "../Common";
+import { AttackLog, LogType } from "../Logic/logs";
 import { ActParameters, Combatant, CombatantDefinition } from "./combatant";
 import { ActiveTeam } from "./team";
 
@@ -25,8 +27,6 @@ export interface ReadonlyEntrant {
 }
 
 export class Entrant {
-  private static idCounter = 0;
-
   private combatant: Combatant;
 
   private color: string;
@@ -50,7 +50,7 @@ export class Entrant {
     this.color = color;
     this.flipped = flipped;
 
-    this.id = Entrant.idCounter++;
+    this.id = nextId();
     this.health = {
       max: combatant.getMaxHealth(),
       value: combatant.getMaxHealth(),
@@ -91,8 +91,8 @@ export class Entrant {
     return this.ticksUntilNextTurn <= 0;
   }
 
-  public getDamage() {
-    return this.combatant.getDamage();
+  public getHealth() {
+    return this.health.value;
   }
 
   public isDead() {
@@ -102,6 +102,21 @@ export class Entrant {
   public act(...params: ActParameters) {
     this.ticksUntilNextTurn += this.combatant.getTurnDelay();
     return this.combatant.act(...params);
+  }
+
+  public attack(target: Entrant): AttackLog {
+    const damage = this.combatant.getDamage();
+
+    target.takeDamage(damage);
+
+    return {
+      id: nextId(),
+      type: LogType.Attack,
+      target: target.getId(),
+      attacker: this.getId(),
+      damage: damage,
+      remainingHealth: target.getHealth(),
+    };
   }
 
   public takeDamage(amount: number) {

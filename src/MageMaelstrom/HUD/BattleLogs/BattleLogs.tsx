@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { useGameManager } from "../../Logic";
 import { BattleLogEvent, LogType } from "../../Logic/logs";
-import { AttackLogDisplay } from "./AttackLogDisplay";
+import { AttackLogDisplay } from "./Logs/AttackLogDisplay";
 import styles from "./BattleLogs.module.css";
-import { VictoryLogDisplay } from "./VictoryLogDisplay";
+import { VictoryLogDisplay } from "./Logs/VictoryLogDisplay";
 
 export interface BattleLogsProps {}
 

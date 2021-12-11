@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import { Stack } from "../../Common";
-import { useGameManager } from "../../Logic";
-import { VictoryLog } from "../../Logic/logs";
-import { CombatantIcon } from "../CombatantIcon";
+import { CombatantIcon } from "../..";
+import { Stack } from "../../../Common";
+import { useGameManager } from "../../../Logic";
+import { VictoryLog } from "../../../Logic/logs";
 import styles from "./LogDisplay.module.css";
 
 export interface VictoryLogDisplayProps {
