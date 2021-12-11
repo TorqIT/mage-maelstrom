@@ -10,7 +10,7 @@ function App() {
         rules: {
           maxCombatants: 2,
           minStat: 5,
-          maxTotalStats: 50,
+          maxTotalStats: 40,
         },
         arena: {
           width: 16,

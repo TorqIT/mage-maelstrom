@@ -3,12 +3,30 @@ import styles from "./HealthBar.module.css";
 
 export interface HealthBarProps {
   max: number;
-  health: number;
+  value: number;
+  regen: number;
   color?: string;
 }
 
-export const HealthBar: React.FC<HealthBarProps> = ({ max, health, color }) => {
-  const displayHealth = Math.max(0, Math.ceil(health));
+export const HealthBar: React.FC<HealthBarProps> = ({
+  max,
+  value,
+  color,
+  regen,
+}) => {
+  const clampedValue = Math.max(0, value);
+  const displayValue = Math.ceil(clampedValue);
+
+  const renderNumbers = () => {
+    return (
+      <span>
+        {displayValue}
+        <span className={styles.tiny}>
+          /{max} (+{regen})
+        </span>
+      </span>
+    );
+  };
 
   return (
     <div className={styles.healthBar}>
@@ -20,13 +38,12 @@ export const HealthBar: React.FC<HealthBarProps> = ({ max, health, color }) => {
           color: "white",
         }}
       >
-        {displayHealth}
-        <span className={styles.tiny}>/{max}</span>
+        {renderNumbers()}
       </div>
       <div
         className={styles.filledHealthBar}
         style={{
-          width: (displayHealth / max) * 100 + "%",
+          width: (clampedValue / max) * 100 + "%",
           backgroundColor: color,
         }}
       >
@@ -38,8 +55,7 @@ export const HealthBar: React.FC<HealthBarProps> = ({ max, health, color }) => {
             color: "black",
           }}
         >
-          {displayHealth}
-          <span className={styles.tiny}>/{max}</span>
+          {renderNumbers()}
         </div>
       </div>
     </div>

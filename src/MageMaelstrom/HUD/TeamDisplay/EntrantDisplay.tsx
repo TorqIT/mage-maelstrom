@@ -29,16 +29,9 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
         <div className={styles.name}>{entrant.combatant.name}</div>
       </Stack>
       <div style={{ marginTop: 10 }}>
-        <HealthBar
-          health={entrant.status.health.value}
-          max={entrant.status.health.max}
-        />
+        <HealthBar {...entrant.status.health} />
         <div style={{ marginTop: 5 }}>
-          <HealthBar
-            health={entrant.status.mana.value}
-            max={entrant.status.mana.max}
-            color={"rgb(100, 79, 255)"}
-          />
+          <HealthBar {...entrant.status.mana} color={"rgb(100, 79, 255)"} />
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import { ActiveTeam } from "./team";
 interface Meter {
   value: number;
   max: number;
+  regen: number;
 }
 
 export interface ReadonlyEntrantStatus {
@@ -53,11 +54,13 @@ export class Entrant {
     this.health = {
       max: combatant.getMaxHealth(),
       value: combatant.getMaxHealth(),
+      regen: combatant.getHealthRegen(),
     };
 
     this.mana = {
       max: combatant.getMaxMana(),
       value: combatant.getMaxMana(),
+      regen: combatant.getManaRegen(),
     };
 
     this.ticksUntilNextTurn = Math.ceil(
@@ -76,14 +79,12 @@ export class Entrant {
   public update() {
     this.ticksUntilNextTurn--;
 
-    this.health.value = Math.min(
-      this.health.max,
-      this.health.value + this.combatant.getHealthRegen() / 100
-    );
-    this.mana.value = Math.min(
-      this.mana.max,
-      this.mana.value + this.combatant.getManaRegen() / 100
-    );
+    this.updateMeter(this.health);
+    this.updateMeter(this.mana);
+  }
+
+  private updateMeter(meter: Meter) {
+    meter.value = Math.min(meter.max, meter.value + meter.regen / 100);
   }
 
   public isMyTurn() {
