@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Stack } from "../../../Common";
+import { Icon, icons } from "../../../Common/Icon";
 import { useGameManager } from "../../../Logic";
 import { AttackLog } from "../../../Logic/logs";
 import { CombatantIcon } from "../../CombatantIcon";
@@ -32,15 +33,15 @@ export const AttackLogDisplay: React.FC<AttackLogDisplayProps> = ({ log }) => {
         teamColor={attacker.color}
         size={32}
       />
-      attacked
+      <Icon icon={icons.attack} size={28} />
+      <span className={styles.tiny}>(-{log.damage})</span>
       <CombatantIcon
         combatant={target.combatant}
         teamColor={target.color}
         horizontalFlip={true}
         size={32}
       />
-      <span>{log.damage} ⚔</span>
-      <span className={styles.tiny}>({Math.ceil(log.remainingHealth)})</span>
+      <span>{Math.max(0, Math.ceil(log.remainingHealth))} </span>
     </Stack>
   );
 };
