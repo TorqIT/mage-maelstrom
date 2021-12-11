@@ -139,7 +139,9 @@ export class GameManager {
 
     this.currentTick++;
 
-    this.getEntrantArray().forEach((e) => e.update());
+    this.getEntrantArray()
+      .filter((e) => !e.isDead())
+      .forEach((e) => e.update());
 
     const actionsToPerform = this.performTeamActions(
       this.leftTeam,

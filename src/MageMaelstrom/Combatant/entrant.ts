@@ -75,6 +75,15 @@ export class Entrant {
 
   public update() {
     this.ticksUntilNextTurn--;
+
+    this.health.value = Math.min(
+      this.health.max,
+      this.health.value + this.combatant.getHealthRegen() / 100
+    );
+    this.mana.value = Math.min(
+      this.mana.max,
+      this.mana.value + this.combatant.getManaRegen() / 100
+    );
   }
 
   public isMyTurn() {
