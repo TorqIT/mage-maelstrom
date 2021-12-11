@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Stack } from "../../Common";
+import { useGameManager } from "../../Logic";
 import { VictoryLog } from "../../Logic/logs";
 import { CombatantIcon } from "../CombatantIcon";
 import styles from "./LogDisplay.module.css";
@@ -11,18 +12,23 @@ export interface VictoryLogDisplayProps {
 export const VictoryLogDisplay: React.FC<VictoryLogDisplayProps> = ({
   log,
 }) => {
-  if (!log.team) {
+  const { teams } = useGameManager();
+
+  const team = useMemo(
+    () => teams.find((t) => t.id === log.teamId),
+    [log.teamId, teams]
+  );
+
+  if (!team) {
     return <div className={styles.victoryLabel}>DRAW GAME</div>;
   }
-
-  const team = log.team;
 
   return (
     <Stack direction="vertical" alignment="middle" gap={10}>
       <div className={styles.victoryLabel}>Victory</div>
-      <div className={styles.teamTitle}>{log.team?.name}</div>
+      <div className={styles.teamTitle}>{team.name}</div>
       <Stack gap={20}>
-        {log.team?.entrants.map((e) => (
+        {team.entrants.map((e) => (
           <div className={styles.icon} key={e.status.id}>
             <CombatantIcon
               combatant={e.combatant}

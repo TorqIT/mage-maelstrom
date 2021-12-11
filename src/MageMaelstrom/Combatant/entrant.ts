@@ -1,5 +1,7 @@
+import { Team } from ".";
 import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { ActParameters, Combatant, CombatantDefinition } from "./combatant";
+import { ActiveTeam } from "./team";
 
 interface Meter {
   value: number;
@@ -17,6 +19,8 @@ export interface ReadonlyEntrantStatus {
 export interface ReadonlyEntrant {
   combatant: CombatantDefinition;
   status: ReadonlyEntrantStatus;
+  color: string;
+  flipped: boolean;
 }
 
 export class Entrant {
@@ -24,15 +28,26 @@ export class Entrant {
 
   private combatant: Combatant;
 
+  private color: string;
+  private flipped: boolean;
+
   private id: number;
   private coords: Coordinate;
   private health: Meter;
   private mana: Meter;
   private nextTurn: number;
 
-  public constructor(combatant: Combatant, coords: Coordinate) {
+  public constructor(
+    combatant: Combatant,
+    color: string,
+    flipped: boolean,
+    coords: Coordinate
+  ) {
     this.combatant = combatant;
     this.coords = coords;
+
+    this.color = color;
+    this.flipped = flipped;
 
     this.id = Entrant.idCounter++;
     this.health = {
@@ -84,6 +99,8 @@ export class Entrant {
     return {
       combatant: this.combatant.getDef(),
       status: this.getStatus(),
+      color: this.color,
+      flipped: this.flipped,
     };
   }
 

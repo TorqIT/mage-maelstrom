@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ReadonlyActiveTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
 import { GameSpecs } from "../gameSpecs";
@@ -12,6 +12,18 @@ export function useManagerInstance(specs: GameSpecs) {
   const [currentTick, setCurrentTick] = useState<number>();
   const [victor, setVictor] = useState<ReadonlyActiveTeam | null>();
   const [logs, setLogs] = useState<BattleLogEvent[]>([]);
+
+  const teams = useMemo(
+    () => (leftTeam && rightTeam ? [leftTeam, rightTeam] : []),
+    [leftTeam, rightTeam]
+  );
+  const entrants = useMemo(
+    () =>
+      leftTeam && rightTeam
+        ? [leftTeam?.entrants, rightTeam?.entrants].flat()
+        : [],
+    [leftTeam, rightTeam]
+  );
 
   const doFullReset = useCallback(() => {
     setGameManager(new GameManager(specs));
@@ -47,5 +59,7 @@ export function useManagerInstance(specs: GameSpecs) {
     victor,
     logs,
     doFullReset,
+    teams,
+    entrants,
   };
 }

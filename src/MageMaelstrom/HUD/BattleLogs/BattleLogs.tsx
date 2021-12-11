@@ -1,6 +1,7 @@
 import React from "react";
 import { useGameManager } from "../../Logic";
 import { BattleLogEvent, LogType } from "../../Logic/logs";
+import { AttackLogDisplay } from "./AttackLogDisplay";
 import styles from "./BattleLogs.module.css";
 import { VictoryLogDisplay } from "./VictoryLogDisplay";
 
@@ -9,24 +10,22 @@ export interface BattleLogsProps {}
 export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
   const { logs } = useGameManager();
 
-  const getLogRenderer = (log: BattleLogEvent) => {
+  const renderLog = (log: BattleLogEvent) => {
     switch (log.type) {
       case LogType.Victory:
-        return VictoryLogDisplay;
+        return <VictoryLogDisplay log={log} />;
+      case LogType.Attack:
+        return <AttackLogDisplay log={log} />;
     }
   };
 
   return (
     <div className={styles.wrapper}>
-      {logs.map((l) => {
-        const LogDisplay = getLogRenderer(l);
-
-        return (
-          <div className={styles.log}>
-            <LogDisplay log={l} />
-          </div>
-        );
-      })}
+      {logs.map((l) => (
+        <div key={l.id} className={styles.log}>
+          {renderLog(l)}
+        </div>
+      ))}
     </div>
   );
 };

@@ -1,17 +1,11 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext } from "react";
 import {
   Combatant,
   CombatantSubclass,
   IdentifiedTeam,
   ReadonlyActiveTeam,
+  ReadonlyEntrant,
 } from "../Combatant";
-import { GameManager } from "./GameManager";
 import { GameSpecs } from "./gameSpecs";
 import { useGameControls } from "./hooks/useGameControls";
 import { useManagerInstance } from "./hooks/useManagerInstance";
@@ -20,6 +14,8 @@ import { BattleLogEvent } from "./logs";
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ReadonlyActiveTeam;
   rightTeam?: ReadonlyActiveTeam;
+  teams: ReadonlyActiveTeam[];
+  entrants: ReadonlyEntrant[];
   currentTick?: number;
   isLooping: boolean;
   logs: BattleLogEvent[];
@@ -48,6 +44,8 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     currentTick,
     victor,
     logs,
+    teams,
+    entrants,
     doFullReset,
   } = useManagerInstance(specs);
   const {
@@ -74,6 +72,8 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         toggleLooping,
         buildCombatant,
         doFullReset,
+        teams,
+        entrants,
       }}
     >
       {children}

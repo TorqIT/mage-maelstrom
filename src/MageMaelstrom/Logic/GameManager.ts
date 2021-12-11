@@ -32,6 +32,8 @@ export class GameManager {
 
   private battleIsOver: boolean;
 
+  private idCounter = 0;
+
   public constructor(specs: GameSpecs) {
     this.specs = specs;
     this.logs = [];
@@ -69,7 +71,12 @@ export class GameManager {
       flip: isRight,
       entrants: team.CombatantSubclasses.map(
         (SubCombatant) =>
-          new Entrant(new SubCombatant(this.specs), this.generateCoord())
+          new Entrant(
+            new SubCombatant(this.specs),
+            team.color,
+            isRight,
+            this.generateCoord()
+          )
       ),
     };
   }
@@ -145,8 +152,9 @@ export class GameManager {
 
     if (potentialVictor !== undefined) {
       this.logs.push({
+        id: this.idCounter++,
         type: LogType.Victory,
-        team: potentialVictor,
+        teamId: potentialVictor !== null ? potentialVictor.id : null,
       });
 
       this.battleIsOver = true;
@@ -274,6 +282,13 @@ export class GameManager {
     }
 
     if (targetEntrant) {
+      this.logs.push({
+        id: this.idCounter++,
+        type: LogType.Attack,
+        attacker: entrant.getId(),
+        target: targetEntrant.getId(),
+      });
+
       targetEntrant.takeDamage(entrant.getDamage());
     }
   }
