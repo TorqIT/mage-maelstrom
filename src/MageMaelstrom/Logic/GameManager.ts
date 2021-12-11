@@ -53,7 +53,7 @@ export class GameManager {
   }
 
   public startGame(left: IdentifiedTeam, right: IdentifiedTeam) {
-    this.currentTick = -1;
+    this.currentTick = 0;
 
     this.leftTeam = this.buildActiveTeam(left, false);
     this.rightTeam = this.buildActiveTeam(right, true);
@@ -139,6 +139,8 @@ export class GameManager {
 
     this.currentTick++;
 
+    this.getEntrantArray().forEach((e) => e.update());
+
     const actionsToPerform = this.performTeamActions(
       this.leftTeam,
       this.rightTeam
@@ -169,7 +171,7 @@ export class GameManager {
 
   private performTeamActions(team: ActiveTeam, enemyTeam: ActiveTeam) {
     return team.entrants
-      .filter((e) => e.getNextTurn() === this.currentTick && !e.isDead())
+      .filter((e) => e.isMyTurn() && !e.isDead())
       .map((e) => ({
         entrant: e,
         action: e.act(
@@ -182,8 +184,6 @@ export class GameManager {
   }
 
   private tryPerformAction(entrant: Entrant, action: Action) {
-    entrant.updateNextTurn();
-
     if (this.getActionResult(entrant, action) === ActionResult.Success) {
       this.performAction(entrant, action);
 

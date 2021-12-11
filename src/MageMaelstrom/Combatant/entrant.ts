@@ -13,7 +13,7 @@ export interface ReadonlyEntrantStatus {
   health: Meter;
   mana: Meter;
   coords: ReadonlyCoordinate;
-  nextTurn: number;
+  ticksUntilNextTurn: number;
 }
 
 export interface ReadonlyEntrant {
@@ -35,7 +35,7 @@ export class Entrant {
   private coords: Coordinate;
   private health: Meter;
   private mana: Meter;
-  private nextTurn: number;
+  private ticksUntilNextTurn: number;
 
   public constructor(
     combatant: Combatant,
@@ -60,7 +60,9 @@ export class Entrant {
       value: combatant.getMaxMana(),
     };
 
-    this.nextTurn = combatant.getTurnDelay();
+    this.ticksUntilNextTurn = Math.ceil(
+      Math.random() * combatant.getTurnDelay()
+    );
   }
 
   public getId() {
@@ -71,8 +73,12 @@ export class Entrant {
     return this.coords;
   }
 
-  public getNextTurn() {
-    return this.nextTurn;
+  public update() {
+    this.ticksUntilNextTurn--;
+  }
+
+  public isMyTurn() {
+    return this.ticksUntilNextTurn <= 0;
   }
 
   public getDamage() {
@@ -84,11 +90,8 @@ export class Entrant {
   }
 
   public act(...params: ActParameters) {
+    this.ticksUntilNextTurn += this.combatant.getTurnDelay();
     return this.combatant.act(...params);
-  }
-
-  public updateNextTurn() {
-    this.nextTurn += this.combatant.getTurnDelay();
   }
 
   public takeDamage(amount: number) {
@@ -109,7 +112,7 @@ export class Entrant {
       id: this.id,
       health: { ...this.health },
       mana: { ...this.mana },
-      nextTurn: this.nextTurn,
+      ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: this.coords.toReadonly(),
     };
   }
