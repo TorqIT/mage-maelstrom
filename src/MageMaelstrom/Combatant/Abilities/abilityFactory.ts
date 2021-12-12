@@ -1,4 +1,3 @@
-import { Entrant } from "../entrant";
 import { AbilityType } from "./ability";
 import { Fireball } from "./fireball";
 
@@ -8,10 +7,10 @@ export function isSpell(type: AbilityType) {
   return !passives.includes(type);
 }
 
-export function buildSpell(type: AbilityType, owner: Entrant) {
+export function buildSpell(type: AbilityType) {
   switch (type) {
     case AbilityType.Fireball:
-      return new Fireball(owner);
+      return new Fireball();
   }
 
   throw new Error("Given type is not a spell");

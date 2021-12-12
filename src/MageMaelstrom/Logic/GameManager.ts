@@ -1,15 +1,19 @@
 import arrayShuffle from "array-shuffle";
 import { Coordinate } from "../Arena";
 import {
+  AbilityType,
   Action,
   ActionType,
   ActiveTeam,
   AttackAction,
   CombatantSubclass,
   Entrant,
+  FullSpellTarget,
   IdentifiedTeam,
   MovementAction,
   ReadonlyActiveTeam,
+  SpellAction,
+  SpellTarget,
 } from "../Combatant";
 import { nextId } from "../Common";
 import { ActionResult } from "./actionResult";
@@ -194,12 +198,17 @@ export class GameManager {
     return false;
   }
 
+  //~*~*~*~*~*
+  //CAN PERFORM ACTION
+
   private getActionResult(entrant: Entrant, action: Action): ActionResult {
     switch (action.type) {
       case ActionType.Movement:
         return this.canPerformMovementAction(entrant, action);
       case ActionType.Attack:
         return this.canPerformAttackAction(entrant, action);
+      case ActionType.Spell:
+        return this.canPerformSpellAction(entrant, action);
     }
 
     return ActionResult.UnknownAction;
@@ -250,6 +259,19 @@ export class GameManager {
       : ActionResult.OutOfRange;
   }
 
+  private canPerformSpellAction(entrant: Entrant, action: SpellAction) {
+    const target = this.toFullSpellTarget(action.target);
+
+    if (target !== null) {
+      return entrant.canCast(action.spell, target);
+    } else {
+      return ActionResult.CombatantNotFound;
+    }
+  }
+
+  //~*~*~*~*~*
+  //PERFORM ACTION
+
   private performAction(entrant: Entrant, action: Action) {
     switch (action.type) {
       case ActionType.Movement:
@@ -257,6 +279,9 @@ export class GameManager {
         break;
       case ActionType.Attack:
         this.attack(entrant, action);
+        break;
+      case ActionType.Spell:
+        this.cast(entrant, action);
         break;
     }
   }
@@ -285,6 +310,24 @@ export class GameManager {
     if (targetEntrant) {
       this.logs.push(entrant.attack(targetEntrant));
     }
+  }
+
+  private cast(entrant: Entrant, action: SpellAction) {
+    const target = this.toFullSpellTarget(action.target);
+
+    if (target !== null) {
+      entrant.cast(action.spell, target);
+    }
+  }
+
+  //OTHER STUFF
+
+  private toFullSpellTarget(target: SpellTarget): FullSpellTarget | null {
+    if (typeof target === "number") {
+      return this.getEntrantArray().find((e) => e.getId() === target) ?? null;
+    }
+
+    return target;
   }
 
   private getEntrantArray() {

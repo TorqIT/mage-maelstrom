@@ -29,8 +29,14 @@ class WowDude extends Combatant {
   public act(
     helpers: Helpers,
     visibleEnemies: ReadonlyEntrantStatus[],
-    spells: SpellStatus[]
+    [fireball]: SpellStatus[]
   ): Action {
+    const spellAction = actions.cast(fireball.type, visibleEnemies[0].id);
+
+    if (helpers.canPerform(spellAction)) {
+      return spellAction;
+    }
+
     const attackableEnemy = visibleEnemies.find((s) =>
       helpers.canPerform(actions.attack(s.id))
     );

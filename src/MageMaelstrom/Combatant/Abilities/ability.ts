@@ -1,4 +1,4 @@
-import { Coordinate } from "../../Arena";
+import { Coordinate, MovementDirection } from "../../Arena";
 import { SpellLog } from "../../Logic";
 import { Entrant } from "../entrant";
 
@@ -7,13 +7,11 @@ export enum AbilityType {
   None,
 }
 
-export class Ability {
+export abstract class Ability {
   protected type: AbilityType;
-  protected owner: Entrant;
 
-  public constructor(type: AbilityType, owner: Entrant) {
+  public constructor(type: AbilityType) {
     this.type = type;
-    this.owner = owner;
   }
 
   public getType() {
@@ -28,7 +26,8 @@ export interface SpellStatus {
   range?: number;
 }
 
-type SpellTarget = Entrant | Coordinate | undefined;
+export type SpellTarget = number | MovementDirection | undefined;
+export type FullSpellTarget = Exclude<SpellTarget, number> | Entrant;
 
 export abstract class Spell extends Ability {
   private cooldown = 0;
@@ -40,17 +39,24 @@ export abstract class Spell extends Ability {
 
   public constructor(
     type: AbilityType,
-    owner: Entrant,
     cooldown: number,
     manaCost: number,
     range?: number
   ) {
-    super(type, owner);
+    super(type);
 
     this.cooldown = cooldown;
     this.cooldownTimer = 0;
     this.manaCost = manaCost;
     this.range = range;
+  }
+
+  public getManaCost() {
+    return this.manaCost;
+  }
+
+  public isOnCooldown() {
+    return this.cooldownTimer > 0;
   }
 
   public update() {
@@ -59,21 +65,21 @@ export abstract class Spell extends Ability {
     }
   }
 
-  public cast(target: SpellTarget) {
-    if (this.cooldownTimer > 0) {
+  public cast(caster: Entrant, target: FullSpellTarget) {
+    if (this.cooldownTimer > 0 || caster.getMana() < this.manaCost) {
       return;
     }
 
     this.cooldownTimer = this.cooldown;
+    caster.drainMana(this.manaCost);
 
-    return this.castSpell(target);
+    return this.castSpell(caster, target);
   }
 
-  public getManaCost() {
-    return this.manaCost;
-  }
-
-  public abstract castSpell(target: SpellTarget): SpellLog;
+  protected abstract castSpell(
+    caster: Entrant,
+    target: FullSpellTarget
+  ): SpellLog | undefined;
 
   public toReadonly(): SpellStatus {
     return {

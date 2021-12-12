@@ -24,7 +24,7 @@ export interface AttackLog extends BaseLog {
 export interface SpellLog extends BaseLog {
   type: LogType.Spell;
   attacker: number;
-  target: number;
+  target?: number;
   damage: number;
   remainingHealth: number;
   spellIcon: string;

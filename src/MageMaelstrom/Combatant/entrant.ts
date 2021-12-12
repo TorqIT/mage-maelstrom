@@ -1,8 +1,15 @@
 import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { nextId } from "../Common";
-import { Helpers } from "../Logic";
+import { ActionResult, Helpers } from "../Logic";
 import { AttackLog, LogType } from "../Logic/logs";
-import { buildSpell, isSpell, Spell } from "./Abilities";
+import {
+  AbilityType,
+  buildSpell,
+  FullSpellTarget,
+  isSpell,
+  Spell,
+  SpellTarget,
+} from "./Abilities";
 import { Combatant, CombatantDefinition } from "./combatant";
 
 interface Meter {
@@ -72,7 +79,7 @@ export class Entrant {
     this.spells = this.combatant
       .getAbilities()
       .filter((a) => isSpell(a))
-      .map((a) => buildSpell(a, this));
+      .map((a) => buildSpell(a));
   }
 
   public getId() {
@@ -88,6 +95,8 @@ export class Entrant {
 
     this.updateMeter(this.health);
     this.updateMeter(this.mana);
+
+    this.spells.forEach((s) => s.update());
   }
 
   private updateMeter(meter: Meter) {
@@ -100,6 +109,10 @@ export class Entrant {
 
   public getHealth() {
     return this.health.value;
+  }
+
+  public getMana() {
+    return this.mana.value;
   }
 
   public isDead() {
@@ -130,8 +143,40 @@ export class Entrant {
     };
   }
 
+  public canCast(spell: AbilityType, target: FullSpellTarget) {
+    const actualSpell = this.spells.find((s) => s.getType() === spell);
+
+    if (!actualSpell) {
+      return ActionResult.InvalidSpell;
+    }
+
+    if (actualSpell.isOnCooldown()) {
+      return ActionResult.OnCooldown;
+    }
+
+    if (this.mana.value < actualSpell.getManaCost()) {
+      return ActionResult.NotEnoughMana;
+    }
+
+    return ActionResult.Success;
+  }
+
+  public cast(spell: AbilityType, target: FullSpellTarget) {
+    const actualSpell = this.spells.find((s) => s.getType() === spell);
+
+    if (!actualSpell) {
+      return;
+    }
+
+    actualSpell.cast(this, target);
+  }
+
   public takeDamage(amount: number) {
     this.health.value -= amount;
+  }
+
+  public drainMana(amount: number) {
+    this.mana.value -= amount;
   }
 
   public toReadonly(): ReadonlyEntrant {

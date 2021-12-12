@@ -1,10 +1,15 @@
 export enum ActionResult {
-  Success,
-  OutOfArena,
-  TileOccupied,
-  UnknownAction,
+  Success = "Success",
+  OutOfArena = "OutOfArena",
+  TileOccupied = "TileOccupied",
+  UnknownAction = "UnknownAction",
 
-  OutOfRange,
-  CombatantNotFound,
-  TargetIsDead,
+  OutOfRange = "OutOfRange",
+  CombatantNotFound = "CombatantNotFound",
+  TargetIsDead = "TargetIsDead",
+
+  InvalidSpell = "InvalidSpell",
+  InvalidTarget = "InvalidTarget",
+  NotEnoughMana = "NotEnoughMana",
+  OnCooldown = "OnCooldown",
 }
