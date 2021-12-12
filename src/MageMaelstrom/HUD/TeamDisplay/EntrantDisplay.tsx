@@ -29,9 +29,13 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
         <div className={styles.name}>{entrant.combatant.name}</div>
       </Stack>
       <div style={{ marginTop: 10 }}>
-        <HealthBar {...entrant.status.health} />
+        <HealthBar {...entrant.status.health} roundTo="ceil" />
         <div style={{ marginTop: 5 }}>
-          <HealthBar {...entrant.status.mana} color={"rgb(100, 79, 255)"} />
+          <HealthBar
+            {...entrant.status.mana}
+            color={"rgb(100, 79, 255)"}
+            roundTo="floor"
+          />
         </div>
       </div>
     </div>

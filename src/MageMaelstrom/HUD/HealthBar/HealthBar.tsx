@@ -6,6 +6,7 @@ export interface HealthBarProps {
   value: number;
   regen: number;
   color?: string;
+  roundTo: "floor" | "ceil";
 }
 
 export const HealthBar: React.FC<HealthBarProps> = ({
@@ -13,9 +14,11 @@ export const HealthBar: React.FC<HealthBarProps> = ({
   value,
   color,
   regen,
+  roundTo,
 }) => {
   const clampedValue = Math.max(0, value);
-  const displayValue = Math.ceil(clampedValue);
+  const displayValue =
+    roundTo === "ceil" ? Math.ceil(clampedValue) : Math.floor(clampedValue);
 
   const renderNumbers = () => {
     return (

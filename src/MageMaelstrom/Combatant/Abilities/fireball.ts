@@ -6,7 +6,7 @@ import { AbilityType, FullSpellTarget, Spell } from "./ability";
 
 export class Fireball extends Spell {
   public constructor() {
-    super(AbilityType.Fireball, 1000, 20, 5);
+    super(AbilityType.Fireball, 300, 20, 5);
   }
 
   protected castSpell(
@@ -17,14 +17,14 @@ export class Fireball extends Spell {
       return;
     }
 
-    target.takeDamage(20);
+    target.takeDamage(30);
 
     return {
       id: nextId(),
       type: LogType.Spell,
       attacker: caster.getId(),
       target: target.getId(),
-      damage: 20,
+      damage: 30,
       remainingHealth: target.getHealth(),
       spellIcon: icons.fireball,
     };
