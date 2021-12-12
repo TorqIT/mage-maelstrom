@@ -1,5 +1,6 @@
 export enum LogType {
   Attack,
+  Spell,
   Victory,
 }
 
@@ -20,4 +21,13 @@ export interface AttackLog extends BaseLog {
   remainingHealth: number;
 }
 
-export type BattleLogEvent = VictoryLog | AttackLog;
+export interface SpellLog extends BaseLog {
+  type: LogType.Spell;
+  attacker: number;
+  target: number;
+  damage: number;
+  remainingHealth: number;
+  spellIcon: string;
+}
+
+export type BattleLogEvent = VictoryLog | AttackLog | SpellLog;

@@ -1,5 +1,6 @@
 import { nextId } from "../Common";
 import { GameSpecs, Helpers } from "../Logic";
+import { AbilityType, SpellStatus } from "./Abilities/ability";
 import { Action } from "./actions";
 import { ReadonlyEntrantStatus } from "./entrant";
 
@@ -9,11 +10,8 @@ export interface CombatantDefinition {
   strength: number;
   agility: number;
   intelligence: number;
+  abilities: AbilityType[];
 }
-
-export type ActParameters = Parameters<
-  (helpers: Helpers, visibleEnemies: ReadonlyEntrantStatus[]) => {}
->;
 
 export abstract class Combatant {
   private def: CombatantDefinition;
@@ -30,7 +28,11 @@ export abstract class Combatant {
 
   public abstract init(): void;
 
-  public abstract act(...params: ActParameters): Action;
+  public abstract act(
+    helpers: Helpers,
+    visibleEnemies: ReadonlyEntrantStatus[],
+    spells: SpellStatus[]
+  ): Action;
 
   public getStrength() {
     return this.def.strength;
@@ -40,6 +42,10 @@ export abstract class Combatant {
   }
   public getIntelligence() {
     return this.def.intelligence;
+  }
+
+  public getAbilities() {
+    return this.def.abilities;
   }
 
   public getDamage() {

@@ -1,9 +1,9 @@
-import { Team } from ".";
 import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { nextId } from "../Common";
+import { Helpers } from "../Logic";
 import { AttackLog, LogType } from "../Logic/logs";
-import { ActParameters, Combatant, CombatantDefinition } from "./combatant";
-import { ActiveTeam } from "./team";
+import { buildSpell, isSpell, Spell } from "./Abilities";
+import { Combatant, CombatantDefinition } from "./combatant";
 
 interface Meter {
   value: number;
@@ -38,6 +38,8 @@ export class Entrant {
   private mana: Meter;
   private ticksUntilNextTurn: number;
 
+  private spells: Spell[];
+
   public constructor(
     combatant: Combatant,
     color: string,
@@ -66,6 +68,11 @@ export class Entrant {
     this.ticksUntilNextTurn = Math.ceil(
       Math.random() * combatant.getTurnDelay()
     );
+
+    this.spells = this.combatant
+      .getAbilities()
+      .filter((a) => isSpell(a))
+      .map((a) => buildSpell(a, this));
   }
 
   public getId() {
@@ -99,9 +106,13 @@ export class Entrant {
     return this.health.value <= 0;
   }
 
-  public act(...params: ActParameters) {
+  public act(helpers: Helpers, visibleEnemies: ReadonlyEntrantStatus[]) {
     this.ticksUntilNextTurn += this.combatant.getTurnDelay();
-    return this.combatant.act(...params);
+    return this.combatant.act(
+      helpers,
+      visibleEnemies,
+      this.spells.map((s) => s.toReadonly())
+    );
   }
 
   public attack(target: Entrant): AttackLog {

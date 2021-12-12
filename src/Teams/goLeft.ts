@@ -16,6 +16,8 @@ export class GoLeft extends Combatant {
       strength: 30,
       agility: 5,
       intelligence: 5,
+
+      abilities: [],
     };
   }
   public init(): void {}
