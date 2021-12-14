@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { CombatantIcon } from "../..";
 import { Stack } from "../../../Common";
 import { useGameManager } from "../../../Logic";
-import { VictoryLog } from "../../../Logic/logs";
+import { VictoryLog } from "../../../Logging/logs";
 import styles from "./LogDisplay.module.css";
 
 export interface VictoryLogDisplayProps {

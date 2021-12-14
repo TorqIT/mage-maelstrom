@@ -9,7 +9,7 @@ import {
 import { GameSpecs } from "./gameSpecs";
 import { useGameControls } from "./hooks/useGameControls";
 import { useManagerInstance } from "./hooks/useManagerInstance";
-import { BattleLogEvent } from "./logs";
+import { BattleLogEvent } from "../Logging/logs";
 
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ReadonlyActiveTeam;
@@ -18,7 +18,6 @@ export interface GameManagerData extends GameManagerProviderProps {
   entrants: ReadonlyEntrant[];
   currentTick?: number;
   isLooping: boolean;
-  logs: BattleLogEvent[];
   buildCombatant: (SubCombatant: CombatantSubclass) => Combatant | undefined;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
   doFullReset: () => void;
@@ -43,7 +42,6 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     rightTeam,
     currentTick,
     victor,
-    logs,
     teams,
     entrants,
     doFullReset,
@@ -65,7 +63,6 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         startGame,
         specs,
         tick,
-        logs,
         isLooping,
         tickUntilNextAction,
         currentTick,

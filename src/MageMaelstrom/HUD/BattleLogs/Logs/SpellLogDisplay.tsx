@@ -2,15 +2,15 @@ import React, { useMemo } from "react";
 import { Stack } from "../../../Common";
 import { Icon, icons } from "../../../Common/Icon";
 import { useGameManager } from "../../../Logic";
-import { AttackLog } from "../../../Logging/logs";
+import { SpellLog } from "../../../Logging/logs";
 import { CombatantIcon } from "../../CombatantIcon";
 import styles from "./LogDisplay.module.css";
 
-export interface AttackLogDisplayProps {
-  log: AttackLog;
+export interface SpellLogDisplayProps {
+  log: SpellLog;
 }
 
-export const AttackLogDisplay: React.FC<AttackLogDisplayProps> = ({ log }) => {
+export const SpellLogDisplay: React.FC<SpellLogDisplayProps> = ({ log }) => {
   const { entrants } = useGameManager();
 
   const attacker = useMemo(
@@ -33,7 +33,7 @@ export const AttackLogDisplay: React.FC<AttackLogDisplayProps> = ({ log }) => {
         teamColor={attacker.color}
         size={32}
       />
-      <Icon icon={icons.attack} size={28} />
+      <Icon icon={log.spellIcon} size={28} />
       <span className={styles.tiny}>(-{log.damage})</span>
       <CombatantIcon
         combatant={target.combatant}

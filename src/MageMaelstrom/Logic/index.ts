@@ -3,4 +3,4 @@ export * from "./actionResult";
 export * from "./gameSpecs";
 export * from "./helpers";
 export * from "./validate";
-export * from "./logs";
+export * from "../Logging/logs";

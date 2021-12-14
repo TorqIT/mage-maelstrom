@@ -19,7 +19,8 @@ import { nextId } from "../Common";
 import { ActionResult } from "./actionResult";
 import { GameSpecs } from "./gameSpecs";
 import { buildHelpers } from "./helpers";
-import { BattleLogEvent, LogType } from "./logs";
+import { BattleLogEvent, LogType } from "../Logging/logs";
+import { loggingManager } from "../Logging";
 
 type OnChangeListener = () => void;
 
@@ -33,13 +34,10 @@ export class GameManager {
 
   private onChange?: OnChangeListener;
 
-  private logs: BattleLogEvent[];
-
   private battleIsOver: boolean;
 
   public constructor(specs: GameSpecs) {
     this.specs = specs;
-    this.logs = [];
     this.battleIsOver = false;
   }
 
@@ -61,7 +59,7 @@ export class GameManager {
     this.leftTeam = this.buildActiveTeam(left, false);
     this.rightTeam = this.buildActiveTeam(right, true);
 
-    this.logs = [];
+    loggingManager.clear();
 
     this.onChange && this.onChange();
   }
@@ -99,10 +97,6 @@ export class GameManager {
     return this.rightTeam
       ? this.toReadonlyActiveTeam(this.rightTeam)
       : undefined;
-  }
-
-  public getLogs() {
-    return this.logs.slice();
   }
 
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
@@ -158,9 +152,7 @@ export class GameManager {
     const potentialVictor = this.getVictor();
 
     if (potentialVictor !== undefined) {
-      this.logs.push({
-        id: nextId(),
-        type: LogType.Victory,
+      loggingManager.logVictory({
         teamId: potentialVictor !== null ? potentialVictor.id : null,
       });
 
@@ -308,7 +300,7 @@ export class GameManager {
     }
 
     if (targetEntrant) {
-      this.logs.push(entrant.attack(targetEntrant));
+      entrant.attack(targetEntrant);
     }
   }
 

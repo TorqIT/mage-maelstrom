@@ -1,6 +1,6 @@
-import { nextId } from "../../Common";
 import { icons } from "../../Common/Icon";
-import { LogType, SpellLog } from "../../Logic";
+import { loggingManager } from "../../Logging";
+import { SpellLog } from "../../Logic";
 import { Entrant } from "../entrant";
 import { AbilityType, FullSpellTarget, Spell } from "./ability";
 
@@ -19,14 +19,12 @@ export class Fireball extends Spell {
 
     target.takeDamage(30);
 
-    return {
-      id: nextId(),
-      type: LogType.Spell,
+    loggingManager.logSpell({
       attacker: caster.getId(),
       target: target.getId(),
       damage: 30,
       remainingHealth: target.getHealth(),
       spellIcon: icons.fireball,
-    };
+    });
   }
 }

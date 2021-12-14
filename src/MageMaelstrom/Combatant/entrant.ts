@@ -1,16 +1,15 @@
 import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { nextId } from "../Common";
 import { ActionResult, Helpers } from "../Logic";
-import { AttackLog, LogType } from "../Logic/logs";
 import {
   AbilityType,
   buildSpell,
   FullSpellTarget,
   isSpell,
   Spell,
-  SpellTarget,
 } from "./Abilities";
 import { Combatant, CombatantDefinition } from "./combatant";
+import { loggingManager } from "../Logging";
 
 interface Meter {
   value: number;
@@ -128,19 +127,17 @@ export class Entrant {
     );
   }
 
-  public attack(target: Entrant): AttackLog {
+  public attack(target: Entrant) {
     const damage = this.combatant.getDamage();
 
     target.takeDamage(damage);
 
-    return {
-      id: nextId(),
-      type: LogType.Attack,
+    loggingManager.logAttack({
       target: target.getId(),
       attacker: this.getId(),
       damage: damage,
       remainingHealth: target.getHealth(),
-    };
+    });
   }
 
   public canCast(spell: AbilityType, target: FullSpellTarget) {
