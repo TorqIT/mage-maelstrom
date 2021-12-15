@@ -1,12 +1,12 @@
-import { icons } from "../../Common/Icon";
-import { loggingManager } from "../../Logging";
-import { SpellLog } from "../../Logic";
-import { Entrant } from "../entrant";
-import { AbilityType, FullSpellTarget, Spell } from "./ability";
+import { icons } from "../../../Common/Icon";
+import { loggingManager } from "../../../Logging";
+import { SpellLog } from "../../../Logic";
+import { Entrant } from "../../entrant";
+import { FullSpellTarget, Spell } from "../spell";
 
 export class Fireball extends Spell {
   public constructor() {
-    super(AbilityType.Fireball, 300, 20, 5);
+    super("fireball", 300, 20, 5);
   }
 
   protected castSpell(

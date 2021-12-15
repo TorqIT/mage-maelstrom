@@ -1,7 +1,6 @@
 import { Combatant, Team } from "../MageMaelstrom";
 import { MovementDirection } from "../MageMaelstrom/Arena";
 import {
-  AbilityType,
   CombatantDefinition,
   ReadonlyEntrantStatus,
   SpellStatus,
@@ -19,10 +18,10 @@ class WowDude extends Combatant {
       icon: "/burst.png",
 
       strength: 5,
-      agility: 24,
-      intelligence: 11,
+      agility: 44,
+      intelligence: 21,
 
-      abilities: [AbilityType.Fireball],
+      abilities: ["fireball", "talented", "talented", "talented"],
     };
   }
   public init(): void {}

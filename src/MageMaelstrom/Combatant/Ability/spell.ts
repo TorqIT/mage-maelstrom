@@ -1,23 +1,7 @@
-import { Coordinate, MovementDirection } from "../../Arena";
+import { MovementDirection } from "../../Arena";
 import { SpellLog } from "../../Logic";
 import { Entrant } from "../entrant";
-
-export enum AbilityType {
-  Fireball,
-  None,
-}
-
-export abstract class Ability {
-  protected type: AbilityType;
-
-  public constructor(type: AbilityType) {
-    this.type = type;
-  }
-
-  public getType() {
-    return this.type;
-  }
-}
+import { Ability, AbilityType } from "./ability";
 
 export interface SpellStatus {
   type: AbilityType;
@@ -90,22 +74,3 @@ export abstract class Spell extends Ability {
     };
   }
 }
-
-//THIS ACTUALLY WORKS
-
-// type ResultStruct<T extends AbilityType> = T extends AbilityType.Fireball ? string : null;
-
-// interface CoolCombatant<Memory extends object, Spells extends [AbilityType, AbilityType]>{
-//   spells: Spells;
-//   init: () => Memory;
-//   doStuff: (spells: [ResultStruct<Spells[0]>, ResultStruct<Spells[1]>]) => void;
-// }
-
-// function buildCombatant<Memory extends object, Spells extends [AbilityType, AbilityType]>(c: CoolCombatant<Memory, Spells>)
-// :CoolCombatant<Memory, Spells> { return c}
-
-// const tester = buildCombatant({
-//   spells: [AbilityType.Fireball, AbilityType.None],
-//   init: () => ({cool: "wow"}),
-//   doStuff: ([fireball, none]) => {}
-// })

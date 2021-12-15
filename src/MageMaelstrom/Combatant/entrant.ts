@@ -3,11 +3,14 @@ import { nextId } from "../Common";
 import { ActionResult, Helpers } from "../Logic";
 import {
   AbilityType,
+  buildPassive,
   buildSpell,
   FullSpellTarget,
+  isPassive,
   isSpell,
+  Passive,
   Spell,
-} from "./Abilities";
+} from "./Ability";
 import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
 
@@ -45,6 +48,7 @@ export class Entrant {
   private ticksUntilNextTurn: number;
 
   private spells: Spell[];
+  private passives: Passive[];
 
   public constructor(
     combatant: Combatant,
@@ -75,31 +79,33 @@ export class Entrant {
       Math.random() * combatant.getTurnDelay()
     );
 
-    this.spells = this.combatant
-      .getAbilities()
-      .filter((a) => isSpell(a))
-      .map((a) => buildSpell(a));
+    const abilities = this.combatant.getAbilities();
+
+    this.spells = abilities.filter(isSpell).map((a) => buildSpell(a));
+
+    this.passives = abilities.filter(isPassive).map((a) => buildPassive(a));
   }
+
+  //~*~*~*~*~*~*
+  // GETTERS
 
   public getId() {
     return this.id;
+  }
+
+  public getCombatant() {
+    return this.combatant;
   }
 
   public getCoords() {
     return this.coords;
   }
 
-  public update() {
-    this.ticksUntilNextTurn--;
-
-    this.updateMeter(this.health);
-    this.updateMeter(this.mana);
-
-    this.spells.forEach((s) => s.update());
-  }
-
-  private updateMeter(meter: Meter) {
-    meter.value = Math.min(meter.max, meter.value + meter.regen / 100);
+  public getMaxStatBonus() {
+    return this.passives.reduce(
+      (sum, current) => (sum += current.getMaxStatAdjustment()),
+      0
+    );
   }
 
   public isMyTurn() {
@@ -117,6 +123,25 @@ export class Entrant {
   public isDead() {
     return this.health.value <= 0;
   }
+
+  //~*~*~*~*
+  // UPDATE
+
+  public update() {
+    this.ticksUntilNextTurn--;
+
+    this.updateMeter(this.health);
+    this.updateMeter(this.mana);
+
+    this.spells.forEach((s) => s.update());
+  }
+
+  private updateMeter(meter: Meter) {
+    meter.value = Math.min(meter.max, meter.value + meter.regen / 100);
+  }
+
+  //~*~*~*~*
+  // ACTIONS
 
   public act(helpers: Helpers, visibleEnemies: ReadonlyEntrantStatus[]) {
     this.ticksUntilNextTurn += this.combatant.getTurnDelay();
@@ -175,6 +200,9 @@ export class Entrant {
   public drainMana(amount: number) {
     this.mana.value -= amount;
   }
+
+  //~*~*~*~*~*~*
+  // READONLY REACT STUFF
 
   public toReadonly(): ReadonlyEntrant {
     return {

@@ -1,6 +1,7 @@
 import { nextId } from "../Common";
 import { GameSpecs, Helpers } from "../Logic";
-import { AbilityType, SpellStatus } from "./Abilities/ability";
+import { SpellStatus } from "./Ability";
+import { AbilityType } from "./Ability/ability";
 import { Action } from "./actions";
 import { ReadonlyEntrantStatus } from "./entrant";
 
@@ -34,6 +35,9 @@ export abstract class Combatant {
     spells: SpellStatus[]
   ): Action;
 
+  //~*~*~*~*
+  //ATTRIBUTES
+
   public getStrength() {
     return this.def.strength;
   }
@@ -47,6 +51,9 @@ export abstract class Combatant {
   public getAbilities() {
     return this.def.abilities;
   }
+
+  //~*~*~*~*
+  //STATS
 
   public getDamage() {
     return Math.max(this.def.strength, this.def.agility, this.def.intelligence);
@@ -73,6 +80,9 @@ export abstract class Combatant {
       100 / Math.pow(this.gameSpecs.stats.agilityBonus, this.def.agility)
     );
   }
+
+  //~*~*~*~*
+  //TECHNICAL
 
   public getDef() {
     return this.def;

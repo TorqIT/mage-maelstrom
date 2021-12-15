@@ -1,5 +1,5 @@
 import { MovementDirection, ReadonlyCoordinate } from "../Arena";
-import { AbilityType, SpellTarget } from "./Abilities";
+import { AbilityType, SpellTarget } from "./Ability";
 
 export enum ActionType {
   Movement,

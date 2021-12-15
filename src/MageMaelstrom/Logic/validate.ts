@@ -1,4 +1,5 @@
-import { Team } from "../Combatant";
+import { Coordinate } from "../Arena";
+import { Entrant, Team } from "../Combatant";
 import { GameSpecs } from "./gameSpecs";
 
 export function validate(
@@ -14,7 +15,13 @@ export function validate(
   }
 
   team.CombatantSubclasses.forEach((SubCombatant) => {
-    const combatant = new SubCombatant(specs).getDef();
+    const entrant = new Entrant(
+      new SubCombatant(specs),
+      team.color,
+      false,
+      new Coordinate(0, 0)
+    );
+    const combatant = entrant.getCombatant().getDef();
 
     if (combatant.strength < specs.rules.minStat) {
       errors.push(
@@ -36,10 +43,11 @@ export function validate(
 
     const total =
       combatant.strength + combatant.agility + combatant.intelligence;
+    const max = entrant.getMaxStatBonus() + specs.rules.maxTotalStats;
 
-    if (total > specs.rules.maxTotalStats) {
+    if (total > max) {
       errors.push(
-        `${combatant.name}'s stats (total: ${total}) are too high (max total: ${specs.rules.maxTotalStats})`
+        `${combatant.name}'s stats (total: ${total}) are too high (max total: ${max})`
       );
     }
   });
