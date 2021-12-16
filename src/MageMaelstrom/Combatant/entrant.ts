@@ -5,10 +5,12 @@ import {
   AbilityType,
   buildPassive,
   buildSpell,
+  ExtendedSpellStatus,
   FullSpellTarget,
   isPassive,
   isSpell,
   Passive,
+  PassiveStatus,
   Spell,
 } from "./Ability";
 import { Combatant, CombatantDefinition } from "./combatant";
@@ -32,6 +34,8 @@ export interface ReadonlyEntrantStatus {
 export interface ReadonlyEntrant {
   combatant: CombatantDefinition;
   status: ReadonlyEntrantStatus;
+  spells: ExtendedSpellStatus[];
+  passives: PassiveStatus[];
   color: string;
   flipped: boolean;
 }
@@ -209,6 +213,8 @@ export class Entrant {
     return {
       combatant: this.combatant.getDef(),
       status: this.getStatus(),
+      spells: this.spells.map((s) => s.toExtendedReadonly()),
+      passives: this.passives.map((p) => p.toReadonly()),
       color: this.color,
       flipped: this.flipped,
     };

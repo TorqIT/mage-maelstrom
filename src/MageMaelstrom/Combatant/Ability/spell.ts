@@ -1,13 +1,28 @@
+import { SpellType } from ".";
 import { MovementDirection } from "../../Arena";
+import { IconDef } from "../../Common/Icon";
 import { SpellLog } from "../../Logic";
 import { Entrant } from "../entrant";
 import { Ability, AbilityType } from "./ability";
+
+interface SpellDefinition {
+  type: SpellType;
+  icon: IconDef;
+  cooldown: number;
+  manaCost: number;
+  range?: number;
+}
 
 export interface SpellStatus {
   type: AbilityType;
   cooldownTimer: number;
   manaCost: number;
   range?: number;
+}
+
+export interface ExtendedSpellStatus extends SpellStatus {
+  cooldown: number;
+  icon: IconDef;
 }
 
 export type SpellTarget = number | MovementDirection | undefined;
@@ -21,18 +36,13 @@ export abstract class Spell extends Ability {
 
   private range?: number;
 
-  public constructor(
-    type: AbilityType,
-    cooldown: number,
-    manaCost: number,
-    range?: number
-  ) {
-    super(type);
+  public constructor(def: SpellDefinition) {
+    super(def.type, def.icon);
 
-    this.cooldown = cooldown;
+    this.cooldown = def.cooldown;
     this.cooldownTimer = 0;
-    this.manaCost = manaCost;
-    this.range = range;
+    this.manaCost = def.manaCost;
+    this.range = def.range;
   }
 
   public getManaCost() {
@@ -71,6 +81,14 @@ export abstract class Spell extends Ability {
       cooldownTimer: this.cooldownTimer,
       manaCost: this.manaCost,
       range: this.range,
+    };
+  }
+
+  public toExtendedReadonly(): ExtendedSpellStatus {
+    return {
+      ...this.toReadonly(),
+      cooldown: this.cooldown,
+      icon: this.icon,
     };
   }
 }

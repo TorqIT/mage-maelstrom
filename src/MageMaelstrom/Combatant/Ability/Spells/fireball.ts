@@ -6,7 +6,13 @@ import { FullSpellTarget, Spell } from "../spell";
 
 export class Fireball extends Spell {
   public constructor() {
-    super("fireball", 300, 20, 5);
+    super({
+      type: "fireball",
+      icon: mmFireball,
+      cooldown: 300,
+      manaCost: 20,
+      range: 5,
+    });
   }
 
   protected castSpell(

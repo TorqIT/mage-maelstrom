@@ -14,11 +14,6 @@
   color: rgb(241, 241, 204);
 }
 
-.iconWrapper {
-  width: 64px;
-  height: 64px;
-}
-
 .name {
   font-weight: bold;
   font-family: Button;
