@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { CombatantSubclass, IdentifiedTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
 
+const TICKS_PER_LOOP = 5;
+
 export function useGameControls(
   gameManager: GameManager | undefined,
   hasVictor: boolean
@@ -39,11 +41,13 @@ export function useGameControls(
     }
 
     const timer = setInterval(() => {
-      tickUntilNextAction();
-    }, 100);
+      for (let j = 0; j < TICKS_PER_LOOP; j++) {
+        gameManager?.tick(j === TICKS_PER_LOOP - 1);
+      }
+    }, TICKS_PER_LOOP * 10);
 
     return () => clearInterval(timer);
-  }, [isLooping, tickUntilNextAction]);
+  }, [gameManager, isLooping, tick]);
 
   const toggleLooping = useCallback(() => {
     if (!hasVictor) {
