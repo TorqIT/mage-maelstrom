@@ -36,6 +36,10 @@ export function useGameControls(
   }, [hasVictor]);
 
   useEffect(() => {
+    setLooping(false);
+  }, [gameManager]);
+
+  useEffect(() => {
     if (!isLooping) {
       return;
     }
