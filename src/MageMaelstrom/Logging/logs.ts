@@ -1,3 +1,5 @@
+import { IconDef } from "../Common/Icon/Icons";
+
 export enum LogType {
   Attack,
   Spell,
@@ -27,7 +29,7 @@ export interface SpellLog extends BaseLog {
   target?: number;
   damage: number;
   remainingHealth: number;
-  spellIcon: string;
+  spellIcon: IconDef;
 }
 
 export type BattleLogEvent = VictoryLog | AttackLog | SpellLog;

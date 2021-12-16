@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Stack } from "../../../Common";
-import { Icon, icons } from "../../../Common/Icon";
+import { Icon, mmAttack } from "../../../Common/Icon";
 import { useGameManager } from "../../../Logic";
 import { AttackLog } from "../../../Logging/logs";
 import { CombatantIcon } from "../../CombatantIcon";
@@ -33,7 +33,7 @@ export const AttackLogDisplay: React.FC<AttackLogDisplayProps> = ({ log }) => {
         teamColor={attacker.color}
         size={32}
       />
-      <Icon icon={icons.attack} size={28} />
+      <Icon icon={mmAttack} size={28} />
       <span className={styles.tiny}>(-{log.damage})</span>
       <CombatantIcon
         combatant={target.combatant}

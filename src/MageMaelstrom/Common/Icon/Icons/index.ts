@@ -1,9 +1,17 @@
 import attack from "./quick-slash.svg";
 import fireball from "./lucifer-cannon.svg";
 
-const icons = {
-  attack,
-  fireball,
+export interface IconDef {
+  file: string;
+  filter?: string;
+}
+
+const mmAttack: IconDef = {
+  file: attack,
 };
 
-export { icons };
+const mmFireball: IconDef = {
+  file: fireball,
+};
+
+export { mmAttack, mmFireball };

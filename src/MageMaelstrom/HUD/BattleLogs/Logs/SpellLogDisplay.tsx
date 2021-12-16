@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Stack } from "../../../Common";
-import { Icon, icons } from "../../../Common/Icon";
+import { Icon } from "../../../Common/Icon";
 import { useGameManager } from "../../../Logic";
 import { SpellLog } from "../../../Logging/logs";
 import { CombatantIcon } from "../../CombatantIcon";

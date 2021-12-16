@@ -1,4 +1,4 @@
-import { icons } from "../../../Common/Icon";
+import { mmFireball } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { SpellLog } from "../../../Logic";
 import { Entrant } from "../../entrant";
@@ -24,7 +24,7 @@ export class Fireball extends Spell {
       target: target.getId(),
       damage: 30,
       remainingHealth: target.getHealth(),
-      spellIcon: icons.fireball,
+      spellIcon: mmFireball,
     });
   }
 }
