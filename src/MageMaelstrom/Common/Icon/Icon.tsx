@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import styles from "./Icon.module.css";
 import { IconDef } from "./Icons";
@@ -14,7 +15,7 @@ export const Icon: React.FC<IconProps> = ({ icon, size }) => {
 
   return (
     <img
-      className={styles.colored}
+      className={classNames(styles.colored, styles.icon)}
       src={icon.file}
       alt="icon"
       style={{ ...sizeStyle, filter: icon.filter }}

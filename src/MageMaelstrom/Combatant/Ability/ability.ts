@@ -1,3 +1,4 @@
+import { nextId } from "../../Common";
 import { IconDef } from "../../Common/Icon";
 
 const spellTypes = ["fireball"] as const;
@@ -19,10 +20,12 @@ export function isPassive(type: AbilityType): type is PassiveType {
 export abstract class Ability {
   protected type: AbilityType;
   protected icon: IconDef;
+  protected id: number;
 
   public constructor(type: AbilityType, icon: IconDef) {
     this.type = type;
     this.icon = icon;
+    this.id = nextId();
   }
 
   public getType() {

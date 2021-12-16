@@ -5,6 +5,7 @@ import { Ability } from "./ability";
 export interface PassiveStatus {
   type: AbilityType;
   icon: IconDef;
+  id: number;
 }
 
 export class Passive extends Ability {
@@ -16,6 +17,7 @@ export class Passive extends Ability {
     return {
       type: this.type,
       icon: this.icon,
+      id: this.id,
     };
   }
 }

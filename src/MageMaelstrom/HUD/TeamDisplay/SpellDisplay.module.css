@@ -1,0 +1,30 @@
+.wrapper {
+  position: relative;
+  border: 2px solid #d4d4a6;
+  border-radius: 5px;
+}
+
+.wrapper.onCooldown {
+  border-color: #818176;
+}
+
+.icon {
+  vertical-align: top;
+}
+
+.onCooldown .icon {
+  opacity: 0.4;
+}
+
+.cooldownIndicator {
+  display: none;
+}
+
+.onCooldown .cooldownIndicator {
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  background-color: #ebebd97e;
+}

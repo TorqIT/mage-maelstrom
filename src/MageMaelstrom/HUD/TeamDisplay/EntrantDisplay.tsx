@@ -5,6 +5,7 @@ import { Stack } from "../../Common";
 import { Icon } from "../../Common/Icon";
 import { HealthBar } from "../HealthBar";
 import styles from "./EntrantDisplay.module.css";
+import { SpellDisplay } from "./SpellDisplay";
 
 export interface EntrantDisplayProps {
   entrant: ReadonlyEntrant;
@@ -44,12 +45,12 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
               <Stack gap="apart" fill alignment="middle" reverse={flip}>
                 <Stack gap={4}>
                   {entrant.spells.map((s) => (
-                    <Icon icon={s.icon} size={28} />
+                    <SpellDisplay key={s.id} spell={s} />
                   ))}
                 </Stack>
                 <Stack gap={4}>
                   {entrant.passives.map((p) => (
-                    <Icon icon={p.icon} size={28} />
+                    <Icon key={p.id} icon={p.icon} size={28} />
                   ))}
                 </Stack>
               </Stack>

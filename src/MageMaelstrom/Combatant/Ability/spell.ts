@@ -23,6 +23,7 @@ export interface SpellStatus {
 export interface ExtendedSpellStatus extends SpellStatus {
   cooldown: number;
   icon: IconDef;
+  id: number;
 }
 
 export type SpellTarget = number | MovementDirection | undefined;
@@ -89,6 +90,7 @@ export abstract class Spell extends Ability {
       ...this.toReadonly(),
       cooldown: this.cooldown,
       icon: this.icon,
+      id: this.id,
     };
   }
 }
