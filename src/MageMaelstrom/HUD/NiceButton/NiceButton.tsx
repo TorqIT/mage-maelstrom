@@ -5,6 +5,8 @@ import styles from "./NiceButton.module.css";
 interface IProps {
   large?: boolean;
   pressed?: boolean;
+  disabled?: boolean;
+  style?: React.CSSProperties;
   onClick?: () => void;
 }
 
@@ -12,6 +14,8 @@ const NiceButton: React.FC<IProps> = ({
   large,
   pressed,
   onClick,
+  disabled,
+  style,
   children,
 }) => {
   return (
@@ -20,7 +24,9 @@ const NiceButton: React.FC<IProps> = ({
         [styles.large]: large,
         [styles.pressedIn]: pressed,
       })}
+      disabled={disabled}
       onClick={onClick}
+      style={style}
     >
       {children}
     </button>

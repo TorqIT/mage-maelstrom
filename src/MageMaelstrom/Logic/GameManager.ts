@@ -100,13 +100,11 @@ export class GameManager {
   // GETTERS
 
   public getLeftTeam() {
-    return this.leftTeam ? this.toReadonlyActiveTeam(this.leftTeam) : undefined;
+    return this.toReadonlyActiveTeam(this.leftTeam);
   }
 
   public getRightTeam() {
-    return this.rightTeam
-      ? this.toReadonlyActiveTeam(this.rightTeam)
-      : undefined;
+    return this.toReadonlyActiveTeam(this.rightTeam);
   }
 
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
@@ -121,19 +119,15 @@ export class GameManager {
   }
 
   public getVictor() {
-    if (!this.leftTeam || !this.rightTeam) {
-      return undefined;
-    }
-
-    if (this.leftTeam?.entrants.every((e) => e.isDead())) {
-      if (this.rightTeam?.entrants.every((e) => e.isDead())) {
+    if (this.leftTeam.entrants.every((e) => e.isDead())) {
+      if (this.rightTeam.entrants.every((e) => e.isDead())) {
         return null;
       }
 
       return this.toReadonlyActiveTeam(this.rightTeam);
     }
 
-    if (this.rightTeam?.entrants.every((e) => e.isDead())) {
+    if (this.rightTeam.entrants.every((e) => e.isDead())) {
       return this.toReadonlyActiveTeam(this.leftTeam);
     }
 
@@ -163,7 +157,7 @@ export class GameManager {
   }
 
   public tick(triggerChangeEvents: boolean) {
-    if (!this.leftTeam || !this.rightTeam || this.battleIsOver) {
+    if (this.battleIsOver) {
       return false;
     }
 
@@ -389,10 +383,6 @@ export class GameManager {
   }
 
   private getEntrantArray() {
-    if (!this.leftTeam || !this.rightTeam) {
-      return [];
-    }
-
     return this.leftTeam.entrants.concat(this.rightTeam.entrants);
   }
 }

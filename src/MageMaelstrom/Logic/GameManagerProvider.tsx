@@ -13,6 +13,7 @@ export interface GameManagerData extends GameManagerProviderProps {
   rightTeam?: ReadonlyActiveTeam;
   teams: ReadonlyActiveTeam[];
   entrants: ReadonlyEntrant[];
+  victor?: ReadonlyActiveTeam | null;
   currentTick?: number;
   isLooping: boolean;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
@@ -56,6 +57,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         startGame,
         clearGame,
         restartGame,
+        victor,
         specs,
         tick,
         isLooping,

@@ -31,12 +31,13 @@
 
 .niceButton:disabled,
 .niceButton:hover:disabled {
-  background-color: rgb(122, 115, 128);
-  color: rgb(218, 217, 228);
-  border-top-color: rgb(158, 140, 173);
-  border-left-color: rgb(158, 140, 173);
-  border-bottom-color: rgb(101, 97, 105);
-  border-right-color: rgb(101, 97, 105);
+  background-color: rgb(26, 22, 29);
+  color: rgb(111, 111, 111);
+  border-top-color: rgb(92, 82, 99);
+  border-left-color: rgb(92, 82, 99);
+  border-bottom-color: rgb(43, 41, 44);
+  border-right-color: rgb(43, 41, 44);
+  cursor: not-allowed;
 }
 
 .niceButton:hover {

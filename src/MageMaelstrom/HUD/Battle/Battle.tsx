@@ -19,6 +19,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
     isLooping,
     clearGame,
     restartGame,
+    victor,
   } = useGameManager();
 
   if (!leftTeam || !rightTeam) {
@@ -37,9 +38,24 @@ export const Battle: React.FC<BattleProps> = ({}) => {
         <Stack.Item>
           <Stack gap="apart" alignment="middle">
             <Stack gap={20}>
-              <NiceButton onClick={tick}>Tick: {currentTick}</NiceButton>
-              <NiceButton onClick={tickUntilNextAction}>Next Action</NiceButton>
-              <NiceButton pressed={isLooping} onClick={toggleLooping}>
+              <NiceButton
+                onClick={tick}
+                disabled={victor !== undefined}
+                style={{ width: 120 }}
+              >
+                Tick: {currentTick}
+              </NiceButton>
+              <NiceButton
+                onClick={tickUntilNextAction}
+                disabled={victor !== undefined}
+              >
+                Next Action
+              </NiceButton>
+              <NiceButton
+                pressed={isLooping}
+                onClick={toggleLooping}
+                disabled={victor !== undefined}
+              >
                 {isLooping ? "Stop " : "Start "} Looping
               </NiceButton>
             </Stack>

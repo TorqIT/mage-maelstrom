@@ -38,12 +38,7 @@ function getNumberOfTeamsWhoHaveVision(
 export interface ArenaProps {}
 
 export const Arena: React.FC<ArenaProps> = ({}) => {
-  const { leftTeam, rightTeam, specs } = useGameManager();
-
-  const teams = useMemo(
-    () => (leftTeam && rightTeam ? [leftTeam, rightTeam] : []),
-    [leftTeam, rightTeam]
-  );
+  const { teams, specs } = useGameManager();
 
   const columns = Array.from(Array(specs.arena.width).keys());
   const rows = Array.from(Array(specs.arena.height).keys());
