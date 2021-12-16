@@ -8,17 +8,22 @@ export interface TileProps {
   combatant?: CombatantDefinition;
   teamColor?: string;
   flip?: boolean;
-  isInVision?: boolean;
+  teamsWithVision?: number;
 }
 
 export const Tile: React.FC<TileProps> = ({
   combatant,
   teamColor,
   flip,
-  isInVision,
+  teamsWithVision,
 }) => {
   return (
-    <div className={classNames(styles.tile, { [styles.inVision]: isInVision })}>
+    <div
+      className={classNames(styles.tile, {
+        [styles.oneSeesIt]: teamsWithVision === 1,
+        [styles.bothSeeIt]: teamsWithVision === 2,
+      })}
+    >
       {combatant && teamColor && (
         <CombatantIcon
           combatant={combatant}

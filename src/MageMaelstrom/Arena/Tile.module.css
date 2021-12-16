@@ -1,11 +1,15 @@
 .tile {
   width: 40px;
   height: 40px;
-  background-color: rgb(20, 20, 34);
+  background-color: rgb(16, 16, 27);
   border: 2px solid var(--arena-border-color);
   border-radius: 5px;
 }
 
-.inVision {
+.oneSeesIt {
+  background-color: rgb(24, 24, 41);
+}
+
+.bothSeeIt {
   background-color: rgb(33, 33, 55);
 }

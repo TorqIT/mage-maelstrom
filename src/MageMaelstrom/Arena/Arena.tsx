@@ -19,13 +19,20 @@ function findOccupant(teams: ReadonlyActiveTeam[], x: number, y: number) {
   }
 }
 
-function isInVision(x: number, y: number, entrants: ReadonlyEntrant[]) {
-  return entrants.some(
-    (e) =>
-      e.status.health.value > 0 &&
-      Math.pow(e.status.coords.x - x, 2) + Math.pow(e.status.coords.y - y, 2) <=
-        Math.pow(e.status.vision, 2)
-  );
+function getNumberOfTeamsWhoHaveVision(
+  x: number,
+  y: number,
+  teams: ReadonlyActiveTeam[]
+) {
+  return teams.filter((t) =>
+    t.entrants.some(
+      (e) =>
+        e.status.health.value > 0 &&
+        Math.pow(e.status.coords.x - x, 2) +
+          Math.pow(e.status.coords.y - y, 2) <=
+          Math.pow(e.status.vision, 2)
+    )
+  ).length;
 }
 
 export interface ArenaProps {}
@@ -35,11 +42,6 @@ export const Arena: React.FC<ArenaProps> = ({}) => {
 
   const teams = useMemo(
     () => (leftTeam && rightTeam ? [leftTeam, rightTeam] : []),
-    [leftTeam, rightTeam]
-  );
-  const entrants = useMemo(
-    () =>
-      leftTeam && rightTeam ? leftTeam.entrants.concat(rightTeam.entrants) : [],
     [leftTeam, rightTeam]
   );
 
@@ -60,7 +62,7 @@ export const Arena: React.FC<ArenaProps> = ({}) => {
                   combatant={occupant?.entrant.combatant}
                   teamColor={occupant?.team.color}
                   flip={occupant?.team.flip}
-                  isInVision={isInVision(x, y, entrants)}
+                  teamsWithVision={getNumberOfTeamsWhoHaveVision(x, y, teams)}
                 />
               );
             })}
