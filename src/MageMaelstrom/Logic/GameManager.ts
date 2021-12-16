@@ -28,8 +28,8 @@ type OnChangeListener = () => void;
 export class GameManager {
   private specs: GameSpecs;
 
-  private leftTeam?: ActiveTeam;
-  private rightTeam?: ActiveTeam;
+  private leftTeam: ActiveTeam;
+  private rightTeam: ActiveTeam;
 
   private currentTick = 0;
 
@@ -37,9 +37,20 @@ export class GameManager {
 
   private battleIsOver: boolean;
 
-  public constructor(specs: GameSpecs) {
+  public constructor(
+    specs: GameSpecs,
+    left: IdentifiedTeam,
+    right: IdentifiedTeam
+  ) {
     this.specs = specs;
+
+    this.currentTick = 0;
     this.battleIsOver = false;
+
+    this.leftTeam = this.buildActiveTeam(left, false);
+    this.rightTeam = this.buildActiveTeam(right, true);
+
+    loggingManager.clear();
   }
 
   //~*~*~*~*~*
@@ -58,17 +69,6 @@ export class GameManager {
 
   public buildCombatant(SubCombatant: CombatantSubclass) {
     return new SubCombatant(this.specs);
-  }
-
-  public startGame(left: IdentifiedTeam, right: IdentifiedTeam) {
-    this.currentTick = 0;
-
-    this.leftTeam = this.buildActiveTeam(left, false);
-    this.rightTeam = this.buildActiveTeam(right, true);
-
-    loggingManager.clear();
-
-    this.onChange && this.onChange();
   }
 
   private buildActiveTeam(team: IdentifiedTeam, isRight: boolean): ActiveTeam {

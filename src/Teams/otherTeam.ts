@@ -18,8 +18,8 @@ class WowDude extends Combatant {
       icon: "/burst.png",
 
       strength: 5,
-      agility: 44,
-      intelligence: 21,
+      agility: 55,
+      intelligence: 10,
 
       abilities: ["fireball", "talented", "talented", "talented"],
     };

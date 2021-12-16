@@ -1,7 +1,5 @@
 import { createContext, useContext } from "react";
 import {
-  Combatant,
-  CombatantSubclass,
   IdentifiedTeam,
   ReadonlyActiveTeam,
   ReadonlyEntrant,
@@ -9,7 +7,6 @@ import {
 import { GameSpecs } from "./gameSpecs";
 import { useGameControls } from "./hooks/useGameControls";
 import { useManagerInstance } from "./hooks/useManagerInstance";
-import { BattleLogEvent } from "../Logging/logs";
 
 export interface GameManagerData extends GameManagerProviderProps {
   leftTeam?: ReadonlyActiveTeam;
@@ -18,9 +15,9 @@ export interface GameManagerData extends GameManagerProviderProps {
   entrants: ReadonlyEntrant[];
   currentTick?: number;
   isLooping: boolean;
-  buildCombatant: (SubCombatant: CombatantSubclass) => Combatant | undefined;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
-  doFullReset: () => void;
+  clearGame: () => void;
+  restartGame: () => void;
   tick: () => void;
   tickUntilNextAction: () => void;
   toggleLooping: () => void;
@@ -44,16 +41,12 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     victor,
     teams,
     entrants,
-    doFullReset,
-  } = useManagerInstance(specs);
-  const {
+    restartGame,
+    clearGame,
     startGame,
-    tick,
-    toggleLooping,
-    tickUntilNextAction,
-    buildCombatant,
-    isLooping,
-  } = useGameControls(gameManager, victor !== undefined);
+  } = useManagerInstance(specs);
+  const { tick, toggleLooping, tickUntilNextAction, isLooping } =
+    useGameControls(gameManager, victor !== undefined);
 
   return (
     <GameManagerContext.Provider
@@ -61,14 +54,14 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         leftTeam,
         rightTeam,
         startGame,
+        clearGame,
+        restartGame,
         specs,
         tick,
         isLooping,
         tickUntilNextAction,
         currentTick,
         toggleLooping,
-        buildCombatant,
-        doFullReset,
         teams,
         entrants,
       }}

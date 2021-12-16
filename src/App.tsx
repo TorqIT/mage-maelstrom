@@ -19,7 +19,7 @@ function App() {
             height: 12,
           },
           stats: {
-            healthPerStrength: 12,
+            healthPerStrength: 10,
             healthRegenPerStrength: 0.25,
             agilityBonus: 1.035,
             manaPerInt: 7,

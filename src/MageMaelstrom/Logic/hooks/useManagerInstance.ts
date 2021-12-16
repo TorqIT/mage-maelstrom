@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ReadonlyActiveTeam } from "../../Combatant";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { IdentifiedTeam, ReadonlyActiveTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
 import { GameSpecs } from "../gameSpecs";
 
 export function useManagerInstance(specs: GameSpecs) {
   const [gameManager, setGameManager] = useState<GameManager>();
+  const [selection, setSelection] =
+    useState<{ left: IdentifiedTeam; right: IdentifiedTeam }>();
 
   const [leftTeam, setLeftTeam] = useState<ReadonlyActiveTeam>();
   const [rightTeam, setRightTeam] = useState<ReadonlyActiveTeam>();
@@ -15,6 +17,7 @@ export function useManagerInstance(specs: GameSpecs) {
     () => (leftTeam && rightTeam ? [leftTeam, rightTeam] : []),
     [leftTeam, rightTeam]
   );
+
   const entrants = useMemo(
     () =>
       leftTeam && rightTeam
@@ -23,29 +26,47 @@ export function useManagerInstance(specs: GameSpecs) {
     [leftTeam, rightTeam]
   );
 
-  const doFullReset = useCallback(() => {
-    setGameManager(new GameManager(specs));
+  useEffect(() => {
+    if (!selection) {
+      setGameManager(undefined);
+    } else {
+      setGameManager(new GameManager(specs, selection.left, selection.right));
+    }
+  }, [selection, specs]);
 
-    setLeftTeam(undefined);
-    setRightTeam(undefined);
-    setCurrentTick(-1);
-    setVictor(undefined);
-  }, [specs]);
+  const updateState = useCallback(() => {
+    setLeftTeam(gameManager?.getLeftTeam());
+    setRightTeam(gameManager?.getRightTeam());
+    setCurrentTick(gameManager?.getCurrentTick());
+    setVictor(gameManager?.getVictor());
+  }, [gameManager]);
 
   useEffect(() => {
-    doFullReset();
-  }, [doFullReset]);
+    updateState();
 
-  useEffect(() => {
     gameManager?.setOnChange(() => {
-      setLeftTeam(gameManager.getLeftTeam());
-      setRightTeam(gameManager.getRightTeam());
-      setCurrentTick(gameManager.getCurrentTick());
-      setVictor(gameManager.getVictor());
+      updateState();
     });
 
     return () => gameManager?.clearOnChange();
-  }, [gameManager]);
+  }, [gameManager, updateState]);
+
+  const clearGame = useCallback(() => {
+    setSelection(undefined);
+  }, []);
+
+  const startGame = useCallback(
+    (left: IdentifiedTeam, right: IdentifiedTeam) => {
+      setSelection({ left, right });
+    },
+    []
+  );
+
+  const restartGame = useCallback(() => {
+    if (selection) {
+      setSelection({ left: selection.left, right: selection.right });
+    }
+  }, [selection]);
 
   return {
     gameManager,
@@ -53,8 +74,10 @@ export function useManagerInstance(specs: GameSpecs) {
     rightTeam,
     currentTick,
     victor,
-    doFullReset,
     teams,
     entrants,
+    startGame,
+    clearGame,
+    restartGame,
   };
 }

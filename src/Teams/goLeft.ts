@@ -13,11 +13,11 @@ export class GoLeft extends Combatant {
       name: "I GO LEFT",
       icon: "/burst.png",
 
-      strength: 30,
+      strength: 70,
       agility: 5,
       intelligence: 5,
 
-      abilities: [],
+      abilities: ["talented", "talented", "talented", "talented"],
     };
   }
   public init(): void {}

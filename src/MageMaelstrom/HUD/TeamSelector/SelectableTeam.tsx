@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { CombatantIcon } from "..";
 import { IdentifiedTeam } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
-import { useGameManager } from "../../Logic";
+import { GameSpecs, useGameManager } from "../../Logic";
 import styles from "./SelectableTeam.module.css";
 
 export interface SelectableTeamProps {
@@ -17,15 +17,13 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
   errors,
   onClick,
 }) => {
-  const { buildCombatant } = useGameManager();
+  const { specs } = useGameManager();
   const isSelectable = errors == null || errors?.length === 0;
 
   const intializedCombatants = useMemo(
     () =>
-      team.CombatantSubclasses.map((SubCombatant) =>
-        buildCombatant(SubCombatant)
-      ),
-    [team, buildCombatant]
+      team.CombatantSubclasses.map((SubCombatant) => new SubCombatant(specs)),
+    [team, specs]
   );
 
   return (

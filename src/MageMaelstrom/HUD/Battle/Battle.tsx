@@ -16,8 +16,9 @@ export const Battle: React.FC<BattleProps> = ({}) => {
     tickUntilNextAction,
     currentTick,
     toggleLooping,
-    doFullReset,
     isLooping,
+    clearGame,
+    restartGame,
   } = useGameManager();
 
   if (!leftTeam || !rightTeam) {
@@ -43,7 +44,10 @@ export const Battle: React.FC<BattleProps> = ({}) => {
               </NiceButton>
             </Stack>
 
-            <NiceButton onClick={doFullReset}>New Game</NiceButton>
+            <Stack gap={20}>
+              <NiceButton onClick={restartGame}>Restart Game</NiceButton>
+              <NiceButton onClick={clearGame}>New Game</NiceButton>
+            </Stack>
           </Stack>
         </Stack.Item>
       </Stack>
