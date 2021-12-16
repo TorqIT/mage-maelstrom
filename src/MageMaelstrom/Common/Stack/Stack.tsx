@@ -47,36 +47,6 @@ export interface StackProps {
   style?: CSSProperties;
 }
 
-function checkChildrenSize(
-  childArray: (React.ReactChild | React.ReactFragment | React.ReactPortal)[]
-) {
-  const totalFlex = childArray.reduce((flexCount: number, currentChild) => {
-    const elementChild = currentChild as React.ReactElement<StackItemProps>;
-
-    if (elementChild.props && elementChild.props.size) {
-      const size = elementChild.props.size;
-
-      if (typeof size == "number") {
-        flexCount += size;
-      } else if (size.max) {
-        flexCount += size.max;
-      }
-    } else {
-      flexCount += 1;
-    }
-
-    return flexCount;
-  }, 0);
-
-  if (totalFlex > childArray.length) {
-    console.warn(
-      `The cumulative total of the children's sizes (${parseFloat(
-        totalFlex.toFixed(3)
-      )}) ` + `cannot exceed the amount of children (${childArray.length})`
-    );
-  }
-}
-
 function buildStyle({
   direction,
   alignment,
@@ -169,15 +139,6 @@ export const StackParent: React.FC<StackProps> = ({
   style,
   children,
 }) => {
-  const childArray = useMemo(
-    () => React.Children.toArray(children),
-    [children]
-  );
-
-  useEffect(() => {
-    checkChildrenSize(childArray);
-  }, [childArray]);
-
   return (
     <div
       className={className}
