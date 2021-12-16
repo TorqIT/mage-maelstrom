@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { CombatantSubclass, IdentifiedTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
 
-const TICKS_PER_LOOP = 5;
+const TICKS_PER_LOOP = 3;
 
 export function useGameControls(
   gameManager: GameManager | undefined,

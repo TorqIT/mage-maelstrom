@@ -3,7 +3,7 @@ import { Stack } from "../Common";
 import { Tile } from "./Tile";
 import styles from "./Arena.module.css";
 import { ActiveTeam, ReadonlyActiveTeam, ReadonlyEntrant } from "../Combatant";
-import { useGameManager } from "../Logic/GameManagerProvider";
+import { useGameManager } from "../Logic";
 
 function findOccupant(teams: ReadonlyActiveTeam[], x: number, y: number) {
   for (const team of teams) {
