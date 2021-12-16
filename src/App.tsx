@@ -24,6 +24,7 @@ function App() {
             agilityBonus: 1.035,
             manaPerInt: 7,
             manaRegenPerInt: 0.1,
+            vision: 4,
           },
         }}
       >

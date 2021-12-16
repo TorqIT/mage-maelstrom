@@ -12,6 +12,7 @@ import {
   IdentifiedTeam,
   MovementAction,
   ReadonlyActiveTeam,
+  ReadonlyEntrantStatus,
   SpellAction,
   SpellTarget,
 } from "../Combatant";
@@ -41,6 +42,9 @@ export class GameManager {
     this.battleIsOver = false;
   }
 
+  //~*~*~*~*~*
+  // LISTENERS
+
   public setOnChange(onChange: OnChangeListener) {
     this.onChange = onChange;
   }
@@ -48,6 +52,9 @@ export class GameManager {
   public clearOnChange() {
     this.onChange = undefined;
   }
+
+  //~*~*~*~*~*
+  // INITIALIZATION
 
   public buildCombatant(SubCombatant: CombatantSubclass) {
     return new SubCombatant(this.specs);
@@ -89,6 +96,9 @@ export class GameManager {
     );
   }
 
+  //~*~*~*~*~*
+  // GETTERS
+
   public getLeftTeam() {
     return this.leftTeam ? this.toReadonlyActiveTeam(this.leftTeam) : undefined;
   }
@@ -109,6 +119,29 @@ export class GameManager {
   public getCurrentTick() {
     return this.currentTick;
   }
+
+  public getVictor() {
+    if (!this.leftTeam || !this.rightTeam) {
+      return undefined;
+    }
+
+    if (this.leftTeam?.entrants.every((e) => e.isDead())) {
+      if (this.rightTeam?.entrants.every((e) => e.isDead())) {
+        return null;
+      }
+
+      return this.toReadonlyActiveTeam(this.rightTeam);
+    }
+
+    if (this.rightTeam?.entrants.every((e) => e.isDead())) {
+      return this.toReadonlyActiveTeam(this.leftTeam);
+    }
+
+    return undefined;
+  }
+
+  //~*~*~*~*~
+  // TICK
 
   public tickUntilNextAction() {
     if (this.battleIsOver) {
@@ -169,15 +202,45 @@ export class GameManager {
   private performTeamActions(team: ActiveTeam, enemyTeam: ActiveTeam) {
     return team.entrants
       .filter((e) => e.isMyTurn() && !e.isDead())
-      .map((e) => ({
-        entrant: e,
-        action: e.act(
-          buildHelpers((a: Action) => this.getActionResult(e, a)),
-          enemyTeam.entrants
-            .filter((e) => !e.isDead())
-            .map((e) => e.getStatus()) ?? []
-        ),
-      }));
+      .map((e) => {
+        let action: Action = { type: ActionType.Dance, voluntary: false };
+
+        try {
+          action = e.act(
+            buildHelpers((a: Action) => this.getActionResult(e, a)),
+            this.getVisibleEnemyEntrants(team, enemyTeam)
+          );
+        } catch (e) {
+          console.error(e);
+        }
+
+        return {
+          entrant: e,
+          action,
+        };
+      });
+  }
+
+  private getVisibleEnemyEntrants(
+    myTeam: ActiveTeam,
+    enemyTeam: ActiveTeam
+  ): ReadonlyEntrantStatus[] {
+    return (
+      enemyTeam.entrants
+        .filter(
+          (enemy) =>
+            !enemy.isDead() &&
+            myTeam.entrants.some((friendly) =>
+              enemy
+                .getCoords()
+                .isWithinRangeOf(
+                  friendly.getCombatant().getVision(),
+                  friendly.getCoords()
+                )
+            )
+        )
+        .map((e) => e.getStatus()) ?? []
+    );
   }
 
   private tryPerformAction(entrant: Entrant, action: Action) {
@@ -201,6 +264,8 @@ export class GameManager {
         return this.canPerformAttackAction(entrant, action);
       case ActionType.Spell:
         return this.canPerformSpellAction(entrant, action);
+      case ActionType.Dance:
+        return ActionResult.Success;
     }
 
     return ActionResult.UnknownAction;
@@ -312,6 +377,7 @@ export class GameManager {
     }
   }
 
+  //~*~*~*~*~*~*
   //OTHER STUFF
 
   private toFullSpellTarget(target: SpellTarget): FullSpellTarget | null {
@@ -328,25 +394,5 @@ export class GameManager {
     }
 
     return this.leftTeam.entrants.concat(this.rightTeam.entrants);
-  }
-
-  public getVictor() {
-    if (!this.leftTeam || !this.rightTeam) {
-      return undefined;
-    }
-
-    if (this.leftTeam?.entrants.every((e) => e.isDead())) {
-      if (this.rightTeam?.entrants.every((e) => e.isDead())) {
-        return null;
-      }
-
-      return this.toReadonlyActiveTeam(this.rightTeam);
-    }
-
-    if (this.rightTeam?.entrants.every((e) => e.isDead())) {
-      return this.toReadonlyActiveTeam(this.leftTeam);
-    }
-
-    return undefined;
   }
 }

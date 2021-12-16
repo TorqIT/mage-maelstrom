@@ -81,6 +81,10 @@ export abstract class Combatant {
     );
   }
 
+  public getVision() {
+    return this.gameSpecs.stats.vision;
+  }
+
   //~*~*~*~*
   //TECHNICAL
 

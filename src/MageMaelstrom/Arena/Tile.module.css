@@ -1,7 +1,11 @@
 .tile {
   width: 40px;
   height: 40px;
-  background-color: rgb(23, 23, 39);
+  background-color: rgb(20, 20, 34);
   border: 2px solid var(--arena-border-color);
   border-radius: 5px;
+}
+
+.inVision {
+  background-color: rgb(33, 33, 55);
 }

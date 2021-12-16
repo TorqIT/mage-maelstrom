@@ -30,18 +30,20 @@ class WowDude extends Combatant {
     visibleEnemies: ReadonlyEntrantStatus[],
     [fireball]: SpellStatus[]
   ): Action {
-    const spellAction = actions.cast(fireball.type, visibleEnemies[0].id);
+    if (visibleEnemies.length > 0) {
+      const spellAction = actions.cast(fireball.type, visibleEnemies[0].id);
 
-    if (helpers.canPerform(spellAction)) {
-      return spellAction;
-    }
+      if (helpers.canPerform(spellAction)) {
+        return spellAction;
+      }
 
-    const attackableEnemy = visibleEnemies.find((s) =>
-      helpers.canPerform(actions.attack(s.id))
-    );
+      const attackableEnemy = visibleEnemies.find((s) =>
+        helpers.canPerform(actions.attack(s.id))
+      );
 
-    if (attackableEnemy) {
-      return actions.attack(attackableEnemy.id);
+      if (attackableEnemy) {
+        return actions.attack(attackableEnemy.id);
+      }
     }
 
     while (!helpers.canPerform(actions.move(this.dirPriority[this.target]))) {

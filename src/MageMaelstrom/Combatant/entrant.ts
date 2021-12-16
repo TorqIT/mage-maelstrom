@@ -26,6 +26,7 @@ export interface ReadonlyEntrantStatus {
   mana: Meter;
   coords: ReadonlyCoordinate;
   ticksUntilNextTurn: number;
+  vision: number;
 }
 
 export interface ReadonlyEntrant {
@@ -220,6 +221,7 @@ export class Entrant {
       mana: { ...this.mana },
       ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: this.coords.toReadonly(),
+      vision: this.combatant.getVision(),
     };
   }
 }

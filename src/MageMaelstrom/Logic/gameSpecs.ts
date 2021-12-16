@@ -14,5 +14,6 @@ export interface GameSpecs {
     agilityBonus: number;
     manaPerInt: number;
     manaRegenPerInt: number;
+    vision: number;
   };
 }

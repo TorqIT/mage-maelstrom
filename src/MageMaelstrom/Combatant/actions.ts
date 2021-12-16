@@ -1,10 +1,11 @@
-import { MovementDirection, ReadonlyCoordinate } from "../Arena";
+import { MovementDirection } from "../Arena";
 import { AbilityType, SpellTarget } from "./Ability";
 
 export enum ActionType {
   Movement,
   Attack,
   Spell,
+  Dance,
 }
 
 export interface MovementAction {
@@ -23,7 +24,12 @@ export interface SpellAction {
   spell: AbilityType;
 }
 
-export type Action = MovementAction | AttackAction | SpellAction;
+export interface DanceAction {
+  type: ActionType.Dance;
+  voluntary: boolean;
+}
+
+export type Action = MovementAction | AttackAction | SpellAction | DanceAction;
 
 const actions = {
   move: (direction: MovementDirection): MovementAction => {
@@ -45,6 +51,9 @@ const actions = {
       spell,
     };
   },
+
+  /** /dance */
+  dance: (): DanceAction => ({ type: ActionType.Dance, voluntary: true }),
 };
 
 export { actions };

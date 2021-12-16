@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import { CombatantDefinition } from "../Combatant";
 import { CombatantIcon } from "../HUD";
@@ -7,11 +8,17 @@ export interface TileProps {
   combatant?: CombatantDefinition;
   teamColor?: string;
   flip?: boolean;
+  isInVision?: boolean;
 }
 
-export const Tile: React.FC<TileProps> = ({ combatant, teamColor, flip }) => {
+export const Tile: React.FC<TileProps> = ({
+  combatant,
+  teamColor,
+  flip,
+  isInVision,
+}) => {
   return (
-    <div className={styles.tile}>
+    <div className={classNames(styles.tile, { [styles.inVision]: isInVision })}>
       {combatant && teamColor && (
         <CombatantIcon
           combatant={combatant}

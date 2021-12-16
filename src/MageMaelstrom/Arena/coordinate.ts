@@ -48,6 +48,13 @@ export class Coordinate {
     return Math.abs(this.x - other.x) + Math.abs(this.y - other.y) === 1;
   }
 
+  public isWithinRangeOf(range: number, other: Coordinate) {
+    return (
+      Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2) <=
+      Math.pow(range, 2)
+    );
+  }
+
   public toReadonly(): ReadonlyCoordinate {
     return {
       x: this.x,
