@@ -190,9 +190,9 @@ export class GameManager {
       });
 
       this.battleIsOver = true;
-    }
 
-    if (triggerChangeEvents) {
+      this.onChange && this.onChange();
+    } else if (triggerChangeEvents) {
       this.onChange && this.onChange();
     }
 
