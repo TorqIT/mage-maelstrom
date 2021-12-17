@@ -23,4 +23,5 @@
   right: 0px;
   left: 0px;
   background-color: #ebebd97e;
+  pointer-events: none;
 }
