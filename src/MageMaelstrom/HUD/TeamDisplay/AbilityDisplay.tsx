@@ -1,14 +1,24 @@
 import React from "react";
-import { AbilityStatus } from "../../Combatant";
+import { AbilityStatus, ExtendedSpellStatus } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
-import { Icon } from "../../Common/Icon";
+import { Icon, mmCooldownTimer, mmManaCost } from "../../Common/Icon";
 import styles from "./AbilityDisplay.module.css";
 
-export interface AbilityDisplayProps {
-  ability: AbilityStatus;
+function isSpell(
+  ability: AbilityStatus | ExtendedSpellStatus
+): ability is ExtendedSpellStatus {
+  return (ability as ExtendedSpellStatus).cooldown != null;
 }
 
-export const AbilityDisplay: React.FC<AbilityDisplayProps> = ({ ability }) => {
+export interface AbilityDisplayProps {
+  ability: AbilityStatus | ExtendedSpellStatus;
+  fade?: boolean;
+}
+
+export const AbilityDisplay: React.FC<AbilityDisplayProps> = ({
+  ability,
+  fade,
+}) => {
   return (
     <Tooltip
       content={
@@ -21,13 +31,27 @@ export const AbilityDisplay: React.FC<AbilityDisplayProps> = ({ ability }) => {
           </Stack>
 
           <div className={styles.description}>{ability.description}</div>
+          {isSpell(ability) && (
+            <Stack gap={20} className={styles.spellCost}>
+              <Stack alignment="middle" gap={4}>
+                <Icon icon={mmCooldownTimer} size={20} />
+                {ability.cooldown}
+              </Stack>
+              <Stack alignment="middle" gap={4}>
+                <Icon icon={mmManaCost} size={20} />
+                {ability.manaCost}
+              </Stack>
+            </Stack>
+          )}
           {ability.flavorText && (
             <div className={styles.flavorText}>{ability.flavorText}</div>
           )}
         </div>
       }
     >
-      <Icon icon={ability.icon} size={28} />
+      <div style={{ opacity: fade ? 0.4 : 1, cursor: "help" }}>
+        <Icon icon={ability.icon} size={28} />
+      </div>
     </Tooltip>
   );
 };

@@ -12,6 +12,7 @@ export class Fireball extends Spell {
       type: "fireball",
       name: "Fireball",
       description: `Throw out a long range fireball that deals ${DAMAGE} damage`,
+      flavorText: "Now I have the funny text!!",
       icon: mmFireball,
       cooldown: 300,
       manaCost: 20,

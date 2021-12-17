@@ -12,10 +12,6 @@
   vertical-align: top;
 }
 
-.onCooldown .icon {
-  opacity: 0.4;
-}
-
 .cooldownIndicator {
   display: none;
 }

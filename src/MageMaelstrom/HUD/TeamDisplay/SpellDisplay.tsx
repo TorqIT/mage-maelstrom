@@ -16,7 +16,7 @@ export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
       })}
     >
       <div className={styles.icon}>
-        <AbilityDisplay ability={spell} />
+        <AbilityDisplay ability={spell} fade={spell.cooldownTimer > 0} />
       </div>
       <div
         className={styles.cooldownIndicator}
