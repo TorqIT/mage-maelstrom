@@ -15,7 +15,11 @@ import {
 } from "./Ability";
 import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
-import { StatusEffect, StatusEffectType } from "./StatusEffect";
+import {
+  StatusEffect,
+  StatusEffectStatus,
+  StatusEffectType,
+} from "./StatusEffect";
 
 interface Meter {
   value: number;
@@ -30,6 +34,7 @@ export interface ReadonlyEntrantStatus {
   coords: ReadonlyCoordinate;
   ticksUntilNextTurn: number;
   vision: number;
+  statusesEffects: StatusEffectType[];
 }
 
 export interface ReadonlyEntrant {
@@ -37,6 +42,7 @@ export interface ReadonlyEntrant {
   status: ReadonlyEntrantStatus;
   spells: ExtendedSpellStatus[];
   passives: AbilityStatus[];
+  statusEffects: StatusEffectStatus[];
   color: string;
   flipped: boolean;
 }
@@ -227,6 +233,7 @@ export class Entrant {
       status: this.getStatus(),
       spells: this.spells.map((s) => s.toExtendedReadonly()),
       passives: this.passives.map((p) => p.toReadonly()),
+      statusEffects: this.statusEffects.map((s) => s.toReadonly()),
       color: this.color,
       flipped: this.flipped,
     };
@@ -240,6 +247,7 @@ export class Entrant {
       ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: this.coords.toReadonly(),
       vision: this.combatant.getVision(),
+      statusesEffects: this.statusEffects.map((s) => s.getType()),
     };
   }
 }

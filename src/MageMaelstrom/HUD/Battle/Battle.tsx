@@ -27,7 +27,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
   }
 
   return (
-    <div style={{ padding: "0px 100px" }}>
+    <div style={{ padding: "0px 40px" }}>
       <Stack alignment="middle" gap={50}>
         <div
           className="mageMaelstromTitle"
@@ -68,16 +68,22 @@ export const Battle: React.FC<BattleProps> = ({}) => {
         </Stack.Item>
       </Stack>
 
-      <Stack gap={20} alignment="middle" stretch>
-        <div>
-          <Stack stretch>
-            <TeamDisplay team={leftTeam} />
+      <Stack gap={30} alignment="middle" stretch>
+        <Stack.Item>
+          <Stack stretch gap={5}>
+            <Stack.Item>
+              <TeamDisplay team={leftTeam} />
+            </Stack.Item>
             <Arena />
-            <TeamDisplay team={rightTeam} />
+            <Stack.Item>
+              <TeamDisplay team={rightTeam} />
+            </Stack.Item>
           </Stack>
-        </div>
+        </Stack.Item>
 
-        <BattleLogs />
+        <Stack.Item size={0.25}>
+          <BattleLogs />
+        </Stack.Item>
       </Stack>
     </div>
   );

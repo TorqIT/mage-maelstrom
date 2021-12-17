@@ -2,7 +2,7 @@
   --upper-left-border: rgb(118, 118, 154);
   --lower-right-border: rgb(46, 46, 84);
 
-  min-width: 400px;
+  width: 100%;
   height: calc(100vh - 200px);
   background-color: rgb(11, 11, 17);
   overflow-y: auto;

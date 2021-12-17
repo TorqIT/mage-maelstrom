@@ -43,11 +43,12 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
             </div>
             <Stack.Item>
               <Stack gap="apart" fill alignment="middle" reverse={flip}>
-                <Stack gap={4}>
+                <Stack gap={8}>
                   {entrant.spells.map((s) => (
                     <SpellDisplay key={s.id} spell={s} />
                   ))}
                 </Stack>
+
                 <Stack gap={4}>
                   {entrant.passives.map((p) => (
                     <DescribableDisplay key={p.id} describable={p} />
@@ -67,6 +68,20 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
             roundTo="floor"
           />
         </div>
+      </div>
+      <div
+        className={styles.statusEffects}
+        style={
+          entrant.statusEffects.length > 0
+            ? { marginTop: 10, height: 28 }
+            : { height: 0 }
+        }
+      >
+        <Stack gap={4}>
+          {entrant.statusEffects.map((s) => (
+            <DescribableDisplay key={s.id} describable={s} />
+          ))}
+        </Stack>
       </div>
     </div>
   );

@@ -19,3 +19,8 @@
   font-family: Button;
   font-size: 20px;
 }
+
+.statusEffects {
+  transition: 0.8s;
+  overflow-y: hidden;
+}
