@@ -3,11 +3,15 @@ import { MovementDirection } from "../../Arena";
 import { IconDef } from "../../Common/Icon";
 import { SpellLog } from "../../Logic";
 import { Entrant } from "../entrant";
-import { Ability, AbilityType } from "./ability";
+import {
+  Ability,
+  AbilityDefinition,
+  AbilityStatus,
+  AbilityType,
+} from "./ability";
 
-interface SpellDefinition {
+interface SpellDefinition extends Omit<AbilityDefinition, "type"> {
   type: SpellType;
-  icon: IconDef;
   cooldown: number;
   manaCost: number;
   range?: number;
@@ -20,10 +24,8 @@ export interface SpellStatus {
   range?: number;
 }
 
-export interface ExtendedSpellStatus extends SpellStatus {
+export interface ExtendedSpellStatus extends SpellStatus, AbilityStatus {
   cooldown: number;
-  icon: IconDef;
-  id: number;
 }
 
 export type SpellTarget = number | MovementDirection | undefined;
@@ -38,7 +40,7 @@ export abstract class Spell extends Ability {
   private range?: number;
 
   public constructor(def: SpellDefinition) {
-    super(def.type, def.icon);
+    super(def);
 
     this.cooldown = def.cooldown;
     this.cooldownTimer = 0;
@@ -76,9 +78,9 @@ export abstract class Spell extends Ability {
     target: FullSpellTarget
   ): SpellLog | undefined;
 
-  public toReadonly(): SpellStatus {
+  public toReadonlySpell(): SpellStatus {
     return {
-      type: this.type,
+      type: this.def.type,
       cooldownTimer: this.cooldownTimer,
       manaCost: this.manaCost,
       range: this.range,
@@ -88,9 +90,8 @@ export abstract class Spell extends Ability {
   public toExtendedReadonly(): ExtendedSpellStatus {
     return {
       ...this.toReadonly(),
+      ...this.toReadonlySpell(),
       cooldown: this.cooldown,
-      icon: this.icon,
-      id: this.id,
     };
   }
 }

@@ -1,0 +1,21 @@
+.wrapper {
+  padding: 5px 10px 0px;
+  max-width: 300px;
+}
+
+.name {
+  font-size: 24px;
+}
+
+.description {
+  font-style: 12px;
+  padding: 15px 0px 10px;
+}
+
+.flavorText {
+  font-size: 10px;
+  text-align: right;
+  font-style: italic;
+  font-weight: 100;
+  opacity: 0.5;
+}

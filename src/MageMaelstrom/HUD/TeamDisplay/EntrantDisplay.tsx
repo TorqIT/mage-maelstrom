@@ -4,6 +4,7 @@ import { ReadonlyEntrant } from "../../Combatant";
 import { Stack } from "../../Common";
 import { Icon } from "../../Common/Icon";
 import { HealthBar } from "../HealthBar";
+import { AbilityDisplay } from "./AbilityDisplay";
 import styles from "./EntrantDisplay.module.css";
 import { SpellDisplay } from "./SpellDisplay";
 
@@ -50,7 +51,7 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
                 </Stack>
                 <Stack gap={4}>
                   {entrant.passives.map((p) => (
-                    <Icon key={p.id} icon={p.icon} size={28} />
+                    <AbilityDisplay key={p.id} ability={p} />
                   ))}
                 </Stack>
               </Stack>

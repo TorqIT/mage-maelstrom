@@ -2,6 +2,7 @@ import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { nextId } from "../Common";
 import { ActionResult, Helpers } from "../Logic";
 import {
+  AbilityStatus,
   AbilityType,
   buildPassive,
   buildSpell,
@@ -10,7 +11,6 @@ import {
   isPassive,
   isSpell,
   Passive,
-  PassiveStatus,
   Spell,
 } from "./Ability";
 import { Combatant, CombatantDefinition } from "./combatant";
@@ -35,7 +35,7 @@ export interface ReadonlyEntrant {
   combatant: CombatantDefinition;
   status: ReadonlyEntrantStatus;
   spells: ExtendedSpellStatus[];
-  passives: PassiveStatus[];
+  passives: AbilityStatus[];
   color: string;
   flipped: boolean;
 }
@@ -153,7 +153,7 @@ export class Entrant {
     return this.combatant.act(
       helpers,
       visibleEnemies,
-      this.spells.map((s) => s.toReadonly())
+      this.spells.map((s) => s.toReadonlySpell())
     );
   }
 

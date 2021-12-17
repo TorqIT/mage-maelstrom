@@ -1,12 +1,20 @@
 import { mmTalented } from "../../../Common/Icon";
 import { Passive } from "../passive";
 
+const MAX_STAT_BOOST = 10;
+
 export class Talented extends Passive {
   public constructor() {
-    super("talented", mmTalented);
+    super({
+      type: "talented",
+      name: "Talented",
+      description: `+${MAX_STAT_BOOST} Max Stats`,
+      flavorText: "haha funny text",
+      icon: mmTalented
+    });
   }
 
   public override getMaxStatAdjustment() {
-    return 10;
+    return MAX_STAT_BOOST;
   }
 }

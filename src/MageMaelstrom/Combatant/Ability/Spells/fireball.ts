@@ -4,10 +4,14 @@ import { SpellLog } from "../../../Logic";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, Spell } from "../spell";
 
+const DAMAGE = 30;
+
 export class Fireball extends Spell {
   public constructor() {
     super({
       type: "fireball",
+      name: "Fireball",
+      description: `Throw out a long range fireball that deals ${DAMAGE} damage`,
       icon: mmFireball,
       cooldown: 300,
       manaCost: 20,
@@ -23,12 +27,12 @@ export class Fireball extends Spell {
       return;
     }
 
-    target.takeDamage(30);
+    target.takeDamage(DAMAGE);
 
     loggingManager.logSpell({
       attacker: caster.getId(),
       target: target.getId(),
-      damage: 30,
+      damage: DAMAGE,
       remainingHealth: target.getHealth(),
       spellIcon: mmFireball,
     });

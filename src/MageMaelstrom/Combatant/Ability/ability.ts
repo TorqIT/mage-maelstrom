@@ -17,22 +17,35 @@ export function isPassive(type: AbilityType): type is PassiveType {
   return passiveTypes.includes(type as PassiveType);
 }
 
+export interface AbilityDefinition {
+  type: AbilityType;
+  icon: IconDef;
+  name: string;
+  description: string;
+  flavorText?: string;
+}
+
+export interface AbilityStatus extends AbilityDefinition {
+  id: number;
+}
+
 export abstract class Ability {
-  protected type: AbilityType;
-  protected icon: IconDef;
+  protected def: AbilityDefinition;
   protected id: number;
 
-  public constructor(type: AbilityType, icon: IconDef) {
-    this.type = type;
-    this.icon = icon;
+  public constructor(def: AbilityDefinition) {
+    this.def = def;
     this.id = nextId();
   }
 
   public getType() {
-    return this.type;
+    return this.def.type;
   }
 
-  public getIcon() {
-    return this.icon;
+  public toReadonly(): AbilityStatus {
+    return {
+      ...this.def,
+      id: this.id,
+    };
   }
 }

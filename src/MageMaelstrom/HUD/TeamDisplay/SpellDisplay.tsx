@@ -1,14 +1,12 @@
 import classNames from "classnames";
 import React from "react";
 import { ExtendedSpellStatus } from "../../Combatant";
-import { Icon } from "../../Common/Icon";
+import { AbilityDisplay } from "./AbilityDisplay";
 import styles from "./SpellDisplay.module.css";
 
 export interface SpellDisplayProps {
   spell: ExtendedSpellStatus;
 }
-
-const ICON_SIZE = 28;
 
 export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
   return (
@@ -18,14 +16,14 @@ export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
       })}
     >
       <div className={styles.icon}>
-        <Icon icon={spell.icon} size={ICON_SIZE} />
+        <AbilityDisplay ability={spell} />
       </div>
       <div
         className={styles.cooldownIndicator}
         style={{
           height:
-            ((spell.cooldown - spell.cooldownTimer) / spell.cooldown) *
-            ICON_SIZE,
+            ((spell.cooldown - spell.cooldownTimer) / spell.cooldown) * 100 +
+            "%",
         }}
       ></div>
     </div>
