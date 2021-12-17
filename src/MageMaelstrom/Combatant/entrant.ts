@@ -15,6 +15,7 @@ import {
 } from "./Ability";
 import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
+import { StatusEffect, StatusEffectType } from "./StatusEffect";
 
 interface Meter {
   value: number;
@@ -54,6 +55,7 @@ export class Entrant {
 
   private spells: Spell[];
   private passives: Passive[];
+  private statusEffects: StatusEffect[];
 
   public constructor(
     combatant: Combatant,
@@ -86,8 +88,8 @@ export class Entrant {
 
     const abilities = this.combatant.getAbilities();
 
+    this.statusEffects = [];
     this.spells = abilities.filter(isSpell).map((a) => buildSpell(a));
-
     this.passives = abilities.filter(isPassive).map((a) => buildPassive(a));
   }
 
@@ -139,6 +141,9 @@ export class Entrant {
     this.updateMeter(this.mana);
 
     this.spells.forEach((s) => s.update());
+    this.statusEffects.forEach((e) => e.update(this));
+
+    this.statusEffects = this.statusEffects.filter((e) => !e.isFinished());
   }
 
   private updateMeter(meter: Meter) {
@@ -204,6 +209,13 @@ export class Entrant {
 
   public drainMana(amount: number) {
     this.mana.value -= amount;
+  }
+
+  public applyStatusEffect(effect: StatusEffect) {
+    this.statusEffects = this.statusEffects.filter(
+      (e) => e.getType() !== effect.getType()
+    );
+    this.statusEffects.push(effect);
   }
 
   //~*~*~*~*~*~*

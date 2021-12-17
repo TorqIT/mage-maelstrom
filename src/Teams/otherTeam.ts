@@ -1,9 +1,11 @@
 import { Combatant, Team } from "../MageMaelstrom";
 import { MovementDirection } from "../MageMaelstrom/Arena";
 import {
+  AbilityType,
   CombatantDefinition,
   ReadonlyEntrantStatus,
   SpellStatus,
+  SpellType,
 } from "../MageMaelstrom/Combatant";
 import { Action, actions } from "../MageMaelstrom/Combatant/actions";
 import { Helpers } from "../MageMaelstrom/Logic";
@@ -18,32 +20,32 @@ class WowDude extends Combatant {
       icon: "/burst.png",
 
       strength: 5,
-      agility: 55,
+      agility: 45,
       intelligence: 10,
 
-      abilities: ["fireball", "talented", "talented", "talented"],
+      abilities: ["fireball", "poison", "talented", "talented"],
     };
   }
   public init(): void {}
   public act(
     helpers: Helpers,
     visibleEnemies: ReadonlyEntrantStatus[],
-    [fireball]: SpellStatus[]
+    [fireball, poison]: SpellStatus[]
   ): Action {
     if (visibleEnemies.length > 0) {
-      const spellAction = actions.cast(fireball.type, visibleEnemies[0].id);
+      const action = this.tryCast(helpers, poison.type, visibleEnemies[0].id);
 
-      if (helpers.canPerform(spellAction)) {
-        return spellAction;
+      if (action) {
+        return action;
       }
 
-      const attackableEnemy = visibleEnemies.find((s) =>
-        helpers.canPerform(actions.attack(s.id))
-      );
+      // const attackableEnemy = visibleEnemies.find((s) =>
+      //   helpers.canPerform(actions.attack(s.id))
+      // );
 
-      if (attackableEnemy) {
-        return actions.attack(attackableEnemy.id);
-      }
+      // if (attackableEnemy) {
+      //   return actions.attack(attackableEnemy.id);
+      // }
     }
 
     while (!helpers.canPerform(actions.move(this.dirPriority[this.target]))) {
@@ -51,6 +53,14 @@ class WowDude extends Combatant {
     }
 
     return actions.move(this.dirPriority[this.target]);
+  }
+
+  private tryCast(helpers: Helpers, type: AbilityType, enemyId: number) {
+    const spellAction = actions.cast(type, enemyId);
+
+    if (helpers.canPerform(spellAction)) {
+      return spellAction;
+    }
   }
 }
 

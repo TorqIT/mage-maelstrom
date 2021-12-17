@@ -1,21 +1,22 @@
 import { PassiveType, SpellType } from "./ability";
+import { Passive } from "./passive";
 import { Talented } from "./Passives/talented";
+import { Spell } from "./spell";
 import { Fireball } from "./Spells/fireball";
+import { Poison } from "./Spells/poison";
 
-export function buildSpell(type: SpellType) {
+export function buildSpell(type: SpellType): Spell {
   switch (type) {
     case "fireball":
       return new Fireball();
+    case "poison":
+      return new Poison();
   }
-
-  throw new Error("Given type is not a spell");
 }
 
-export function buildPassive(type: PassiveType) {
+export function buildPassive(type: PassiveType): Passive {
   switch (type) {
     case "talented":
       return new Talented();
   }
-
-  throw new Error("Given type is not a passive");
 }

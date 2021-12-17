@@ -1,8 +1,7 @@
 import { nextId } from "../../Common";
-import { IconDef } from "../../Common/Icon";
 import { Describable } from "../describable";
 
-const spellTypes = ["fireball"] as const;
+const spellTypes = ["fireball", "poison"] as const;
 const passiveTypes = ["talented"] as const;
 
 export type SpellType = typeof spellTypes[number];

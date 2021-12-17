@@ -73,10 +73,7 @@ export abstract class Spell extends Ability {
     return this.castSpell(caster, target);
   }
 
-  protected abstract castSpell(
-    caster: Entrant,
-    target: FullSpellTarget
-  ): SpellLog | undefined;
+  protected abstract castSpell(caster: Entrant, target: FullSpellTarget): void;
 
   public toReadonlySpell(): SpellStatus {
     return {
