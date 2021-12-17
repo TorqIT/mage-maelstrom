@@ -9,7 +9,6 @@ export class Talented extends Passive {
       type: "talented",
       name: "Talented",
       description: `+${MAX_STAT_BOOST} Max Stats`,
-      flavorText: "haha funny text",
       icon: mmTalented
     });
   }
