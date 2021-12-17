@@ -2,9 +2,8 @@ import React from "react";
 import { CombatantIcon } from "..";
 import { ReadonlyEntrant } from "../../Combatant";
 import { Stack } from "../../Common";
-import { Icon } from "../../Common/Icon";
 import { HealthBar } from "../HealthBar";
-import { AbilityDisplay } from "./AbilityDisplay";
+import { DescribableDisplay } from "./DescribableDisplay";
 import styles from "./EntrantDisplay.module.css";
 import { SpellDisplay } from "./SpellDisplay";
 
@@ -51,7 +50,7 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
                 </Stack>
                 <Stack gap={4}>
                   {entrant.passives.map((p) => (
-                    <AbilityDisplay key={p.id} ability={p} />
+                    <DescribableDisplay key={p.id} describable={p} />
                   ))}
                 </Stack>
               </Stack>

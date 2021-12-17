@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { ExtendedSpellStatus } from "../../Combatant";
-import { AbilityDisplay } from "./AbilityDisplay";
+import { DescribableDisplay } from "./DescribableDisplay";
 import styles from "./SpellDisplay.module.css";
 
 export interface SpellDisplayProps {
@@ -16,7 +16,10 @@ export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
       })}
     >
       <div className={styles.icon}>
-        <AbilityDisplay ability={spell} fade={spell.cooldownTimer > 0} />
+        <DescribableDisplay
+          describable={spell}
+          fade={spell.cooldownTimer > 0}
+        />
       </div>
       <div
         className={styles.cooldownIndicator}
