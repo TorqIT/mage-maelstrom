@@ -21,6 +21,7 @@ export interface AttackLog extends BaseLog {
   target: number;
   damage: number;
   remainingHealth: number;
+  isCrit: boolean;
 }
 
 export interface SpellLog extends BaseLog {

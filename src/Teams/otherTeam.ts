@@ -20,10 +20,10 @@ class WowDude extends Combatant {
       icon: "/burst.png",
 
       strength: 5,
-      agility: 45,
-      intelligence: 10,
+      agility: 37,
+      intelligence: 8,
 
-      abilities: ["fireball", "poison", "talented", "talented"],
+      abilities: ["fireball", "poison", "critical", "talented"],
     };
   }
   public init(): void {}
@@ -39,13 +39,13 @@ class WowDude extends Combatant {
         return action;
       }
 
-      // const attackableEnemy = visibleEnemies.find((s) =>
-      //   helpers.canPerform(actions.attack(s.id))
-      // );
+      const attackableEnemy = visibleEnemies.find((s) =>
+        helpers.canPerform(actions.attack(s.id))
+      );
 
-      // if (attackableEnemy) {
-      //   return actions.attack(attackableEnemy.id);
-      // }
+      if (attackableEnemy) {
+        return actions.attack(attackableEnemy.id);
+      }
     }
 
     while (!helpers.canPerform(actions.move(this.dirPriority[this.target]))) {

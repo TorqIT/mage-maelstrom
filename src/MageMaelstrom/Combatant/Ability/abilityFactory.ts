@@ -1,5 +1,6 @@
 import { PassiveType, SpellType } from "./ability";
 import { Passive } from "./passive";
+import { Critical } from "./Passives/critical";
 import { Talented } from "./Passives/talented";
 import { Spell } from "./spell";
 import { Fireball } from "./Spells/fireball";
@@ -18,5 +19,7 @@ export function buildPassive(type: PassiveType): Passive {
   switch (type) {
     case "talented":
       return new Talented();
+    case "critical":
+      return new Critical();
   }
 }

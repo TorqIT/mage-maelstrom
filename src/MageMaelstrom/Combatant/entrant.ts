@@ -168,14 +168,16 @@ export class Entrant {
 
   public attack(target: Entrant) {
     const damage = this.combatant.getDamage();
+    const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
-    target.takeDamage(damage);
+    target.takeDamage(damage * mult);
 
     loggingManager.logAttack({
       target: target.getId(),
       attacker: this.getId(),
-      damage: damage,
+      damage: damage * mult,
       remainingHealth: target.getHealth(),
+      isCrit: mult !== 1,
     });
   }
 

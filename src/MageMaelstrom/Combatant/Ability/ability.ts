@@ -2,7 +2,7 @@ import { nextId } from "../../Common";
 import { Describable } from "../describable";
 
 const spellTypes = ["fireball", "poison"] as const;
-const passiveTypes = ["talented"] as const;
+const passiveTypes = ["talented", "critical"] as const;
 
 export type SpellType = typeof spellTypes[number];
 export type PassiveType = typeof passiveTypes[number];
