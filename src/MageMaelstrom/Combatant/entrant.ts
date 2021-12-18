@@ -1,6 +1,6 @@
 import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { nextId } from "../Common";
-import { ActionResult, Helpers } from "../Logic";
+import { ActionResult, Helpers, SpellResult } from "../Logic";
 import {
   AbilityStatus,
   AbilityType,
@@ -181,7 +181,7 @@ export class Entrant {
     });
   }
 
-  public canCast(spell: AbilityType, target: FullSpellTarget): ActionResult {
+  public canCast(spell: AbilityType, target: FullSpellTarget): SpellResult {
     const actualSpell = this.spells.find((s) => s.getType() === spell);
 
     if (!actualSpell) {
