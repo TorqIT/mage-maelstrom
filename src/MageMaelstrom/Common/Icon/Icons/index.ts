@@ -42,5 +42,5 @@ export const mmPoison: IconDef = {
 export const mmCrit: IconDef = {
   file: crit,
   filter:
-    "invert(81%) sepia(19%) saturate(624%) hue-rotate(346deg) brightness(93%) contrast(96%)",
+    "invert(61%) sepia(87%) saturate(4045%) hue-rotate(332deg) brightness(101%) contrast(100%)",
 };

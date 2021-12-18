@@ -20,10 +20,10 @@ class WowDude extends Combatant {
       icon: "/burst.png",
 
       strength: 5,
-      agility: 37,
-      intelligence: 8,
+      agility: 25,
+      intelligence: 5,
 
-      abilities: ["fireball", "poison", "critical", "talented"],
+      abilities: ["critical", "critical", "critical", "critical"],
     };
   }
   public init(): void {}
@@ -33,11 +33,11 @@ class WowDude extends Combatant {
     [fireball, poison]: SpellStatus[]
   ): Action {
     if (visibleEnemies.length > 0) {
-      const action = this.tryCast(helpers, poison.type, visibleEnemies[0].id);
+      // const action = this.tryCast(helpers, poison.type, visibleEnemies[0].id);
 
-      if (action) {
-        return action;
-      }
+      // if (action) {
+      //   return action;
+      // }
 
       const attackableEnemy = visibleEnemies.find((s) =>
         helpers.canPerform(actions.attack(s.id))
