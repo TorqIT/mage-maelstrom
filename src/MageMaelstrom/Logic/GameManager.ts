@@ -1,7 +1,6 @@
 import arrayShuffle from "array-shuffle";
 import { Coordinate } from "../Arena";
 import {
-  AbilityType,
   Action,
   ActionType,
   ActiveTeam,
@@ -16,11 +15,9 @@ import {
   SpellAction,
   SpellTarget,
 } from "../Combatant";
-import { nextId } from "../Common";
 import { ActionResult } from "./actionResult";
 import { GameSpecs } from "./gameSpecs";
 import { buildHelpers } from "./helpers";
-import { BattleLogEvent, LogType } from "../Logging/logs";
 import { loggingManager } from "../Logging";
 
 type OnChangeListener = () => void;
@@ -238,7 +235,7 @@ export class GameManager {
   }
 
   private tryPerformAction(entrant: Entrant, action: Action) {
-    if (this.getActionResult(entrant, action) === ActionResult.Success) {
+    if (this.getActionResult(entrant, action) === "Success") {
       this.performAction(entrant, action);
 
       return true;
@@ -259,10 +256,10 @@ export class GameManager {
       case ActionType.Spell:
         return this.canPerformSpellAction(entrant, action);
       case ActionType.Dance:
-        return ActionResult.Success;
+        return "Success";
     }
 
-    return ActionResult.UnknownAction;
+    return "UnknownAction";
   }
 
   private canPerformMovementAction(entrant: Entrant, action: MovementAction) {
@@ -274,7 +271,7 @@ export class GameManager {
       result.getY() < 0 ||
       result.getY() >= this.specs.arena.height
     ) {
-      return ActionResult.OutOfArena;
+      return "OutOfArena";
     }
 
     if (
@@ -282,15 +279,15 @@ export class GameManager {
         .filter((e) => e.getId() !== entrant.getId() && !e.isDead())
         .some((e) => e.getCoords().equals(result))
     ) {
-      return ActionResult.TileOccupied;
+      return "TileOccupied";
     }
 
-    return ActionResult.Success;
+    return "Success";
   }
 
   private canPerformAttackAction(entrant: Entrant, action: AttackAction) {
     if (typeof action.target === "string") {
-      return ActionResult.Success;
+      return "Success";
     }
 
     const targetEntrant = this.getEntrantArray().find(
@@ -298,16 +295,16 @@ export class GameManager {
     );
 
     if (!targetEntrant) {
-      return ActionResult.CombatantNotFound;
+      return "CombatantNotFound";
     }
 
     if (targetEntrant.isDead()) {
-      return ActionResult.TargetIsDead;
+      return "TargetIsDead";
     }
 
     return entrant.getCoords().isNextTo(targetEntrant.getCoords())
-      ? ActionResult.Success
-      : ActionResult.OutOfRange;
+      ? "Success"
+      : "OutOfRange";
   }
 
   private canPerformSpellAction(entrant: Entrant, action: SpellAction) {
@@ -316,7 +313,7 @@ export class GameManager {
     if (target !== null) {
       return entrant.canCast(action.spell, target);
     } else {
-      return ActionResult.CombatantNotFound;
+      return "CombatantNotFound";
     }
   }
 

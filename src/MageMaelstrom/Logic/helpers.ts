@@ -11,6 +11,6 @@ export function buildHelpers(
 ): Helpers {
   return {
     getActionResult,
-    canPerform: (a: Action) => getActionResult(a) === ActionResult.Success,
+    canPerform: (a: Action) => getActionResult(a) === "Success",
   };
 }

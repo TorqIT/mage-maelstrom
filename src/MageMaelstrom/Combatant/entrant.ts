@@ -181,22 +181,22 @@ export class Entrant {
     });
   }
 
-  public canCast(spell: AbilityType, target: FullSpellTarget) {
+  public canCast(spell: AbilityType, target: FullSpellTarget): ActionResult {
     const actualSpell = this.spells.find((s) => s.getType() === spell);
 
     if (!actualSpell) {
-      return ActionResult.InvalidSpell;
+      return "InvalidSpell";
     }
 
     if (actualSpell.isOnCooldown()) {
-      return ActionResult.OnCooldown;
+      return "OnCooldown";
     }
 
     if (this.mana.value < actualSpell.getManaCost()) {
-      return ActionResult.NotEnoughMana;
+      return "NotEnoughMana";
     }
 
-    return ActionResult.Success;
+    return "Success";
   }
 
   public cast(spell: AbilityType, target: FullSpellTarget) {
