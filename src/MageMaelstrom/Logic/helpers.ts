@@ -2,12 +2,16 @@ import { ActionResult } from "./actionResult";
 import { Action } from "../Combatant";
 
 export interface Helpers {
-  getActionResult: (action: Action) => ActionResult;
+  getActionResult: <ActionType extends Action>(
+    action: ActionType
+  ) => ActionResult<ActionType>;
   canPerform: (action: Action) => boolean;
 }
 
 export function buildHelpers(
-  getActionResult: (action: Action) => ActionResult
+  getActionResult: <ActionType extends Action>(
+    action: ActionType
+  ) => ActionResult<ActionType>
 ): Helpers {
   return {
     getActionResult,

@@ -15,7 +15,12 @@ import {
   SpellAction,
   SpellTarget,
 } from "../Combatant";
-import { ActionResult } from "./actionResult";
+import {
+  ActionResult,
+  AttackResult,
+  MoveResult,
+  SpellResult,
+} from "./actionResult";
 import { GameSpecs } from "./gameSpecs";
 import { buildHelpers } from "./helpers";
 import { loggingManager } from "../Logging";
@@ -198,7 +203,9 @@ export class GameManager {
 
         try {
           action = e.act(
-            buildHelpers((a: Action) => this.getActionResult(e, a)),
+            buildHelpers(<ActionType extends Action>(a: ActionType) =>
+              this.getActionResult(e, a)
+            ),
             this.getVisibleEnemyEntrants(team, enemyTeam)
           );
         } catch (e) {
@@ -247,22 +254,37 @@ export class GameManager {
   //~*~*~*~*~*
   //CAN PERFORM ACTION
 
-  private getActionResult(entrant: Entrant, action: Action): ActionResult {
+  private getActionResult<ActionType extends Action>(
+    entrant: Entrant,
+    action: ActionType
+  ): ActionResult<ActionType> {
     switch (action.type) {
       case ActionType.Movement:
-        return this.canPerformMovementAction(entrant, action);
+        return this.canPerformMovementAction(
+          entrant,
+          action
+        ) as ActionResult<ActionType>;
       case ActionType.Attack:
-        return this.canPerformAttackAction(entrant, action);
+        return this.canPerformAttackAction(
+          entrant,
+          action
+        ) as ActionResult<ActionType>;
       case ActionType.Spell:
-        return this.canPerformSpellAction(entrant, action);
+        return this.canPerformSpellAction(
+          entrant,
+          action
+        ) as ActionResult<ActionType>;
       case ActionType.Dance:
-        return "Success";
+        return "Success" as ActionResult<ActionType>;
     }
 
-    return "UnknownAction";
+    return "UnknownAction" as ActionResult<ActionType>;
   }
 
-  private canPerformMovementAction(entrant: Entrant, action: MovementAction) {
+  private canPerformMovementAction(
+    entrant: Entrant,
+    action: MovementAction
+  ): MoveResult {
     const result = Coordinate.getSide(entrant.getCoords(), action.direction);
 
     if (
@@ -285,7 +307,10 @@ export class GameManager {
     return "Success";
   }
 
-  private canPerformAttackAction(entrant: Entrant, action: AttackAction) {
+  private canPerformAttackAction(
+    entrant: Entrant,
+    action: AttackAction
+  ): AttackResult {
     if (typeof action.target === "string") {
       return "Success";
     }
@@ -307,7 +332,10 @@ export class GameManager {
       : "OutOfRange";
   }
 
-  private canPerformSpellAction(entrant: Entrant, action: SpellAction) {
+  private canPerformSpellAction(
+    entrant: Entrant,
+    action: SpellAction
+  ): SpellResult {
     const target = this.toFullSpellTarget(action.target);
 
     if (target !== null) {
