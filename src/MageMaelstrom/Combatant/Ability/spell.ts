@@ -1,7 +1,7 @@
 import { SpellType } from ".";
 import { MovementDirection } from "../../Arena";
 import { IconDef } from "../../Common/Icon";
-import { SpellLog } from "../../Logic";
+import { SpellLog, SpellResult } from "../../Logic";
 import { Entrant } from "../entrant";
 import {
   Ability,
@@ -61,6 +61,32 @@ export abstract class Spell extends Ability {
       this.cooldownTimer--;
     }
   }
+
+  public canCast(caster: Entrant, target: FullSpellTarget): SpellResult {
+    if (this.cooldownTimer > 0) {
+      return "OnCooldown";
+    }
+
+    if (this.manaCost > caster.getMana()) {
+      return "NotEnoughMana";
+    }
+
+    if (
+      target &&
+      typeof target !== "string" &&
+      this.range &&
+      !caster.getCoords().isWithinRangeOf(this.range, target.getCoords())
+    ) {
+      return "OutOfRange";
+    }
+
+    return this.canCastSpell(caster, target);
+  }
+
+  protected abstract canCastSpell(
+    caster: Entrant,
+    target: FullSpellTarget
+  ): SpellResult;
 
   public cast(caster: Entrant, target: FullSpellTarget) {
     if (this.cooldownTimer > 0 || caster.getMana() < this.manaCost) {

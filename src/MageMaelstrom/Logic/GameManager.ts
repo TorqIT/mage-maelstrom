@@ -338,6 +338,8 @@ export class GameManager {
   ): SpellResult {
     const target = this.toFullSpellTarget(action.target);
 
+    //If it's null then they tried to find a particular entrant
+    // but had an invalid id.
     if (target !== null) {
       return entrant.canCast(action.spell, target);
     } else {

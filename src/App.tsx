@@ -15,13 +15,13 @@ function App() {
             maxTotalStats: 40,
           },
           arena: {
-            width: 16,
-            height: 12,
+            width: 14,
+            height: 10,
           },
           stats: {
-            healthPerStrength: 10,
-            healthRegenPerStrength: 0.25,
-            agilityBonus: 1.035,
+            healthPerStrength: 12,
+            healthRegenPerStrength: 0.22,
+            agilityBonus: 1.04,
             manaPerInt: 7,
             manaRegenPerInt: 0.1,
             vision: 4,

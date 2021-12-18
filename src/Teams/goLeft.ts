@@ -13,7 +13,7 @@ export class GoLeft extends Combatant {
       name: "I GO LEFT",
       icon: "/burst.png",
 
-      strength: 70,
+      strength: 30,
       agility: 5,
       intelligence: 5,
 

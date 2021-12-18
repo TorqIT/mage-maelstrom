@@ -19,7 +19,7 @@ export type SpellResult =
   | "CombatantNotFound"
   | "TargetIsDead"
   | "InvalidSpell"
-  | "InvalidTarget"
+  | "WrongTargetType"
   | "NotEnoughMana"
   | "OnCooldown";
 

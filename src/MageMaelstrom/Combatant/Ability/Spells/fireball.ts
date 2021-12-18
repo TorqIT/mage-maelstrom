@@ -1,6 +1,6 @@
 import { mmFireball } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
-import { SpellLog } from "../../../Logic";
+import { SpellLog, SpellResult } from "../../../Logic";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, Spell } from "../spell";
 
@@ -18,6 +18,17 @@ export class Fireball extends Spell {
       manaCost: 20,
       range: 5,
     });
+  }
+
+  protected canCastSpell(
+    caster: Entrant,
+    target: FullSpellTarget
+  ): SpellResult {
+    if (!target || typeof target === "string") {
+      return "WrongTargetType";
+    }
+
+    return "Success";
   }
 
   protected castSpell(

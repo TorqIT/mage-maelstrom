@@ -12,14 +12,12 @@ import {
   isSpell,
   Passive,
   Spell,
-} from "./Ability";
-import { Combatant, CombatantDefinition } from "./combatant";
-import { loggingManager } from "../Logging";
-import {
   StatusEffect,
   StatusEffectStatus,
   StatusEffectType,
-} from "./StatusEffect";
+} from "./Ability";
+import { Combatant, CombatantDefinition } from "./combatant";
+import { loggingManager } from "../Logging";
 
 interface Meter {
   value: number;
@@ -188,15 +186,7 @@ export class Entrant {
       return "InvalidSpell";
     }
 
-    if (actualSpell.isOnCooldown()) {
-      return "OnCooldown";
-    }
-
-    if (this.mana.value < actualSpell.getManaCost()) {
-      return "NotEnoughMana";
-    }
-
-    return "Success";
+    return actualSpell.canCast(this, target);
   }
 
   public cast(spell: AbilityType, target: FullSpellTarget) {
