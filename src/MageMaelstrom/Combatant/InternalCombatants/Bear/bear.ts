@@ -29,8 +29,36 @@ export class BearCombatant extends Combatant {
     visibleEnemies: ReadonlyEntrantStatus[],
     spells: SpellStatus[]
   ): Action {
-    console.log("An action!", "X:", this.targetX, "Y:", this.targetY);
+    const action = this.tryEngageEnemy(helpers, you, visibleEnemies);
 
+    if (action) {
+      return action;
+    }
+
+    const moveAction = this.tryGetMovementAction(you, helpers);
+
+    if (moveAction) {
+      return moveAction;
+    }
+
+    return actions.dance();
+  }
+
+  private tryEngageEnemy(
+    helpers: Helpers,
+    you: ReadonlyEntrantStatus,
+    visibleEnemies: ReadonlyEntrantStatus[]
+  ) {
+    for (const enemy of visibleEnemies) {
+      if (helpers.canPerform(actions.attack(enemy.id))) {
+        return actions.attack(enemy.id);
+      } else if (helpers.coords.isWithinRange(you.coords, enemy.coords, 3)) {
+        return actions.moveTo(enemy.coords, you.coords);
+      }
+    }
+  }
+
+  private tryGetMovementAction(you: ReadonlyEntrantStatus, helpers: Helpers) {
     let checks = 0;
 
     while (checks < 100) {
@@ -47,8 +75,6 @@ export class BearCombatant extends Combatant {
 
       checks++;
     }
-
-    return actions.dance();
   }
 
   private generateTarget() {
