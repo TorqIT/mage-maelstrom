@@ -163,10 +163,16 @@ export class Entrant {
   //~*~*~*~*
   // ACTIONS
 
-  public act(helpers: Helpers, visibleEnemies: ReadonlyEntrantStatus[]) {
+  public act(
+    helpers: Helpers,
+    allies: ReadonlyEntrantStatus[],
+    visibleEnemies: ReadonlyEntrantStatus[]
+  ) {
     this.ticksUntilNextTurn += this.combatant.getTurnDelay();
     return this.combatant.act(
       helpers,
+      this.getStatus(),
+      allies,
       visibleEnemies,
       this.spells.map((s) => s.toReadonlySpell())
     );

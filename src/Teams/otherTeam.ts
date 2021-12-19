@@ -29,8 +29,10 @@ class WowDude extends Combatant {
   public init(): void {}
   public act(
     helpers: Helpers,
+    you: ReadonlyEntrantStatus,
+    allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[],
-    [bear, poison]: SpellStatus[]
+    [bear]: SpellStatus[]
   ): Action {
     if (helpers.canPerform(actions.cast(bear.type))) {
       return actions.cast(bear.type);

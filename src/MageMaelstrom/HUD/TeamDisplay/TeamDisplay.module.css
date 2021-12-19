@@ -11,6 +11,8 @@
   border-top-color: var(--upper-left-border);
   border-right-color: var(--lower-right-border);
   border-bottom-color: var(--lower-right-border);
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
 }
 
 .name {

@@ -1,4 +1,4 @@
-import { MovementDirection } from "../Arena";
+import { MovementDirection, ReadonlyCoordinate } from "../Arena";
 import { AbilityType, SpellTarget } from "./Ability";
 
 export enum ActionType {
@@ -36,6 +36,29 @@ const actions = {
     return {
       type: ActionType.Movement,
       direction,
+    };
+  },
+  moveTo: (
+    targetCoord: ReadonlyCoordinate,
+    yourPosition: ReadonlyCoordinate
+  ): MovementAction | undefined => {
+    const xDiff = targetCoord.x - yourPosition.x;
+    const yDiff = targetCoord.y - yourPosition.y;
+    let targetDir: MovementDirection;
+
+    if (xDiff === 0 && yDiff === 0) {
+      return;
+    }
+
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+      targetDir = xDiff > 0 ? "right" : "left";
+    } else {
+      targetDir = yDiff > 0 ? "down" : "up";
+    }
+
+    return {
+      type: ActionType.Movement,
+      direction: targetDir,
     };
   },
   attack: (target: MovementDirection | number): AttackAction => {

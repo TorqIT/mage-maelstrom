@@ -4,6 +4,7 @@ import {
   Action,
   actions,
   ReadonlyEntrantStatus,
+  SpellStatus,
 } from "../MageMaelstrom/Combatant";
 import { Helpers } from "../MageMaelstrom/Logic";
 
@@ -23,7 +24,10 @@ export class GoLeft extends Combatant {
   public init(): void {}
   public act(
     helpers: Helpers,
-    visibleEnemies: ReadonlyEntrantStatus[]
+    you: ReadonlyEntrantStatus,
+    allies: ReadonlyEntrantStatus[],
+    visibleEnemies: ReadonlyEntrantStatus[],
+    spells: SpellStatus[]
   ): Action {
     return actions.move("left");
   }

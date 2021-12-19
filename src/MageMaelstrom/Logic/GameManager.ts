@@ -208,6 +208,9 @@ export class GameManager {
             buildHelpers(<ActionType extends Action>(a: ActionType) =>
               this.getActionResult(e, a)
             ),
+            team.entrants
+              .filter((ally) => ally.getId() !== e.getId())
+              .map((ally) => ally.getStatus()),
             this.getVisibleEnemyEntrants(team, enemyTeam)
           );
         } catch (e) {
@@ -414,6 +417,7 @@ export class GameManager {
       targetTeam,
       targetCoord
     );
+    entrant.getCombatant().init();
     targetTeam.entrants.push(entrant);
   }
 

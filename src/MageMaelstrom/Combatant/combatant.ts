@@ -25,12 +25,17 @@ export abstract class Combatant {
     this.id = nextId();
   }
 
+  //~*~*~*~*
+  //CONTROLS
+
   public abstract define(): CombatantDefinition;
 
   public abstract init(): void;
 
   public abstract act(
     helpers: Helpers,
+    you: ReadonlyEntrantStatus,
+    allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[],
     spells: SpellStatus[]
   ): Action;
@@ -83,6 +88,17 @@ export abstract class Combatant {
 
   public getVision() {
     return this.gameSpecs.stats.vision;
+  }
+
+  //~*~*~*~*
+  //SPECS
+
+  public getArenaWidth() {
+    return this.gameSpecs.arena.width;
+  }
+
+  public getArenaHeight() {
+    return this.gameSpecs.arena.height;
   }
 
   //~*~*~*~*
