@@ -1,5 +1,5 @@
 import arrayShuffle from "array-shuffle";
-import { Coordinate } from "../Arena";
+import { Coordinate, MovementDirection, ReadonlyCoordinate } from "../Arena";
 import {
   Action,
   ActionType,
@@ -52,6 +52,9 @@ export class GameManager {
     this.leftTeam = this.buildActiveTeam(left, false);
     this.rightTeam = this.buildActiveTeam(right, true);
 
+    this.leftTeam.entrants.forEach((e) => e.getCombatant().init());
+    this.rightTeam.entrants.forEach((e) => e.getCombatant().init());
+
     loggingManager.clear();
   }
 
@@ -83,8 +86,7 @@ export class GameManager {
         (SubCombatant) =>
           new Entrant(
             new SubCombatant(this.specs),
-            team.color,
-            isRight,
+            { color: team.color, id: team.id, flip: isRight },
             this.generateCoord()
           )
       ),
@@ -341,7 +343,7 @@ export class GameManager {
     //If it's null then they tried to find a particular entrant
     // but had an invalid id.
     if (target !== null) {
-      return entrant.canCast(action.spell, target);
+      return entrant.canCast(action.spell, target, this);
     } else {
       return "CombatantNotFound";
     }
@@ -394,8 +396,77 @@ export class GameManager {
     const target = this.toFullSpellTarget(action.target);
 
     if (target !== null) {
-      entrant.cast(action.spell, target);
+      entrant.cast(action.spell, target, this);
     }
+  }
+
+  public addCombatant(
+    SubCombatant: CombatantSubclass,
+    teamId: number,
+    coord: Coordinate
+  ) {
+    const targetTeam =
+      this.leftTeam.id === teamId ? this.leftTeam : this.rightTeam;
+    const targetCoord = this.findNearestOpenSpot(coord);
+
+    const entrant = new Entrant(
+      new SubCombatant(this.specs),
+      targetTeam,
+      targetCoord
+    );
+    targetTeam.entrants.push(entrant);
+  }
+
+  private findNearestOpenSpot(coord: Coordinate) {
+    const movementDirs: MovementDirection[] = ["right", "up", "left", "down"];
+    let targetCoord = new Coordinate(coord.getX(), coord.getY());
+
+    let moveIndex = 0;
+
+    for (let j = 1; j < 7; j++) {
+      if (this.findIfEmptyOrMove(j, targetCoord, movementDirs[moveIndex])) {
+        return targetCoord;
+      }
+
+      moveIndex = (moveIndex + 1) % 4;
+
+      if (this.findIfEmptyOrMove(j, targetCoord, movementDirs[moveIndex])) {
+        return targetCoord;
+      }
+
+      moveIndex = (moveIndex + 1) % 4;
+    }
+
+    return new Coordinate(coord.getX(), coord.getY());
+  }
+
+  private findIfEmptyOrMove(
+    timesToMove: number,
+    targetCoord: Coordinate,
+    dir: MovementDirection
+  ) {
+    for (let k = 0; k < timesToMove; k++) {
+      if (this.isEmpty(targetCoord)) {
+        return true;
+      }
+
+      targetCoord.move(dir);
+    }
+
+    return false;
+  }
+
+  private isEmpty(coord: Coordinate) {
+    if (
+      coord.getX() < 0 ||
+      coord.getX() >= this.specs.arena.width ||
+      coord.getY() < 0 ||
+      coord.getY() >= this.specs.arena.height
+    ) {
+      return false;
+    }
+
+    return !this.getEntrantArray().some((e) => e.getCoords().equals(coord));
   }
 
   //~*~*~*~*~*~*

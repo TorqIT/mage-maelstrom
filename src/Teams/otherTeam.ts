@@ -23,22 +23,20 @@ class WowDude extends Combatant {
       agility: 25,
       intelligence: 5,
 
-      abilities: ["critical", "critical", "critical", "critical"],
+      abilities: ["bear", "critical", "critical", "critical"],
     };
   }
   public init(): void {}
   public act(
     helpers: Helpers,
     visibleEnemies: ReadonlyEntrantStatus[],
-    [fireball, poison]: SpellStatus[]
+    [bear, poison]: SpellStatus[]
   ): Action {
+    if (helpers.canPerform(actions.cast(bear.type))) {
+      return actions.cast(bear.type);
+    }
+
     if (visibleEnemies.length > 0) {
-      // const action = this.tryCast(helpers, poison.type, visibleEnemies[0].id);
-
-      // if (action) {
-      //   return action;
-      // }
-
       const attackableEnemy = visibleEnemies.find((s) =>
         helpers.canPerform(actions.attack(s.id))
       );

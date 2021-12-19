@@ -2,6 +2,7 @@ import { SpellType } from ".";
 import { MovementDirection } from "../../Arena";
 import { IconDef } from "../../Common/Icon";
 import { SpellLog, SpellResult } from "../../Logic";
+import { GameManager } from "../../Logic/GameManager";
 import { Entrant } from "../entrant";
 import {
   Ability,
@@ -62,7 +63,11 @@ export abstract class Spell extends Ability {
     }
   }
 
-  public canCast(caster: Entrant, target: FullSpellTarget): SpellResult {
+  public canCast(
+    caster: Entrant,
+    target: FullSpellTarget,
+    gameManager: GameManager
+  ): SpellResult {
     if (this.cooldownTimer > 0) {
       return "OnCooldown";
     }
@@ -80,15 +85,20 @@ export abstract class Spell extends Ability {
       return "OutOfRange";
     }
 
-    return this.canCastSpell(caster, target);
+    return this.canCastSpell(caster, target, gameManager);
   }
 
   protected abstract canCastSpell(
     caster: Entrant,
-    target: FullSpellTarget
+    target: FullSpellTarget,
+    gameManager: GameManager
   ): SpellResult;
 
-  public cast(caster: Entrant, target: FullSpellTarget) {
+  public cast(
+    caster: Entrant,
+    target: FullSpellTarget,
+    gameManager: GameManager
+  ) {
     if (this.cooldownTimer > 0 || caster.getMana() < this.manaCost) {
       return;
     }
@@ -96,10 +106,14 @@ export abstract class Spell extends Ability {
     this.cooldownTimer = this.cooldown;
     caster.drainMana(this.manaCost);
 
-    return this.castSpell(caster, target);
+    return this.castSpell(caster, target, gameManager);
   }
 
-  protected abstract castSpell(caster: Entrant, target: FullSpellTarget): void;
+  protected abstract castSpell(
+    caster: Entrant,
+    target: FullSpellTarget,
+    gameManager: GameManager
+  ): void;
 
   public toReadonlySpell(): SpellStatus {
     return {

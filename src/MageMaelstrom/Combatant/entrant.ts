@@ -18,6 +18,7 @@ import {
 } from "./Ability";
 import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
+import { GameManager } from "../Logic/GameManager";
 
 interface Meter {
   value: number;
@@ -50,6 +51,7 @@ export class Entrant {
 
   private color: string;
   private flipped: boolean;
+  private teamId: number;
 
   private id: number;
   private coords: Coordinate;
@@ -63,15 +65,15 @@ export class Entrant {
 
   public constructor(
     combatant: Combatant,
-    color: string,
-    flipped: boolean,
+    team: { color: string; flip: boolean; id: number },
     coords: Coordinate
   ) {
     this.combatant = combatant;
     this.coords = coords;
 
-    this.color = color;
-    this.flipped = flipped;
+    this.color = team.color;
+    this.flipped = team.flip;
+    this.teamId = team.id;
 
     this.id = nextId();
     this.health = {
@@ -102,6 +104,10 @@ export class Entrant {
 
   public getId() {
     return this.id;
+  }
+
+  public getTeamId() {
+    return this.teamId;
   }
 
   public getCombatant() {
@@ -181,24 +187,32 @@ export class Entrant {
     });
   }
 
-  public canCast(spell: AbilityType, target: FullSpellTarget): SpellResult {
+  public canCast(
+    spell: AbilityType,
+    target: FullSpellTarget,
+    gameManager: GameManager
+  ): SpellResult {
     const actualSpell = this.spells.find((s) => s.getType() === spell);
 
     if (!actualSpell) {
       return "InvalidSpell";
     }
 
-    return actualSpell.canCast(this, target);
+    return actualSpell.canCast(this, target, gameManager);
   }
 
-  public cast(spell: AbilityType, target: FullSpellTarget) {
+  public cast(
+    spell: AbilityType,
+    target: FullSpellTarget,
+    gameManager: GameManager
+  ) {
     const actualSpell = this.spells.find((s) => s.getType() === spell);
 
     if (!actualSpell) {
       return;
     }
 
-    actualSpell.cast(this, target);
+    actualSpell.cast(this, target, gameManager);
   }
 
   public takeDamage(amount: number) {

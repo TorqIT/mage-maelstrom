@@ -17,8 +17,7 @@ export function validate(
   team.CombatantSubclasses.forEach((SubCombatant) => {
     const entrant = new Entrant(
       new SubCombatant(specs),
-      team.color,
-      false,
+      { color: team.color, flip: false, id: -1 },
       new Coordinate(0, 0)
     );
     const combatant = entrant.getCombatant().getDef();

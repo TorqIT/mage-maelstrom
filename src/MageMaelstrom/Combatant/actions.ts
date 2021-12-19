@@ -44,7 +44,7 @@ const actions = {
       target,
     };
   },
-  cast: (spell: AbilityType, target: SpellTarget): SpellAction => {
+  cast: (spell: AbilityType, target?: SpellTarget): SpellAction => {
     return {
       type: ActionType.Spell,
       target,

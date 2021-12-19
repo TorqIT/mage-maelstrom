@@ -5,6 +5,7 @@ import cooldownTimer from "./stopwatch.svg";
 import manaCost from "./overmind.svg";
 import poison from "./poison-gas.svg";
 import crit from "./claw-slashes.svg";
+import bear from "./bear-face.svg";
 
 export interface IconDef {
   file: string;
@@ -43,4 +44,8 @@ export const mmCrit: IconDef = {
   file: crit,
   filter:
     "invert(61%) sepia(87%) saturate(4045%) hue-rotate(332deg) brightness(101%) contrast(100%)",
+};
+
+export const mmBear: IconDef = {
+  file: bear,
 };

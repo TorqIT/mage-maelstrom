@@ -1,0 +1,1 @@
+export { BearCombatant } from "./bear";
