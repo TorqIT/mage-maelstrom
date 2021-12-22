@@ -34,8 +34,8 @@ class WowDude extends Combatant {
     visibleEnemies: ReadonlyEntrantStatus[],
     [bear]: SpellStatus[]
   ): Action {
-    if (helpers.canPerform(actions.cast(bear.type))) {
-      return actions.cast(bear.type);
+    if (helpers.canPerform(actions.cast(bear))) {
+      return actions.cast(bear);
     }
 
     if (visibleEnemies.length > 0) {
@@ -55,8 +55,8 @@ class WowDude extends Combatant {
     return actions.move(this.dirPriority[this.target]);
   }
 
-  private tryCast(helpers: Helpers, type: AbilityType, enemyId: number) {
-    const spellAction = actions.cast(type, enemyId);
+  private tryCast(helpers: Helpers, spell: SpellStatus, enemyId: number) {
+    const spellAction = actions.cast(spell, enemyId);
 
     if (helpers.canPerform(spellAction)) {
       return spellAction;

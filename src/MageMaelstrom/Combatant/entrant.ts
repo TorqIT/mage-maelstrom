@@ -6,6 +6,7 @@ import {
   AbilityType,
   buildPassive,
   buildSpell,
+  ExtendedAbilityType,
   ExtendedSpellStatus,
   FullSpellTarget,
   isPassive,
@@ -100,6 +101,17 @@ export class Entrant {
   }
 
   //~*~*~*~*~*~*
+  // PRE-START SETTERS
+
+  public addSpell(spell: Spell) {
+    this.spells.push(spell);
+  }
+
+  public addPassive(passive: Passive) {
+    this.passives.push(passive);
+  }
+
+  //~*~*~*~*~*~*
   // GETTERS
 
   public getId() {
@@ -141,6 +153,23 @@ export class Entrant {
     return this.health.value <= 0;
   }
 
+  public getVision() {
+    return (
+      this.combatant.getVision() +
+      this.passives.reduce(
+        (sum, current) => (sum += current.getVisionAdjustment()),
+        0
+      )
+    );
+  }
+
+  //~*~*~*~*
+  // CALCULATORS
+
+  public canSee(entrant: Entrant) {
+    return this.coords.isWithinRangeOf(this.getVision(), entrant.getCoords());
+  }
+
   //~*~*~*~*
   // UPDATE
 
@@ -168,13 +197,23 @@ export class Entrant {
     allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[]
   ) {
-    this.ticksUntilNextTurn += this.combatant.getTurnDelay();
+    this.ticksUntilNextTurn += this.getTurnDelay();
     return this.combatant.act(
       helpers,
       this.getStatus(),
       allies,
       visibleEnemies,
       this.spells.map((s) => s.toReadonlySpell())
+    );
+  }
+
+  private getTurnDelay() {
+    return (
+      this.combatant.getTurnDelay() /
+      this.passives.reduce(
+        (mult, current) => (mult *= current.getTurnSpeedMultiplier()),
+        1
+      )
     );
   }
 
@@ -194,7 +233,7 @@ export class Entrant {
   }
 
   public canCast(
-    spell: AbilityType,
+    spell: ExtendedAbilityType,
     target: FullSpellTarget,
     gameManager: GameManager
   ): SpellResult {
@@ -208,7 +247,7 @@ export class Entrant {
   }
 
   public cast(
-    spell: AbilityType,
+    spell: ExtendedAbilityType,
     target: FullSpellTarget,
     gameManager: GameManager
   ) {
@@ -258,7 +297,7 @@ export class Entrant {
       mana: { ...this.mana },
       ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: this.coords.toReadonly(),
-      vision: this.combatant.getVision(),
+      vision: this.getVision(),
       statusesEffects: this.statusEffects.map((s) => s.getType()),
     };
   }

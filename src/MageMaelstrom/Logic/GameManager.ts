@@ -233,14 +233,7 @@ export class GameManager {
         .filter(
           (enemy) =>
             !enemy.isDead() &&
-            myTeam.entrants.some((friendly) =>
-              enemy
-                .getCoords()
-                .isWithinRangeOf(
-                  friendly.getCombatant().getVision(),
-                  friendly.getCoords()
-                )
-            )
+            myTeam.entrants.some((friendly) => friendly.canSee(enemy))
         )
         .map((e) => e.getStatus()) ?? []
     );
@@ -419,6 +412,8 @@ export class GameManager {
     );
     entrant.getCombatant().init();
     targetTeam.entrants.push(entrant);
+
+    return entrant;
   }
 
   private findNearestOpenSpot(coord: Coordinate) {

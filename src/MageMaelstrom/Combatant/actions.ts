@@ -1,5 +1,11 @@
 import { MovementDirection, ReadonlyCoordinate } from "../Arena";
-import { AbilityType, SpellTarget } from "./Ability";
+import {
+  AbilityType,
+  ExtendedAbilityType,
+  SpellStatus,
+  SpellTarget,
+  SpellType,
+} from "./Ability";
 
 export enum ActionType {
   Movement,
@@ -21,7 +27,7 @@ export interface AttackAction {
 export interface SpellAction {
   type: ActionType.Spell;
   target: SpellTarget;
-  spell: AbilityType;
+  spell: ExtendedAbilityType;
 }
 
 export interface DanceAction {
@@ -67,11 +73,11 @@ const actions = {
       target,
     };
   },
-  cast: (spell: AbilityType, target?: SpellTarget): SpellAction => {
+  cast: (spell: SpellStatus, target?: SpellTarget): SpellAction => {
     return {
       type: ActionType.Spell,
       target,
-      spell,
+      spell: spell.type,
     };
   },
 

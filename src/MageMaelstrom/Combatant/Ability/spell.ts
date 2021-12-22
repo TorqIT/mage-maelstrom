@@ -8,7 +8,7 @@ import {
   Ability,
   AbilityDefinition,
   AbilityStatus,
-  AbilityType,
+  ExtendedAbilityType,
 } from "./ability";
 
 interface SpellDefinition extends Omit<AbilityDefinition, "type"> {
@@ -19,7 +19,7 @@ interface SpellDefinition extends Omit<AbilityDefinition, "type"> {
 }
 
 export interface SpellStatus {
-  type: AbilityType;
+  type: ExtendedAbilityType;
   cooldownTimer: number;
   manaCost: number;
   range?: number;

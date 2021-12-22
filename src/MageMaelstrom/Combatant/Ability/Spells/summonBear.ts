@@ -32,10 +32,30 @@ export class SummonBear extends Spell {
     target: FullSpellTarget,
     gameManager: GameManager
   ): void {
-    gameManager.addCombatant(
+    const entrant = gameManager.addCombatant(
       BearCombatant,
       caster.getTeamId(),
       caster.getCoords()
     );
+
+    entrant.addPassive(new BearPassive());
+  }
+}
+
+class BearPassive extends Passive {
+  public constructor() {
+    super({
+      type: "bearPassive",
+    });
+  }
+
+  public override getVisionAdjustment()
+  {
+    return -1;
+  }
+
+  public override getTurnSpeedMultiplier()
+  {
+    return 0.8;
   }
 }
