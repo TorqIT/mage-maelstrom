@@ -10,10 +10,13 @@ const SECONDS = 5;
 export class Poison extends Spell {
   public constructor() {
     super({
-      type: "poison",
+      desc: {
+
       icon: mmPoison,
       name: "Poison",
       description: `Poisons the target for ${DAMAGE} damage per second for ${SECONDS} seconds`,
+      },
+      type: "poison",
       cooldown: 500,
       manaCost: 10,
       range: 5,
@@ -48,9 +51,12 @@ export class Poisoned extends StatusEffect {
   {
     super({
       type: "poison",
-      name: "Poisoned",
+      desc: {      name: "Poisoned",
       description: `Take ${DAMAGE} damage per second for ${SECONDS} seconds`,
       icon: mmPoison,
+
+      },
+
       duration: SECONDS * 100,
       isPositive: false
     })

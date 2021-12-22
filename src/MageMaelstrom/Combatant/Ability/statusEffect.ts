@@ -1,11 +1,12 @@
 import { nextId } from "../../Common";
-import { Describable } from "../describable";
+import { DescriptiveIcon } from "../describable";
 import { Entrant } from "../entrant";
 
 export const statusEffectTypes = ["poison"] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
-export interface StatusEffectDefinition extends Describable {
+export interface StatusEffectDefinition {
+  desc?: DescriptiveIcon;
   type: StatusEffectType;
   duration: number;
   isPositive: boolean;

@@ -3,15 +3,18 @@ import { SpellResult } from "../../../Logic";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 import { BearCombatant } from "../../InternalCombatants";
+import { Passive } from "../passive";
 import { FullSpellTarget, Spell } from "../spell";
 
 export class SummonBear extends Spell {
   public constructor() {
     super({
+      desc: {
+        icon: mmBear,
+        name: "Summon Bear",
+        description: "Summon a bear",
+      },
       type: "bear",
-      icon: mmBear,
-      name: "Summon Bear",
-      description: "Summon a bear",
       manaCost: 30,
       cooldown: 4000,
     });

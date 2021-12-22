@@ -7,9 +7,12 @@ export class Critical extends Passive {
   public constructor() {
     super({
       type: "critical",
+      desc: {
+
       name: "Critical",
       icon: mmCrit,
       description: `Every attack has a ${CRIT_CHANCE * 100}% to critical hit for double damage`
+      }
     })
   }
 

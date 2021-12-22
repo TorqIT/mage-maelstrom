@@ -1,5 +1,5 @@
 import { nextId } from "../../Common";
-import { Describable } from "../describable";
+import { DescriptiveIcon } from "../describable";
 
 const spellTypes = ["fireball", "poison", "bear"] as const;
 const passiveTypes = ["talented", "critical"] as const;
@@ -17,7 +17,8 @@ export function isPassive(type: AbilityType): type is PassiveType {
   return passiveTypes.includes(type as PassiveType);
 }
 
-export interface AbilityDefinition extends Describable {
+export interface AbilityDefinition {
+  desc?: DescriptiveIcon;
   type: AbilityType;
 }
 

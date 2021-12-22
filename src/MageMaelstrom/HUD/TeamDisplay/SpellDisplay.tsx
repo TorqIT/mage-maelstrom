@@ -9,6 +9,10 @@ export interface SpellDisplayProps {
 }
 
 export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
+  if (!spell.desc) {
+    return null;
+  }
+
   return (
     <div
       className={classNames(styles.wrapper, {
@@ -17,7 +21,7 @@ export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
     >
       <div className={styles.icon}>
         <DescribableDisplay
-          describable={spell}
+          describable={spell.desc}
           fade={spell.cooldownTimer > 0}
         />
       </div>

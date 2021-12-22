@@ -1,21 +1,21 @@
 import React from "react";
-import { Describable, ExtendedSpellStatus } from "../../Combatant";
+import { DescriptiveIcon, ExtendedSpellStatus } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
 import { Icon, mmCooldownTimer, mmManaCost } from "../../Common/Icon";
 import styles from "./DescribableDisplay.module.css";
 
-function isSpell(describable: Describable): describable is ExtendedSpellStatus {
-  return (describable as ExtendedSpellStatus).cooldown != null;
-}
-
 export interface DescribableDisplayProps {
-  describable: Describable;
+  describable: DescriptiveIcon;
   fade?: boolean;
+  cooldown?: number;
+  manaCost?: number;
 }
 
 export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
   describable,
   fade,
+  cooldown,
+  manaCost,
 }) => {
   return (
     <Tooltip
@@ -29,16 +29,20 @@ export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
           </Stack>
 
           <div className={styles.description}>{describable.description}</div>
-          {isSpell(describable) && (
+          {(cooldown || manaCost) && (
             <Stack gap={20} className={styles.spellCost}>
-              <Stack alignment="middle" gap={4}>
-                <Icon icon={mmCooldownTimer} size={20} />
-                {describable.cooldown}
-              </Stack>
-              <Stack alignment="middle" gap={4}>
-                <Icon icon={mmManaCost} size={20} />
-                {describable.manaCost}
-              </Stack>
+              {cooldown && (
+                <Stack alignment="middle" gap={4}>
+                  <Icon icon={mmCooldownTimer} size={20} />
+                  {cooldown}
+                </Stack>
+              )}
+              {manaCost && (
+                <Stack alignment="middle" gap={4}>
+                  <Icon icon={mmManaCost} size={20} />
+                  {manaCost}
+                </Stack>
+              )}
             </Stack>
           )}
           {describable.flavorText && (

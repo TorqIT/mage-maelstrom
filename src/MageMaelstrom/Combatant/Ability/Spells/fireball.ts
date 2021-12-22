@@ -9,11 +9,12 @@ const DAMAGE = 30;
 export class Fireball extends Spell {
   public constructor() {
     super({
+      desc: {
+        name: "Fireball",
+        description: `Throw out a long range fireball that deals ${DAMAGE} damage`,
+        icon: mmFireball,
+      },
       type: "fireball",
-      name: "Fireball",
-      description: `Throw out a long range fireball that deals ${DAMAGE} damage`,
-      flavorText: "Now I have the funny text!!",
-      icon: mmFireball,
       cooldown: 300,
       manaCost: 20,
       range: 5,

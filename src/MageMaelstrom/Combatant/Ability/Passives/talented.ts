@@ -7,9 +7,10 @@ export class Talented extends Passive {
   public constructor() {
     super({
       type: "talented",
+      desc: {
       name: "Talented",
       description: `+${MAX_STAT_BOOST} Max Stats`,
-      icon: mmTalented
+      icon: mmTalented}
     });
   }
 

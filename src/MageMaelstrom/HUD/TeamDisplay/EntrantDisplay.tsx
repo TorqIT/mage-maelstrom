@@ -50,9 +50,11 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
                 </Stack>
 
                 <Stack gap={4}>
-                  {entrant.passives.map((p) => (
-                    <DescribableDisplay key={p.id} describable={p} />
-                  ))}
+                  {entrant.passives
+                    .filter((p) => p.desc != null)
+                    .map((p) => (
+                      <DescribableDisplay key={p.id} describable={p.desc!} />
+                    ))}
                 </Stack>
               </Stack>
             </Stack.Item>
@@ -78,9 +80,11 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
         }
       >
         <Stack gap={4}>
-          {entrant.statusEffects.map((s) => (
-            <DescribableDisplay key={s.id} describable={s} />
-          ))}
+          {entrant.statusEffects
+            .filter((s) => s.desc != null)
+            .map((s) => (
+              <DescribableDisplay key={s.id} describable={s.desc!} />
+            ))}
         </Stack>
       </div>
     </div>

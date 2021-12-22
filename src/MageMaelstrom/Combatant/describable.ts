@@ -1,6 +1,6 @@
 import { IconDef } from "../Common/Icon";
 
-export interface Describable {
+export interface DescriptiveIcon {
   icon: IconDef;
   name: string;
   description: string;
