@@ -181,12 +181,13 @@ export class Entrant {
   //~*~*~*~*
   // UPDATE
 
-  public update() {
+  public update(gameManager: GameManager) {
     this.ticksUntilNextTurn--;
 
     this.updateMeter(this.health);
     this.updateMeter(this.mana);
 
+    this.passives.forEach((p) => p.update(this, gameManager));
     this.spells.forEach((s) => s.update());
     this.statusEffects.forEach((e) => e.update(this));
 

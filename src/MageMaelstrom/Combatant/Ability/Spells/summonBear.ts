@@ -43,10 +43,19 @@ export class SummonBear extends Spell {
 }
 
 class BearPassive extends Passive {
+  private frenzy = false;
+
   public constructor() {
     super({
       type: "bearPassive",
     });
+  }
+
+  public override update(self: Entrant, gameManager: GameManager)
+  {
+    const enemyTeam = gameManager.getEnemyTeam(self.getTeamId());
+    this.frenzy = enemyTeam.entrants.some(e => self.canSee(e));
+
   }
 
   public override getVisionAdjustment()
@@ -56,6 +65,6 @@ class BearPassive extends Passive {
 
   public override getTurnSpeedMultiplier()
   {
-    return 0.8;
+    return this.frenzy ? (4/3) : 0.8;
   }
 }

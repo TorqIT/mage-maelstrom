@@ -1,5 +1,5 @@
 import arrayShuffle from "array-shuffle";
-import { Coordinate, MovementDirection, ReadonlyCoordinate } from "../Arena";
+import { Coordinate, MovementDirection } from "../Arena";
 import {
   Action,
   ActionType,
@@ -111,6 +111,10 @@ export class GameManager {
     return this.toReadonlyActiveTeam(this.rightTeam);
   }
 
+  public getEnemyTeam(yourTeamId: number) {
+    return this.leftTeam.id === yourTeamId ? this.rightTeam : this.leftTeam;
+  }
+
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
     return {
       ...team,
@@ -169,7 +173,7 @@ export class GameManager {
 
     this.getEntrantArray()
       .filter((e) => !e.isDead())
-      .forEach((e) => e.update());
+      .forEach((e) => e.update(this));
 
     const actionsToPerform = this.performTeamActions(
       this.leftTeam,
