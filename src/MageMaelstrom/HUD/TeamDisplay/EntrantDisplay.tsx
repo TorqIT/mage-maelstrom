@@ -9,21 +9,20 @@ import { SpellDisplay } from "./SpellDisplay";
 
 export interface EntrantDisplayProps {
   entrant: ReadonlyEntrant;
-  color: string;
   flip?: boolean;
 }
 
 export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
   entrant,
-  color,
   flip,
 }) => {
   return (
     <div className={styles.wrapper}>
       <Stack reverse={flip} fill gap={5} style={{ height: 64 }}>
         <CombatantIcon
-          combatant={entrant.combatant}
-          teamColor={color}
+          name={entrant.combatant.name}
+          icon={entrant.combatant.icon}
+          color={entrant.color}
           horizontalFlip={flip}
           size={64}
         />

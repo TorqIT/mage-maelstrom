@@ -4,6 +4,7 @@ import { Team } from "../..";
 import { IdentifiedTeam } from "../../Combatant";
 import { Stack } from "../../Common";
 import { useGameManager, validate } from "../../Logic";
+import { useGameSpecs } from "../../Logic/GameSpecsProvider";
 import { NiceButton } from "../NiceButton";
 import { SelectableTeam } from "./SelectableTeam";
 import styles from "./TeamSelector.module.css";
@@ -18,7 +19,7 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
 
   const idCounterRef = useRef(1);
 
-  const { specs } = useGameManager();
+  const specs = useGameSpecs();
 
   const identifiedTeams = useMemo(
     () =>

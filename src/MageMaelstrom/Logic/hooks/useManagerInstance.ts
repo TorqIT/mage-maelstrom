@@ -2,11 +2,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IdentifiedTeam, ReadonlyActiveTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
 import { GameSpecs } from "../gameSpecs";
+import { useGameSpecs } from "../GameSpecsProvider";
+import { useTeamSelection } from "../TeamSelectionProvider";
 
-export function useManagerInstance(specs: GameSpecs) {
+export function useManagerInstance() {
+  const specs = useGameSpecs();
+  const { selection, setSelection } = useTeamSelection();
+
   const [gameManager, setGameManager] = useState<GameManager>();
-  const [selection, setSelection] =
-    useState<{ left: IdentifiedTeam; right: IdentifiedTeam }>();
 
   const [leftTeam, setLeftTeam] = useState<ReadonlyActiveTeam>();
   const [rightTeam, setRightTeam] = useState<ReadonlyActiveTeam>();

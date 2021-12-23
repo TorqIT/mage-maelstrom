@@ -31,8 +31,9 @@ export const VictoryLogDisplay: React.FC<VictoryLogDisplayProps> = ({
         {team.entrants.map((e) => (
           <div className={styles.icon} key={e.status.id}>
             <CombatantIcon
-              combatant={e.combatant}
-              teamColor={team.color}
+              name={e.combatant.name}
+              icon={e.combatant.icon}
+              color={e.color}
               horizontalFlip={team.flip}
             />
           </div>

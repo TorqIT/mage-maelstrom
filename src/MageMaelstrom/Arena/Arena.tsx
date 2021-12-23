@@ -4,6 +4,7 @@ import { Tile } from "./Tile";
 import styles from "./Arena.module.css";
 import { ActiveTeam, ReadonlyActiveTeam, ReadonlyEntrant } from "../Combatant";
 import { useGameManager } from "../Logic";
+import { useGameSpecs } from "../Logic/GameSpecsProvider";
 
 function findOccupant(teams: ReadonlyActiveTeam[], x: number, y: number) {
   for (const team of teams) {
@@ -38,10 +39,11 @@ function getNumberOfTeamsWhoHaveVision(
 export interface ArenaProps {}
 
 export const Arena: React.FC<ArenaProps> = ({}) => {
-  const { teams, specs } = useGameManager();
+  const { arena } = useGameSpecs();
+  const { teams } = useGameManager();
 
-  const columns = Array.from(Array(specs.arena.width).keys());
-  const rows = Array.from(Array(specs.arena.height).keys());
+  const columns = Array.from(Array(arena.width).keys());
+  const rows = Array.from(Array(arena.height).keys());
 
   return (
     <Stack alignment="middle">
@@ -51,11 +53,22 @@ export const Arena: React.FC<ArenaProps> = ({}) => {
             {columns.map((x) => {
               const occupant = findOccupant(teams, x, y);
 
+              if (occupant) {
+                const b = 0;
+              }
+
               return (
                 <Tile
                   key={x}
-                  combatant={occupant?.entrant.combatant}
-                  teamColor={occupant?.team.color}
+                  combatant={
+                    occupant
+                      ? {
+                          name: occupant.entrant.combatant.name,
+                          icon: occupant.entrant.combatant.icon,
+                          color: occupant.entrant.color,
+                        }
+                      : undefined
+                  }
                   flip={occupant?.team.flip}
                   teamsWithVision={getNumberOfTeamsWhoHaveVision(x, y, teams)}
                 />

@@ -1,6 +1,6 @@
 import { Coordinate, ReadonlyCoordinate } from "../Arena";
 import { nextId } from "../Common";
-import { ActionResult, Helpers, SpellResult } from "../Logic";
+import { ActionResult, CombatantInfo, Helpers, SpellResult } from "../Logic";
 import {
   AbilityStatus,
   AbilityType,
@@ -126,6 +126,14 @@ export class Entrant {
     return this.combatant;
   }
 
+  public getCombatantInfo(): CombatantInfo {
+    return {
+      name: this.combatant.getDef().name,
+      icon: this.combatant.getDef().icon,
+      color: this.color,
+    };
+  }
+
   public getCoords() {
     return this.coords;
   }
@@ -224,8 +232,8 @@ export class Entrant {
     target.takeDamage(damage * mult);
 
     loggingManager.logAttack({
-      target: target.getId(),
-      attacker: this.getId(),
+      target: target.getCombatantInfo(),
+      attacker: this.getCombatantInfo(),
       damage: damage * mult,
       remainingHealth: target.getHealth(),
       isCrit: mult !== 1,

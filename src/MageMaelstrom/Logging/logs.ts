@@ -6,6 +6,12 @@ export enum LogType {
   Victory,
 }
 
+export interface CombatantInfo {
+  name: string;
+  icon: string;
+  color: string;
+}
+
 export interface BaseLog {
   id: number;
 }
@@ -17,8 +23,8 @@ export interface VictoryLog extends BaseLog {
 
 export interface AttackLog extends BaseLog {
   type: LogType.Attack;
-  attacker: number;
-  target: number;
+  attacker: CombatantInfo;
+  target: CombatantInfo;
   damage: number;
   remainingHealth: number;
   isCrit: boolean;
@@ -26,8 +32,8 @@ export interface AttackLog extends BaseLog {
 
 export interface SpellLog extends BaseLog {
   type: LogType.Spell;
-  attacker: number;
-  target?: number;
+  attacker: CombatantInfo;
+  target?: CombatantInfo;
   damage: number;
   remainingHealth: number;
   spellIcon: IconDef;

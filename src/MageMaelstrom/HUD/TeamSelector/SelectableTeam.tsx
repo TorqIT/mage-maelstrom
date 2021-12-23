@@ -4,6 +4,7 @@ import { CombatantIcon } from "..";
 import { IdentifiedTeam } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
 import { GameSpecs, useGameManager } from "../../Logic";
+import { useGameSpecs } from "../../Logic/GameSpecsProvider";
 import styles from "./SelectableTeam.module.css";
 
 export interface SelectableTeamProps {
@@ -17,7 +18,7 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
   errors,
   onClick,
 }) => {
-  const { specs } = useGameManager();
+  const specs = useGameSpecs();
   const isSelectable = errors == null || errors?.length === 0;
 
   const intializedCombatants = useMemo(
@@ -45,11 +46,19 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
       >
         <div className={styles.name}>{team.name}</div>
         <Stack gap={20}>
-          {intializedCombatants.map((c) => (
-            <div key={c?.getId()} className={styles.iconWrapper}>
-              <CombatantIcon combatant={c?.getDef()} teamColor={team.color} />
-            </div>
-          ))}
+          {intializedCombatants.map((c) => {
+            const def = c.getDef();
+
+            return (
+              <div key={c?.getId()} className={styles.iconWrapper}>
+                <CombatantIcon
+                  name={def.name}
+                  icon={def.icon}
+                  color={team.color}
+                />
+              </div>
+            );
+          })}
         </Stack>
       </div>
     </Tooltip>

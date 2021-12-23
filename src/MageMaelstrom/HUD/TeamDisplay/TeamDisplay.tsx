@@ -12,12 +12,7 @@ export const TeamDisplay: React.FC<TeamDisplayProps> = ({ team }) => {
     <div className={styles.wrapper}>
       <div className={styles.name}>{team.name}</div>
       {team.entrants.map((e) => (
-        <EntrantDisplay
-          key={e.status.id}
-          entrant={e}
-          color={team.color}
-          flip={team.flip}
-        />
+        <EntrantDisplay key={e.status.id} entrant={e} flip={team.flip} />
       ))}
     </div>
   );

@@ -43,8 +43,8 @@ export class Fireball extends Spell {
     target.takeDamage(DAMAGE);
 
     loggingManager.logSpell({
-      attacker: caster.getId(),
-      target: target.getId(),
+      attacker: caster.getCombatantInfo(),
+      target: target.getCombatantInfo(),
       damage: DAMAGE,
       remainingHealth: target.getHealth(),
       spellIcon: mmFireball,
