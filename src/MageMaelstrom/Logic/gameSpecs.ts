@@ -1,19 +1,19 @@
 export type GameSpecs = Readonly<{
-  rules: {
+  rules: Readonly<{
     maxCombatants: number;
     minStat: number;
     maxTotalStats: number;
-  };
-  arena: {
+  }>;
+  arena: Readonly<{
     width: number;
     height: number;
-  };
-  stats: {
+  }>;
+  stats: Readonly<{
     healthPerStrength: number;
     healthRegenPerStrength: number;
     agilityBonus: number;
     manaPerInt: number;
     manaRegenPerInt: number;
     vision: number;
-  };
+  }>;
 }>;
