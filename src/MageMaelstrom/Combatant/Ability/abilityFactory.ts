@@ -4,6 +4,7 @@ import { Critical } from "./Passives/critical";
 import { Talented } from "./Passives/talented";
 import { Spell } from "./spell";
 import { Fireball } from "./Spells/fireball";
+import { Heal } from "./Spells/heal";
 import { Poison } from "./Spells/poison";
 import { SummonBear } from "./Spells/summonBear";
 
@@ -15,6 +16,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Poison();
     case "bear":
       return new SummonBear();
+    case "heal":
+      return new Heal();
   }
 }
 

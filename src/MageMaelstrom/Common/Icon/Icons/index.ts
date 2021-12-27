@@ -6,6 +6,7 @@ import manaCost from "./overmind.svg";
 import poison from "./poison-gas.svg";
 import crit from "./claw-slashes.svg";
 import bear from "./bear-face.svg";
+import heal from "./heart-plus.svg";
 
 export interface IconDef {
   file: string;
@@ -48,4 +49,10 @@ export const mmCrit: IconDef = {
 
 export const mmBear: IconDef = {
   file: bear,
+};
+
+export const mmHeal: IconDef = {
+  file: heal,
+  filter:
+    "invert(78%) sepia(98%) saturate(1225%) hue-rotate(55deg) brightness(104%) contrast(98%)",
 };
