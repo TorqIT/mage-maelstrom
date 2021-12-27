@@ -1,5 +1,5 @@
 import { ActionResult } from "./actionResult";
-import { Action } from "../Combatant";
+import { Action, Entrant, ReadonlyEntrantStatus } from "../Combatant";
 import { ReadonlyCoordinate } from "../Arena";
 
 export interface Helpers {
@@ -7,16 +7,16 @@ export interface Helpers {
     action: ActionType
   ) => ActionResult<ActionType>;
   canPerform: (action: Action) => boolean;
+  getClosest: (
+    entrants: ReadonlyEntrantStatus[]
+  ) => ReadonlyEntrantStatus | undefined;
   coords: {
-    isWithinRange: (
-      first: ReadonlyCoordinate,
-      second: ReadonlyCoordinate,
-      range: number
-    ) => boolean;
+    isWithinRange: (target: ReadonlyCoordinate, range: number) => boolean;
   };
 }
 
 export function buildHelpers(
+  you: ReadonlyEntrantStatus,
   getActionResult: <ActionType extends Action>(
     action: ActionType
   ) => ActionResult<ActionType>
@@ -24,17 +24,35 @@ export function buildHelpers(
   return {
     getActionResult,
     canPerform: (a: Action) => getActionResult(a) === "Success",
+    getClosest: (entrants: ReadonlyEntrantStatus[]) =>
+      entrants.length > 0
+        ? entrants.reduce((closest, current) =>
+            getClosest(you, closest, current)
+          )
+        : undefined,
     coords: {
-      isWithinRange: (
-        first: ReadonlyCoordinate,
-        second: ReadonlyCoordinate,
-        range: number
-      ) => {
+      isWithinRange: (target: ReadonlyCoordinate, range: number) => {
         return (
-          Math.pow(first.x - second.x, 2) + Math.pow(first.y - second.y, 2) <=
+          Math.pow(you.coords.x - target.x, 2) +
+            Math.pow(you.coords.y - target.y, 2) <=
           Math.pow(range, 2)
         );
       },
     },
   };
+}
+
+function getClosest(
+  you: ReadonlyEntrantStatus,
+  first: ReadonlyEntrantStatus,
+  second: ReadonlyEntrantStatus
+) {
+  const firstDist =
+    Math.pow(you.coords.x - first.coords.x, 2) +
+    Math.pow(you.coords.y - first.coords.y, 2);
+  const secondDist =
+    Math.pow(you.coords.x - second.coords.x, 2) +
+    Math.pow(you.coords.y - second.coords.y, 2);
+
+  return firstDist > secondDist ? second : first;
 }

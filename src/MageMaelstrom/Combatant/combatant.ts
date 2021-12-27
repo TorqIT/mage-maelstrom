@@ -91,18 +91,11 @@ export abstract class Combatant {
   }
 
   //~*~*~*~*
-  //SPECS
-
-  public getArenaWidth() {
-    return this.gameSpecs.arena.width;
-  }
-
-  public getArenaHeight() {
-    return this.gameSpecs.arena.height;
-  }
-
-  //~*~*~*~*
   //TECHNICAL
+
+  public getGameSpecs() {
+    return this.gameSpecs;
+  }
 
   public getDef() {
     return this.def;

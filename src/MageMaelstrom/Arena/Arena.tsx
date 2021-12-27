@@ -47,15 +47,11 @@ export const Arena: React.FC<ArenaProps> = ({}) => {
 
   return (
     <Stack alignment="middle">
-      <Stack direction="vertical" className={styles.arena}>
+      <Stack direction="vertical" reverse className={styles.arena}>
         {rows.map((y) => (
           <Stack key={y}>
             {columns.map((x) => {
               const occupant = findOccupant(teams, x, y);
-
-              if (occupant) {
-                const b = 0;
-              }
 
               return (
                 <Tile

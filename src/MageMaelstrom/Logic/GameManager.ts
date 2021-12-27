@@ -116,6 +116,10 @@ export class GameManager {
     return this.leftTeam.id === yourTeamId ? this.rightTeam : this.leftTeam;
   }
 
+  public getEntrantAt(coord: Coordinate) {
+    return this.getEntrantArray().find((e) => e.getCoords().equals(coord));
+  }
+
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
     return {
       ...team,
@@ -210,8 +214,10 @@ export class GameManager {
 
         try {
           action = e.act(
-            buildHelpers(<ActionType extends Action>(a: ActionType) =>
-              this.getActionResult(e, a)
+            buildHelpers(
+              e.getStatus(),
+              <ActionType extends Action>(a: ActionType) =>
+                this.getActionResult(e, a)
             ),
             team.entrants
               .filter((ally) => ally.getId() !== e.getId())
@@ -288,26 +294,7 @@ export class GameManager {
     entrant: Entrant,
     action: MovementAction
   ): MoveResult {
-    const result = Coordinate.getSide(entrant.getCoords(), action.direction);
-
-    if (
-      result.getX() < 0 ||
-      result.getX() >= this.specs.arena.width ||
-      result.getY() < 0 ||
-      result.getY() >= this.specs.arena.height
-    ) {
-      return "OutOfArena";
-    }
-
-    if (
-      this.getEntrantArray()
-        .filter((e) => e.getId() !== entrant.getId() && !e.isDead())
-        .some((e) => e.getCoords().equals(result))
-    ) {
-      return "TileOccupied";
-    }
-
-    return "Success";
+    return this.getMoveResult(entrant, action.direction);
   }
 
   private canPerformAttackAction(
@@ -368,7 +355,7 @@ export class GameManager {
   }
 
   private move(entrant: Entrant, action: MovementAction) {
-    entrant.getCoords().move(action.direction);
+    entrant.move(action.direction);
   }
 
   private attack(entrant: Entrant, action: AttackAction) {
@@ -471,6 +458,35 @@ export class GameManager {
     }
 
     return !this.getEntrantArray().some((e) => e.getCoords().equals(coord));
+  }
+
+  //~*~*~*~*~*~*
+  // ENTRANT LOGIC
+
+  public getMoveResult(
+    entrant: Entrant,
+    direction: MovementDirection
+  ): MoveResult {
+    const result = Coordinate.getSide(entrant.getCoords(), direction);
+
+    if (
+      result.getX() < 0 ||
+      result.getX() >= this.specs.arena.width ||
+      result.getY() < 0 ||
+      result.getY() >= this.specs.arena.height
+    ) {
+      return "OutOfArena";
+    }
+
+    if (
+      this.getEntrantArray()
+        .filter((e) => e.getId() !== entrant.getId() && !e.isDead())
+        .some((e) => e.getCoords().equals(result))
+    ) {
+      return "TileOccupied";
+    }
+
+    return "Success";
   }
 
   //~*~*~*~*~*~*

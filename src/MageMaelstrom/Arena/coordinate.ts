@@ -32,10 +32,10 @@ export class Coordinate {
         this.x++;
         break;
       case "up":
-        this.y--;
+        this.y++;
         break;
       case "down":
-        this.y++;
+        this.y--;
         break;
     }
   }
@@ -53,6 +53,17 @@ export class Coordinate {
       Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2) <=
       Math.pow(range, 2)
     );
+  }
+
+  public getRelativeDirectionOf(other: Coordinate): MovementDirection {
+    const xDiff = other.x - this.x;
+    const yDiff = other.y - this.y;
+
+    if (Math.abs(xDiff) >= Math.abs(yDiff)) {
+      return xDiff > 0 ? "right" : "left";
+    } else {
+      return yDiff > 0 ? "up" : "down";
+    }
   }
 
   public toReadonly(): ReadonlyCoordinate {

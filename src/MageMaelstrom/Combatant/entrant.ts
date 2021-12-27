@@ -1,4 +1,4 @@
-import { Coordinate, ReadonlyCoordinate } from "../Arena";
+import { Coordinate, MovementDirection, ReadonlyCoordinate } from "../Arena";
 import { nextId } from "../Common";
 import { ActionResult, CombatantInfo, Helpers, SpellResult } from "../Logic";
 import {
@@ -234,6 +234,10 @@ export class Entrant {
         1
       )
     );
+  }
+
+  public move(direction: MovementDirection) {
+    this.coords.move(direction);
   }
 
   public attack(target: Entrant) {

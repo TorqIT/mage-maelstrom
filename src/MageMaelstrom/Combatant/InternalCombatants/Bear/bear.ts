@@ -52,7 +52,7 @@ export class BearCombatant extends Combatant {
     for (const enemy of visibleEnemies) {
       if (helpers.canPerform(actions.attack(enemy.id))) {
         return actions.attack(enemy.id);
-      } else if (helpers.coords.isWithinRange(you.coords, enemy.coords, 3)) {
+      } else if (helpers.coords.isWithinRange(enemy.coords, 3)) {
         return actions.moveTo(enemy.coords, you.coords);
       }
     }
@@ -78,7 +78,7 @@ export class BearCombatant extends Combatant {
   }
 
   private generateTarget() {
-    this.targetX = Math.floor(Math.random() * this.getArenaWidth());
-    this.targetY = Math.floor(Math.random() * this.getArenaHeight());
+    this.targetX = Math.floor(Math.random() * this.getGameSpecs().arena.width);
+    this.targetY = Math.floor(Math.random() * this.getGameSpecs().arena.height);
   }
 }

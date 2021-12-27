@@ -59,7 +59,7 @@ const actions = {
     if (Math.abs(xDiff) > Math.abs(yDiff)) {
       targetDir = xDiff > 0 ? "right" : "left";
     } else {
-      targetDir = yDiff > 0 ? "down" : "up";
+      targetDir = yDiff > 0 ? "up" : "down";
     }
 
     return {

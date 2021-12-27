@@ -14,11 +14,11 @@ export class GoLeft extends Combatant {
       name: "I GO LEFT",
       icon: "/burst.png",
 
-      strength: 46,
+      strength: 38,
       agility: 5,
       intelligence: 5,
 
-      abilities: ["heal", "regen", "talented", "talented"],
+      abilities: ["heal", "regen", "force", "talented"],
     };
   }
   public init(): void {}
@@ -27,8 +27,17 @@ export class GoLeft extends Combatant {
     you: ReadonlyEntrantStatus,
     allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[],
-    [heal, regen]: SpellStatus[]
+    [heal, regen, force]: SpellStatus[]
   ): Action {
+    const closestEnemy = helpers.getClosest(visibleEnemies);
+
+    if (
+      closestEnemy &&
+      helpers.canPerform(actions.cast(force, closestEnemy.id))
+    ) {
+      return actions.cast(force, closestEnemy.id);
+    }
+
     if (helpers.canPerform(actions.cast(regen))) {
       return actions.cast(regen);
     }

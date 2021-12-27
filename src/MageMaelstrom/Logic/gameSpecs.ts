@@ -1,4 +1,4 @@
-export interface GameSpecs {
+export type GameSpecs = Readonly<{
   rules: {
     maxCombatants: number;
     minStat: number;
@@ -16,4 +16,4 @@ export interface GameSpecs {
     manaRegenPerInt: number;
     vision: number;
   };
-}
+}>;
