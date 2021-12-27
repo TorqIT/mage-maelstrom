@@ -18,7 +18,7 @@ export class GoLeft extends Combatant {
       agility: 5,
       intelligence: 5,
 
-      abilities: ["talented", "talented", "talented", "heal"],
+      abilities: ["heal", "regen", "talented", "talented"],
     };
   }
   public init(): void {}
@@ -27,8 +27,12 @@ export class GoLeft extends Combatant {
     you: ReadonlyEntrantStatus,
     allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[],
-    [heal]: SpellStatus[]
+    [heal, regen]: SpellStatus[]
   ): Action {
+    if (helpers.canPerform(actions.cast(regen))) {
+      return actions.cast(regen);
+    }
+
     if (
       you.health.value / you.health.max < 0.5 &&
       helpers.canPerform(actions.cast(heal))

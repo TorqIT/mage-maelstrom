@@ -6,6 +6,7 @@ import { Spell } from "./spell";
 import { Fireball } from "./Spells/fireball";
 import { Heal } from "./Spells/heal";
 import { Poison } from "./Spells/poison";
+import { Regen } from "./Spells/regen";
 import { SummonBear } from "./Spells/summonBear";
 
 export function buildSpell(type: SpellType): Spell {
@@ -18,6 +19,8 @@ export function buildSpell(type: SpellType): Spell {
       return new SummonBear();
     case "heal":
       return new Heal();
+    case "regen":
+      return new Regen();
   }
 }
 

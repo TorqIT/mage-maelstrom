@@ -23,6 +23,8 @@ export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
         <DescribableDisplay
           describable={spell.desc}
           fade={spell.cooldownTimer > 0}
+          manaCost={spell.manaCost}
+          cooldown={spell.cooldown}
         />
       </div>
       <div

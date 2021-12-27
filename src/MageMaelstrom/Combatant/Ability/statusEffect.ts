@@ -2,7 +2,7 @@ import { nextId } from "../../Common";
 import { DescriptiveIcon } from "../describable";
 import { Entrant } from "../entrant";
 
-export const statusEffectTypes = ["poison"] as const;
+export const statusEffectTypes = ["poison", "regen"] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
 export interface StatusEffectDefinition {
@@ -45,6 +45,10 @@ export class StatusEffect {
   }
 
   public updateEffect(entrant: Entrant) {}
+
+  public getHealthRegenBonus() {
+    return 0;
+  }
 
   public toReadonly(): StatusEffectStatus {
     return {

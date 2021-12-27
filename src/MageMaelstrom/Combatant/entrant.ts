@@ -184,7 +184,7 @@ export class Entrant {
   public update(gameManager: GameManager) {
     this.ticksUntilNextTurn--;
 
-    this.updateMeter(this.health);
+    this.updateMeter(this.health, this.getHealthRegenBonus());
     this.updateMeter(this.mana);
 
     this.passives.forEach((p) => p.update(this, gameManager));
@@ -194,8 +194,18 @@ export class Entrant {
     this.statusEffects = this.statusEffects.filter((e) => !e.isFinished());
   }
 
-  private updateMeter(meter: Meter) {
-    meter.value = Math.min(meter.max, meter.value + meter.regen / 100);
+  private updateMeter(meter: Meter, bonusRegen?: number) {
+    meter.value = Math.min(
+      meter.max,
+      meter.value + (meter.regen + (bonusRegen ?? 0)) / 100
+    );
+  }
+
+  private getHealthRegenBonus() {
+    return this.statusEffects.reduce(
+      (total, current) => (total += current.getHealthRegenBonus()),
+      0
+    );
   }
 
   //~*~*~*~*
@@ -271,10 +281,16 @@ export class Entrant {
 
   public takeDamage(amount: number) {
     this.health.value -= amount;
+    this.clampMeter(this.health);
   }
 
   public drainMana(amount: number) {
     this.mana.value -= amount;
+    this.clampMeter(this.mana);
+  }
+
+  private clampMeter(meter: Meter) {
+    meter.value = Math.max(0, Math.min(meter.value, meter.max));
   }
 
   public applyStatusEffect(effect: StatusEffect) {
@@ -302,7 +318,10 @@ export class Entrant {
   public getStatus(): ReadonlyEntrantStatus {
     return {
       id: this.id,
-      health: { ...this.health },
+      health: {
+        ...this.health,
+        regen: this.health.regen + this.getHealthRegenBonus(),
+      },
       mana: { ...this.mana },
       ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: this.coords.toReadonly(),
