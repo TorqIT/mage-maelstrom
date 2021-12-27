@@ -17,14 +17,8 @@ export class SummonBear extends Spell {
       type: "bear",
       manaCost: 30,
       cooldown: 4000,
+      targetTypes: "nothing"
     });
-  }
-
-  protected canCastSpell(
-    caster: Entrant,
-    target: FullSpellTarget
-  ): SpellResult {
-    return "Success";
   }
 
   protected castSpell(

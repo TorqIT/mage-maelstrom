@@ -1,8 +1,8 @@
 import { StatusEffect } from "..";
 import { mmPoison } from "../../../Common/Icon";
-import { SpellLog, SpellResult } from "../../../Logic";
+import { SpellLog } from "../../../Logic";
 import { Entrant } from "../../entrant";
-import { FullSpellTarget, Spell } from "../spell";
+import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
 const DAMAGE = 10;
 const SECONDS = 5;
@@ -11,7 +11,6 @@ export class Poison extends Spell {
   public constructor() {
     super({
       desc: {
-
       icon: mmPoison,
       name: "Poison",
       description: `Poisons the target for ${DAMAGE} damage per second for ${SECONDS} seconds`,
@@ -20,25 +19,15 @@ export class Poison extends Spell {
       cooldown: 500,
       manaCost: 10,
       range: 5,
+      targetTypes: "entrant"
     });
-  }
-
-  protected canCastSpell(
-    caster: Entrant,
-    target: FullSpellTarget
-  ): SpellResult {
-    if (!target || typeof target === "string") {
-      return "WrongTargetType";
-    }
-
-    return "Success";
   }
 
   protected castSpell(
     caster: Entrant,
     target: FullSpellTarget
   ): SpellLog | undefined {
-    if (!target || typeof target === "string") {
+    if (!target || typeof target === "string" || isCoordinate(target)) {
       return;
     }
 

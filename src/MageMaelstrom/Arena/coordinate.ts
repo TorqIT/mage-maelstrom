@@ -5,15 +5,15 @@ export class Coordinate {
   private y: number;
 
   public static getSide(coord: Coordinate, dir: MovementDirection) {
-    const coordinate = new Coordinate(coord.x, coord.y);
+    const coordinate = new Coordinate(coord.toReadonly());
     coordinate.move(dir);
 
     return coordinate;
   }
 
-  public constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+  public constructor(coord: ReadonlyCoordinate) {
+    this.x = coord.x;
+    this.y = coord.y;
   }
 
   public getX() {

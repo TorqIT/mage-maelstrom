@@ -18,7 +18,7 @@ export function validate(
     const entrant = new Entrant(
       new SubCombatant(specs),
       { color: team.color, flip: false, id: -1 },
-      new Coordinate(0, 0)
+      new Coordinate({ x: 0, y: 0 })
     );
     const combatant = entrant.getCombatant().getDef();
 

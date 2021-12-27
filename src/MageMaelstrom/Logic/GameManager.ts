@@ -9,6 +9,7 @@ import {
   Entrant,
   FullSpellTarget,
   IdentifiedTeam,
+  isReadonlyCoordinate,
   MovementAction,
   ReadonlyActiveTeam,
   ReadonlyEntrantStatus,
@@ -94,10 +95,10 @@ export class GameManager {
   }
 
   private generateCoord() {
-    return new Coordinate(
-      Math.floor(Math.random() * this.specs.arena.width),
-      Math.floor(Math.random() * this.specs.arena.height)
-    );
+    return new Coordinate({
+      x: Math.floor(Math.random() * this.specs.arena.width),
+      y: Math.floor(Math.random() * this.specs.arena.height),
+    });
   }
 
   //~*~*~*~*~*
@@ -422,7 +423,7 @@ export class GameManager {
 
   private findNearestOpenSpot(coord: Coordinate) {
     const movementDirs: MovementDirection[] = ["right", "up", "left", "down"];
-    let targetCoord = new Coordinate(coord.getX(), coord.getY());
+    let targetCoord = new Coordinate({ x: coord.getX(), y: coord.getY() });
 
     let moveIndex = 0;
 
@@ -440,7 +441,7 @@ export class GameManager {
       moveIndex = (moveIndex + 1) % 4;
     }
 
-    return new Coordinate(coord.getX(), coord.getY());
+    return new Coordinate({ x: coord.getX(), y: coord.getY() });
   }
 
   private findIfEmptyOrMove(
@@ -478,6 +479,10 @@ export class GameManager {
   private toFullSpellTarget(target: SpellTarget): FullSpellTarget | null {
     if (typeof target === "number") {
       return this.getEntrantArray().find((e) => e.getId() === target) ?? null;
+    }
+
+    if (isReadonlyCoordinate(target)) {
+      return new Coordinate(target);
     }
 
     return target;

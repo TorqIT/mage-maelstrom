@@ -16,6 +16,7 @@ export class Regen extends Spell{
       cooldown: 1600,
       manaCost: 14,
       range: 4,
+      targetTypes: ["entrant", "nothing"],
       desc: {
         name: "Regen",
         description: `Increases the target's regeneration by ${REGEN_PER_SECOND}/s for ${DURATION / 100} seconds`,
@@ -24,18 +25,7 @@ export class Regen extends Spell{
     })
   }
 
-  protected canCastSpell(caster: Entrant, target: FullSpellTarget, gameManager: GameManager): SpellResult {
-    if (typeof target === "string") {
-      return "WrongTargetType";
-    }
-
-    return "Success";
-  }
-  protected castSpell(caster: Entrant, target: FullSpellTarget, gameManager: GameManager): void {
-    if (typeof target === "string") {
-      return;
-    }
-
+  protected castSpell(caster: Entrant, target: Entrant | undefined, gameManager: GameManager): void {
     if (target) {
       target.applyStatusEffect(new RegenStatus());
     } else {

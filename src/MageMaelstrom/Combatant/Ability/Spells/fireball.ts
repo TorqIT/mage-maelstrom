@@ -1,8 +1,8 @@
 import { mmFireball } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
-import { SpellLog, SpellResult } from "../../../Logic";
+import { SpellLog } from "../../../Logic";
 import { Entrant } from "../../entrant";
-import { FullSpellTarget, Spell } from "../spell";
+import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
 const DAMAGE = 30;
 
@@ -18,25 +18,15 @@ export class Fireball extends Spell {
       cooldown: 300,
       manaCost: 20,
       range: 5,
+      targetTypes: "entrant",
     });
-  }
-
-  protected canCastSpell(
-    caster: Entrant,
-    target: FullSpellTarget
-  ): SpellResult {
-    if (!target || typeof target === "string") {
-      return "WrongTargetType";
-    }
-
-    return "Success";
   }
 
   protected castSpell(
     caster: Entrant,
     target: FullSpellTarget
   ): SpellLog | undefined {
-    if (!target || typeof target === "string") {
+    if (!target || typeof target === "string" || isCoordinate(target)) {
       return;
     }
 

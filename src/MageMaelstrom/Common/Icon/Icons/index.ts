@@ -8,6 +8,7 @@ import crit from "./claw-slashes.svg";
 import bear from "./bear-face.svg";
 import heal from "./heart-plus.svg";
 import regen from "./healing.svg";
+import force from "./push.svg";
 
 export interface IconDef {
   file: string;
@@ -62,4 +63,8 @@ export const mmRegen: IconDef = {
   file: regen,
   filter:
     "invert(78%) sepia(98%) saturate(1225%) hue-rotate(55deg) brightness(104%) contrast(98%)",
+};
+
+export const mmForce: IconDef = {
+  file: force,
 };

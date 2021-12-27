@@ -1,8 +1,7 @@
 import { mmHeal } from "../../../Common/Icon";
-import { SpellResult } from "../../../Logic";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
-import { FullSpellTarget, Spell } from "../spell";
+import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
 const HEAL_AMOUNT = 30;
 
@@ -13,6 +12,7 @@ export class Heal extends Spell {
       cooldown: 1000,
       manaCost: 10,
       range: 6,
+      targetTypes: "entrant",
       desc: {
         name: "Heal",
         description: `Heal the target for ${HEAL_AMOUNT} health`,
@@ -21,24 +21,12 @@ export class Heal extends Spell {
     });
   }
 
-  protected canCastSpell(
-    caster: Entrant,
-    target: FullSpellTarget,
-    gameManager: GameManager
-  ): SpellResult {
-    if (typeof target === "string") {
-      return "WrongTargetType";
-    }
-
-    return "Success";
-  }
-
   protected castSpell(
     caster: Entrant,
     target: FullSpellTarget,
     gameManager: GameManager
   ): void {
-    if (typeof target === "string") {
+    if (typeof target === "string" || isCoordinate(target)) {
       return;
     }
 
