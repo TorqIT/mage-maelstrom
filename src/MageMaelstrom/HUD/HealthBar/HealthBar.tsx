@@ -25,7 +25,7 @@ export const HealthBar: React.FC<HealthBarProps> = ({
       <span>
         {displayValue}
         <span className={styles.tiny}>
-          /{max} (+{regen})
+          /{max} (+{parseFloat(regen.toFixed(2))})
         </span>
       </span>
     );

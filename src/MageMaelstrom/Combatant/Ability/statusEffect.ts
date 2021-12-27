@@ -14,6 +14,7 @@ export interface StatusEffectDefinition {
 
 export interface StatusEffectStatus extends StatusEffectDefinition {
   id: number;
+  ticksLeft: number;
 }
 
 export class StatusEffect {
@@ -54,6 +55,7 @@ export class StatusEffect {
     return {
       ...this.def,
       id: this.id,
+      ticksLeft: this.timer,
     };
   }
 }

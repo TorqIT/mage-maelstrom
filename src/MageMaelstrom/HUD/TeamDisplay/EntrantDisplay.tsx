@@ -6,6 +6,7 @@ import { HealthBar } from "../HealthBar";
 import { DescribableDisplay } from "./DescribableDisplay";
 import styles from "./EntrantDisplay.module.css";
 import { SpellDisplay } from "./SpellDisplay";
+import { StatusEffectDisplay } from "./StatusEffectDisplay";
 
 export interface EntrantDisplayProps {
   entrant: ReadonlyEntrant;
@@ -82,7 +83,7 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
           {entrant.statusEffects
             .filter((s) => s.desc != null)
             .map((s) => (
-              <DescribableDisplay key={s.id} describable={s.desc!} />
+              <StatusEffectDisplay key={s.id} statusEffect={s} />
             ))}
         </Stack>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { DescriptiveIcon, ExtendedSpellStatus } from "../../Combatant";
+import { DescriptiveIcon } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
 import { Icon, mmCooldownTimer, mmManaCost } from "../../Common/Icon";
 import styles from "./DescribableDisplay.module.css";
