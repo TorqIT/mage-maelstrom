@@ -19,11 +19,11 @@ class WowDude extends Combatant {
       name: "Wow Dude",
       icon: "/burst.png",
 
-      strength: 5,
-      agility: 25,
+      strength: 8,
+      agility: 34,
       intelligence: 5,
 
-      abilities: ["bear", "critical", "critical", "critical"],
+      abilities: ["bear", "critical", "critical", "talented"],
     };
   }
   public init(): void {}

@@ -1,7 +1,6 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Stack } from "../../../Common";
 import { Icon } from "../../../Common/Icon";
-import { useGameManager } from "../../../Logic";
 import { SpellLog } from "../../../Logging/logs";
 import { CombatantIcon } from "../../CombatantIcon";
 import styles from "./LogDisplay.module.css";
@@ -10,7 +9,7 @@ export interface SpellLogDisplayProps {
   log: SpellLog;
 }
 
-export const SpellLogDisplay: React.FC<SpellLogDisplayProps> = ({ log }) => {
+export const SpellLogDisplay = React.memo<SpellLogDisplayProps>(({ log }) => {
   return (
     <Stack gap={10} alignment="middle">
       <CombatantIcon {...log.attacker} size={32} />
@@ -22,4 +21,4 @@ export const SpellLogDisplay: React.FC<SpellLogDisplayProps> = ({ log }) => {
       <span>{Math.max(0, Math.ceil(log.remainingHealth))} </span>
     </Stack>
   );
-};
+});

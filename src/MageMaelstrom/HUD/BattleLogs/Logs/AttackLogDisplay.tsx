@@ -9,7 +9,7 @@ export interface AttackLogDisplayProps {
   log: AttackLog;
 }
 
-export const AttackLogDisplay: React.FC<AttackLogDisplayProps> = ({ log }) => {
+export const AttackLogDisplay = React.memo<AttackLogDisplayProps>(({ log }) => {
   return (
     <Stack gap={10} alignment="middle">
       <CombatantIcon {...log.attacker} size={32} />
@@ -19,4 +19,4 @@ export const AttackLogDisplay: React.FC<AttackLogDisplayProps> = ({ log }) => {
       <span>{Math.max(0, Math.ceil(log.remainingHealth))} </span>
     </Stack>
   );
-};
+});
