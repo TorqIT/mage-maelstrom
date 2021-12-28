@@ -19,13 +19,13 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <Stack reverse={flip} fill gap={5} style={{ height: 64 }}>
+      <Stack reverse={flip} fill gap={5} style={{ height: 56 }}>
         <CombatantIcon
           name={entrant.combatant.name}
           icon={entrant.combatant.icon}
           color={entrant.color}
           horizontalFlip={flip}
-          size={64}
+          size={56}
         />
         <Stack.Item style={{ height: "100%" }}>
           <Stack

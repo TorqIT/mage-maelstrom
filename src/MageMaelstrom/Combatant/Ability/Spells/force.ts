@@ -1,5 +1,6 @@
 import { Coordinate, MovementDirection } from "../../../Arena";
 import { mmForce } from "../../../Common/Icon";
+import { loggingManager } from "../../../Logging";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, Spell } from "../spell";
@@ -39,6 +40,15 @@ export class Force extends Spell {
       return;
     }
     actualTarget.takeDamage(DAMAGE, caster, "attack");
+
+    loggingManager.logSpell({
+      attacker: caster.getCombatantInfo(),
+      target: actualTarget.getCombatantInfo(),
+      damage: DAMAGE,
+      remainingHealth: actualTarget.getHealth(),
+      spellIcon: mmForce,
+    });
+
     const pushDir = caster
       .getCoords()
       .getRelativeDirectionOf(actualTarget.getCoords());

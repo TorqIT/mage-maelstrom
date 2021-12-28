@@ -10,6 +10,7 @@ import heal from "./heart-plus.svg";
 import regen from "./healing.svg";
 import force from "./push.svg";
 import thorns from "./heavy-thorny-triskelion.svg";
+import music from "./musical-notes.svg";
 
 export interface IconDef {
   file: string;
@@ -72,4 +73,8 @@ export const mmForce: IconDef = {
 
 export const mmThorns: IconDef = {
   file: thorns,
+};
+
+export const mmMusic: IconDef = {
+  file: music,
 };

@@ -22,7 +22,7 @@ function App() {
         stats: {
           healthPerStrength: 12,
           healthRegenPerStrength: 0.22,
-          agilityBonus: 1.04,
+          agilityBonus: 1.025,
           manaPerInt: 7,
           manaRegenPerInt: 0.1,
           vision: 3.5,

@@ -1,4 +1,5 @@
 import { mmThorns } from "../../../Common/Icon";
+import { loggingManager } from "../../../Logging";
 import { DamageType, Entrant } from "../../entrant";
 import { Passive } from "../passive";
 
@@ -32,5 +33,13 @@ export class Thorns extends Passive {
     if (type === "attack") {
       attacker.takeDamage(THORN_DAMAGE, you, "pure");
     }
+
+    loggingManager.logSpell({
+      attacker: you.getCombatantInfo(),
+      target: attacker.getCombatantInfo(),
+      damage: THORN_DAMAGE,
+      remainingHealth: attacker.getHealth(),
+      spellIcon: mmThorns,
+    });
   }
 }

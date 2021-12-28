@@ -14,11 +14,13 @@ export const SpellLogDisplay = React.memo<SpellLogDisplayProps>(({ log }) => {
     <Stack gap={10} alignment="middle">
       <CombatantIcon {...log.attacker} size={32} />
       <Icon icon={log.spellIcon} size={28} />
-      <span className={styles.tiny}>(-{log.damage})</span>
+      {log.damage && <span className={styles.tiny}>({-log.damage})</span>}
       {log.target && (
         <CombatantIcon {...log.target} horizontalFlip={true} size={32} />
       )}
-      <span>{Math.max(0, Math.ceil(log.remainingHealth))} </span>
+      {log.remainingHealth && (
+        <span>{Math.max(0, Math.ceil(log.remainingHealth))} </span>
+      )}
     </Stack>
   );
 });

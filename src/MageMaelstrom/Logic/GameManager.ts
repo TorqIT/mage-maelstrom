@@ -6,6 +6,7 @@ import {
   ActiveTeam,
   AttackAction,
   CombatantSubclass,
+  DanceAction,
   Entrant,
   FullSpellTarget,
   IdentifiedTeam,
@@ -19,6 +20,7 @@ import {
 import {
   ActionResult,
   AttackResult,
+  getActionResultString,
   MoveResult,
   SpellResult,
 } from "./actionResult";
@@ -217,7 +219,10 @@ export class GameManager {
     return team.entrants
       .filter((e) => e.isMyTurn() && !e.isDead())
       .map((e) => {
-        let action: Action = { type: ActionType.Dance, voluntary: false };
+        let action: Action = {
+          type: ActionType.Dance,
+          error: "No action returned",
+        };
 
         try {
           action = e.act(
@@ -232,7 +237,7 @@ export class GameManager {
             this.getVisibleEnemyEntrants(team, enemyTeam)
           );
         } catch (e) {
-          console.error(e);
+          action = { type: ActionType.Dance, error: e as string };
         }
 
         return {
@@ -258,11 +263,23 @@ export class GameManager {
   }
 
   private tryPerformAction(entrant: Entrant, action: Action) {
-    if (this.getActionResult(entrant, action) === "Success") {
-      this.performAction(entrant, action);
+    const result = this.getActionResult(entrant, action);
 
+    if (result === "Success") {
+      this.performAction(entrant, action);
+      if (action.type === ActionType.Dance) {
+        loggingManager.logDance({
+          dancer: entrant.getCombatantInfo(),
+          error: action.error,
+        });
+      }
       return true;
     }
+
+    loggingManager.logDance({
+      dancer: entrant.getCombatantInfo(),
+      error: getActionResultString(result),
+    });
 
     return false;
   }

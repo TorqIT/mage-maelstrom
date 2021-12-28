@@ -1,4 +1,5 @@
 import { mmBear } from "../../../Common/Icon";
+import { loggingManager } from "../../../Logging";
 import { SpellResult } from "../../../Logic";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
@@ -17,7 +18,7 @@ export class SummonBear extends Spell {
       type: "bear",
       manaCost: 30,
       cooldown: 4000,
-      targetTypes: "nothing"
+      targetTypes: "nothing",
     });
   }
 
@@ -33,6 +34,11 @@ export class SummonBear extends Spell {
     );
 
     entrant.addPassive(new BearPassive());
+
+    loggingManager.logSpell({
+      attacker: caster.getCombatantInfo(),
+      spellIcon: mmBear,
+    });
   }
 }
 
@@ -45,20 +51,16 @@ class BearPassive extends Passive {
     });
   }
 
-  public override update(self: Entrant, gameManager: GameManager)
-  {
+  public override update(self: Entrant, gameManager: GameManager) {
     const enemyTeam = gameManager.getEnemyTeam(self.getTeamId());
-    this.frenzy = enemyTeam.entrants.some(e => self.canSee(e));
-
+    this.frenzy = enemyTeam.entrants.some((e) => self.canSee(e));
   }
 
-  public override getVisionAdjustment()
-  {
+  public override getVisionAdjustment() {
     return -1;
   }
 
-  public override getTurnSpeedMultiplier()
-  {
-    return this.frenzy ? (4/3) : 0.8;
+  public override getTurnSpeedMultiplier() {
+    return this.frenzy ? 4 / 3 : 0.8;
   }
 }

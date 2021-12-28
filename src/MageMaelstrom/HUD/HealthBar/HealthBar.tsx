@@ -1,4 +1,6 @@
 import React from "react";
+import { useResizeDetector } from "react-resize-detector";
+import { Stack } from "../../Common";
 import styles from "./HealthBar.module.css";
 
 export interface HealthBarProps {
@@ -20,24 +22,39 @@ export const HealthBar: React.FC<HealthBarProps> = ({
   const displayValue =
     roundTo === "ceil" ? Math.ceil(clampedValue) : Math.floor(clampedValue);
 
+  const { ref, width: barWidth } = useResizeDetector({ handleWidth: true });
+
   const renderNumbers = () => {
     return (
-      <span>
-        {displayValue}
-        <span className={styles.tiny}>
-          /{max} (+{parseFloat(regen.toFixed(2))})
-        </span>
-      </span>
+      <div
+        style={{
+          width: (barWidth ?? 20) - 20,
+          height: "100%",
+          padding: "0px 10px",
+        }}
+      >
+        <Stack gap="apart" alignment="middle">
+          <div>
+            {displayValue} <span className={styles.tiny}>/{max}</span>
+          </div>
+          <div className={styles.tiny} style={{ marginLeft: 5 }}>
+            (+{parseFloat(regen.toFixed(2))})
+          </div>
+        </Stack>
+      </div>
     );
   };
 
   return (
     <div className={styles.healthBar}>
       <div
+        ref={ref}
         style={{
           position: "absolute",
-          top: -1,
-          left: 10,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           color: "white",
         }}
       >
@@ -48,18 +65,10 @@ export const HealthBar: React.FC<HealthBarProps> = ({
         style={{
           width: (clampedValue / max) * 100 + "%",
           backgroundColor: color,
+          color: "black",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: -1,
-            left: 10,
-            color: "black",
-          }}
-        >
-          {renderNumbers()}
-        </div>
+        {renderNumbers()}
       </div>
     </div>
   );

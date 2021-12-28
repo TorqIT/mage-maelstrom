@@ -52,7 +52,7 @@ export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
       }
     >
       <div style={{ opacity: fade ? 0.4 : 1, cursor: "help" }}>
-        <Icon icon={describable.icon} size={28} />
+        <Icon icon={describable.icon} size={24} />
       </div>
     </Tooltip>
   );

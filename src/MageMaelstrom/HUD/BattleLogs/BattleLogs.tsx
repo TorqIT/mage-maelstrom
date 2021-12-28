@@ -5,6 +5,7 @@ import styles from "./BattleLogs.module.css";
 import { VictoryLogDisplay } from "./Logs/VictoryLogDisplay";
 import { useLogging } from "../../Logging/LoggingProvider";
 import { SpellLogDisplay } from "./Logs/SpellLogDisplay";
+import { DanceLogDisplay } from "./Logs/DanceLogDisplay";
 
 export interface BattleLogsProps {}
 
@@ -25,6 +26,8 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
         return <AttackLogDisplay log={log} />;
       case LogType.Spell:
         return <SpellLogDisplay log={log} />;
+      case LogType.Dance:
+        return <DanceLogDisplay log={log} />;
     }
   };
 

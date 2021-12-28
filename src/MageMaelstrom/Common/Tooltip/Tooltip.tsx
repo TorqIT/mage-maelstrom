@@ -8,6 +8,7 @@ export interface TooltipProps {
   offset?: number;
   wrapperStyle?: React.CSSProperties;
   content?: React.ReactNode;
+  className?: string;
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
@@ -17,6 +18,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   offset,
   wrapperStyle,
   children,
+  className,
   content,
 }) => {
   // TODO make it so anchored ref positioning is only calculated once instead on OnMouseMove.
@@ -175,7 +177,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
         }}
         onMouseEnter={() => !disabled && setVisible(true)}
         onMouseLeave={() => setVisible(false)}
-        style={{ ...wrapperStyle, display: "inline-block" }}
+        style={{ ...wrapperStyle }}
+        className={className}
       >
         {children}
       </div>

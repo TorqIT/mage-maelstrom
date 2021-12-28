@@ -12,8 +12,11 @@
   --upper-left-border: rgb(143, 143, 183);
   --lower-right-border: rgb(33, 33, 53);
 
-  padding: 10px;
   background-color: rgb(46, 46, 70);
+}
+
+.log > * {
+  padding: 10px;
 }
 
 .log,

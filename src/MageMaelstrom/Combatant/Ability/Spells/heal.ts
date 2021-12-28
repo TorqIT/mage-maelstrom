@@ -1,4 +1,5 @@
 import { mmHeal } from "../../../Common/Icon";
+import { loggingManager } from "../../../Logging";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, isCoordinate, Spell } from "../spell";
@@ -12,7 +13,7 @@ export class Heal extends Spell {
       cooldown: 1000,
       manaCost: 10,
       range: 6,
-      targetTypes: "entrant",
+      targetTypes: ["nothing", "entrant"],
       desc: {
         name: "Heal",
         description: `Heal the target for ${HEAL_AMOUNT} health`,
@@ -35,5 +36,13 @@ export class Heal extends Spell {
     } else {
       caster.takeDamage(-HEAL_AMOUNT, caster, "pure");
     }
+
+    loggingManager.logSpell({
+      attacker: caster.getCombatantInfo(),
+      target: target ? target.getCombatantInfo() : undefined,
+      damage: -HEAL_AMOUNT,
+      remainingHealth: (target ?? caster).getHealth(),
+      spellIcon: mmHeal,
+    });
   }
 }

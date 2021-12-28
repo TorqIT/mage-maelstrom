@@ -11,3 +11,7 @@
 .tiny {
   font-size: 12px;
 }
+
+.error {
+  background-color: rgb(104, 40, 61);
+}

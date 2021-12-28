@@ -2,6 +2,7 @@ import { nextId } from "../Common";
 import {
   AttackLog,
   BattleLogEvent,
+  DanceLog,
   LogType,
   SpellLog,
   VictoryLog,
@@ -51,6 +52,16 @@ class LoggingManager {
       ...log,
       id: nextId(),
       type: LogType.Victory,
+    });
+
+    this.changed();
+  }
+
+  public logDance(log: Omit<DanceLog, "id" | "type">) {
+    this.logs.push({
+      ...log,
+      id: nextId(),
+      type: LogType.Dance,
     });
 
     this.changed();

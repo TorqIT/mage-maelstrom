@@ -32,7 +32,7 @@ export interface SpellAction {
 
 export interface DanceAction {
   type: ActionType.Dance;
-  voluntary: boolean;
+  error?: string;
 }
 
 export type Action = MovementAction | AttackAction | SpellAction | DanceAction;
@@ -82,7 +82,7 @@ const actions = {
   },
 
   /** /dance */
-  dance: (): DanceAction => ({ type: ActionType.Dance, voluntary: true }),
+  dance: (): DanceAction => ({ type: ActionType.Dance }),
 };
 
 export { actions };

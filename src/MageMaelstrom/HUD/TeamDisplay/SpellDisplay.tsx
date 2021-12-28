@@ -19,14 +19,12 @@ export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
         [styles.onCooldown]: spell.cooldownTimer > 0,
       })}
     >
-      <div className={styles.icon}>
-        <DescribableDisplay
-          describable={spell.desc}
-          fade={spell.cooldownTimer > 0}
-          manaCost={spell.manaCost}
-          cooldown={spell.cooldown}
-        />
-      </div>
+      <DescribableDisplay
+        describable={spell.desc}
+        fade={spell.cooldownTimer > 0}
+        manaCost={spell.manaCost}
+        cooldown={spell.cooldown}
+      />
       <div
         className={styles.cooldownIndicator}
         style={{

@@ -1,8 +1,8 @@
 .healthBar {
   flex: 1;
   background-color: #1c1142;
-  font-size: 22px;
-  height: 22px;
+  font-size: 18px;
+  height: 18px;
   position: relative;
   font-family: "Versus";
 }
@@ -19,5 +19,6 @@
 }
 
 .tiny {
-  font-size: 18px;
+  font-size: 14px;
+  margin-left: -2px;
 }
