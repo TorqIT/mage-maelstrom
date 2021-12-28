@@ -1,6 +1,7 @@
-import { ReadonlyEntrantStatus, SpellStatus, Action, actions } from "../..";
+import { ReadonlyEntrantStatus, Action } from "../..";
 import { Helpers } from "../../../Logic";
-import { Combatant, CombatantDefinition } from "../../combatant";
+import { ActionFactory } from "../../actions";
+import { ActParams, Combatant, CombatantDefinition } from "../../combatant";
 import bearIcon from "./bear.png";
 
 export class BearCombatant extends Combatant {
@@ -22,20 +23,14 @@ export class BearCombatant extends Combatant {
     this.generateTarget();
   }
 
-  public act(
-    helpers: Helpers,
-    you: ReadonlyEntrantStatus,
-    allies: ReadonlyEntrantStatus[],
-    visibleEnemies: ReadonlyEntrantStatus[],
-    spells: SpellStatus[]
-  ): Action {
-    const action = this.tryEngageEnemy(helpers, you, visibleEnemies);
+  public act({ actions, helpers, you, visibleEnemies }: ActParams): Action {
+    const action = this.tryEngageEnemy(actions, helpers, visibleEnemies);
 
     if (action) {
       return action;
     }
 
-    const moveAction = this.tryGetMovementAction(you, helpers);
+    const moveAction = this.tryGetMovementAction(actions, helpers);
 
     if (moveAction) {
       return moveAction;
@@ -45,27 +40,24 @@ export class BearCombatant extends Combatant {
   }
 
   private tryEngageEnemy(
+    actions: ActionFactory,
     helpers: Helpers,
-    you: ReadonlyEntrantStatus,
     visibleEnemies: ReadonlyEntrantStatus[]
   ) {
     for (const enemy of visibleEnemies) {
       if (helpers.canPerform(actions.attack(enemy.id))) {
         return actions.attack(enemy.id);
       } else if (helpers.coords.isWithinRange(enemy.coords, 3)) {
-        return actions.moveTo(enemy.coords, you.coords);
+        return actions.moveTo(enemy.coords);
       }
     }
   }
 
-  private tryGetMovementAction(you: ReadonlyEntrantStatus, helpers: Helpers) {
+  private tryGetMovementAction(actions: ActionFactory, helpers: Helpers) {
     let checks = 0;
 
     while (checks < 100) {
-      const action = actions.moveTo(
-        { x: this.targetX, y: this.targetY },
-        you.coords
-      );
+      const action = actions.moveTo({ x: this.targetX, y: this.targetY });
 
       if (action && helpers.canPerform(action)) {
         return action;

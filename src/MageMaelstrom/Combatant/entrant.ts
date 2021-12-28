@@ -21,6 +21,7 @@ import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
 import { GameManager } from "../Logic/GameManager";
 import { aggMult } from "../Common/aggregates";
+import { ActionFactory } from "./actions";
 
 interface Meter {
   value: number;
@@ -225,18 +226,20 @@ export class Entrant {
   // ACTIONS
 
   public act(
+    actions: ActionFactory,
     helpers: Helpers,
     allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[]
   ) {
     this.ticksUntilNextTurn += this.getTurnDelay();
-    return this.combatant.act(
+    return this.combatant.act({
+      actions,
       helpers,
-      this.getStatus(),
+      you: this.getStatus(),
       allies,
       visibleEnemies,
-      this.spells.map((s) => s.toReadonlySpell())
-    );
+      spells: this.spells.map((s) => s.toReadonlySpell()),
+    });
   }
 
   private getTurnDelay() {

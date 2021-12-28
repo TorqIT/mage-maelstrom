@@ -2,16 +2,14 @@ import { Combatant } from "../MageMaelstrom";
 import {
   CombatantDefinition,
   Action,
-  actions,
-  ReadonlyEntrantStatus,
-  SpellStatus,
+  ActParams,
 } from "../MageMaelstrom/Combatant";
 import { Helpers } from "../MageMaelstrom/Logic";
 
 export class GoLeft extends Combatant {
   public define(): CombatantDefinition {
     return {
-      name: "I GO LEFT",
+      name: "STAND",
       icon: "/burst.png",
 
       strength: 26,
@@ -22,13 +20,13 @@ export class GoLeft extends Combatant {
     };
   }
   public init(): void {}
-  public act(
-    helpers: Helpers,
-    you: ReadonlyEntrantStatus,
-    allies: ReadonlyEntrantStatus[],
-    visibleEnemies: ReadonlyEntrantStatus[],
-    [heal, regen, force]: SpellStatus[]
-  ): Action {
+  public act({
+    actions,
+    helpers,
+    you,
+    visibleEnemies,
+    spells: [heal, regen, force],
+  }: ActParams): Action {
     const closestEnemy = helpers.getClosest(visibleEnemies);
 
     if (
@@ -49,6 +47,6 @@ export class GoLeft extends Combatant {
       return actions.cast(heal);
     }
 
-    return actions.move("left");
+    return actions.dance();
   }
 }

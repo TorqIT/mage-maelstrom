@@ -2,7 +2,7 @@ import { nextId } from "../Common";
 import { GameSpecs, Helpers } from "../Logic";
 import { SpellStatus } from "./Ability";
 import { AbilityType } from "./Ability/ability";
-import { Action } from "./actions";
+import { Action, ActionFactory } from "./actions";
 import { ReadonlyEntrantStatus } from "./entrant";
 
 export interface CombatantDefinition {
@@ -12,6 +12,15 @@ export interface CombatantDefinition {
   agility: number;
   intelligence: number;
   abilities: AbilityType[];
+}
+
+export interface ActParams {
+  actions: ActionFactory;
+  helpers: Helpers;
+  you: ReadonlyEntrantStatus;
+  allies: ReadonlyEntrantStatus[];
+  visibleEnemies: ReadonlyEntrantStatus[];
+  spells: SpellStatus[];
 }
 
 export abstract class Combatant {
@@ -32,13 +41,7 @@ export abstract class Combatant {
 
   public abstract init(): void;
 
-  public abstract act(
-    helpers: Helpers,
-    you: ReadonlyEntrantStatus,
-    allies: ReadonlyEntrantStatus[],
-    visibleEnemies: ReadonlyEntrantStatus[],
-    spells: SpellStatus[]
-  ): Action;
+  public abstract act(params: ActParams): Action;
 
   //~*~*~*~*
   //ATTRIBUTES

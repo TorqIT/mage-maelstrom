@@ -1,13 +1,11 @@
 import { Combatant, Team } from "../MageMaelstrom";
 import { MovementDirection } from "../MageMaelstrom/Arena";
 import {
-  AbilityType,
+  ActParams,
   CombatantDefinition,
-  ReadonlyEntrantStatus,
   SpellStatus,
-  SpellType,
 } from "../MageMaelstrom/Combatant";
-import { Action, actions } from "../MageMaelstrom/Combatant/actions";
+import { Action, ActionFactory } from "../MageMaelstrom/Combatant/actions";
 import { Helpers } from "../MageMaelstrom/Logic";
 
 class WowDude extends Combatant {
@@ -27,13 +25,12 @@ class WowDude extends Combatant {
     };
   }
   public init(): void {}
-  public act(
-    helpers: Helpers,
-    you: ReadonlyEntrantStatus,
-    allies: ReadonlyEntrantStatus[],
-    visibleEnemies: ReadonlyEntrantStatus[],
-    [bear]: SpellStatus[]
-  ): Action {
+  public act({
+    actions,
+    helpers,
+    visibleEnemies,
+    spells: [bear],
+  }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
     }
@@ -53,14 +50,6 @@ class WowDude extends Combatant {
     }
 
     return actions.move(this.dirPriority[this.target]);
-  }
-
-  private tryCast(helpers: Helpers, spell: SpellStatus, enemyId: number) {
-    const spellAction = actions.cast(spell, enemyId);
-
-    if (helpers.canPerform(spellAction)) {
-      return spellAction;
-    }
   }
 }
 

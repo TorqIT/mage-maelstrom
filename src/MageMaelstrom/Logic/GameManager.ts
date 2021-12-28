@@ -5,8 +5,8 @@ import {
   ActionType,
   ActiveTeam,
   AttackAction,
+  buildActionFactory,
   CombatantSubclass,
-  DanceAction,
   Entrant,
   FullSpellTarget,
   IdentifiedTeam,
@@ -224,17 +224,22 @@ export class GameManager {
           error: "No action returned",
         };
 
+        const you = e.getStatus();
+        const allies = team.entrants
+          .filter((ally) => ally.getId() !== e.getId())
+          .map((ally) => ally.getStatus());
+        const visibleEnemies = this.getVisibleEnemyEntrants(team, enemyTeam);
+
         try {
           action = e.act(
+            buildActionFactory(you, allies, visibleEnemies, this.specs.arena),
             buildHelpers(
               e.getStatus(),
               <ActionType extends Action>(a: ActionType) =>
                 this.getActionResult(e, a)
             ),
-            team.entrants
-              .filter((ally) => ally.getId() !== e.getId())
-              .map((ally) => ally.getStatus()),
-            this.getVisibleEnemyEntrants(team, enemyTeam)
+            allies,
+            visibleEnemies
           );
         } catch (e) {
           action = { type: ActionType.Dance, error: e as string };
