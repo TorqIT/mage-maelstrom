@@ -20,6 +20,7 @@ import {
 import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
 import { GameManager } from "../Logic/GameManager";
+import { aggMult } from "../Common/aggregates";
 
 interface Meter {
   value: number;
@@ -46,6 +47,8 @@ export interface ReadonlyEntrant {
   color: string;
   flipped: boolean;
 }
+
+export type DamageType = "attack" | "magic" | "pure";
 
 export class Entrant {
   private combatant: Combatant;
@@ -244,7 +247,7 @@ export class Entrant {
     const damage = this.combatant.getDamage();
     const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
-    target.takeDamage(damage * mult);
+    target.takeDamage(damage * mult, this, "attack");
 
     loggingManager.logAttack({
       target: target.getCombatantInfo(),
@@ -283,8 +286,11 @@ export class Entrant {
     actualSpell.cast(this, target, gameManager);
   }
 
-  public takeDamage(amount: number) {
-    this.health.value -= amount;
+  public takeDamage(amount: number, source: Entrant, damageType: DamageType) {
+    this.passives.forEach((p) => p.onTakeDamage(source, this, damageType));
+    this.health.value -=
+      amount *
+      aggMult(this.passives, (p) => p.getDamageTakenMultiplier(damageType));
     this.clampMeter(this.health);
   }
 

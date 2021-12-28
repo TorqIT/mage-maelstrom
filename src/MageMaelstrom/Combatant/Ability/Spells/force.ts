@@ -38,7 +38,7 @@ export class Force extends Spell {
     if (!actualTarget) {
       return;
     }
-    actualTarget.takeDamage(DAMAGE);
+    actualTarget.takeDamage(DAMAGE, caster, "attack");
     const pushDir = caster
       .getCoords()
       .getRelativeDirectionOf(actualTarget.getCoords());

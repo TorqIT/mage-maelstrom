@@ -30,7 +30,7 @@ export class Fireball extends Spell {
       return;
     }
 
-    target.takeDamage(DAMAGE);
+    target.takeDamage(DAMAGE, caster, "magic");
 
     loggingManager.logSpell({
       attacker: caster.getCombatantInfo(),

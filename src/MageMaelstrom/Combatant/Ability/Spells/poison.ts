@@ -31,12 +31,14 @@ export class Poison extends Spell {
       return;
     }
 
-    target.applyStatusEffect(new Poisoned());
+    target.applyStatusEffect(new Poisoned(caster));
   }
 }
 
 export class Poisoned extends StatusEffect {
-  public constructor()
+  private source: Entrant;
+
+  public constructor(source: Entrant)
   {
     super({
       type: "poison",
@@ -49,12 +51,14 @@ export class Poisoned extends StatusEffect {
       duration: SECONDS * 100,
       isPositive: false
     })
+
+    this.source = source;
   }
 
   public override updateEffect(entrant: Entrant) {
     if(this.timer % 50 === 1)
     {
-     entrant.takeDamage(DAMAGE / 2);
+     entrant.takeDamage(DAMAGE / 2, this.source, "magic");
     }
   }
 }

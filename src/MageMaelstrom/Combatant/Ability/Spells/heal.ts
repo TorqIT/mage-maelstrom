@@ -31,9 +31,9 @@ export class Heal extends Spell {
     }
 
     if (target) {
-      target.takeDamage(-HEAL_AMOUNT);
+      target.takeDamage(-HEAL_AMOUNT, caster, "pure");
     } else {
-      caster.takeDamage(-HEAL_AMOUNT);
+      caster.takeDamage(-HEAL_AMOUNT, caster, "pure");
     }
   }
 }

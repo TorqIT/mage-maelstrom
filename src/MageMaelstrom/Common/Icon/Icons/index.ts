@@ -9,6 +9,7 @@ import bear from "./bear-face.svg";
 import heal from "./heart-plus.svg";
 import regen from "./healing.svg";
 import force from "./push.svg";
+import thorns from "./heavy-thorny-triskelion.svg";
 
 export interface IconDef {
   file: string;
@@ -67,4 +68,8 @@ export const mmRegen: IconDef = {
 
 export const mmForce: IconDef = {
   file: force,
+};
+
+export const mmThorns: IconDef = {
+  file: thorns,
 };
