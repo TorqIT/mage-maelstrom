@@ -46,6 +46,7 @@ export interface ReadonlyEntrant {
   statusEffects: StatusEffectStatus[];
   color: string;
   flipped: boolean;
+  essential: boolean;
 }
 
 export type DamageType = "attack" | "magic" | "pure";
@@ -67,10 +68,13 @@ export class Entrant {
   private passives: Passive[];
   private statusEffects: StatusEffect[];
 
+  private essential: boolean;
+
   public constructor(
     combatant: Combatant,
     team: { color: string; flip: boolean; id: number },
-    coords: Coordinate
+    coords: Coordinate,
+    essential: boolean
   ) {
     this.combatant = combatant;
     this.coords = coords;
@@ -101,6 +105,8 @@ export class Entrant {
     this.statusEffects = [];
     this.spells = abilities.filter(isSpell).map((a) => buildSpell(a));
     this.passives = abilities.filter(isPassive).map((a) => buildPassive(a));
+
+    this.essential = essential;
   }
 
   //~*~*~*~*~*~*
@@ -119,6 +125,10 @@ export class Entrant {
 
   public getId() {
     return this.id;
+  }
+
+  public isEssential() {
+    return this.essential;
   }
 
   public getTeamId() {
@@ -322,6 +332,7 @@ export class Entrant {
       statusEffects: this.statusEffects.map((s) => s.toReadonly()),
       color: this.color,
       flipped: this.flipped,
+      essential: this.essential,
     };
   }
 

@@ -28,16 +28,18 @@ export const VictoryLogDisplay: React.FC<VictoryLogDisplayProps> = ({
       <div className={styles.victoryLabel}>Victory</div>
       <div className={styles.teamTitle}>{team.name}</div>
       <Stack gap={20}>
-        {team.entrants.map((e) => (
-          <div className={styles.icon} key={e.status.id}>
-            <CombatantIcon
-              name={e.combatant.name}
-              icon={e.combatant.icon}
-              color={e.color}
-              horizontalFlip={team.flip}
-            />
-          </div>
-        ))}
+        {team.entrants
+          .filter((e) => e.essential)
+          .map((e) => (
+            <div className={styles.icon} key={e.status.id}>
+              <CombatantIcon
+                name={e.combatant.name}
+                icon={e.combatant.icon}
+                color={e.color}
+                horizontalFlip={team.flip}
+              />
+            </div>
+          ))}
       </Stack>
     </Stack>
   );

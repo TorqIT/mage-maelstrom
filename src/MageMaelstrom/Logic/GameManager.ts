@@ -88,7 +88,8 @@ export class GameManager {
           new Entrant(
             new SubCombatant(this.specs),
             { color: team.color, id: team.id, flip: isRight },
-            this.generateCoord()
+            this.generateCoord(),
+            true
           )
       ),
     };
@@ -132,19 +133,25 @@ export class GameManager {
   }
 
   public getVictor() {
-    if (this.leftTeam.entrants.every((e) => e.isDead())) {
-      if (this.rightTeam.entrants.every((e) => e.isDead())) {
+    if (this.allEssentialsAreDead(this.leftTeam)) {
+      if (this.allEssentialsAreDead(this.rightTeam)) {
         return null;
       }
 
       return this.toReadonlyActiveTeam(this.rightTeam);
     }
 
-    if (this.rightTeam.entrants.every((e) => e.isDead())) {
+    if (this.allEssentialsAreDead(this.rightTeam)) {
       return this.toReadonlyActiveTeam(this.leftTeam);
     }
 
     return undefined;
+  }
+
+  private allEssentialsAreDead(team: ActiveTeam) {
+    return team.entrants
+      .filter((e) => e.isEssential())
+      .every((e) => e.isDead());
   }
 
   //~*~*~*~*~
@@ -400,7 +407,8 @@ export class GameManager {
     const entrant = new Entrant(
       new SubCombatant(this.specs),
       targetTeam,
-      targetCoord
+      targetCoord,
+      false
     );
     entrant.getCombatant().init();
     targetTeam.entrants.push(entrant);
