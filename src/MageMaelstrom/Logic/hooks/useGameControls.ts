@@ -14,12 +14,6 @@ export function useGameControls(
     }
   }, [gameManager, hasVictor]);
 
-  const tickUntilNextAction = useCallback(() => {
-    if (!hasVictor) {
-      gameManager?.tickUntilNextAction();
-    }
-  }, [gameManager, hasVictor]);
-
   const [isLooping, setLooping] = useState(false);
 
   useEffect(() => {
@@ -54,7 +48,6 @@ export function useGameControls(
 
   return {
     tick,
-    tickUntilNextAction,
     toggleLooping,
     isLooping,
   };

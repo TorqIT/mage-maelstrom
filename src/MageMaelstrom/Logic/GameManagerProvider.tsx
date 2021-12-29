@@ -20,7 +20,6 @@ export interface GameManagerData extends GameManagerProviderProps {
   clearGame: () => void;
   restartGame: () => void;
   tick: () => void;
-  tickUntilNextAction: () => void;
   toggleLooping: () => void;
 }
 
@@ -43,8 +42,10 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     clearGame,
     startGame,
   } = useManagerInstance();
-  const { tick, toggleLooping, tickUntilNextAction, isLooping } =
-    useGameControls(gameManager, victor !== undefined);
+  const { tick, toggleLooping, isLooping } = useGameControls(
+    gameManager,
+    victor !== undefined
+  );
 
   return (
     <GameManagerContext.Provider
@@ -57,7 +58,6 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         victor,
         tick,
         isLooping,
-        tickUntilNextAction,
         currentTick,
         toggleLooping,
         teams,

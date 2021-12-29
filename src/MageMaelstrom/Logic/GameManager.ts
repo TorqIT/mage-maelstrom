@@ -159,25 +159,6 @@ export class GameManager {
   //~*~*~*~*~
   // TICK
 
-  public tickUntilNextAction() {
-    if (this.battleIsOver) {
-      return;
-    }
-
-    let tickCounter = 0;
-    let ticked = false;
-
-    while (tickCounter < 500 && !ticked) {
-      if (this.tick(false)) {
-        ticked = true;
-      }
-
-      tickCounter++;
-    }
-
-    this.onChange && this.onChange();
-  }
-
   public tick(triggerChangeEvents: boolean) {
     if (this.battleIsOver) {
       return false;
@@ -194,7 +175,7 @@ export class GameManager {
       this.rightTeam
     ).concat(this.performTeamActions(this.rightTeam, this.leftTeam));
 
-    const results = arrayShuffle(actionsToPerform).map((a) =>
+    arrayShuffle(actionsToPerform).forEach((a) =>
       this.tryPerformAction(a.entrant, a.action)
     );
 
@@ -211,8 +192,6 @@ export class GameManager {
     } else if (triggerChangeEvents) {
       this.onChange && this.onChange();
     }
-
-    return results.some((r) => r);
   }
 
   private performTeamActions(team: ActiveTeam, enemyTeam: ActiveTeam) {
@@ -278,15 +257,12 @@ export class GameManager {
           error: action.error,
         });
       }
-      return true;
+    } else {
+      loggingManager.logDance({
+        dancer: entrant.getCombatantInfo(),
+        error: getActionResultString(result),
+      });
     }
-
-    loggingManager.logDance({
-      dancer: entrant.getCombatantInfo(),
-      error: getActionResultString(result),
-    });
-
-    return false;
   }
 
   //~*~*~*~*~*

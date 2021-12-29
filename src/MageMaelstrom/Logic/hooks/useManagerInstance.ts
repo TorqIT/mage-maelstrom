@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IdentifiedTeam, ReadonlyActiveTeam } from "../../Combatant";
 import { GameManager } from "../GameManager";
-import { GameSpecs } from "../gameSpecs";
 import { useGameSpecs } from "../GameSpecsProvider";
 import { useTeamSelection } from "../TeamSelectionProvider";
 

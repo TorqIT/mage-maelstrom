@@ -13,7 +13,6 @@ export const Battle: React.FC<BattleProps> = ({}) => {
     leftTeam,
     rightTeam,
     tick,
-    tickUntilNextAction,
     currentTick,
     toggleLooping,
     isLooping,
@@ -44,12 +43,6 @@ export const Battle: React.FC<BattleProps> = ({}) => {
                 style={{ width: 120 }}
               >
                 Tick: {currentTick}
-              </NiceButton>
-              <NiceButton
-                onClick={tickUntilNextAction}
-                disabled={victor !== undefined}
-              >
-                Next Action
               </NiceButton>
               <NiceButton
                 pressed={isLooping}
