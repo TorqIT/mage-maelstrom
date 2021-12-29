@@ -14,6 +14,7 @@
     "array-shuffle": "^3.0.0",
     "classnames": "^2.3.1",
     "pathfinding": "^0.4.18",
+    "rc-slider": "^9.7.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-resize-detector": "^6.7.7",

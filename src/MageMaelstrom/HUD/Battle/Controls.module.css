@@ -1,4 +1,4 @@
-.wrapper {
+.section {
   --upper-left-border: rgb(118, 118, 154);
   --lower-right-border: rgb(46, 46, 84);
 
@@ -13,14 +13,17 @@
   border-bottom-color: var(--lower-right-border);
 }
 
-.list {
-  height: calc(100vh - 500px);
-  overflow-y: auto;
+.sliderWrapper {
+  height: 62px;
+  padding: 0px 15px;
 }
 
-.name {
+.gameSpeed {
+  width: 140px;
+  font-size: 20px;
+}
+
+.tickCounter {
+  width: 100px;
   text-align: center;
-  padding: 10px;
-  font-family: SmallTitle;
-  font-size: 24px;
 }

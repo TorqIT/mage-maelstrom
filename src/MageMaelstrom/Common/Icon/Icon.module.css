@@ -2,6 +2,11 @@
   display: block;
 }
 
+.icon.inline {
+  display: inline-block;
+  margin-bottom: -2px;
+}
+
 .colored {
   filter: invert(98%) sepia(7%) saturate(1302%) hue-rotate(3deg) brightness(90%)
     contrast(84%);

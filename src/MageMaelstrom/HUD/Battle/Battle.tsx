@@ -5,21 +5,12 @@ import { TeamDisplay } from "..";
 import { useGameManager } from "../../Logic";
 import { NiceButton } from "../NiceButton";
 import { BattleLogs } from "../BattleLogs";
+import { Controls } from "./Controls";
 
 export interface BattleProps {}
 
 export const Battle: React.FC<BattleProps> = ({}) => {
-  const {
-    leftTeam,
-    rightTeam,
-    tick,
-    currentTick,
-    toggleLooping,
-    isLooping,
-    clearGame,
-    restartGame,
-    victor,
-  } = useGameManager();
+  const { leftTeam, rightTeam, clearGame, restartGame } = useGameManager();
 
   if (!leftTeam || !rightTeam) {
     return null;
@@ -37,23 +28,6 @@ export const Battle: React.FC<BattleProps> = ({}) => {
         <Stack.Item>
           <Stack gap="apart" alignment="middle">
             <Stack gap={20}>
-              <NiceButton
-                onClick={tick}
-                disabled={victor !== undefined}
-                style={{ width: 120 }}
-              >
-                Tick: {currentTick}
-              </NiceButton>
-              <NiceButton
-                pressed={isLooping}
-                onClick={toggleLooping}
-                disabled={victor !== undefined}
-              >
-                {isLooping ? "Stop " : "Start "} Looping
-              </NiceButton>
-            </Stack>
-
-            <Stack gap={20}>
               <NiceButton onClick={restartGame}>Restart Game</NiceButton>
               <NiceButton onClick={clearGame}>New Game</NiceButton>
             </Stack>
@@ -63,14 +37,17 @@ export const Battle: React.FC<BattleProps> = ({}) => {
 
       <Stack gap={30} alignment="middle" stretch>
         <Stack.Item>
-          <Stack stretch gap={5}>
-            <Stack.Item>
-              <TeamDisplay team={leftTeam} />
-            </Stack.Item>
-            <Arena />
-            <Stack.Item>
-              <TeamDisplay team={rightTeam} />
-            </Stack.Item>
+          <Stack direction="vertical" stretch gap={20}>
+            <Stack stretch gap={5}>
+              <Stack.Item>
+                <TeamDisplay team={leftTeam} />
+              </Stack.Item>
+              <Arena />
+              <Stack.Item>
+                <TeamDisplay team={rightTeam} />
+              </Stack.Item>
+            </Stack>
+            <Controls />
           </Stack>
         </Stack.Item>
 
