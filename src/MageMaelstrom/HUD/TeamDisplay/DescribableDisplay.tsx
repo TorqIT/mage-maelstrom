@@ -34,7 +34,7 @@ export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
               {cooldown && (
                 <Stack alignment="middle" gap={4}>
                   <Icon icon={mmCooldownTimer} size={20} />
-                  {cooldown}
+                  {cooldown / 100}s
                 </Stack>
               )}
               {manaCost && (

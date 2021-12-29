@@ -9,6 +9,8 @@ import { Force } from "./Spells/force";
 import { Heal } from "./Spells/heal";
 import { Poison } from "./Spells/poison";
 import { Regen } from "./Spells/regen";
+import { Slow } from "./Spells/slow";
+import { Stun } from "./Spells/stun";
 import { SummonBear } from "./Spells/summonBear";
 
 export function buildSpell(type: SpellType): Spell {
@@ -25,6 +27,10 @@ export function buildSpell(type: SpellType): Spell {
       return new Regen();
     case "force":
       return new Force();
+    case "slow":
+      return new Slow();
+    case "stun":
+      return new Stun();
   }
 }
 

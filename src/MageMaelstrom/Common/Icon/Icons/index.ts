@@ -11,6 +11,8 @@ import regen from "./healing.svg";
 import force from "./push.svg";
 import thorns from "./heavy-thorny-triskelion.svg";
 import music from "./musical-notes.svg";
+import slow from "./snail.svg";
+import stun from "./knockout.svg";
 
 export interface IconDef {
   file: string;
@@ -77,4 +79,12 @@ export const mmThorns: IconDef = {
 
 export const mmMusic: IconDef = {
   file: music,
+};
+
+export const mmSlow: IconDef = {
+  file: slow,
+};
+
+export const mmStun: IconDef = {
+  file: stun,
 };

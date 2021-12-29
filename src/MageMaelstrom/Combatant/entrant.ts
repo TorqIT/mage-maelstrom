@@ -196,7 +196,9 @@ export class Entrant {
   // UPDATE
 
   public update(gameManager: GameManager) {
-    this.ticksUntilNextTurn--;
+    this.ticksUntilNextTurn -=
+      aggMult(this.passives, (p) => p.getTurnSpeedMultiplier()) *
+      aggMult(this.statusEffects, (s) => s.getTurnSpeedMultiplier());
 
     this.updateMeter(this.health, this.getHealthRegenBonus());
     this.updateMeter(this.mana);
@@ -231,7 +233,7 @@ export class Entrant {
     allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[]
   ) {
-    this.ticksUntilNextTurn += this.getTurnDelay();
+    this.ticksUntilNextTurn += this.combatant.getTurnDelay();
     return this.combatant.act({
       actions,
       helpers,
@@ -240,16 +242,6 @@ export class Entrant {
       visibleEnemies,
       spells: this.spells.map((s) => s.toReadonlySpell()),
     });
-  }
-
-  private getTurnDelay() {
-    return (
-      this.combatant.getTurnDelay() /
-      this.passives.reduce(
-        (mult, current) => (mult *= current.getTurnSpeedMultiplier()),
-        1
-      )
-    );
   }
 
   public move(direction: MovementDirection) {

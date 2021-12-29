@@ -13,7 +13,9 @@ export class SummonBear extends Spell {
       desc: {
         icon: mmBear,
         name: "Summon Bear",
-        description: "Summon a bear",
+        description:
+          "Summon a 10/8/5 bear. Lumbers around slowly but moves quicker " +
+          "when an enemy is close by.",
       },
       type: "bear",
       manaCost: 30,
