@@ -16,6 +16,8 @@ export interface GameManagerData extends GameManagerProviderProps {
   victor?: ReadonlyActiveTeam | null;
   currentTick?: number;
   isLooping: boolean;
+  gameSpeed: number;
+  setGameSpeed: React.Dispatch<React.SetStateAction<number>>;
   startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
   clearGame: () => void;
   restartGame: () => void;
@@ -42,10 +44,8 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     clearGame,
     startGame,
   } = useManagerInstance();
-  const { tick, toggleLooping, isLooping } = useGameControls(
-    gameManager,
-    victor !== undefined
-  );
+  const { tick, toggleLooping, isLooping, gameSpeed, setGameSpeed } =
+    useGameControls(gameManager, victor !== undefined);
 
   return (
     <GameManagerContext.Provider
@@ -62,6 +62,8 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         toggleLooping,
         teams,
         entrants,
+        gameSpeed,
+        setGameSpeed,
       }}
     >
       {children}

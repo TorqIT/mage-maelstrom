@@ -11,8 +11,15 @@ import classNames from "classnames";
 export interface ControlsProps {}
 
 export const Controls = React.memo<ControlsProps>(() => {
-  const { tick, currentTick, toggleLooping, isLooping, victor } =
-    useGameManager();
+  const {
+    tick,
+    currentTick,
+    toggleLooping,
+    isLooping,
+    victor,
+    gameSpeed,
+    setGameSpeed,
+  } = useGameManager();
 
   return (
     <Stack gap={20}>
@@ -30,7 +37,7 @@ export const Controls = React.memo<ControlsProps>(() => {
           <Icon icon={isLooping ? mmPause : mmPlay} size={32} inline />
         </NiceButton>
         <NiceButton onClick={tick} disabled={victor !== undefined}>
-          Tick
+          +10<span style={{ fontFamily: "Body" }}>ms</span>
         </NiceButton>
       </Stack>
       <Stack.Item style={{ marginRight: 30 }}>
@@ -40,7 +47,13 @@ export const Controls = React.memo<ControlsProps>(() => {
           gap={20}
         >
           <div className={styles.gameSpeed}>Game Speed</div>
-          <Slider />
+          <Slider
+            min={0.5}
+            max={2}
+            step={0.01}
+            value={gameSpeed}
+            onChange={setGameSpeed}
+          />
           <div className={styles.tickCounter}>
             <Icon
               icon={mmCooldownTimer}

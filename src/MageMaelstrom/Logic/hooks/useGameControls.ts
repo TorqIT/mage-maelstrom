@@ -2,8 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { CombatantSubclass } from "../../Combatant";
 import { GameManager } from "../GameManager";
 
-const TICKS_PER_LOOP = 3;
-
 export function useGameControls(
   gameManager: GameManager | undefined,
   hasVictor: boolean
@@ -15,6 +13,7 @@ export function useGameControls(
   }, [gameManager, hasVictor]);
 
   const [isLooping, setLooping] = useState(false);
+  const [gameSpeed, setGameSpeed] = useState(1);
 
   useEffect(() => {
     if (hasVictor) {
@@ -31,14 +30,28 @@ export function useGameControls(
       return;
     }
 
-    const timer = setInterval(() => {
-      for (let j = 0; j < TICKS_PER_LOOP; j++) {
-        gameManager?.tick(j === TICKS_PER_LOOP - 1);
-      }
-    }, TICKS_PER_LOOP * 10);
+    let timer: NodeJS.Timeout;
+
+    if (gameSpeed > 1 / 3) {
+      const ticksPerInterval = gameSpeed * 3;
+      let ticksToPerform = 0;
+
+      timer = setInterval(() => {
+        ticksToPerform += ticksPerInterval;
+
+        while (ticksToPerform > 0) {
+          gameManager?.tick(ticksToPerform <= 1);
+          ticksToPerform--;
+        }
+      }, 30);
+    } else {
+      timer = setInterval(() => {
+        gameManager?.tick(true);
+      }, Math.floor(30 / gameSpeed));
+    }
 
     return () => clearInterval(timer);
-  }, [gameManager, isLooping, tick]);
+  }, [gameManager, gameSpeed, isLooping, tick]);
 
   const toggleLooping = useCallback(() => {
     if (!hasVictor) {
@@ -50,5 +63,7 @@ export function useGameControls(
     tick,
     toggleLooping,
     isLooping,
+    gameSpeed,
+    setGameSpeed,
   };
 }
