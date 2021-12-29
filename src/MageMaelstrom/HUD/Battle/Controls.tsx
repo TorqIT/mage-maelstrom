@@ -42,7 +42,9 @@ export const Controls = React.memo<ControlsProps>(() => {
         <NiceButton onClick={tick} disabled={victor !== undefined}>
           +10<span style={{ fontFamily: "Body" }}>ms</span>
         </NiceButton>
-        <NiceButton onClick={simulateFullGame}>Skip to End</NiceButton>
+        <NiceButton onClick={simulateFullGame} disabled={victor !== undefined}>
+          Skip to End
+        </NiceButton>
       </Stack>
       <Stack.Item style={{ marginRight: 30 }}>
         <Stack

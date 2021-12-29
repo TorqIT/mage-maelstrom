@@ -90,16 +90,18 @@ export class GameManager {
           new Entrant(
             new SubCombatant(this.specs),
             { color: team.color, id: team.id, flip: isRight },
-            this.generateCoord(),
+            this.generateCoord(isRight),
             true
           )
       ),
     };
   }
 
-  private generateCoord() {
+  private generateCoord(right: boolean) {
     return new Coordinate({
-      x: Math.floor(Math.random() * this.specs.arena.width),
+      x:
+        Math.floor(Math.random() * Math.floor(this.specs.arena.width / 2 - 1)) +
+        (right ? Math.ceil(this.specs.arena.width / 2 + 1) : 0),
       y: Math.floor(Math.random() * this.specs.arena.height),
     });
   }
