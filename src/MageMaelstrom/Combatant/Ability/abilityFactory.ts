@@ -10,6 +10,7 @@ import { Heal } from "./Spells/heal";
 import { Poison } from "./Spells/poison";
 import { Regen } from "./Spells/regen";
 import { Slow } from "./Spells/slow";
+import { Snipe } from "./Spells/snipe";
 import { Stun } from "./Spells/stun";
 import { SummonBear } from "./Spells/summonBear";
 
@@ -31,6 +32,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Slow();
     case "stun":
       return new Stun();
+    case "snipe":
+      return new Snipe();
   }
 }
 

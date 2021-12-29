@@ -15,6 +15,7 @@ import slow from "./snail.svg";
 import stun from "./knockout.svg";
 import play from "./play-button.svg";
 import pause from "./pause-button.svg";
+import snipe from "./dead-eye.svg";
 
 export interface IconDef {
   file: string;
@@ -97,4 +98,7 @@ export const mmPause: IconDef = {
   file: pause,
   filter:
     "invert(4%) sepia(15%) saturate(3116%) hue-rotate(182deg) brightness(92%) contrast(99%)",
+};
+export const mmSnipe: IconDef = {
+  file: snipe,
 };

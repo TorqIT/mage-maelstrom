@@ -2,7 +2,13 @@ import { nextId } from "../../Common";
 import { DescriptiveIcon } from "../describable";
 import { Entrant } from "../entrant";
 
-export const statusEffectTypes = ["poison", "regen", "slow", "stun"] as const;
+export const statusEffectTypes = [
+  "poison",
+  "regen",
+  "slow",
+  "stun",
+  "snipe",
+] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
 export interface StatusEffectDefinition {
