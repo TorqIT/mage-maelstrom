@@ -47,7 +47,7 @@ export function useGameControls(
     } else {
       timer = setInterval(() => {
         gameManager?.tick(true);
-      }, Math.floor(30 / gameSpeed));
+      }, Math.floor(10 / gameSpeed));
     }
 
     return () => clearInterval(timer);
@@ -59,11 +59,22 @@ export function useGameControls(
     }
   }, [hasVictor, isLooping]);
 
+  const simulateFullGame = useCallback(() => {
+    if (!gameManager) {
+      return;
+    }
+
+    while (!gameManager.isFinished()) {
+      gameManager.tick(false);
+    }
+  }, [gameManager]);
+
   return {
     tick,
     toggleLooping,
     isLooping,
     gameSpeed,
     setGameSpeed,
+    simulateFullGame,
   };
 }

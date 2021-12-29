@@ -156,6 +156,10 @@ export class GameManager {
       .every((e) => e.isDead());
   }
 
+  public isFinished() {
+    return this.battleIsOver;
+  }
+
   //~*~*~*~*~
   // TICK
 

@@ -18,6 +18,12 @@
   padding: 0px 15px;
 }
 
+.sliderWrapper :global(.rc-slider-tooltip-inner) {
+  background-color: rgb(27, 27, 39);
+  padding: 7px;
+  font-size: 13px;
+}
+
 .gameSpeed {
   width: 140px;
   font-size: 20px;

@@ -10,6 +10,8 @@ import classNames from "classnames";
 
 export interface ControlsProps {}
 
+const TooltippedSlider = Slider.createSliderWithTooltip(Slider);
+
 export const Controls = React.memo<ControlsProps>(() => {
   const {
     tick,
@@ -19,6 +21,7 @@ export const Controls = React.memo<ControlsProps>(() => {
     victor,
     gameSpeed,
     setGameSpeed,
+    simulateFullGame,
   } = useGameManager();
 
   return (
@@ -39,6 +42,7 @@ export const Controls = React.memo<ControlsProps>(() => {
         <NiceButton onClick={tick} disabled={victor !== undefined}>
           +10<span style={{ fontFamily: "Body" }}>ms</span>
         </NiceButton>
+        <NiceButton onClick={simulateFullGame}>Skip to End</NiceButton>
       </Stack>
       <Stack.Item style={{ marginRight: 30 }}>
         <Stack
@@ -47,12 +51,13 @@ export const Controls = React.memo<ControlsProps>(() => {
           gap={20}
         >
           <div className={styles.gameSpeed}>Game Speed</div>
-          <Slider
-            min={0.5}
-            max={2}
+          <TooltippedSlider
+            min={-1}
+            max={1}
             step={0.01}
-            value={gameSpeed}
-            onChange={setGameSpeed}
+            value={Math.log10(gameSpeed)}
+            onChange={(value) => setGameSpeed(Math.pow(10, value))}
+            tipFormatter={(v) => Math.pow(10, v).toFixed(2) + "x"}
           />
           <div className={styles.tickCounter}>
             <Icon
