@@ -6,6 +6,7 @@ import { useGameManager } from "../../Logic";
 import { NiceButton } from "../NiceButton";
 import { BattleLogs } from "../BattleLogs";
 import { Controls } from "./Controls";
+import { Help } from "../Help";
 
 export interface BattleProps {}
 
@@ -48,6 +49,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
                 <TeamDisplay team={rightTeam} />
               </Stack.Item>
             </Stack>
+            <Help size={100} />
           </Stack>
         </Stack.Item>
 

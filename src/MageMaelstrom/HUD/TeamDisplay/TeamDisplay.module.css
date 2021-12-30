@@ -14,7 +14,7 @@
 }
 
 .list {
-  height: calc(100vh - 500px);
+  height: calc(100vh - 470px);
   overflow-y: auto;
 }
 

@@ -1,0 +1,36 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(1, 0, 3, 0.731);
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  width: 720px;
+  max-height: 90vh;
+  min-height: 50px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgb(23, 23, 37);
+  border-radius: 10px;
+  position: relative;
+}
+
+.closer {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.closer:hover {
+  background-color: rgb(33, 33, 55);
+}
