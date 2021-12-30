@@ -26,7 +26,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
           Mage Maelstrom
         </div>
         <Stack.Item>
-          <Stack gap="apart" alignment="middle">
+          <Stack alignment="end">
             <Stack gap={20}>
               <NiceButton onClick={restartGame}>Restart Game</NiceButton>
               <NiceButton onClick={clearGame}>New Game</NiceButton>
@@ -38,6 +38,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
       <Stack gap={30} alignment="middle" stretch>
         <Stack.Item>
           <Stack direction="vertical" stretch gap={20}>
+            <Controls />
             <Stack stretch gap={5}>
               <Stack.Item>
                 <TeamDisplay team={leftTeam} />
@@ -47,7 +48,6 @@ export const Battle: React.FC<BattleProps> = ({}) => {
                 <TeamDisplay team={rightTeam} />
               </Stack.Item>
             </Stack>
-            <Controls />
           </Stack>
         </Stack.Item>
 

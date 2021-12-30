@@ -31,9 +31,9 @@ class WowDude extends Combatant {
     visibleEnemies,
     spells: [bear, snipe],
   }: ActParams): Action {
-    // if (helpers.canPerform(actions.cast(bear))) {
-    //   return actions.cast(bear);
-    // }
+    if (helpers.canPerform(actions.cast(bear))) {
+      return actions.cast(bear);
+    }
 
     if (visibleEnemies.length > 0) {
       const snipableEnemy = visibleEnemies.find((s) =>

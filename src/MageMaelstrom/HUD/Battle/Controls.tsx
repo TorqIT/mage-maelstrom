@@ -25,28 +25,31 @@ export const Controls = React.memo<ControlsProps>(() => {
   } = useGameManager();
 
   return (
-    <Stack gap={20}>
-      <Stack
-        direction="vertical"
-        stretch
-        className={styles.section}
-        style={{ width: 100 }}
-      >
+    <Stack stretch gap={20}>
+      <Stack stretch>
         <NiceButton
           pressed={isLooping}
           onClick={toggleLooping}
           disabled={victor !== undefined}
+          style={{ width: 200 }}
         >
           <Icon icon={isLooping ? mmPause : mmPlay} size={32} inline />
         </NiceButton>
         <NiceButton onClick={tick} disabled={victor !== undefined}>
           +10<span style={{ fontFamily: "Body" }}>ms</span>
         </NiceButton>
-        <NiceButton onClick={simulateFullGame} disabled={victor !== undefined}>
-          Skip to End
-        </NiceButton>
       </Stack>
-      <Stack.Item style={{ marginRight: 30 }}>
+      <div className={classNames(styles.tickCounter, styles.section)}>
+        <Icon
+          icon={mmCooldownTimer}
+          size={16}
+          inline
+          style={{ marginRight: 5 }}
+        />
+        {((currentTick ?? 0) / 100).toFixed(2)}s
+      </div>
+
+      <Stack.Item>
         <Stack
           alignment="middle"
           className={classNames(styles.section, styles.sliderWrapper)}
@@ -61,17 +64,11 @@ export const Controls = React.memo<ControlsProps>(() => {
             onChange={(value) => setGameSpeed(Math.pow(10, value))}
             tipFormatter={(v) => Math.pow(10, v).toFixed(2) + "x"}
           />
-          <div className={styles.tickCounter}>
-            <Icon
-              icon={mmCooldownTimer}
-              size={16}
-              inline
-              style={{ marginRight: 5 }}
-            />
-            {((currentTick ?? 0) / 100).toFixed(2)}s
-          </div>
         </Stack>
       </Stack.Item>
+      <NiceButton onClick={simulateFullGame} disabled={victor !== undefined}>
+        Skip to End
+      </NiceButton>
     </Stack>
   );
 });
