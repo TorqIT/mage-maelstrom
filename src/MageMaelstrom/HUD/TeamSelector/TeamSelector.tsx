@@ -3,7 +3,7 @@ import React, { useMemo, useRef, useState } from "react";
 import { Team } from "../..";
 import { IdentifiedTeam } from "../../Combatant";
 import { Stack } from "../../Common";
-import { useGameManager, validate } from "../../Logic";
+import { useGameManager, validate, warn } from "../../Logic";
 import { useGameSpecs } from "../../Logic/GameSpecsProvider";
 import { NiceButton } from "../NiceButton";
 import { SelectableTeam } from "./SelectableTeam";
@@ -32,6 +32,7 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
         return {
           team,
           validationResult: validate(t, specs),
+          warningResult: warn(t, specs),
         };
       }),
     [teams, specs]
@@ -91,6 +92,7 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
               key={t.team.id}
               team={t.team}
               errors={t.validationResult.errors}
+              warnings={t.warningResult.warnings}
               onClick={() => clickTeam(t.team)}
             />
           ))}

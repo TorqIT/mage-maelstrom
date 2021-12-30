@@ -23,12 +23,6 @@
 
 .name {
   font-family: SmallTitle;
-  margin-bottom: 5px;
-}
-
-.iconWrapper {
-  width: 100px;
-  height: 100px;
 }
 
 .disabled {

@@ -16,6 +16,7 @@ import stun from "./knockout.svg";
 import play from "./play-button.svg";
 import pause from "./pause-button.svg";
 import snipe from "./dead-eye.svg";
+import warning from "./hazard-sign.svg";
 
 export interface IconDef {
   file: string;
@@ -101,4 +102,8 @@ export const mmPause: IconDef = {
 };
 export const mmSnipe: IconDef = {
   file: snipe,
+};
+
+export const mmWarning: IconDef = {
+  file: warning,
 };

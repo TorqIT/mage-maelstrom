@@ -1,5 +1,5 @@
 import { Coordinate } from "../Arena";
-import { Entrant, Team } from "../Combatant";
+import { Entrant, isSpell, Team } from "../Combatant";
 import { GameSpecs } from "./gameSpecs";
 
 export function validate(
@@ -50,10 +50,35 @@ export function validate(
         `${combatant.name}'s stats (total: ${total}) are too high (max total: ${max})`
       );
     }
+
+    const spells = combatant.abilities.filter(isSpell);
+    const uniqueSpells = new Set(spells);
+
+    if (spells.length !== uniqueSpells.size) {
+      errors.push(`${combatant.name} has a duplicate spell`);
+    }
   });
 
   return {
     good: errors.length === 0,
     errors,
+  };
+}
+
+export function warn(
+  team: Team,
+  specs: GameSpecs
+): { good: boolean; warnings: string[] } {
+  const warnings: string[] = [];
+
+  if (team.CombatantSubclasses.length < specs.rules.maxCombatants) {
+    warnings.push(
+      `This team only has ${team.CombatantSubclasses.length} combatant(s) when ${specs.rules.maxCombatants} are allowed`
+    );
+  }
+
+  return {
+    good: warnings.length === 0,
+    warnings,
   };
 }
