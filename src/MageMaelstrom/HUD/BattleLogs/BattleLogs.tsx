@@ -39,7 +39,7 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
 
   useEffect(() => {
     logVirtualizer.scrollToIndex(logs.length - 1);
-  }, [logVirtualizer, logs.length]);
+  }, [logs.length]);
 
   const renderLog = (log: BattleLogEvent) => {
     switch (log.type) {
@@ -61,22 +61,19 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
           height: logVirtualizer.totalSize,
           width: "100%",
           position: "relative",
-          overflow: "hidden",
         }}
       >
         {logVirtualizer.virtualItems.map((l) => (
           <div
             key={l.key}
-            className={styles.log}
             style={{
               position: "absolute",
-              top: 0,
+              top: l.start,
               left: 0,
               width: "100%",
-              transform: `translateY(${l.start}px)`,
             }}
           >
-            {renderLog(logs[l.index])}
+            <div className={styles.log}>{renderLog(logs[l.index])}</div>
           </div>
         ))}
       </div>
