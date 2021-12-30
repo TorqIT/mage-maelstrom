@@ -63,7 +63,7 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
               />
             );
           })}
-          {warnings && warnings.length > 0 && (
+          {warnings && warnings.length > 0 && (!errors || errors.length === 0) && (
             <Tooltip
               content={
                 <ul style={{ paddingLeft: 20 }}>

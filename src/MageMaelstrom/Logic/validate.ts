@@ -51,6 +51,12 @@ export function validate(
       );
     }
 
+    if (combatant.abilities.length > specs.rules.maxAbilities) {
+      errors.push(
+        `${combatant.name} has too many abilities (current: ${combatant.abilities.length}, max: ${specs.rules.maxAbilities})`
+      );
+    }
+
     const spells = combatant.abilities.filter(isSpell);
     const uniqueSpells = new Set(spells);
 
@@ -76,6 +82,32 @@ export function warn(
       `This team only has ${team.CombatantSubclasses.length} combatant(s) when ${specs.rules.maxCombatants} are allowed`
     );
   }
+
+  team.CombatantSubclasses.forEach((SubCombatant) => {
+    const entrant = new Entrant(
+      new SubCombatant(specs),
+      { color: team.color, flip: false, id: -1 },
+      new Coordinate({ x: 0, y: 0 }),
+      true
+    );
+    const combatant = entrant.getCombatant().getDef();
+
+    const total =
+      combatant.strength + combatant.agility + combatant.intelligence;
+    const max = entrant.getMaxStatBonus() + specs.rules.maxTotalStats;
+
+    if (total < max) {
+      warnings.push(
+        `${combatant.name} still has leftover stats (total: ${total}, max total: ${max})`
+      );
+    }
+
+    if (combatant.abilities.length < specs.rules.maxAbilities) {
+      warnings.push(
+        `${combatant.name} is missing abilities (current: ${combatant.abilities.length}, max: ${specs.rules.maxAbilities})`
+      );
+    }
+  });
 
   return {
     good: warnings.length === 0,

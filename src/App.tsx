@@ -14,6 +14,7 @@ function App() {
           maxCombatants: 2,
           minStat: 5,
           maxTotalStats: 40,
+          maxAbilities: 4,
         },
         arena: {
           width: 14,

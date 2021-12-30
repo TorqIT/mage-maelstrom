@@ -49,7 +49,7 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
   };
 
   return (
-    <div>
+    <div style={{ paddingTop: 30 }}>
       <Stack alignment="middle">
         <Stack.Item>
           <div className="mageMaelstromTitle">Mage Maelstrom</div>

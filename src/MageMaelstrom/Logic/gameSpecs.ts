@@ -3,6 +3,7 @@ export type GameSpecs = Readonly<{
     maxCombatants: number;
     minStat: number;
     maxTotalStats: number;
+    maxAbilities: number;
   }>;
   arena: Readonly<{
     width: number;
