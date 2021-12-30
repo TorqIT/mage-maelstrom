@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { BattleLogEvent, LogType } from "../../Logging/logs";
 import { AttackLogDisplay } from "./Logs/AttackLogDisplay";
 import styles from "./BattleLogs.module.css";
@@ -6,17 +6,40 @@ import { VictoryLogDisplay } from "./Logs/VictoryLogDisplay";
 import { useLogging } from "../../Logging/LoggingProvider";
 import { SpellLogDisplay } from "./Logs/SpellLogDisplay";
 import { DanceLogDisplay } from "./Logs/DanceLogDisplay";
+import { useVirtual } from "react-virtual";
 
 export interface BattleLogsProps {}
 
 export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
   const { logs } = useLogging();
 
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  const estimateSize = useCallback(
+    (index: number) => {
+      switch (logs[index].type) {
+        case LogType.Attack:
+        case LogType.Spell:
+          return 58;
+        case LogType.Dance:
+          return 54;
+        case LogType.Victory:
+          return 201;
+      }
+    },
+    [logs]
+  );
+
+  const logVirtualizer = useVirtual({
+    parentRef,
+    size: logs.length,
+    keyExtractor: (index) => logs[index].id,
+    estimateSize,
+  });
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView();
-  }, [logs]);
+    logVirtualizer.scrollToIndex(logs.length - 1);
+  }, [logVirtualizer, logs.length]);
 
   const renderLog = (log: BattleLogEvent) => {
     switch (log.type) {
@@ -32,13 +55,31 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      {logs.map((l) => (
-        <div key={l.id} className={styles.log}>
-          {renderLog(l)}
-        </div>
-      ))}
-      <div ref={scrollRef}></div>
+    <div ref={parentRef} className={styles.wrapper}>
+      <div
+        style={{
+          height: logVirtualizer.totalSize,
+          width: "100%",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {logVirtualizer.virtualItems.map((l) => (
+          <div
+            key={l.key}
+            className={styles.log}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              transform: `translateY(${l.start}px)`,
+            }}
+          >
+            {renderLog(logs[l.index])}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
