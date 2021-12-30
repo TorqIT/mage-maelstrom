@@ -8,9 +8,10 @@ export class Talented extends Passive {
     super({
       type: "talented",
       desc: {
-      name: "Talented",
-      description: `+${MAX_STAT_BOOST} Max Stats`,
-      icon: mmTalented}
+        name: "Talented",
+        description: `+${MAX_STAT_BOOST} Max Stats`,
+        icon: mmTalented,
+      },
     });
   }
 
