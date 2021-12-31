@@ -1,7 +1,7 @@
 import React from "react";
 import { DescriptiveIcon } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
-import { Icon, mmCooldownTimer, mmManaCost } from "../../Common/Icon";
+import { Icon, mmCooldownTimer, mmManaCost, mmRange } from "../../Common/Icon";
 import styles from "./DescribableDisplay.module.css";
 
 export interface DescribableDisplayProps {
@@ -9,6 +9,7 @@ export interface DescribableDisplayProps {
   fade?: boolean;
   cooldown?: number;
   manaCost?: number;
+  range?: number;
 }
 
 export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
@@ -16,6 +17,7 @@ export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
   fade,
   cooldown,
   manaCost,
+  range,
 }) => {
   return (
     <Tooltip
@@ -41,6 +43,12 @@ export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
                 <Stack alignment="middle" gap={4}>
                   <Icon icon={mmManaCost} size={20} />
                   {manaCost}
+                </Stack>
+              )}
+              {range && (
+                <Stack alignment="middle" gap={4}>
+                  <Icon icon={mmRange} size={20} />
+                  {range}
                 </Stack>
               )}
             </Stack>

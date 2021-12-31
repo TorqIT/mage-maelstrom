@@ -24,6 +24,7 @@ export const SpellDisplay: React.FC<SpellDisplayProps> = ({ spell }) => {
         fade={spell.cooldownTimer > 0}
         manaCost={spell.manaCost}
         cooldown={spell.cooldown}
+        range={spell.range}
       />
       <div
         className={styles.cooldownIndicator}

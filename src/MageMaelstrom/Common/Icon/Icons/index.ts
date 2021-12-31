@@ -17,6 +17,7 @@ import play from "./play-button.svg";
 import pause from "./pause-button.svg";
 import snipe from "./dead-eye.svg";
 import warning from "./hazard-sign.svg";
+import range from "./lob-arrow.svg";
 
 export interface IconDef {
   file: string;
@@ -92,18 +93,25 @@ export const mmSlow: IconDef = {
 export const mmStun: IconDef = {
   file: stun,
 };
+
 export const mmPlay: IconDef = {
   file: play,
 };
+
 export const mmPause: IconDef = {
   file: pause,
   filter:
     "invert(4%) sepia(15%) saturate(3116%) hue-rotate(182deg) brightness(92%) contrast(99%)",
 };
+
 export const mmSnipe: IconDef = {
   file: snipe,
 };
 
 export const mmWarning: IconDef = {
   file: warning,
+};
+
+export const mmRange: IconDef = {
+  file: range,
 };
