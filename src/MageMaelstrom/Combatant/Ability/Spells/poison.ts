@@ -7,6 +7,7 @@ import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
 const DAMAGE = 10;
 const SECONDS = 5;
+const SLOW = 0.9;
 
 export class Poison extends Spell {
   public constructor() {
@@ -14,7 +15,9 @@ export class Poison extends Spell {
       desc: {
         icon: mmPoison,
         name: "Poison",
-        description: `Poisons the target for ${DAMAGE} damage per second for ${SECONDS} seconds`,
+        description:
+          `Poisons the target for ${DAMAGE} damage per second for ${SECONDS} seconds ` +
+          ` and slowing them by ${(1 - SLOW) * 100}%`,
       },
       type: "poison",
       cooldown: 500,
@@ -59,6 +62,10 @@ export class Poisoned extends StatusEffect {
     });
 
     this.source = source;
+  }
+
+  public override getTurnSpeedMultiplier(): number {
+    return SLOW;
   }
 
   public override updateEffect(entrant: Entrant) {

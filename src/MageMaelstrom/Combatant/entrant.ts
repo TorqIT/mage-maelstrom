@@ -197,7 +197,7 @@ export class Entrant {
       aggMult(this.passives, (p) => p.getTurnSpeedMultiplier()) *
       aggMult(this.statusEffects, (s) => s.getTurnSpeedMultiplier());
 
-    this.updateMeter(this.health, this.getHealthRegenBonus());
+    this.updateMeter(this.health, this.getHealthRegen());
     this.updateMeter(this.mana);
 
     this.passives.forEach((p) => p.update(this, gameManager));
@@ -207,17 +207,18 @@ export class Entrant {
     this.statusEffects = this.statusEffects.filter((e) => !e.isFinished());
   }
 
-  private updateMeter(meter: Meter, bonusRegen?: number) {
+  private updateMeter(meter: Meter, regen?: number) {
     meter.value = Math.min(
       meter.max,
-      meter.value + (meter.regen + (bonusRegen ?? 0)) / 100
+      meter.value + (regen ?? meter.regen) / 100
     );
   }
 
-  private getHealthRegenBonus() {
-    return this.statusEffects.reduce(
-      (total, current) => (total += current.getHealthRegenBonus()),
-      0
+  private getHealthRegen() {
+    return (
+      (this.health.regen +
+        aggSum(this.statusEffects, (s) => s.getHealthRegenBonus())) *
+      aggMult(this.statusEffects, (s) => s.getHealthRegenMultiplier())
     );
   }
 
@@ -333,7 +334,7 @@ export class Entrant {
       id: this.id,
       health: {
         ...this.health,
-        regen: this.health.regen + this.getHealthRegenBonus(),
+        regen: this.getHealthRegen(),
       },
       mana: { ...this.mana },
       ticksUntilNextTurn: this.ticksUntilNextTurn,

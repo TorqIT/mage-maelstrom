@@ -8,6 +8,7 @@ export const statusEffectTypes = [
   "slow",
   "stun",
   "snipe",
+  "fire",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
@@ -55,6 +56,10 @@ export class StatusEffect {
 
   public getHealthRegenBonus() {
     return 0;
+  }
+
+  public getHealthRegenMultiplier() {
+    return 1;
   }
 
   public getTurnSpeedMultiplier() {
