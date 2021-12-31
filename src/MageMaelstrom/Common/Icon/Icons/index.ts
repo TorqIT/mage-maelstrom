@@ -18,6 +18,7 @@ import pause from "./pause-button.svg";
 import snipe from "./dead-eye.svg";
 import warning from "./hazard-sign.svg";
 import range from "./lob-arrow.svg";
+import vision from "./star-pupil.svg";
 
 export interface IconDef {
   file: string;
@@ -114,4 +115,8 @@ export const mmWarning: IconDef = {
 
 export const mmRange: IconDef = {
   file: range,
+};
+
+export const mmVision: IconDef = {
+  file: vision,
 };

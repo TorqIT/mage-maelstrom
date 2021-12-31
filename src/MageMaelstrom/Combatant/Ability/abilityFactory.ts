@@ -3,6 +3,7 @@ import { Passive } from "./passive";
 import { Critical } from "./Passives/critical";
 import { Talented } from "./Passives/talented";
 import { Thorns } from "./Passives/thorns";
+import { Vision } from "./Passives/vision";
 import { Spell } from "./spell";
 import { Fireball } from "./Spells/fireball";
 import { Force } from "./Spells/force";
@@ -45,5 +46,7 @@ export function buildPassive(type: PassiveType): Passive {
       return new Critical();
     case "thorns":
       return new Thorns();
+    case "vision":
+      return new Vision();
   }
 }

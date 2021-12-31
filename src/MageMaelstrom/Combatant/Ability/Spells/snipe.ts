@@ -6,7 +6,7 @@ import { FullSpellTarget, Spell } from "../spell";
 import { StatusEffect } from "../statusEffect";
 
 const DAMAGE = 50;
-const AIM_TIME = 200;
+const AIM_TIME = 150;
 
 export class Snipe extends Spell {
   public constructor() {

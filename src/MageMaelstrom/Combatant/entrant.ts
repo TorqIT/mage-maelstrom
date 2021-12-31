@@ -20,7 +20,7 @@ import {
 import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
 import { GameManager } from "../Logic/GameManager";
-import { aggMult } from "../Common/aggregates";
+import { aggMult, aggSum } from "../Common/aggregates";
 import { ActionFactory } from "./actions";
 
 interface Meter {
@@ -178,10 +178,7 @@ export class Entrant {
   public getVision() {
     return (
       this.combatant.getVision() +
-      this.passives.reduce(
-        (sum, current) => (sum += current.getVisionAdjustment()),
-        0
-      )
+      aggSum(this.passives, (p) => p.getVisionAdjustment())
     );
   }
 

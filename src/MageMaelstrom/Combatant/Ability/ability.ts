@@ -13,7 +13,7 @@ const spellTypes = [
   "snipe",
 ] as const;
 
-const passiveTypes = ["talented", "critical", "thorns"] as const;
+const passiveTypes = ["talented", "critical", "thorns", "vision"] as const;
 
 export type SpellType = typeof spellTypes[number];
 export type PassiveType = typeof passiveTypes[number];
