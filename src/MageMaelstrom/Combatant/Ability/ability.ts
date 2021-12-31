@@ -12,6 +12,7 @@ const spellTypes = [
   "stun",
   "snipe",
   "dash",
+  "meteor",
 ] as const;
 
 const passiveTypes = [

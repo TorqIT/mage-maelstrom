@@ -162,6 +162,23 @@ export class GameManager {
     return this.battleIsOver;
   }
 
+  public getEntrantsInRadius(
+    coord: Coordinate,
+    radius: number,
+    yourTeamId: number,
+    target?: "allies" | "enemies"
+  ) {
+    let entrants = this.getEntrantArray();
+
+    if (target === "allies") {
+      entrants = entrants.filter((e) => e.getTeamId() === yourTeamId);
+    } else if (target === "enemies") {
+      entrants = entrants.filter((e) => e.getTeamId() !== yourTeamId);
+    }
+
+    return entrants.filter((e) => coord.isWithinRangeOf(radius, e.getCoords()));
+  }
+
   //~*~*~*~*~
   // TICK
 

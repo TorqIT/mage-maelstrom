@@ -7,8 +7,8 @@ export const statusEffectTypes = [
   "regen",
   "slow",
   "stun",
-  "snipe",
   "fire",
+  "channeling",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 

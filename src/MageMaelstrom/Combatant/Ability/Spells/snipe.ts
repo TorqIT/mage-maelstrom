@@ -2,6 +2,7 @@ import { Icon, mmSnipe } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
+import { ChannelingStatus } from "../channellingStatus";
 import { FullSpellTarget, Spell } from "../spell";
 import { StatusEffect } from "../statusEffect";
 
@@ -30,48 +31,23 @@ export class Snipe extends Spell {
     target: Entrant,
     gameManager: GameManager
   ): void {
-    caster.applyStatusEffect(new SnipeChargeUp(target));
+    caster.applyStatusEffect(
+      new ChannelingStatus(AIM_TIME, "Snipe", mmSnipe, () => {
+        target.takeDamage(DAMAGE, caster, "magic");
+
+        loggingManager.logSpell({
+          caster: caster.getCombatantInfo(),
+          target: target.getCombatantInfo(),
+          spellIcon: mmSnipe,
+          damage: DAMAGE,
+          remainingHealth: target.getHealth(),
+        });
+      })
+    );
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),
       spellIcon: mmSnipe,
     });
-  }
-}
-
-class SnipeChargeUp extends StatusEffect {
-  private target: Entrant;
-
-  public constructor(target: Entrant) {
-    super({
-      type: "snipe",
-      duration: AIM_TIME,
-      isPositive: true,
-      desc: {
-        name: "Taking aim...",
-        description: "Channeling a Snipe bolt!",
-        icon: mmSnipe,
-      },
-    });
-
-    this.target = target;
-  }
-
-  public override getTurnSpeedMultiplier() {
-    return 0;
-  }
-
-  public override updateEffect(entrant: Entrant) {
-    if (this.timer === 1) {
-      this.target.takeDamage(DAMAGE, entrant, "magic");
-
-      loggingManager.logSpell({
-        caster: entrant.getCombatantInfo(),
-        target: this.target.getCombatantInfo(),
-        spellIcon: mmSnipe,
-        damage: DAMAGE,
-        remainingHealth: this.target.getHealth(),
-      });
-    }
   }
 }

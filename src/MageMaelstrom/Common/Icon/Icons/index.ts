@@ -21,6 +21,7 @@ import range from "./lob-arrow.svg";
 import vision from "./star-pupil.svg";
 import dash from "./sprint.svg";
 import manaSteal from "./smoking-orb.svg";
+import meteor from "./meteor-impact.svg";
 
 export interface IconDef {
   file: string;
@@ -131,4 +132,8 @@ export const mmManaSteal: IconDef = {
   file: manaSteal,
   filter:
     "invert(50%) sepia(62%) saturate(2058%) hue-rotate(217deg) brightness(100%) contrast(103%)",
+};
+
+export const mmMeteor: IconDef = {
+  file: meteor,
 };

@@ -10,6 +10,7 @@ import { Dash } from "./Spells/dash";
 import { Fireball } from "./Spells/fireball";
 import { Force } from "./Spells/force";
 import { Heal } from "./Spells/heal";
+import { Meteor } from "./Spells/meteor";
 import { Poison } from "./Spells/poison";
 import { Regen } from "./Spells/regen";
 import { Slow } from "./Spells/slow";
@@ -39,6 +40,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Snipe();
     case "dash":
       return new Dash();
+    case "meteor":
+      return new Meteor();
   }
 }
 

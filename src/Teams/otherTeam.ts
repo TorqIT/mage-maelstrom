@@ -12,11 +12,11 @@ class WowDude extends Combatant {
       name: "Wow Dude",
       icon: "/burst.png",
 
-      strength: 8,
-      agility: 31,
-      intelligence: 9,
+      strength: 10,
+      agility: 15,
+      intelligence: 23,
 
-      abilities: ["bear", "poison", "manasteal", "talented"],
+      abilities: ["bear", "poison", "meteor", "talented"],
     };
   }
   public init(): void {}
@@ -24,13 +24,17 @@ class WowDude extends Combatant {
     actions,
     helpers,
     visibleEnemies,
-    spells: [bear, poison],
+    spells: [bear, poison, meteor],
   }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
     }
 
     if (visibleEnemies.length > 0) {
+      if (helpers.canPerform(actions.cast(meteor, visibleEnemies[0].coords))) {
+        return actions.cast(meteor, visibleEnemies[0].coords);
+      }
+
       const snipableEnemy = visibleEnemies.find((s) =>
         helpers.canPerform(actions.cast(poison, s.id))
       );
