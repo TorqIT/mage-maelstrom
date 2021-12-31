@@ -32,9 +32,9 @@ export class Heal extends Spell {
     }
 
     if (target) {
-      target.takeDamage(-HEAL_AMOUNT, caster, "pure");
+      target.heal(HEAL_AMOUNT);
     } else {
-      caster.takeDamage(-HEAL_AMOUNT, caster, "pure");
+      caster.heal(HEAL_AMOUNT);
     }
 
     loggingManager.logSpell({

@@ -1,6 +1,6 @@
 import { nextId } from "../../Common";
 import { DescriptiveIcon } from "../describable";
-import { Entrant } from "../entrant";
+import { DamageType, Entrant } from "../entrant";
 
 export const statusEffectTypes = [
   "poison",
@@ -9,6 +9,8 @@ export const statusEffectTypes = [
   "stun",
   "fire",
   "channeling",
+  "potion",
+  "barrier",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
@@ -63,6 +65,10 @@ export class StatusEffect {
   }
 
   public getTurnSpeedMultiplier() {
+    return 1;
+  }
+
+  public getDamageTakenMultiplier(damageType: DamageType) {
     return 1;
   }
 

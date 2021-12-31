@@ -294,7 +294,15 @@ export class Entrant {
     this.passives.forEach((p) => p.onTakeDamage(source, this, damageType));
     this.health.value -=
       amount *
-      aggMult(this.passives, (p) => p.getDamageTakenMultiplier(damageType));
+      aggMult(this.passives, (p) => p.getDamageTakenMultiplier(damageType)) *
+      aggMult(this.statusEffects, (s) =>
+        s.getDamageTakenMultiplier(damageType)
+      );
+    this.clampMeter(this.health);
+  }
+
+  public heal(amount: number) {
+    this.health.value += amount;
     this.clampMeter(this.health);
   }
 

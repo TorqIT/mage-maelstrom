@@ -32,14 +32,14 @@ export class Thorns extends Passive {
   ) {
     if (type === "attack") {
       attacker.takeDamage(THORN_DAMAGE, you, "pure");
-    }
 
-    loggingManager.logSpell({
-      caster: you.getCombatantInfo(),
-      target: attacker.getCombatantInfo(),
-      damage: THORN_DAMAGE,
-      remainingHealth: attacker.getHealth(),
-      spellIcon: mmThorns,
-    });
+      loggingManager.logSpell({
+        caster: you.getCombatantInfo(),
+        target: attacker.getCombatantInfo(),
+        damage: THORN_DAMAGE,
+        remainingHealth: attacker.getHealth(),
+        spellIcon: mmThorns,
+      });
+    }
   }
 }

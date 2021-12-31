@@ -31,15 +31,15 @@ export const DescribableDisplay: React.FC<DescribableDisplayProps> = ({
           </Stack>
 
           <div className={styles.description}>{describable.description}</div>
-          {(cooldown || manaCost) && (
+          {(cooldown || manaCost || range) && (
             <Stack gap={20} className={styles.spellCost}>
               {cooldown && (
                 <Stack alignment="middle" gap={4}>
                   <Icon icon={mmCooldownTimer} size={20} />
-                  {cooldown / 100}s
+                  {cooldown < 9999999 ? cooldown / 100 + "s" : "∞"}
                 </Stack>
               )}
-              {manaCost && (
+              {manaCost != null && manaCost > 0 && (
                 <Stack alignment="middle" gap={4}>
                   <Icon icon={mmManaCost} size={20} />
                   {manaCost}

@@ -6,10 +6,12 @@ import { Talented } from "./Passives/talented";
 import { Thorns } from "./Passives/thorns";
 import { Vision } from "./Passives/vision";
 import { Spell } from "./spell";
+import { Barrier } from "./Spells/barrier";
 import { Dash } from "./Spells/dash";
 import { Fireball } from "./Spells/fireball";
 import { Force } from "./Spells/force";
 import { Heal } from "./Spells/heal";
+import { HealthPotion } from "./Spells/healthPotion";
 import { Meteor } from "./Spells/meteor";
 import { Poison } from "./Spells/poison";
 import { Regen } from "./Spells/regen";
@@ -42,6 +44,10 @@ export function buildSpell(type: SpellType): Spell {
       return new Dash();
     case "meteor":
       return new Meteor();
+    case "potion":
+      return new HealthPotion();
+    case "barrier":
+      return new Barrier();
   }
 }
 

@@ -16,7 +16,7 @@ export class GoLeft extends Combatant {
       agility: 5,
       intelligence: 9,
 
-      abilities: ["heal", "regen", "stun", "thorns"],
+      abilities: ["potion", "barrier", "stun", "thorns"],
     };
   }
   public init(): void {}
@@ -25,7 +25,7 @@ export class GoLeft extends Combatant {
     helpers,
     you,
     visibleEnemies,
-    spells: [heal, regen, stun],
+    spells: [potion, barrier, stun],
   }: ActParams): Action {
     const closestEnemy = helpers.getClosest(visibleEnemies);
 
@@ -36,15 +36,15 @@ export class GoLeft extends Combatant {
       return actions.cast(stun, closestEnemy.id);
     }
 
-    if (helpers.canPerform(actions.cast(regen))) {
-      return actions.cast(regen);
+    if (helpers.canPerform(actions.cast(barrier))) {
+      return actions.cast(barrier);
     }
 
     if (
       you.health.value / you.health.max < 0.5 &&
-      helpers.canPerform(actions.cast(heal))
+      helpers.canPerform(actions.cast(potion))
     ) {
-      return actions.cast(heal);
+      return actions.cast(potion);
     }
 
     return actions.dance();

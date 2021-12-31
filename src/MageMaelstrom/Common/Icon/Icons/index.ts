@@ -22,6 +22,8 @@ import vision from "./star-pupil.svg";
 import dash from "./sprint.svg";
 import manaSteal from "./smoking-orb.svg";
 import meteor from "./meteor-impact.svg";
+import healthPotion from "./heart-bottle.svg";
+import barrier from "./stone-sphere.svg";
 
 export interface IconDef {
   file: string;
@@ -136,4 +138,16 @@ export const mmManaSteal: IconDef = {
 
 export const mmMeteor: IconDef = {
   file: meteor,
+};
+
+export const mmHealthPotion: IconDef = {
+  file: healthPotion,
+  filter:
+    "invert(27%) sepia(100%) saturate(2563%) hue-rotate(334deg) brightness(101%) contrast(94%)",
+};
+
+export const mmBarrier: IconDef = {
+  file: barrier,
+  filter:
+    "invert(50%) sepia(62%) saturate(2058%) hue-rotate(217deg) brightness(100%) contrast(103%)",
 };
