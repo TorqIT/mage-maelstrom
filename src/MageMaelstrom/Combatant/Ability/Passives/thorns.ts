@@ -35,7 +35,7 @@ export class Thorns extends Passive {
     }
 
     loggingManager.logSpell({
-      attacker: you.getCombatantInfo(),
+      caster: you.getCombatantInfo(),
       target: attacker.getCombatantInfo(),
       damage: THORN_DAMAGE,
       remainingHealth: attacker.getHealth(),

@@ -31,7 +31,7 @@ export class Stun extends Spell {
     target.applyStatusEffect(new StunStatus());
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       target: target.getCombatantInfo(),
       spellIcon: mmStun,
     });

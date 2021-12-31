@@ -35,7 +35,7 @@ export class Slow extends Spell {
     target.applyStatusEffect(new SlowStatus());
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       target: target.getCombatantInfo(),
       spellIcon: mmSlow,
     });

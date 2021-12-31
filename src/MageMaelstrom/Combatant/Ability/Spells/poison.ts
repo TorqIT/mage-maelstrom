@@ -38,7 +38,7 @@ export class Poison extends Spell {
     target.applyStatusEffect(new Poisoned(caster));
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       target: target.getCombatantInfo(),
       spellIcon: mmPoison,
     });

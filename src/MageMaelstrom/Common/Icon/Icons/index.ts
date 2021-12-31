@@ -19,6 +19,7 @@ import snipe from "./dead-eye.svg";
 import warning from "./hazard-sign.svg";
 import range from "./lob-arrow.svg";
 import vision from "./star-pupil.svg";
+import dash from "./sprint.svg";
 
 export interface IconDef {
   file: string;
@@ -119,4 +120,8 @@ export const mmRange: IconDef = {
 
 export const mmVision: IconDef = {
   file: vision,
+};
+
+export const mmDash: IconDef = {
+  file: dash,
 };

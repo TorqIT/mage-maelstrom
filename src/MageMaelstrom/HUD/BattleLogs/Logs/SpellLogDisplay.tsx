@@ -12,7 +12,7 @@ export interface SpellLogDisplayProps {
 export const SpellLogDisplay = React.memo<SpellLogDisplayProps>(({ log }) => {
   return (
     <Stack gap={10} alignment="middle">
-      <CombatantIcon {...log.attacker} size={32} />
+      <CombatantIcon {...log.caster} size={32} />
       <Icon icon={log.spellIcon} size={28} />
       {log.damage && <span className={styles.tiny}>({-log.damage})</span>}
       {log.target && (

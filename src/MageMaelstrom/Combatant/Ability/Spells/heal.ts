@@ -38,7 +38,7 @@ export class Heal extends Spell {
     }
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       target: target ? target.getCombatantInfo() : undefined,
       damage: -HEAL_AMOUNT,
       remainingHealth: (target ?? caster).getHealth(),

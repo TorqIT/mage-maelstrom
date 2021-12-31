@@ -5,6 +5,7 @@ import { Talented } from "./Passives/talented";
 import { Thorns } from "./Passives/thorns";
 import { Vision } from "./Passives/vision";
 import { Spell } from "./spell";
+import { Dash } from "./Spells/dash";
 import { Fireball } from "./Spells/fireball";
 import { Force } from "./Spells/force";
 import { Heal } from "./Spells/heal";
@@ -35,6 +36,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Stun();
     case "snipe":
       return new Snipe();
+    case "dash":
+      return new Dash();
   }
 }
 

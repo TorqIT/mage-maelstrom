@@ -42,7 +42,7 @@ export class Force extends Spell {
     actualTarget.takeDamage(DAMAGE, caster, "attack");
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       target: actualTarget.getCombatantInfo(),
       damage: DAMAGE,
       remainingHealth: actualTarget.getHealth(),

@@ -21,7 +21,7 @@ class WowDude extends Combatant {
       agility: 31,
       intelligence: 9,
 
-      abilities: ["bear", "poison", "vision", "talented"],
+      abilities: ["bear", "poison", "dash", "talented"],
     };
   }
   public init(): void {}
@@ -29,7 +29,7 @@ class WowDude extends Combatant {
     actions,
     helpers,
     visibleEnemies,
-    spells: [bear, poison],
+    spells: [bear, poison, dash],
   }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
@@ -55,6 +55,10 @@ class WowDude extends Combatant {
 
     while (!helpers.canPerform(actions.move(this.dirPriority[this.target]))) {
       this.target = (this.target + 1) % 4;
+    }
+
+    if (helpers.canPerform(actions.cast(dash, this.dirPriority[this.target]))) {
+      return actions.cast(dash, this.dirPriority[this.target]);
     }
 
     return actions.move(this.dirPriority[this.target]);

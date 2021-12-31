@@ -33,7 +33,7 @@ export class Snipe extends Spell {
     caster.applyStatusEffect(new SnipeChargeUp(target));
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       spellIcon: mmSnipe,
     });
   }
@@ -66,7 +66,7 @@ class SnipeChargeUp extends StatusEffect {
       this.target.takeDamage(DAMAGE, entrant, "magic");
 
       loggingManager.logSpell({
-        attacker: entrant.getCombatantInfo(),
+        caster: entrant.getCombatantInfo(),
         target: this.target.getCombatantInfo(),
         spellIcon: mmSnipe,
         damage: DAMAGE,

@@ -39,7 +39,7 @@ export class Regen extends Spell {
     }
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       target: target ? target.getCombatantInfo() : undefined,
       spellIcon: mmRegen,
     });

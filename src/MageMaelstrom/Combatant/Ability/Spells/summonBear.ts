@@ -38,7 +38,7 @@ export class SummonBear extends Spell {
     entrant.addPassive(new BearPassive());
 
     loggingManager.logSpell({
-      attacker: caster.getCombatantInfo(),
+      caster: caster.getCombatantInfo(),
       spellIcon: mmBear,
     });
   }
