@@ -33,5 +33,6 @@ export abstract class Passive extends Ability {
     return 1;
   }
 
-  public onTakeDamage(attacker: Entrant, you: Entrant, type: DamageType) {}
+  public onTakeDamage(attacker: Entrant, me: Entrant, type: DamageType) {}
+  public onDealDamage(me: Entrant, target: Entrant, type: DamageType) {}
 }

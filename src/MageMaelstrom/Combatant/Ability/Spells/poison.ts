@@ -6,7 +6,7 @@ import { Entrant } from "../../entrant";
 import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
 const DAMAGE = 10;
-const SECONDS = 5;
+const SECONDS = 6;
 const SLOW = 0.9;
 
 export class Poison extends Spell {
@@ -17,10 +17,10 @@ export class Poison extends Spell {
         name: "Poison",
         description:
           `Poisons the target for ${DAMAGE} damage per second for ${SECONDS} seconds ` +
-          ` and slowing them by ${(1 - SLOW) * 100}%`,
+          ` and slowing them by ${((1 - SLOW) * 100).toFixed(0)}%`,
       },
       type: "poison",
-      cooldown: 500,
+      cooldown: 600,
       manaCost: 10,
       range: 5,
       targetTypes: "entrant",
@@ -53,7 +53,10 @@ export class Poisoned extends StatusEffect {
       type: "poison",
       desc: {
         name: "Poisoned",
-        description: `Take ${DAMAGE} damage per second for ${SECONDS} seconds`,
+        description: `Take ${DAMAGE} damage per second for ${SECONDS} seconds and act ${(
+          (1 - SLOW) *
+          100
+        ).toFixed(0)}% slower`,
         icon: mmPoison,
       },
 

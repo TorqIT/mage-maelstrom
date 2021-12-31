@@ -1,12 +1,7 @@
 import { Combatant, Team } from "../MageMaelstrom";
 import { MovementDirection } from "../MageMaelstrom/Arena";
-import {
-  ActParams,
-  CombatantDefinition,
-  SpellStatus,
-} from "../MageMaelstrom/Combatant";
-import { Action, ActionFactory } from "../MageMaelstrom/Combatant/actions";
-import { Helpers } from "../MageMaelstrom/Logic";
+import { ActParams, CombatantDefinition } from "../MageMaelstrom/Combatant";
+import { Action } from "../MageMaelstrom/Combatant/actions";
 
 class WowDude extends Combatant {
   private dirPriority: MovementDirection[] = ["left", "up", "right", "down"];
@@ -21,7 +16,7 @@ class WowDude extends Combatant {
       agility: 31,
       intelligence: 9,
 
-      abilities: ["bear", "poison", "dash", "talented"],
+      abilities: ["bear", "poison", "manasteal", "talented"],
     };
   }
   public init(): void {}
@@ -29,7 +24,7 @@ class WowDude extends Combatant {
     actions,
     helpers,
     visibleEnemies,
-    spells: [bear, poison, dash],
+    spells: [bear, poison],
   }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
@@ -55,10 +50,6 @@ class WowDude extends Combatant {
 
     while (!helpers.canPerform(actions.move(this.dirPriority[this.target]))) {
       this.target = (this.target + 1) % 4;
-    }
-
-    if (helpers.canPerform(actions.cast(dash, this.dirPriority[this.target]))) {
-      return actions.cast(dash, this.dirPriority[this.target]);
     }
 
     return actions.move(this.dirPriority[this.target]);

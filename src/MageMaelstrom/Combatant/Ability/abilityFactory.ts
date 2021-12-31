@@ -1,6 +1,7 @@
 import { PassiveType, SpellType } from "./ability";
 import { Passive } from "./passive";
 import { Critical } from "./Passives/critical";
+import { ManaSteal } from "./Passives/manaSteal";
 import { Talented } from "./Passives/talented";
 import { Thorns } from "./Passives/thorns";
 import { Vision } from "./Passives/vision";
@@ -51,5 +52,7 @@ export function buildPassive(type: PassiveType): Passive {
       return new Thorns();
     case "vision":
       return new Vision();
+    case "manasteal":
+      return new ManaSteal();
   }
 }

@@ -250,6 +250,7 @@ export class Entrant {
     const damage = this.combatant.getDamage();
     const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
+    this.passives.forEach((p) => p.onDealDamage(this, target, "attack"));
     target.takeDamage(damage * mult, this, "attack");
 
     loggingManager.logAttack({
