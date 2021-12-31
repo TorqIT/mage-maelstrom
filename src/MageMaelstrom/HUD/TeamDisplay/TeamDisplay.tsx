@@ -1,6 +1,7 @@
 import React from "react";
 import { ReadonlyActiveTeam } from "../../Combatant";
 import { EntrantDisplay } from "./EntrantDisplay";
+import { SummonDisplay } from "./SummonDisplay";
 import styles from "./TeamDisplay.module.css";
 
 export interface TeamDisplayProps {
@@ -12,9 +13,13 @@ export const TeamDisplay: React.FC<TeamDisplayProps> = ({ team }) => {
     <div className={styles.wrapper}>
       <div className={styles.name}>{team.name}</div>
       <div className={styles.list}>
-        {team.entrants.map((e) => (
-          <EntrantDisplay key={e.status.id} entrant={e} flip={team.flip} />
-        ))}
+        {team.entrants.map((e) =>
+          e.essential ? (
+            <EntrantDisplay key={e.status.id} entrant={e} flip={team.flip} />
+          ) : (
+            <SummonDisplay key={e.status.id} entrant={e} flip={team.flip} />
+          )
+        )}
       </div>
     </div>
   );
