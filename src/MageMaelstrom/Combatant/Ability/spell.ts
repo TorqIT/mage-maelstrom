@@ -47,6 +47,7 @@ interface SpellDefinition extends Omit<AbilityDefinition, "type"> {
   manaCost: number;
   targetTypes: TargetType | TargetType[];
   range?: number;
+  initialCooldown?: number;
 }
 
 export interface SpellStatus {
@@ -92,7 +93,7 @@ export abstract class Spell extends Ability {
     super(def);
 
     this.cooldown = def.cooldown;
-    this.cooldownTimer = 0;
+    this.cooldownTimer = def.initialCooldown ?? 0;
 
     this.manaCost = def.manaCost;
 
