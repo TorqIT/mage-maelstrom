@@ -10,6 +10,10 @@ export interface Helpers {
   getClosest: (
     entrants: ReadonlyEntrantStatus[]
   ) => ReadonlyEntrantStatus | undefined;
+  safeWhile: (
+    condition: () => boolean,
+    loop: () => Action | undefined | void
+  ) => Action | undefined;
   coords: {
     isWithinRange: (target: ReadonlyCoordinate, range: number) => boolean;
   };
@@ -30,6 +34,18 @@ export function buildHelpers(
             getClosest(you, closest, current)
           )
         : undefined,
+    safeWhile: (
+      condition: () => boolean,
+      loop: () => Action | undefined | void
+    ) => {
+      for (let j = 0; j < 100 && condition(); j++) {
+        const result = loop();
+
+        if (result) {
+          return result;
+        }
+      }
+    },
     coords: {
       isWithinRange: (target: ReadonlyCoordinate, range: number) => {
         return (
