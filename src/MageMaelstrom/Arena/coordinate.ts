@@ -40,6 +40,11 @@ export class Coordinate {
     }
   }
 
+  public teleportTo(coord: Coordinate) {
+    this.x = coord.x;
+    this.y = coord.y;
+  }
+
   public equals(other: Coordinate) {
     return this.x === other.x && this.y === other.y;
   }

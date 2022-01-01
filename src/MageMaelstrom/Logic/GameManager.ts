@@ -476,19 +476,6 @@ export class GameManager {
     return false;
   }
 
-  private isEmpty(coord: Coordinate) {
-    if (
-      coord.getX() < 0 ||
-      coord.getX() >= this.specs.arena.width ||
-      coord.getY() < 0 ||
-      coord.getY() >= this.specs.arena.height
-    ) {
-      return false;
-    }
-
-    return !this.getEntrantArray().some((e) => e.getCoords().equals(coord));
-  }
-
   //~*~*~*~*~*~*
   // ENTRANT LOGIC
 
@@ -498,12 +485,7 @@ export class GameManager {
   ): MoveResult {
     const result = Coordinate.getSide(entrant.getCoords(), direction);
 
-    if (
-      result.getX() < 0 ||
-      result.getX() >= this.specs.arena.width ||
-      result.getY() < 0 ||
-      result.getY() >= this.specs.arena.height
-    ) {
+    if (!this.isInArena(result)) {
       return "OutOfArena";
     }
 
@@ -516,6 +498,28 @@ export class GameManager {
     }
 
     return "Success";
+  }
+
+  public isInArena(coord: Coordinate) {
+    return (
+      coord.getX() >= 0 &&
+      coord.getX() < this.specs.arena.width &&
+      coord.getY() >= 0 &&
+      coord.getY() < this.specs.arena.height
+    );
+  }
+
+  public isEmpty(coord: Coordinate) {
+    if (
+      coord.getX() < 0 ||
+      coord.getX() >= this.specs.arena.width ||
+      coord.getY() < 0 ||
+      coord.getY() >= this.specs.arena.height
+    ) {
+      return false;
+    }
+
+    return !this.getEntrantArray().some((e) => e.getCoords().equals(coord));
   }
 
   //~*~*~*~*~*~*
