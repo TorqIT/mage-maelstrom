@@ -1,6 +1,7 @@
 import { PassiveType, SpellType } from "./ability";
 import { Passive } from "./passive";
 import { Critical } from "./Passives/critical";
+import { DoubleTap } from "./Passives/doubleTap";
 import { ManaSteal } from "./Passives/manaSteal";
 import { Talented } from "./Passives/talented";
 import { Teleportitis } from "./Passives/teleportitis";
@@ -66,5 +67,7 @@ export function buildPassive(type: PassiveType): Passive {
       return new ManaSteal();
     case "teleportitis":
       return new Teleportitis();
+    case "doubletap":
+      return new DoubleTap();
   }
 }

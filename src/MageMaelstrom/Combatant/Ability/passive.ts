@@ -21,6 +21,10 @@ export abstract class Passive extends Ability {
     return false;
   }
 
+  public rollForDoubleTap() {
+    return false;
+  }
+
   public getVisionAdjustment() {
     return 0;
   }

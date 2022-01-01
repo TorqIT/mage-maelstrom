@@ -25,6 +25,7 @@ import meteor from "./meteor-impact.svg";
 import healthPotion from "./heart-bottle.svg";
 import barrier from "./stone-sphere.svg";
 import teleportitis from "./misdirection.svg";
+import doubleTap from "./doubled.svg";
 
 export interface IconDef {
   file: string;
@@ -155,4 +156,8 @@ export const mmBarrier: IconDef = {
 
 export const mmTeleportitis: IconDef = {
   file: teleportitis,
+};
+
+export const mmDoubleTap: IconDef = {
+  file: doubleTap,
 };

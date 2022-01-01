@@ -231,7 +231,7 @@ export class Entrant {
     allies: ReadonlyEntrantStatus[],
     visibleEnemies: ReadonlyEntrantStatus[]
   ) {
-    this.ticksUntilNextTurn += this.combatant.getTurnDelay();
+    this.ticksUntilNextTurn += this.rollTurnDelay();
     return this.combatant.act({
       actions,
       helpers,
@@ -240,6 +240,12 @@ export class Entrant {
       visibleEnemies,
       spells: this.spells.map((s) => s.toReadonlySpell()),
     });
+  }
+
+  private rollTurnDelay() {
+    return this.passives.some((p) => p.rollForDoubleTap())
+      ? 0
+      : this.combatant.getTurnDelay();
   }
 
   public move(direction: MovementDirection) {

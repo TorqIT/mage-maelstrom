@@ -24,6 +24,7 @@ const passiveTypes = [
   "vision",
   "manasteal",
   "teleportitis",
+  "doubletap",
 ] as const;
 
 export type SpellType = typeof spellTypes[number];
