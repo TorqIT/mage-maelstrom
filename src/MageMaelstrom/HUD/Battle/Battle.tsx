@@ -46,7 +46,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
               <Stack.Item>
                 <TeamDisplay team={leftTeam} />
               </Stack.Item>
-              <Arena />
+              <Arena leftVision={false} />
               <Stack.Item>
                 <TeamDisplay team={rightTeam} />
               </Stack.Item>
