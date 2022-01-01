@@ -6,7 +6,7 @@ import { useTeamSelection } from "../TeamSelectionProvider";
 
 export function useManagerInstance() {
   const specs = useGameSpecs();
-  const { selection, setSelection } = useTeamSelection();
+  const { selection } = useTeamSelection();
 
   const [gameManager, setGameManager] = useState<GameManager>();
 
@@ -53,23 +53,6 @@ export function useManagerInstance() {
     return () => gameManager?.clearOnChange();
   }, [gameManager, updateState]);
 
-  const clearGame = useCallback(() => {
-    setSelection(undefined);
-  }, []);
-
-  const startGame = useCallback(
-    (left: IdentifiedTeam, right: IdentifiedTeam) => {
-      setSelection({ left, right });
-    },
-    []
-  );
-
-  const restartGame = useCallback(() => {
-    if (selection) {
-      setSelection({ left: selection.left, right: selection.right });
-    }
-  }, [selection]);
-
   return {
     gameManager,
     leftTeam,
@@ -78,8 +61,5 @@ export function useManagerInstance() {
     victor,
     teams,
     entrants,
-    startGame,
-    clearGame,
-    restartGame,
   };
 }

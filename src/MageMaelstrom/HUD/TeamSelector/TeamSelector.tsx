@@ -1,50 +1,26 @@
 import classNames from "classnames";
-import React, { useMemo, useRef, useState } from "react";
-import { Team } from "../..";
-import { IdentifiedTeam } from "../../Combatant";
+import React, { useState } from "react";
 import { Stack } from "../../Common";
-import { useGameManager, validate, warn } from "../../Logic";
-import { useGameSpecs } from "../../Logic/GameSpecsProvider";
+import { useTeamSelection } from "../../Logic/TeamSelectionProvider";
 import { NiceButton } from "../NiceButton";
 import { SelectableTeam } from "./SelectableTeam";
 import styles from "./TeamSelector.module.css";
 
-export interface TeamSelectorProps {
-  teams: Team[];
-}
+export interface TeamSelectorProps {}
 
-export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
-  const [left, setLeft] = useState<IdentifiedTeam>();
-  const [right, setRight] = useState<IdentifiedTeam>();
+export const TeamSelector: React.FC<TeamSelectorProps> = ({}) => {
+  const { teams } = useTeamSelection();
 
-  const idCounterRef = useRef(1);
+  const [left, setLeft] = useState<number>();
+  const [right, setRight] = useState<number>();
 
-  const specs = useGameSpecs();
+  const { startGame } = useTeamSelection();
 
-  const identifiedTeams = useMemo(
-    () =>
-      teams.map((t) => {
-        const team: IdentifiedTeam = {
-          ...t,
-          id: idCounterRef.current++,
-        };
-
-        return {
-          team,
-          validationResult: validate(t, specs),
-          warningResult: warn(t, specs),
-        };
-      }),
-    [teams, specs]
-  );
-
-  const { startGame } = useGameManager();
-
-  const clickTeam = (team: IdentifiedTeam) => {
-    if (!left) {
-      setLeft(team);
-    } else if (!right) {
-      setRight(team);
+  const clickTeam = (index: number) => {
+    if (left == null) {
+      setLeft(index);
+    } else if (right == null) {
+      setRight(index);
     }
   };
 
@@ -57,18 +33,18 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
         <Stack.Item>
           <Stack alignment="middle" gap={20}>
             <div className={classNames(styles.openSlot, styles.openTeamSlot)}>
-              {left && (
+              {left != null && (
                 <SelectableTeam
-                  team={left}
+                  team={teams[left].team}
                   onClick={() => setLeft(undefined)}
                 />
               )}
             </div>
             <div className={styles.versus}>VS</div>
             <div className={classNames(styles.openSlot, styles.openTeamSlot)}>
-              {right && (
+              {right != null && (
                 <SelectableTeam
-                  team={right}
+                  team={teams[right].team}
                   onClick={() => setRight(undefined)}
                 />
               )}
@@ -77,7 +53,7 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
         </Stack.Item>
         <Stack.Item>
           <Stack alignment="middle">
-            {left && right && (
+            {left != null && right != null && (
               <NiceButton large onClick={() => startGame(left, right)}>
                 Commence Battle
               </NiceButton>
@@ -87,13 +63,13 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({ teams }) => {
       </Stack>
       <div className={classNames(styles.openSlot, styles.pool)}>
         <Stack style={{ flexWrap: "wrap" }}>
-          {identifiedTeams.map((t) => (
+          {teams.map((t, index) => (
             <SelectableTeam
               key={t.team.id}
               team={t.team}
-              errors={t.validationResult.errors}
-              warnings={t.warningResult.warnings}
-              onClick={() => clickTeam(t.team)}
+              errors={t.errors}
+              warnings={t.warnings}
+              onClick={() => clickTeam(index)}
             />
           ))}
         </Stack>

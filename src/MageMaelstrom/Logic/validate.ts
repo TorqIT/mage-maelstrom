@@ -2,10 +2,7 @@ import { Coordinate } from "../Arena";
 import { Entrant, isSpell, Team } from "../Combatant";
 import { GameSpecs } from "./gameSpecs";
 
-export function validate(
-  team: Team,
-  specs: GameSpecs
-): { good: boolean; errors: string[] } {
+export function validate(team: Team, specs: GameSpecs) {
   const errors: string[] = [];
 
   if (team.CombatantSubclasses.length > specs.rules.maxCombatants) {
@@ -65,16 +62,10 @@ export function validate(
     }
   });
 
-  return {
-    good: errors.length === 0,
-    errors,
-  };
+  return errors;
 }
 
-export function warn(
-  team: Team,
-  specs: GameSpecs
-): { good: boolean; warnings: string[] } {
+export function warn(team: Team, specs: GameSpecs) {
   const warnings: string[] = [];
 
   if (team.CombatantSubclasses.length < specs.rules.maxCombatants) {
@@ -109,8 +100,5 @@ export function warn(
     }
   });
 
-  return {
-    good: warnings.length === 0,
-    warnings,
-  };
+  return warnings;
 }

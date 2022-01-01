@@ -18,9 +18,6 @@ export interface GameManagerData extends GameManagerProviderProps {
   isLooping: boolean;
   gameSpeed: number;
   setGameSpeed: React.Dispatch<React.SetStateAction<number>>;
-  startGame: (leftTeam: IdentifiedTeam, rightTeam: IdentifiedTeam) => void;
-  clearGame: () => void;
-  restartGame: () => void;
   tick: () => void;
   toggleLooping: () => void;
   simulateFullGame: () => void;
@@ -41,9 +38,6 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     victor,
     teams,
     entrants,
-    restartGame,
-    clearGame,
-    startGame,
   } = useManagerInstance();
   const {
     tick,
@@ -59,9 +53,6 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
       value={{
         leftTeam,
         rightTeam,
-        startGame,
-        clearGame,
-        restartGame,
         victor,
         tick,
         isLooping,

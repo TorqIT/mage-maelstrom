@@ -5,17 +5,15 @@ import { TeamSelector } from "./HUD";
 import { useGameManager } from "./Logic";
 import styles from "./MageMaelstrom.module.css";
 
-export interface MageMaelstromProps {
-  teams: Team[];
-}
+export interface MageMaelstromProps {}
 
-export const MageMaelstrom: React.FC<MageMaelstromProps> = ({ teams }) => {
+export const MageMaelstrom: React.FC<MageMaelstromProps> = ({}) => {
   const { leftTeam, rightTeam } = useGameManager();
 
   return (
     <div id={styles.mageMaelstrom}>
       <div>
-        {(!leftTeam || !rightTeam) && <TeamSelector teams={teams} />}
+        {(!leftTeam || !rightTeam) && <TeamSelector />}
         {leftTeam && rightTeam && <Battle />}
       </div>
     </div>

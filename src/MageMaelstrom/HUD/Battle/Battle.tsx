@@ -7,11 +7,13 @@ import { NiceButton } from "../NiceButton";
 import { BattleLogs } from "../BattleLogs";
 import { Controls } from "./Controls";
 import { Help } from "../Help";
+import { useTeamSelection } from "../../Logic/TeamSelectionProvider";
 
 export interface BattleProps {}
 
 export const Battle: React.FC<BattleProps> = ({}) => {
-  const { leftTeam, rightTeam, clearGame, restartGame } = useGameManager();
+  const { resetGame, clearGame } = useTeamSelection();
+  const { leftTeam, rightTeam } = useGameManager();
 
   if (!leftTeam || !rightTeam) {
     return null;
@@ -29,7 +31,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
         <Stack.Item>
           <Stack alignment="end">
             <Stack gap={20}>
-              <NiceButton onClick={restartGame}>Restart Game</NiceButton>
+              <NiceButton onClick={resetGame}>Restart Game</NiceButton>
               <NiceButton onClick={clearGame}>New Game</NiceButton>
             </Stack>
           </Stack>

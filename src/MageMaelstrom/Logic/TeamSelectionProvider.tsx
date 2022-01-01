@@ -1,51 +1,137 @@
-import { createContext, useContext, useMemo, useState } from "react";
 import {
-  CombatantDefinition,
-  CombatantSubclass,
-  IdentifiedTeam,
-} from "../Combatant";
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { validate, warn } from ".";
+import { CombatantDefinition, IdentifiedTeam, Team } from "../Combatant";
+import { nextId } from "../Common";
 import { GameSpecs } from "./gameSpecs";
 import { useGameSpecs } from "./GameSpecsProvider";
 
-interface TeamSelection {
-  left: IdentifiedTeam;
-  right: IdentifiedTeam;
+interface ValidatedTeam {
+  team: IdentifiedTeam;
+  warnings: string[];
+  errors: string[];
 }
 
+interface Selection<T> {
+  left: T;
+  right: T;
+}
+
+type TeamIndices = Selection<number>;
+type TeamSelection = Selection<IdentifiedTeam>;
+type ValidatedSelection = Selection<ValidatedTeam>;
+
 export interface TeamSelectionData {
+  validatedSelection?: ValidatedSelection;
   selection?: TeamSelection;
+  teams: ValidatedTeam[];
   combatants: CombatantDefinition[];
-  setSelection: React.Dispatch<React.SetStateAction<TeamSelection | undefined>>;
+  startGame: (leftIndex: number, rightIndex: number) => void;
+  resetGame: () => void;
+  clearGame: () => void;
 }
 
 const TeamSelectionContext = createContext<TeamSelectionData | null>(null);
 
-export interface TeamSelectionProviderProps {}
+export interface TeamSelectionProviderProps {
+  teams: Team[];
+}
 
 export const TeamSelectionProvider: React.FC<TeamSelectionProviderProps> = ({
+  teams,
   children,
 }) => {
   const specs = useGameSpecs();
 
-  const [selection, setSelection] = useState<TeamSelection>();
+  const identifiedTeams = useMemo(
+    () =>
+      teams.map((t) => {
+        const team: IdentifiedTeam = {
+          ...t,
+          id: nextId(),
+        };
+
+        return {
+          team,
+          errors: validate(t, specs),
+          warnings: warn(t, specs),
+        };
+      }),
+    [teams, specs]
+  );
+
+  const [selection, setSelection] = useState<TeamIndices>();
+
+  useEffect(() => {
+    setSelection(undefined);
+  }, [teams.length]);
+
+  const validatedSelection = useMemo(
+    (): ValidatedSelection | undefined =>
+      selection
+        ? {
+            left: identifiedTeams[selection.left],
+            right: identifiedTeams[selection.right],
+          }
+        : undefined,
+    [identifiedTeams, selection]
+  );
+
+  const teamSelection = useMemo(
+    (): TeamSelection | undefined =>
+      validatedSelection
+        ? {
+            left: validatedSelection.left.team,
+            right: validatedSelection.right.team,
+          }
+        : undefined,
+    [validatedSelection]
+  );
 
   const combatants = useMemo(
     () =>
-      selection
-        ? selection.left.CombatantSubclasses.map((C) =>
+      teamSelection
+        ? teamSelection.left.CombatantSubclasses.map((C) =>
             new C(specs).getDef()
           ).concat(
-            selection.right.CombatantSubclasses.map((C) =>
+            teamSelection.right.CombatantSubclasses.map((C) =>
               new C(specs).getDef()
             )
           )
         : [],
-    [selection, specs]
+    [teamSelection, specs]
   );
+
+  const startGame = useCallback(
+    (leftIndex: number, rightIndex: number) =>
+      setSelection({ left: leftIndex, right: rightIndex }),
+    []
+  );
+
+  const resetGame = useCallback(
+    () => setSelection(selection ? { ...selection } : undefined),
+    [selection]
+  );
+
+  const clearGame = useCallback(() => setSelection(undefined), []);
 
   return (
     <TeamSelectionContext.Provider
-      value={{ selection, setSelection, combatants }}
+      value={{
+        selection: teamSelection,
+        validatedSelection,
+        teams: identifiedTeams,
+        combatants,
+        startGame,
+        resetGame,
+        clearGame,
+      }}
     >
       {children}
     </TeamSelectionContext.Provider>

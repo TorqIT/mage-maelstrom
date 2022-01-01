@@ -30,10 +30,10 @@ function App() {
         },
       }}
     >
-      <TeamSelectionProvider>
+      <TeamSelectionProvider teams={teams}>
         <LoggingProvider>
           <GameManagerProvider>
-            <MageMaelstrom teams={teams} />
+            <MageMaelstrom />
           </GameManagerProvider>
         </LoggingProvider>
       </TeamSelectionProvider>
