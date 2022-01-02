@@ -15,3 +15,9 @@
 .error {
   background-color: rgb(104, 40, 61);
 }
+
+.drawGame {
+  text-align: center;
+  padding: 18px 0px;
+  font-size: 138px;
+}

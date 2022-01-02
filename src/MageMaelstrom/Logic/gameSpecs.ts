@@ -5,6 +5,13 @@ export type GameSpecs = Readonly<{
     maxTotalStats: number;
     maxAbilities: number;
   }>;
+  suddenDeath: Readonly<{
+    start: number;
+    delay: number;
+    radius: number;
+    flatDamage: number;
+    percentDamage: number;
+  }>;
   arena: Readonly<{
     width: number;
     height: number;

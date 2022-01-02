@@ -4,6 +4,7 @@ import { Stack } from "../../../Common";
 import { useGameManager } from "../../../Logic";
 import { VictoryLog } from "../../../Logging/logs";
 import styles from "./LogDisplay.module.css";
+import classNames from "classnames";
 
 export interface VictoryLogDisplayProps {
   log: VictoryLog;
@@ -19,7 +20,11 @@ export const VictoryLogDisplay = React.memo<VictoryLogDisplayProps>(
     );
 
     if (!team) {
-      return <div className={styles.victoryLabel}>DRAW GAME</div>;
+      return (
+        <div className={classNames(styles.victoryLabel, styles.drawGame)}>
+          DRAW
+        </div>
+      );
     }
 
     return (

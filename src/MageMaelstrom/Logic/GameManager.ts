@@ -27,6 +27,9 @@ import {
 import { GameSpecs } from "./gameSpecs";
 import { buildHelpers } from "./helpers";
 import { loggingManager } from "../Logging";
+import { ServerCombatant } from "./serverCombatant";
+import { nextId } from "../Common";
+import { mmMeteor } from "../Common/Icon";
 
 type OnChangeListener = () => void;
 
@@ -41,6 +44,8 @@ export class GameManager {
   private onChange?: OnChangeListener;
 
   private battleIsOver: boolean;
+
+  private serverEntrant: Entrant;
 
   public constructor(
     specs: GameSpecs,
@@ -57,6 +62,13 @@ export class GameManager {
 
     this.leftTeam.entrants.forEach((e) => e.getCombatant().init());
     this.rightTeam.entrants.forEach((e) => e.getCombatant().init());
+
+    this.serverEntrant = new Entrant(
+      new ServerCombatant(specs),
+      { color: "", flip: false, id: nextId() },
+      new Coordinate({ x: -100, y: -100 }),
+      true
+    );
 
     loggingManager.clear();
   }
@@ -165,18 +177,22 @@ export class GameManager {
   public getEntrantsInRadius(
     coord: Coordinate,
     radius: number,
-    yourTeamId: number,
+    yourTeamId?: number,
     target?: "allies" | "enemies"
   ) {
     let entrants = this.getEntrantArray();
 
-    if (target === "allies") {
-      entrants = entrants.filter((e) => e.getTeamId() === yourTeamId);
-    } else if (target === "enemies") {
-      entrants = entrants.filter((e) => e.getTeamId() !== yourTeamId);
+    if (yourTeamId) {
+      if (target === "allies") {
+        entrants = entrants.filter((e) => e.getTeamId() === yourTeamId);
+      } else if (target === "enemies") {
+        entrants = entrants.filter((e) => e.getTeamId() !== yourTeamId);
+      }
     }
 
-    return entrants.filter((e) => coord.isWithinRangeOf(radius, e.getCoords()));
+    return entrants.filter(
+      (e) => coord.isWithinRangeOf(radius, e.getCoords()) && !e.isDead()
+    );
   }
 
   //~*~*~*~*~
@@ -201,6 +217,13 @@ export class GameManager {
     arrayShuffle(actionsToPerform).forEach((a) =>
       this.tryPerformAction(a.entrant, a.action)
     );
+
+    if (
+      this.currentTick >= this.specs.suddenDeath.start &&
+      this.currentTick % this.specs.suddenDeath.delay === 0
+    ) {
+      this.summonSuddenDeathMeteor();
+    }
 
     const potentialVictor = this.getVictor();
 
@@ -415,6 +438,46 @@ export class GameManager {
       entrant.cast(action.spell, target, this);
     }
   }
+
+  //~*~*~*~*~*
+  //SUDDEN DEATH
+
+  private summonSuddenDeathMeteor() {
+    const x =
+      Math.round(
+        Math.random() *
+          (this.specs.arena.width + this.specs.suddenDeath.radius * 2)
+      ) - this.specs.suddenDeath.radius;
+    const y =
+      Math.round(
+        Math.random() *
+          (this.specs.arena.height + this.specs.suddenDeath.radius * 2)
+      ) - this.specs.suddenDeath.radius;
+
+    const entrants = this.getEntrantsInRadius(
+      new Coordinate({ x, y }),
+      this.specs.suddenDeath.radius
+    );
+
+    entrants.forEach((e) => {
+      const damage = Math.ceil(
+        e.getCombatant().getMaxHealth() * this.specs.suddenDeath.percentDamage +
+          this.specs.suddenDeath.flatDamage
+      );
+      e.takeDamage(damage, this.serverEntrant, "pure");
+
+      loggingManager.logSpell({
+        caster: this.serverEntrant.getCombatantInfo(),
+        spellIcon: mmMeteor,
+        target: e.getCombatantInfo(),
+        damage: damage,
+        remainingHealth: e.getHealth(),
+      });
+    });
+  }
+
+  //~*~*~*~*~*
+  //ADD COMBATANT
 
   public addCombatant(
     SubCombatant: CombatantSubclass,

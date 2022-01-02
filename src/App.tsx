@@ -16,6 +16,13 @@ function App() {
           maxTotalStats: 40,
           maxAbilities: 4,
         },
+        suddenDeath: {
+          start: 15000,
+          delay: 10,
+          radius: 3.5,
+          flatDamage: 25,
+          percentDamage: 0.12,
+        },
         arena: {
           width: 14,
           height: 10,
