@@ -28,6 +28,7 @@ import teleportitis from "./misdirection.svg";
 import doubleTap from "./doubled.svg";
 import visible from "./eye-target.svg";
 import hidden from "./sight-disabled.svg";
+import flash from "./sunbeams.svg";
 
 export interface IconDef {
   file: string;
@@ -170,4 +171,10 @@ export const mmVisible: IconDef = {
 
 export const mmHidden: IconDef = {
   file: hidden,
+};
+
+export const mmFlash: IconDef = {
+  file: flash,
+  filter:
+    "invert(100%) sepia(0%) saturate(2%) hue-rotate(206deg) brightness(108%) contrast(101%)",
 };

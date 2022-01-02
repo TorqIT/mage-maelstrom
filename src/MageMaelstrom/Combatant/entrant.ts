@@ -178,7 +178,8 @@ export class Entrant {
   public getVision() {
     return (
       this.combatant.getVision() +
-      aggSum(this.passives, (p) => p.getVisionAdjustment())
+      aggSum(this.passives, (p) => p.getVisionAdjustment()) +
+      aggSum(this.statusEffects, (s) => s.getVisionAdjustment())
     );
   }
 

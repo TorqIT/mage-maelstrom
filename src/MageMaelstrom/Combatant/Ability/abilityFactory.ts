@@ -11,6 +11,7 @@ import { Spell } from "./spell";
 import { Barrier } from "./Spells/barrier";
 import { Dash } from "./Spells/dash";
 import { Fireball } from "./Spells/fireball";
+import { Flash } from "./Spells/flash";
 import { Force } from "./Spells/force";
 import { Heal } from "./Spells/heal";
 import { HealthPotion } from "./Spells/healthPotion";
@@ -50,6 +51,8 @@ export function buildSpell(type: SpellType): Spell {
       return new HealthPotion();
     case "barrier":
       return new Barrier();
+    case "flash":
+      return new Flash();
   }
 }
 

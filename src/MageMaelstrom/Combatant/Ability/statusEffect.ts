@@ -11,6 +11,7 @@ export const statusEffectTypes = [
   "channeling",
   "potion",
   "barrier",
+  "flash",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
@@ -70,6 +71,10 @@ export class StatusEffect {
 
   public getDamageTakenMultiplier(damageType: DamageType) {
     return 1;
+  }
+
+  public getVisionAdjustment() {
+    return 0;
   }
 
   public toReadonly(): StatusEffectStatus {
