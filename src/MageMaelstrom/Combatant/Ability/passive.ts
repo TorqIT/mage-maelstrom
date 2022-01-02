@@ -25,6 +25,10 @@ export abstract class Passive extends Ability {
     return false;
   }
 
+  public rollForEvasion() {
+    return false;
+  }
+
   public getVisionAdjustment() {
     return 0;
   }

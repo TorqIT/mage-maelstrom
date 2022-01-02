@@ -29,6 +29,7 @@ import doubleTap from "./doubled.svg";
 import visible from "./eye-target.svg";
 import hidden from "./sight-disabled.svg";
 import flash from "./sunbeams.svg";
+import evasion from "./dodge.svg";
 
 export interface IconDef {
   file: string;
@@ -177,4 +178,10 @@ export const mmFlash: IconDef = {
   file: flash,
   filter:
     "invert(100%) sepia(0%) saturate(2%) hue-rotate(206deg) brightness(108%) contrast(101%)",
+};
+
+export const mmEvasion: IconDef = {
+  file: evasion,
+  filter:
+    "invert(79%) sepia(14%) saturate(1780%) hue-rotate(86deg) brightness(101%) contrast(115%)",
 };

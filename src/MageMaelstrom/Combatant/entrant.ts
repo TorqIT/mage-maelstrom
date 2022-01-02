@@ -22,6 +22,7 @@ import { loggingManager } from "../Logging";
 import { GameManager } from "../Logic/GameManager";
 import { aggMult, aggSum } from "../Common/aggregates";
 import { ActionFactory } from "./actions";
+import { mmEvasion } from "../Common/Icon";
 
 interface Meter {
   value: number;
@@ -183,6 +184,10 @@ export class Entrant {
     );
   }
 
+  private rollForEvasion() {
+    return this.passives.some((p) => p.rollForEvasion());
+  }
+
   //~*~*~*~*
   // CALCULATORS
 
@@ -254,6 +259,16 @@ export class Entrant {
   }
 
   public attack(target: Entrant) {
+    if (target.rollForEvasion()) {
+      loggingManager.logSpell({
+        caster: target.getCombatantInfo(),
+        spellIcon: mmEvasion,
+        target: this.getCombatantInfo(),
+      });
+
+      return;
+    }
+
     const damage = this.combatant.getDamage();
     const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
