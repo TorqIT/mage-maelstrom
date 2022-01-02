@@ -26,6 +26,8 @@ import healthPotion from "./heart-bottle.svg";
 import barrier from "./stone-sphere.svg";
 import teleportitis from "./misdirection.svg";
 import doubleTap from "./doubled.svg";
+import visible from "./eye-target.svg";
+import hidden from "./sight-disabled.svg";
 
 export interface IconDef {
   file: string;
@@ -160,4 +162,12 @@ export const mmTeleportitis: IconDef = {
 
 export const mmDoubleTap: IconDef = {
   file: doubleTap,
+};
+
+export const mmVisible: IconDef = {
+  file: visible,
+};
+
+export const mmHidden: IconDef = {
+  file: hidden,
 };

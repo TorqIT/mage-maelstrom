@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Arena } from "../../Arena";
 import { Stack } from "../../Common";
 import { TeamDisplay } from "..";
@@ -14,6 +14,26 @@ export interface BattleProps {}
 export const Battle: React.FC<BattleProps> = ({}) => {
   const { resetGame, clearGame } = useTeamSelection();
   const { leftTeam, rightTeam } = useGameManager();
+
+  const [seeLeft, setSeeLeft] = useState(true);
+  const [seeRight, setSeeRight] = useState(true);
+
+  const toggleVisibility = (
+    value: boolean,
+    toggle: (value: boolean) => void,
+    other: boolean,
+    otherToggle: (value: boolean) => void
+  ) => {
+    if (value) {
+      toggle(false);
+
+      if (!other) {
+        otherToggle(true);
+      }
+    } else {
+      toggle(true);
+    }
+  };
 
   if (!leftTeam || !rightTeam) {
     return null;
@@ -44,11 +64,24 @@ export const Battle: React.FC<BattleProps> = ({}) => {
             <Controls />
             <Stack stretch gap={5}>
               <Stack.Item>
-                <TeamDisplay team={leftTeam} />
+                <TeamDisplay
+                  team={leftTeam}
+                  visible={seeLeft}
+                  onToggle={() =>
+                    toggleVisibility(seeLeft, setSeeLeft, seeRight, setSeeRight)
+                  }
+                />
               </Stack.Item>
-              <Arena leftVision={false} />
+
+              <Arena leftVision={seeLeft} rightVision={seeRight} />
               <Stack.Item>
-                <TeamDisplay team={rightTeam} />
+                <TeamDisplay
+                  team={rightTeam}
+                  visible={seeRight}
+                  onToggle={() =>
+                    toggleVisibility(seeRight, setSeeRight, seeLeft, setSeeLeft)
+                  }
+                />
               </Stack.Item>
             </Stack>
             <Help size={100} />

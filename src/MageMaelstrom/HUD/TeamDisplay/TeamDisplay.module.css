@@ -11,6 +11,7 @@
   border-top-color: var(--upper-left-border);
   border-right-color: var(--lower-right-border);
   border-bottom-color: var(--lower-right-border);
+  position: relative;
 }
 
 .list {
@@ -23,4 +24,21 @@
   padding: 10px;
   font-family: SmallTitle;
   font-size: 24px;
+}
+
+.visibilityToggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.visibilityToggle:hover {
+  background-color: rgb(25, 25, 38);
+}
+
+.visibilityToggle:hover:active {
+  background-color: rgb(34, 34, 51);
 }
