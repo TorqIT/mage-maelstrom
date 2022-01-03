@@ -62,14 +62,14 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
         </Stack.Item>
       </Stack>
       <div style={{ marginTop: 10 }}>
-        {/* <Stack reverse={flip} style={{ marginBottom: 5 }}>
+        <Stack reverse={flip} style={{ marginBottom: 5 }}>
           <div
             className={styles.timerBar}
             style={{
               width: Math.min(100, entrant.status.ticksUntilNextTurn),
             }}
           ></div>
-        </Stack> */}
+        </Stack>
         <HealthBar {...entrant.status.health} roundTo="ceil" />
         <div style={{ marginTop: 5 }}>
           <HealthBar

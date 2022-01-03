@@ -3,6 +3,7 @@ import { Passive } from "./passive";
 import { Critical } from "./Passives/critical";
 import { DoubleTap } from "./Passives/doubleTap";
 import { Evasion } from "./Passives/evasion";
+import { Frost } from "./Passives/frost";
 import { ManaSteal } from "./Passives/manaSteal";
 import { Talented } from "./Passives/talented";
 import { Teleportitis } from "./Passives/teleportitis";
@@ -81,5 +82,7 @@ export function buildPassive(type: PassiveType): Passive {
       return new DoubleTap();
     case "evasion":
       return new Evasion();
+    case "frost":
+      return new Frost();
   }
 }

@@ -12,6 +12,7 @@ export const statusEffectTypes = [
   "potion",
   "barrier",
   "flash",
+  "frost",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 

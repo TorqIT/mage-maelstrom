@@ -204,7 +204,7 @@ export class Entrant {
       aggMult(this.statusEffects, (s) => s.getTurnSpeedMultiplier());
 
     this.updateMeter(this.health, this.getHealthRegen());
-    this.updateMeter(this.mana);
+    this.updateMeter(this.mana, this.getManaRegen());
 
     this.passives.forEach((p) => p.update(this, gameManager));
     this.spells.forEach((s) => s.update());
@@ -225,6 +225,12 @@ export class Entrant {
       (this.health.regen +
         aggSum(this.statusEffects, (s) => s.getHealthRegenBonus())) *
       aggMult(this.statusEffects, (s) => s.getHealthRegenMultiplier())
+    );
+  }
+
+  private getManaRegen() {
+    return (
+      this.mana.regen + aggSum(this.passives, (p) => p.getManaRegenBonus())
     );
   }
 
@@ -373,7 +379,7 @@ export class Entrant {
         ...this.health,
         regen: this.getHealthRegen(),
       },
-      mana: { ...this.mana },
+      mana: { ...this.mana, regen: this.getManaRegen() },
       ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: this.coords.toReadonly(),
       vision: this.getVision(),

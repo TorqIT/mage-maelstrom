@@ -32,6 +32,7 @@ import flash from "./sunbeams.svg";
 import evasion from "./dodge.svg";
 import swift from "./crossed-slashes.svg";
 import dispel from "./embrassed-energy.svg";
+import frost from "./icicles-aura.svg";
 
 export interface IconDef {
   file: string;
@@ -194,6 +195,12 @@ export const mmSwift: IconDef = {
 
 export const mmDispel: IconDef = {
   file: dispel,
+  filter:
+    "invert(73%) sepia(13%) saturate(5776%) hue-rotate(165deg) brightness(104%) contrast(97%)",
+};
+
+export const mmFrost: IconDef = {
+  file: frost,
   filter:
     "invert(73%) sepia(13%) saturate(5776%) hue-rotate(165deg) brightness(104%) contrast(97%)",
 };
