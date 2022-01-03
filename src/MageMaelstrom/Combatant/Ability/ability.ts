@@ -17,6 +17,7 @@ const spellTypes = [
   "barrier",
   "flash",
   "swift",
+  "dispel",
 ] as const;
 
 const passiveTypes = [

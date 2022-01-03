@@ -31,6 +31,7 @@ import hidden from "./sight-disabled.svg";
 import flash from "./sunbeams.svg";
 import evasion from "./dodge.svg";
 import swift from "./crossed-slashes.svg";
+import dispel from "./embrassed-energy.svg";
 
 export interface IconDef {
   file: string;
@@ -189,4 +190,10 @@ export const mmEvasion: IconDef = {
 
 export const mmSwift: IconDef = {
   file: swift,
+};
+
+export const mmDispel: IconDef = {
+  file: dispel,
+  filter:
+    "invert(73%) sepia(13%) saturate(5776%) hue-rotate(165deg) brightness(104%) contrast(97%)",
 };

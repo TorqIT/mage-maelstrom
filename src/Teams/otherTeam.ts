@@ -16,7 +16,7 @@ class WowDude extends Combatant {
       agility: 20,
       intelligence: 10,
 
-      abilities: ["bear", "swift", "manasteal", "doubletap"],
+      abilities: ["bear", "swift", "dispel", "doubletap"],
     };
   }
   public init(): void {}
@@ -24,16 +24,20 @@ class WowDude extends Combatant {
     actions,
     helpers,
     visibleEnemies,
-    spells: [bear, swift],
+    spells: [bear, swift, dispel],
   }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
     }
 
     if (visibleEnemies.length > 0) {
-      // if (helpers.canPerform(actions.cast(meteor, visibleEnemies[0].coords))) {
-      //   return actions.cast(meteor, visibleEnemies[0].coords);
-      // }
+      if (
+        visibleEnemies[0].statusesEffects.length > 0 &&
+        !visibleEnemies[0].statusesEffects.includes("channeling") &&
+        helpers.canPerform(actions.cast(dispel, visibleEnemies[0].id))
+      ) {
+        return actions.cast(dispel, visibleEnemies[0].id);
+      }
 
       const snipableEnemy = visibleEnemies.find((s) =>
         helpers.canPerform(actions.cast(swift, s.id))

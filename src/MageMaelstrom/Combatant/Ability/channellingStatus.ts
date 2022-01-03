@@ -15,6 +15,7 @@ export class ChannelingStatus extends StatusEffect {
       type: "channeling",
       duration,
       isPositive: true,
+      undispellable: true,
       desc: {
         name: "Channeling",
         description: "Channeling " + spellName,

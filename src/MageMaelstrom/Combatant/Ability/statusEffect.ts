@@ -20,6 +20,7 @@ export interface StatusEffectDefinition {
   type: StatusEffectType;
   duration: number;
   isPositive: boolean;
+  undispellable?: boolean;
 }
 
 export interface StatusEffectStatus extends StatusEffectDefinition {
@@ -45,6 +46,14 @@ export class StatusEffect {
 
   public isFinished() {
     return this.timer <= 0;
+  }
+
+  public isUndispellable() {
+    return this.def.undispellable;
+  }
+
+  public isPositive() {
+    return this.def.isPositive;
   }
 
   public update(entrant: Entrant) {

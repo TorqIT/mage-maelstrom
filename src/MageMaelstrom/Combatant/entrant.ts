@@ -344,6 +344,12 @@ export class Entrant {
     this.statusEffects.push(effect);
   }
 
+  public clearStatusEffects(clearNegative: boolean) {
+    this.statusEffects = this.statusEffects.filter(
+      (s) => s.isUndispellable() || s.isPositive() === clearNegative
+    );
+  }
+
   //~*~*~*~*~*~*
   // READONLY REACT STUFF
 

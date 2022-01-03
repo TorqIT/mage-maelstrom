@@ -11,6 +11,7 @@ import { Vision } from "./Passives/vision";
 import { Spell } from "./spell";
 import { Barrier } from "./Spells/barrier";
 import { Dash } from "./Spells/dash";
+import { Dispel } from "./Spells/dispel";
 import { Fireball } from "./Spells/fireball";
 import { Flash } from "./Spells/flash";
 import { Force } from "./Spells/force";
@@ -57,6 +58,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Flash();
     case "swift":
       return new Swift();
+    case "dispel":
+      return new Dispel();
   }
 }
 
