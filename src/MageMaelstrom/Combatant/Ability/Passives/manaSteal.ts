@@ -3,7 +3,7 @@ import { DamageType, Entrant } from "../..";
 import { mmManaSteal } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 
-const MANA_STEAL = 1.5;
+const MANA_STEAL = 1;
 
 export class ManaSteal extends Passive {
   public constructor() {

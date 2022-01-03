@@ -23,6 +23,7 @@ import { Slow } from "./Spells/slow";
 import { Snipe } from "./Spells/snipe";
 import { Stun } from "./Spells/stun";
 import { SummonBear } from "./Spells/summonBear";
+import { Swift } from "./Spells/swift";
 
 export function buildSpell(type: SpellType): Spell {
   switch (type) {
@@ -54,6 +55,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Barrier();
     case "flash":
       return new Flash();
+    case "swift":
+      return new Swift();
   }
 }
 

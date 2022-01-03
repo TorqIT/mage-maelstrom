@@ -258,7 +258,7 @@ export class Entrant {
     this.coords.move(direction);
   }
 
-  public attack(target: Entrant) {
+  public attack(target: Entrant, damageMultiplier?: number) {
     if (target.rollForEvasion()) {
       loggingManager.logSpell({
         caster: target.getCombatantInfo(),
@@ -269,7 +269,7 @@ export class Entrant {
       return;
     }
 
-    const damage = this.combatant.getDamage();
+    const damage = this.combatant.getDamage() * (damageMultiplier ?? 1);
     const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
     this.passives.forEach((p) => p.onDealDamage(this, target, "attack"));

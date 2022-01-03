@@ -30,6 +30,7 @@ import visible from "./eye-target.svg";
 import hidden from "./sight-disabled.svg";
 import flash from "./sunbeams.svg";
 import evasion from "./dodge.svg";
+import swift from "./crossed-slashes.svg";
 
 export interface IconDef {
   file: string;
@@ -184,4 +185,8 @@ export const mmEvasion: IconDef = {
   file: evasion,
   filter:
     "invert(79%) sepia(14%) saturate(1780%) hue-rotate(86deg) brightness(101%) contrast(115%)",
+};
+
+export const mmSwift: IconDef = {
+  file: swift,
 };
