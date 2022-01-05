@@ -21,6 +21,7 @@ export interface ActParams {
   allies: ReadonlyEntrantStatus[];
   visibleEnemies: ReadonlyEntrantStatus[];
   spells: SpellStatus[];
+  tick: number;
 }
 
 export abstract class Combatant {

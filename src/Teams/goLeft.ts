@@ -1,4 +1,5 @@
 import { Combatant } from "../MageMaelstrom";
+import { ReadonlyCoordinate } from "../MageMaelstrom/Arena";
 import {
   CombatantDefinition,
   Action,
@@ -16,7 +17,7 @@ export class GoLeft extends Combatant {
       agility: 5,
       intelligence: 9,
 
-      abilities: ["potion", "barrier", "stun", "frost"],
+      abilities: ["potion", "teleport", "stun", "frost"],
     };
   }
   public init(): void {}
@@ -25,8 +26,13 @@ export class GoLeft extends Combatant {
     helpers,
     you,
     visibleEnemies,
-    spells: [potion, barrier, stun],
+    spells: [potion, teleport, stun],
   }: ActParams): Action {
+    const coord = this.getRandomCoord();
+    if (helpers.canPerform(actions.cast(teleport, coord))) {
+      return actions.cast(teleport, coord);
+    }
+
     const closestEnemy = helpers.getClosest(visibleEnemies);
 
     if (
@@ -34,10 +40,6 @@ export class GoLeft extends Combatant {
       helpers.canPerform(actions.cast(stun, closestEnemy.id))
     ) {
       return actions.cast(stun, closestEnemy.id);
-    }
-
-    if (helpers.canPerform(actions.cast(barrier))) {
-      return actions.cast(barrier);
     }
 
     if (
@@ -48,5 +50,12 @@ export class GoLeft extends Combatant {
     }
 
     return actions.dance();
+  }
+
+  private getRandomCoord(): ReadonlyCoordinate {
+    return {
+      x: Math.floor(Math.random() * this.getGameSpecs().arena.width),
+      y: Math.floor(Math.random() * this.getGameSpecs().arena.height),
+    };
   }
 }

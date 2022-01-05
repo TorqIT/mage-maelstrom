@@ -241,7 +241,8 @@ export class Entrant {
     actions: ActionFactory,
     helpers: Helpers,
     allies: ReadonlyEntrantStatus[],
-    visibleEnemies: ReadonlyEntrantStatus[]
+    visibleEnemies: ReadonlyEntrantStatus[],
+    tick: number
   ) {
     this.ticksUntilNextTurn += this.rollTurnDelay();
     return this.combatant.act({
@@ -251,6 +252,7 @@ export class Entrant {
       allies,
       visibleEnemies,
       spells: this.spells.map((s) => s.toReadonlySpell()),
+      tick,
     });
   }
 

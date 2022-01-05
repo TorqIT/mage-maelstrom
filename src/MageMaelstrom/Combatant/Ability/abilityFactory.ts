@@ -26,6 +26,7 @@ import { Snipe } from "./Spells/snipe";
 import { Stun } from "./Spells/stun";
 import { SummonBear } from "./Spells/summonBear";
 import { Swift } from "./Spells/swift";
+import { Teleport } from "./Spells/teleport";
 
 export function buildSpell(type: SpellType): Spell {
   switch (type) {
@@ -61,6 +62,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Swift();
     case "dispel":
       return new Dispel();
+    case "teleport":
+      return new Teleport();
   }
 }
 

@@ -264,7 +264,8 @@ export class GameManager {
                 this.getActionResult(e, a)
             ),
             allies,
-            visibleEnemies
+            visibleEnemies,
+            this.currentTick
           );
         } catch (e) {
           action = { type: ActionType.Dance, error: e as string };
