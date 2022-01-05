@@ -16,6 +16,7 @@ export type AttackResult =
 export type SpellResult =
   | "Success"
   | "OutOfRange"
+  | "OutOfVision"
   | "CombatantNotFound"
   | "TargetIsDead"
   | "InvalidSpell"
@@ -56,6 +57,8 @@ export function getActionResultString(
       return "The combatant tried to move to an occupied tile";
     case "WrongTargetType":
       return "The combatant tried to cast a spell on the wrong type of target";
+    case "OutOfVision":
+      return "The combatant tried to cast a spell on someone who is not in vision";
     case "UnknownAction":
       return "I have no clue what action the combatant was even attempting to do";
   }

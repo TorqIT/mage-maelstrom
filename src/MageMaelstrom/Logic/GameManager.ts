@@ -195,6 +195,12 @@ export class GameManager {
     );
   }
 
+  public isInVision(enemy: Entrant) {
+    const allyTeam =
+      enemy.getTeamId() === this.leftTeam.id ? this.leftTeam : this.rightTeam;
+    return allyTeam.entrants.some((e) => e.canSee(enemy));
+  }
+
   //~*~*~*~*~
   // TICK
 

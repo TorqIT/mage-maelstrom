@@ -60,6 +60,13 @@ export const Controls = React.memo<ControlsProps>(() => {
             min={-1}
             max={1}
             step={0.01}
+            marks={{
+              0: "1x",
+              [-1]: "0.1x",
+              1: "10x",
+              0.398: "2.5x",
+              [-0.398]: "0.4x",
+            }}
             value={Math.log10(gameSpeed)}
             onChange={(value) => setGameSpeed(Math.pow(10, value))}
             tipFormatter={(v) => Math.pow(10, v).toFixed(2) + "x"}

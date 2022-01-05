@@ -143,6 +143,16 @@ export abstract class Spell extends Ability {
       return "OutOfRange";
     }
 
+    if (
+      target &&
+      typeof target !== "string" &&
+      !isCoordinate(target) &&
+      caster.getTeamId() !== target.getTeamId() &&
+      !gameManager.isInVision(target)
+    ) {
+      return "OutOfVision";
+    }
+
     return getTargetResult(
       target,
       typeof this.targetTypes == "string"

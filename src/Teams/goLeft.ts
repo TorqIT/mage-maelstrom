@@ -17,7 +17,7 @@ export class GoLeft extends Combatant {
       agility: 5,
       intelligence: 9,
 
-      abilities: ["potion", "teleport", "stun", "frost"],
+      abilities: ["potion", "teleport", "stun", "thorns"],
     };
   }
   public init(): void {}
