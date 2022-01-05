@@ -30,6 +30,10 @@
   background-color: rgb(142, 142, 169);
 }
 
+.sliderWrapper :global(.rc-slider-mark-text) {
+  color: #d4d4a6;
+}
+
 .gameSpeed {
   width: 140px;
   font-size: 20px;
