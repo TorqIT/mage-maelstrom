@@ -43,23 +43,23 @@ export const SummonDisplay: React.FC<SummonDisplayProps> = ({
             </div>
           </div>
         </Stack.Item>
-      </Stack>
-      <div
-        className={styles.statusEffects}
-        style={
-          entrant.statusEffects.length > 0
-            ? { marginTop: 10, height: 28 }
-            : { height: 0 }
-        }
-      >
-        <Stack gap={4}>
+        <Stack
+          gap={4}
+          style={
+            entrant.statusEffects.length > 0
+              ? flip
+                ? { marginRight: 4 }
+                : { marginLeft: 4 }
+              : undefined
+          }
+        >
           {entrant.statusEffects
             .filter((s) => s.desc != null)
             .map((s) => (
               <StatusEffectDisplay key={s.id} statusEffect={s} />
             ))}
         </Stack>
-      </div>
+      </Stack>
     </div>
   );
 };

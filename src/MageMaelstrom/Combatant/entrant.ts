@@ -98,9 +98,7 @@ export class Entrant {
       regen: combatant.getManaRegen(),
     };
 
-    this.ticksUntilNextTurn = Math.ceil(
-      Math.random() * combatant.getTurnDelay()
-    );
+    this.ticksUntilNextTurn = this.rollTurnDelay(false);
 
     const abilities = this.combatant.getAbilities();
 
@@ -244,7 +242,7 @@ export class Entrant {
     visibleEnemies: ReadonlyEntrantStatus[],
     tick: number
   ) {
-    this.ticksUntilNextTurn += this.rollTurnDelay();
+    this.ticksUntilNextTurn += this.rollTurnDelay(true);
     return this.combatant.act({
       actions,
       helpers,
@@ -256,10 +254,10 @@ export class Entrant {
     });
   }
 
-  private rollTurnDelay() {
-    return this.passives.some((p) => p.rollForDoubleTap())
+  private rollTurnDelay(rollForDoubleTap: boolean) {
+    return rollForDoubleTap && this.passives.some((p) => p.rollForDoubleTap())
       ? 0
-      : this.combatant.getTurnDelay();
+      : this.combatant.getTurnDelay() * (0.92 + Math.random() * 0.16);
   }
 
   public move(direction: MovementDirection) {

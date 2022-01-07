@@ -43,17 +43,34 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
             </div>
             <Stack.Item>
               <Stack gap="apart" fill alignment="middle" reverse={flip}>
-                <Stack gap={8}>
-                  {entrant.spells.map((s) => (
-                    <SpellDisplay key={s.id} spell={s} />
-                  ))}
+                <Stack gap={12} alignment="middle" reverse={flip}>
+                  <Stack
+                    gap={8}
+                    style={flip ? { marginLeft: 4 } : { marginRight: 4 }}
+                  >
+                    {entrant.spells.map((s) => (
+                      <SpellDisplay key={s.id} spell={s} />
+                    ))}
+                  </Stack>
+                  <div
+                    style={{
+                      borderLeft: "1px solid #9b9988",
+                      height: 30,
+                    }}
+                  ></div>
+                  <Stack gap={4}>
+                    {entrant.passives
+                      .filter((p) => p.desc != null)
+                      .map((p) => (
+                        <DescribableDisplay key={p.id} describable={p.desc!} />
+                      ))}
+                  </Stack>
                 </Stack>
-
                 <Stack gap={4}>
-                  {entrant.passives
-                    .filter((p) => p.desc != null)
-                    .map((p) => (
-                      <DescribableDisplay key={p.id} describable={p.desc!} />
+                  {entrant.statusEffects
+                    .filter((s) => s.desc != null)
+                    .map((s) => (
+                      <StatusEffectDisplay key={s.id} statusEffect={s} />
                     ))}
                 </Stack>
               </Stack>
@@ -78,22 +95,6 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
             roundTo="floor"
           />
         </div>
-      </div>
-      <div
-        className={styles.statusEffects}
-        style={
-          entrant.statusEffects.length > 0
-            ? { marginTop: 10, height: 28 }
-            : { height: 0 }
-        }
-      >
-        <Stack gap={4}>
-          {entrant.statusEffects
-            .filter((s) => s.desc != null)
-            .map((s) => (
-              <StatusEffectDisplay key={s.id} statusEffect={s} />
-            ))}
-        </Stack>
       </div>
     </div>
   );
