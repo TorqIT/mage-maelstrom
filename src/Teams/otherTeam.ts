@@ -16,7 +16,7 @@ class WowDude extends Combatant {
       agility: 20,
       intelligence: 10,
 
-      abilities: ["bear", "swift", "manasteal", "doubletap"],
+      abilities: ["bear", "swift", "manasteal", "haste"],
     };
   }
   public init(): void {}
@@ -24,17 +24,17 @@ class WowDude extends Combatant {
     actions,
     helpers,
     visibleEnemies,
-    spells: [bear, swift],
+    spells: [bear, swift, haste],
   }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
     }
 
-    if (visibleEnemies.length > 0) {
-      // if (helpers.canPerform(actions.cast(meteor, visibleEnemies[0].coords))) {
-      //   return actions.cast(meteor, visibleEnemies[0].coords);
-      // }
+    if (helpers.canPerform(actions.cast(haste))) {
+      return actions.cast(haste);
+    }
 
+    if (visibleEnemies.length > 0) {
       const snipableEnemy = visibleEnemies.find((s) =>
         helpers.canPerform(actions.cast(swift, s.id))
       );

@@ -14,11 +14,12 @@
 }
 
 .flavorText {
-  font-size: 10px;
+  font-size: 11px;
   text-align: right;
   font-style: italic;
   font-weight: 100;
   opacity: 0.5;
+  margin-top: 8px;
 }
 
 .spellCost {

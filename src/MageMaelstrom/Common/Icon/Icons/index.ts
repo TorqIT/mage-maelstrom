@@ -35,6 +35,7 @@ import dispel from "./embrassed-energy.svg";
 import frost from "./icicles-aura.svg";
 import teleport from "./teleport.svg";
 import clock from "./clockwork.svg";
+import haste from "./fire-dash.svg";
 
 export interface IconDef {
   file: string;
@@ -213,4 +214,10 @@ export const mmTeleport: IconDef = {
 
 export const mmClock: IconDef = {
   file: clock,
+};
+
+export const mmHaste: IconDef = {
+  file: haste,
+  filter:
+    "invert(50%) sepia(62%) saturate(2058%) hue-rotate(217deg) brightness(100%) contrast(103%)",
 };
