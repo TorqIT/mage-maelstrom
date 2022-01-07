@@ -65,23 +65,38 @@ export abstract class Combatant {
   //STATS
 
   public getDamage() {
-    return Math.max(this.def.strength, this.def.agility, this.def.intelligence);
+    return (
+      Math.max(this.def.strength, this.def.agility, this.def.intelligence) +
+      this.gameSpecs.stats.baseDamage
+    );
   }
 
   public getMaxHealth() {
-    return this.def.strength * this.gameSpecs.stats.healthPerStrength;
+    return (
+      this.def.strength * this.gameSpecs.stats.healthPerStrength +
+      this.gameSpecs.stats.baseHealth
+    );
   }
 
   public getHealthRegen() {
-    return this.def.strength * this.gameSpecs.stats.healthRegenPerStrength;
+    return (
+      this.def.strength * this.gameSpecs.stats.healthRegenPerStrength +
+      this.gameSpecs.stats.baseHealthRegen
+    );
   }
 
   public getMaxMana() {
-    return this.def.intelligence * this.gameSpecs.stats.manaPerInt;
+    return (
+      this.def.intelligence * this.gameSpecs.stats.manaPerInt +
+      this.gameSpecs.stats.baseMana
+    );
   }
 
   public getManaRegen() {
-    return this.def.intelligence * this.gameSpecs.stats.manaRegenPerInt;
+    return (
+      this.def.intelligence * this.gameSpecs.stats.manaRegenPerInt +
+      this.gameSpecs.stats.baseManaRegen
+    );
   }
 
   public getTurnDelay() {

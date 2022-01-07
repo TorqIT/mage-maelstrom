@@ -17,11 +17,16 @@ export type GameSpecs = Readonly<{
     height: number;
   }>;
   stats: Readonly<{
+    baseHealth: number;
+    baseHealthRegen: number;
     healthPerStrength: number;
     healthRegenPerStrength: number;
     agilityBonus: number;
+    baseMana: number;
+    baseManaRegen: number;
     manaPerInt: number;
     manaRegenPerInt: number;
+    baseDamage: number;
     vision: number;
   }>;
 }>;

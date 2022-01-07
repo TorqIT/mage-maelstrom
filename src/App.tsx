@@ -28,11 +28,19 @@ function App() {
           height: 10,
         },
         stats: {
+          baseHealth: 40,
+          baseHealthRegen: 0.4,
           healthPerStrength: 12,
-          healthRegenPerStrength: 0.22,
+          healthRegenPerStrength: 0.2,
+
           agilityBonus: 1.025,
+
+          baseMana: 10,
+          baseManaRegen: 0.2,
           manaPerInt: 7,
-          manaRegenPerInt: 0.1,
+          manaRegenPerInt: 0.08,
+
+          baseDamage: 5,
           vision: 3.5,
         },
       }}

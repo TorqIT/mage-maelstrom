@@ -38,7 +38,7 @@ export const HealthBar: React.FC<HealthBarProps> = ({
             {displayValue} <span className={styles.tiny}>/{max}</span>
           </div>
           <div className={styles.tiny} style={{ marginLeft: 5 }}>
-            (+{parseFloat(regen.toFixed(2))})
+            (+{parseFloat(regen.toFixed(1))})
           </div>
         </Stack>
       </div>

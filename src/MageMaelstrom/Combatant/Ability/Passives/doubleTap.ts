@@ -1,7 +1,7 @@
 import { Passive } from "..";
 import { mmDoubleTap } from "../../../Common/Icon";
 
-const CHANCE = 0.08;
+const CHANCE = 0.1;
 
 export class DoubleTap extends Passive {
   public constructor() {
