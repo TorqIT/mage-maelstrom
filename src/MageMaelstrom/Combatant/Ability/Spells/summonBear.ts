@@ -6,6 +6,9 @@ import { Entrant } from "../../entrant";
 import { BearCombatant } from "../../InternalCombatants";
 import { Passive } from "../passive";
 import { FullSpellTarget, Spell } from "../spell";
+import { Temporality } from "../Statuses/temporality";
+
+const DURATION = 4000;
 
 export class SummonBear extends Spell {
   public constructor() {
@@ -14,12 +17,14 @@ export class SummonBear extends Spell {
         icon: mmBear,
         name: "Summon Bear",
         description:
-          "Summon a 10/8/5 bear. Lumbers around slowly but moves quicker " +
+          `Summon a 10/8/5 bear that lasts for ${
+            DURATION / 100
+          } seconds. Lumbers around slowly but moves quicker ` +
           "when an enemy is close by.",
       },
       type: "bear",
-      manaCost: 30,
-      cooldown: 4000,
+      manaCost: 45,
+      cooldown: 3000,
       targetTypes: "nothing",
     });
   }
@@ -29,13 +34,14 @@ export class SummonBear extends Spell {
     target: FullSpellTarget,
     gameManager: GameManager
   ): void {
-    const entrant = gameManager.addCombatant(
+    const bear = gameManager.addCombatant(
       BearCombatant,
       caster.getTeamId(),
       caster.getCoords()
     );
 
-    entrant.addPassive(new BearPassive());
+    bear.addPassive(new BearPassive());
+    bear.applyStatusEffect(new Temporality(DURATION));
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),

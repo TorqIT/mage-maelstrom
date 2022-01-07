@@ -13,6 +13,7 @@ export const statusEffectTypes = [
   "barrier",
   "flash",
   "frost",
+  "temporality",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 

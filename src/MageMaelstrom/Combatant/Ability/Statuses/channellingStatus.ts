@@ -1,6 +1,6 @@
-import { StatusEffect, StatusEffectType } from ".";
-import { Entrant } from "..";
-import { IconDef } from "../../Common/Icon";
+import { StatusEffect, StatusEffectType } from "..";
+import { Entrant } from "../..";
+import { IconDef } from "../../../Common/Icon";
 
 export class ChannelingStatus extends StatusEffect {
   private onFinish: () => void;

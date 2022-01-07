@@ -140,7 +140,9 @@ export class GameManager {
   private toReadonlyActiveTeam(team: ActiveTeam): ReadonlyActiveTeam {
     return {
       ...team,
-      entrants: team.entrants.map((e) => e.toReadonly()),
+      entrants: team.entrants
+        .filter((e) => e.isEssential() || !e.isDead())
+        .map((e) => e.toReadonly()),
     };
   }
 

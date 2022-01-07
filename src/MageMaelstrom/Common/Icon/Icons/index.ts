@@ -34,6 +34,7 @@ import swift from "./crossed-slashes.svg";
 import dispel from "./embrassed-energy.svg";
 import frost from "./icicles-aura.svg";
 import teleport from "./teleport.svg";
+import clock from "./clockwork.svg";
 
 export interface IconDef {
   file: string;
@@ -208,4 +209,8 @@ export const mmFrost: IconDef = {
 
 export const mmTeleport: IconDef = {
   file: teleport,
+};
+
+export const mmClock: IconDef = {
+  file: clock,
 };

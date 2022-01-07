@@ -3,7 +3,7 @@ import { Coordinate } from "../../../Arena";
 import { mmTeleport } from "../../../Common/Icon";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
-import { ChannelingStatus } from "../channellingStatus";
+import { ChannelingStatus } from "../Statuses/channellingStatus";
 import { FullSpellTarget } from "../spell";
 
 const CHANNEL_TIME = 200;

@@ -14,7 +14,9 @@ export const SpellLogDisplay = React.memo<SpellLogDisplayProps>(({ log }) => {
     <Stack gap={10} alignment="middle">
       <CombatantIcon {...log.caster} size={32} />
       <Icon icon={log.spellIcon} size={28} />
-      {log.damage && <span className={styles.tiny}>({-log.damage})</span>}
+      {log.damage && (
+        <span className={styles.tiny}>({-Math.round(log.damage)})</span>
+      )}
       {log.target && (
         <CombatantIcon {...log.target} horizontalFlip={true} size={32} />
       )}

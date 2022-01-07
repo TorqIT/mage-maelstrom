@@ -2,7 +2,7 @@ import { Icon, mmSnipe } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
-import { ChannelingStatus } from "../channellingStatus";
+import { ChannelingStatus } from "../Statuses/channellingStatus";
 import { FullSpellTarget, Spell } from "../spell";
 import { StatusEffect } from "../statusEffect";
 

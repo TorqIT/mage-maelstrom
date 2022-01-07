@@ -17,7 +17,7 @@ export const StatusEffectDisplay: React.FC<StatusEffectDisplayProps> = ({
       <div
         className={styles.timer}
         style={{
-          height: (statusEffect.ticksLeft / statusEffect.duration) * 28,
+          height: (statusEffect.ticksLeft / statusEffect.duration) * 24,
         }}
       ></div>
     </Stack>

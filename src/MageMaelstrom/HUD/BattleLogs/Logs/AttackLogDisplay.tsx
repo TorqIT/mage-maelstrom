@@ -14,7 +14,7 @@ export const AttackLogDisplay = React.memo<AttackLogDisplayProps>(({ log }) => {
     <Stack gap={10} alignment="middle">
       <CombatantIcon {...log.attacker} size={32} />
       <Icon icon={log.isCrit ? mmCrit : mmAttack} size={28} />
-      <span className={styles.tiny}>(-{log.damage})</span>
+      <span className={styles.tiny}>(-{Math.round(log.damage)})</span>
       <CombatantIcon {...log.target} horizontalFlip={true} size={32} />
       <span>{Math.max(0, Math.ceil(log.remainingHealth))} </span>
     </Stack>
