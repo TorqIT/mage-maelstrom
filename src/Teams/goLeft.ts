@@ -17,7 +17,7 @@ export class GoLeft extends Combatant {
       agility: 5,
       intelligence: 9,
 
-      abilities: ["potion", "teleport", "stun", "thorns"],
+      abilities: ["potion", "teleport", "burst", "thorns"],
     };
   }
   public init(): void {}
@@ -26,20 +26,18 @@ export class GoLeft extends Combatant {
     helpers,
     you,
     visibleEnemies,
-    spells: [potion, teleport, stun],
+    spells: [potion, teleport, burst],
   }: ActParams): Action {
     const coord = this.getRandomCoord();
     if (helpers.canPerform(actions.cast(teleport, coord))) {
       return actions.cast(teleport, coord);
     }
 
-    const closestEnemy = helpers.getClosest(visibleEnemies);
-
     if (
-      closestEnemy &&
-      helpers.canPerform(actions.cast(stun, closestEnemy.id))
+      helpers.canPerform(actions.cast(burst)) &&
+      visibleEnemies.some((e) => helpers.coords.isWithinRange(e.coords, 1.5))
     ) {
-      return actions.cast(stun, closestEnemy.id);
+      return actions.cast(burst);
     }
 
     if (

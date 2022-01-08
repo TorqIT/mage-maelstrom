@@ -11,6 +11,7 @@ import { Thorns } from "./Passives/thorns";
 import { Vision } from "./Passives/vision";
 import { Spell } from "./spell";
 import { Barrier } from "./Spells/barrier";
+import { Burst } from "./Spells/burst";
 import { Dash } from "./Spells/dash";
 import { Dispel } from "./Spells/dispel";
 import { Fireball } from "./Spells/fireball";
@@ -67,6 +68,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Teleport();
     case "haste":
       return new Haste();
+    case "burst":
+      return new Burst();
   }
 }
 

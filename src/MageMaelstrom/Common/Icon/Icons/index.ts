@@ -36,6 +36,7 @@ import frost from "./icicles-aura.svg";
 import teleport from "./teleport.svg";
 import clock from "./clockwork.svg";
 import haste from "./fire-dash.svg";
+import burst from "./mighty-force.svg";
 
 export interface IconDef {
   file: string;
@@ -220,4 +221,10 @@ export const mmHaste: IconDef = {
   file: haste,
   filter:
     "invert(50%) sepia(62%) saturate(2058%) hue-rotate(217deg) brightness(100%) contrast(103%)",
+};
+
+export const mmBurst: IconDef = {
+  file: burst,
+  filter:
+    "invert(43%) sepia(26%) saturate(2583%) hue-rotate(329deg) brightness(93%) contrast(112%)",
 };

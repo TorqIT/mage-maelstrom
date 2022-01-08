@@ -20,6 +20,7 @@ const spellTypes = [
   "dispel",
   "teleport",
   "haste",
+  "burst",
 ] as const;
 
 const passiveTypes = [
