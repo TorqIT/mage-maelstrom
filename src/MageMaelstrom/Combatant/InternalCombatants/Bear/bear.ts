@@ -1,8 +1,8 @@
 import { ReadonlyEntrantStatus, Action } from "../..";
+import { mmBear } from "../../../Common/Icon";
 import { Helpers } from "../../../Logic";
 import { ActionFactory } from "../../actions";
 import { ActParams, Combatant, CombatantDefinition } from "../../combatant";
-import bearIcon from "./bear.png";
 
 export class BearCombatant extends Combatant {
   private targetX = 0;
@@ -11,7 +11,7 @@ export class BearCombatant extends Combatant {
   public define(): CombatantDefinition {
     return {
       name: "A Bear",
-      icon: bearIcon,
+      icon: mmBear.file,
       strength: 10,
       agility: 8,
       intelligence: 5,

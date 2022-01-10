@@ -27,6 +27,7 @@ export const CombatantIcon = React.memo<CombatantIconProps>(
                 alt={name}
                 width={size}
                 height={size}
+                style={{ backgroundColor: "white" }}
               ></img>
             </Stack>
           </div>
