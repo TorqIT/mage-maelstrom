@@ -37,6 +37,7 @@ import teleport from "./teleport.svg";
 import clock from "./clockwork.svg";
 import haste from "./fire-dash.svg";
 import burst from "./mighty-force.svg";
+import mind from "./psychic-waves.svg";
 
 export interface IconDef {
   file: string;
@@ -225,6 +226,10 @@ export const mmHaste: IconDef = {
 
 export const mmBurst: IconDef = {
   file: burst,
+};
+
+export const mmMind: IconDef = {
+  file: mind,
   filter:
-    "invert(43%) sepia(26%) saturate(2583%) hue-rotate(329deg) brightness(93%) contrast(112%)",
+    "invert(73%) sepia(13%) saturate(5776%) hue-rotate(165deg) brightness(104%) contrast(97%)",
 };

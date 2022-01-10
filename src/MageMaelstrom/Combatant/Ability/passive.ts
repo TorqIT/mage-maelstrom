@@ -45,6 +45,10 @@ export abstract class Passive extends Ability {
     return 0;
   }
 
+  public getCooldownSpeedMultiplier() {
+    return 1;
+  }
+
   public onTakeDamage(attacker: Entrant, me: Entrant, type: DamageType) {}
   public onDealDamage(me: Entrant, target: Entrant, type: DamageType) {}
 }

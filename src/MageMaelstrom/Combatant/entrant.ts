@@ -205,7 +205,9 @@ export class Entrant {
     this.updateMeter(this.mana, this.getManaRegen());
 
     this.passives.forEach((p) => p.update(this, gameManager));
-    this.spells.forEach((s) => s.update());
+    this.spells.forEach((s) =>
+      s.update(aggMult(this.passives, (p) => p.getCooldownSpeedMultiplier()))
+    );
     this.statusEffects.forEach((e) => e.update(this));
 
     this.statusEffects = this.statusEffects.filter((e) => !e.isFinished());

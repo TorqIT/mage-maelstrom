@@ -16,7 +16,7 @@ class WowDude extends Combatant {
       agility: 20,
       intelligence: 10,
 
-      abilities: ["bear", "swift", "manasteal", "haste"],
+      abilities: ["bear", "swift", "manasteal", "mind"],
     };
   }
   public init(): void {}
@@ -24,14 +24,10 @@ class WowDude extends Combatant {
     actions,
     helpers,
     visibleEnemies,
-    spells: [bear, swift, haste],
+    spells: [bear, swift],
   }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
-    }
-
-    if (helpers.canPerform(actions.cast(haste))) {
-      return actions.cast(haste);
     }
 
     if (visibleEnemies.length > 0) {

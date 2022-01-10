@@ -110,9 +110,9 @@ export abstract class Spell extends Ability {
     return this.cooldownTimer > 0;
   }
 
-  public update() {
+  public update(cooldownRate: number) {
     if (this.cooldownTimer > 0) {
-      this.cooldownTimer--;
+      this.cooldownTimer -= cooldownRate;
     }
   }
 
