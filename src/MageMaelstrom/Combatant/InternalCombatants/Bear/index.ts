@@ -1,1 +1,0 @@
-export { BearCombatant } from "./bear";
