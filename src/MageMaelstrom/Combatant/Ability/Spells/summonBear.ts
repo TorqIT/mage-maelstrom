@@ -79,7 +79,7 @@ class BearPassive extends Passive {
   }
 
   public override getTurnSpeedMultiplier() {
-    return this.frenzy ? 4 / 3 : 0.8;
+    return this.frenzy ? 4 / 3 : 3 / 4;
   }
 }
 
