@@ -41,6 +41,14 @@ export abstract class Passive extends Ability {
     return 1;
   }
 
+  public getHealthRegenMultiplier() {
+    return 1;
+  }
+
+  public getHealMultiplier() {
+    return 1;
+  }
+
   public getManaRegenBonus() {
     return 0;
   }
@@ -50,6 +58,10 @@ export abstract class Passive extends Ability {
   }
 
   public getAttackRange() {
+    return 1;
+  }
+
+  public getAttackDamageMultiplier() {
     return 1;
   }
 

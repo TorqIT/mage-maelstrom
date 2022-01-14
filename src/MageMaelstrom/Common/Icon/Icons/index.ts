@@ -39,6 +39,7 @@ import haste from "./fire-dash.svg";
 import burst from "./mighty-force.svg";
 import mind from "./psychic-waves.svg";
 import ranged from "./arrow-scope.svg";
+import sentry from "./sentry-gun.svg";
 
 export interface IconDef {
   file: string;
@@ -237,4 +238,8 @@ export const mmMind: IconDef = {
 
 export const mmRanged: IconDef = {
   file: ranged,
+};
+
+export const mmSentry: IconDef = {
+  file: sentry,
 };

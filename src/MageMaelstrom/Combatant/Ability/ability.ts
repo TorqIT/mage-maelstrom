@@ -21,6 +21,7 @@ const spellTypes = [
   "teleport",
   "haste",
   "burst",
+  "sentry",
 ] as const;
 
 const passiveTypes = [
@@ -42,7 +43,7 @@ export type PassiveType = typeof passiveTypes[number];
 
 export type AbilityType = SpellType | PassiveType;
 
-const internalPassiveTypes = ["bearPassive"] as const;
+const internalPassiveTypes = ["bearPassive", "sentryPassive"] as const;
 
 export type InternalPassiveType = typeof internalPassiveTypes[number];
 export type ExtendedPassiveType = PassiveType | InternalPassiveType;

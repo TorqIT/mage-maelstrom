@@ -25,6 +25,7 @@ import { HealthPotion } from "./Spells/healthPotion";
 import { Meteor } from "./Spells/meteor";
 import { Poison } from "./Spells/poison";
 import { Regen } from "./Spells/regen";
+import { Sentry } from "./Spells/sentry";
 import { Slow } from "./Spells/slow";
 import { Snipe } from "./Spells/snipe";
 import { Stun } from "./Spells/stun";
@@ -72,6 +73,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Haste();
     case "burst":
       return new Burst();
+    case "sentry":
+      return new Sentry();
   }
 }
 

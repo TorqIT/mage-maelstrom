@@ -306,7 +306,10 @@ export class GameManager {
 
     if (result === "Success") {
       this.performAction(entrant, action);
-      if (action.type === ActionType.Dance) {
+      if (
+        action.type === ActionType.Dance &&
+        (entrant.isEssential() || action.error)
+      ) {
         loggingManager.logDance({
           dancer: entrant.getCombatantInfo(),
           error: action.error,

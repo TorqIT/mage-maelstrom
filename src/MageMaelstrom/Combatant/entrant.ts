@@ -228,7 +228,8 @@ export class Entrant {
     return (
       (this.health.regen +
         aggSum(this.statusEffects, (s) => s.getHealthRegenBonus())) *
-      aggMult(this.statusEffects, (s) => s.getHealthRegenMultiplier())
+      aggMult(this.statusEffects, (s) => s.getHealthRegenMultiplier()) *
+      aggMult(this.passives, (p) => p.getHealthRegenMultiplier())
     );
   }
 
@@ -281,7 +282,10 @@ export class Entrant {
       return;
     }
 
-    const damage = this.combatant.getDamage() * (damageMultiplier ?? 1);
+    const damage =
+      this.combatant.getDamage() *
+      aggMult(this.passives, (p) => p.getAttackDamageMultiplier()) *
+      (damageMultiplier ?? 1);
     const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
     this.passives.forEach((p) => p.onDealDamage(this, target, "attack"));
@@ -355,7 +359,8 @@ export class Entrant {
   }
 
   public heal(amount: number) {
-    this.health.value += amount;
+    this.health.value +=
+      amount * aggMult(this.passives, (p) => p.getHealMultiplier());
     this.clampMeter(this.health);
   }
 
