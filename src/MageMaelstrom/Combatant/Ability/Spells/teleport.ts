@@ -38,7 +38,8 @@ export class Teleport extends Spell {
         if (gameManager.isEmpty(target)) {
           caster.getCoords().teleportTo(target);
         }
-      })
+      }),
+      caster
     );
   }
 }

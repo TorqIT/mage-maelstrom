@@ -31,7 +31,7 @@ export class Thorns extends Passive {
     type: DamageType
   ) {
     if (type === "attack") {
-      attacker.takeDamage(THORN_DAMAGE, you, "pure");
+      attacker.takeDamage(THORN_DAMAGE, you, "pure", "thorns");
 
       loggingManager.logSpell({
         caster: you.getCombatantInfo(),

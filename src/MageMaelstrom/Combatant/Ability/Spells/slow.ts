@@ -32,7 +32,7 @@ export class Slow extends Spell {
     target: Entrant,
     gameManager: GameManager
   ): void {
-    target.applyStatusEffect(new SlowStatus());
+    target.applyStatusEffect(new SlowStatus(), caster);
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),

@@ -33,7 +33,7 @@ export class Snipe extends Spell {
   ): void {
     caster.applyStatusEffect(
       new ChannelingStatus(AIM_TIME, "Snipe", mmSnipe, () => {
-        target.takeDamage(DAMAGE, caster, "magic");
+        target.takeDamage(DAMAGE, caster, "magic", "snipe");
 
         loggingManager.logSpell({
           caster: caster.getCombatantInfo(),
@@ -42,7 +42,8 @@ export class Snipe extends Spell {
           damage: DAMAGE,
           remainingHealth: target.getHealth(),
         });
-      })
+      }),
+      caster
     );
 
     loggingManager.logSpell({

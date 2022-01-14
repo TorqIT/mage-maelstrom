@@ -1,11 +1,12 @@
-import { Combatant } from "../MageMaelstrom";
-import { ReadonlyCoordinate } from "../MageMaelstrom/Arena";
 import {
-  CombatantDefinition,
-  Action,
-  ActParams,
-} from "../MageMaelstrom/Combatant";
-import { Helpers } from "../MageMaelstrom/Logic";
+  AbilityType,
+  Combatant,
+  DamageType,
+  SpellType,
+  StatusEffectType,
+} from "../MageMaelstrom";
+import { ReadonlyCoordinate } from "../MageMaelstrom/Arena";
+import { CombatantDefinition, Action, ActParams } from "../MageMaelstrom";
 
 export class GoLeft extends Combatant {
   public define(): CombatantDefinition {
@@ -56,4 +57,15 @@ export class GoLeft extends Combatant {
       y: Math.floor(Math.random() * this.getGameSpecs().arena.height),
     };
   }
+
+  public onTakeDamage(
+    enemyId: number,
+    damage: number,
+    type: DamageType,
+    ability?: AbilityType
+  ): void {}
+  public onNegativeStatusApplied(
+    enemyId: number,
+    status: StatusEffectType
+  ): void {}
 }

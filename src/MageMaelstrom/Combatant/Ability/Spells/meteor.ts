@@ -48,7 +48,7 @@ export class Meteor extends Spell {
         );
 
         entrants.forEach((e) => {
-          e.takeDamage(DAMAGE, caster, "magic");
+          e.takeDamage(DAMAGE, caster, "magic", "meteor");
 
           loggingManager.logSpell({
             caster: caster.getCombatantInfo(),
@@ -58,7 +58,8 @@ export class Meteor extends Spell {
             remainingHealth: e.getHealth(),
           });
         });
-      })
+      }),
+      caster
     );
 
     loggingManager.logSpell({

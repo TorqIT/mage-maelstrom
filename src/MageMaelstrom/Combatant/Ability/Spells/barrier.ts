@@ -35,7 +35,7 @@ export class Barrier extends Spell {
     target: Entrant | undefined,
     gameManager: GameManager
   ): void {
-    (target ?? caster).applyStatusEffect(new BarrierStatus());
+    (target ?? caster).applyStatusEffect(new BarrierStatus(), caster);
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),

@@ -34,7 +34,7 @@ export class Fireball extends Spell {
     if (!target || typeof target === "string" || isCoordinate(target)) {
       return;
     }
-    target.takeDamage(DAMAGE, caster, "magic");
+    target.takeDamage(DAMAGE, caster, "magic", "fireball");
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),
@@ -44,7 +44,7 @@ export class Fireball extends Spell {
       spellIcon: mmFireball,
     });
 
-    target.applyStatusEffect(new OnFire(caster));
+    target.applyStatusEffect(new OnFire(caster), caster);
   }
 }
 
@@ -74,7 +74,7 @@ class OnFire extends StatusEffect {
 
   public override updateEffect(entrant: Entrant) {
     if (this.timer % 50 === 1) {
-      entrant.takeDamage(DOT / 2, this.source, "magic");
+      entrant.takeDamage(DOT / 2, this.source, "magic", "fireball");
     }
   }
 }

@@ -32,15 +32,11 @@ export class Regen extends Spell {
     target: Entrant | undefined,
     gameManager: GameManager
   ): void {
-    if (target) {
-      target.applyStatusEffect(new RegenStatus());
-    } else {
-      caster.applyStatusEffect(new RegenStatus());
-    }
+    (target ?? caster).applyStatusEffect(new RegenStatus(), caster);
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),
-      target: target ? target.getCombatantInfo() : undefined,
+      target: target?.getCombatantInfo(),
       spellIcon: mmRegen,
     });
   }

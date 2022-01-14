@@ -29,7 +29,7 @@ export class Flash extends Spell {
     target: FullSpellTarget,
     gameManager: GameManager
   ): void {
-    caster.applyStatusEffect(new FlashStatus());
+    caster.applyStatusEffect(new FlashStatus(), caster);
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),

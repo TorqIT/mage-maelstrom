@@ -1,3 +1,4 @@
+import { AbilityType, SpellType, StatusEffectType } from "..";
 import {
   Action,
   ActionFactory,
@@ -9,7 +10,7 @@ import { mmBear } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { Helpers } from "../../../Logic";
 import { GameManager } from "../../../Logic/GameManager";
-import { Entrant, ReadonlyEntrantStatus } from "../../entrant";
+import { DamageType, Entrant, ReadonlyEntrantStatus } from "../../entrant";
 import { Passive } from "../passive";
 import { FullSpellTarget, Spell } from "../spell";
 import { Temporality } from "../Statuses/temporality";
@@ -51,7 +52,7 @@ export class SummonBear extends Spell {
     );
 
     bear.addPassive(new BearPassive());
-    bear.applyStatusEffect(new Temporality(DURATION));
+    bear.applyStatusEffect(new Temporality(DURATION), bear);
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),
@@ -152,4 +153,15 @@ class BearCombatant extends Combatant {
     this.targetX = Math.floor(Math.random() * this.getGameSpecs().arena.width);
     this.targetY = Math.floor(Math.random() * this.getGameSpecs().arena.height);
   }
+
+  public onTakeDamage(
+    enemyId: number,
+    damage: number,
+    type: DamageType,
+    ability?: AbilityType
+  ): void {}
+  public onNegativeStatusApplied(
+    enemyId: number,
+    status: StatusEffectType
+  ): void {}
 }

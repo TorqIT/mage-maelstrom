@@ -1,8 +1,12 @@
 import {
+  AbilityType,
   Action,
   ActParams,
   Combatant,
   CombatantDefinition,
+  DamageType,
+  SpellType,
+  StatusEffectType,
 } from "../Combatant";
 
 export class ServerCombatant extends Combatant {
@@ -28,4 +32,15 @@ export class ServerCombatant extends Combatant {
   }: ActParams): Action {
     return actions.dance();
   }
+
+  public onTakeDamage(
+    enemyId: number,
+    damage: number,
+    type: DamageType,
+    ability?: AbilityType
+  ): void {}
+  public onNegativeStatusApplied(
+    enemyId: number,
+    status: StatusEffectType
+  ): void {}
 }

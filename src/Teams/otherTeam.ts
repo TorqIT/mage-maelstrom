@@ -1,6 +1,13 @@
-import { Combatant, Team } from "../MageMaelstrom";
+import {
+  AbilityType,
+  Combatant,
+  DamageType,
+  SpellType,
+  StatusEffectType,
+  Team,
+} from "../MageMaelstrom";
 import { MovementDirection } from "../MageMaelstrom/Arena";
-import { ActParams, CombatantDefinition } from "../MageMaelstrom/Combatant";
+import { ActParams, CombatantDefinition } from "../MageMaelstrom";
 import { Action } from "../MageMaelstrom/Combatant/actions";
 
 class WowDude extends Combatant {
@@ -57,6 +64,17 @@ class WowDude extends Combatant {
 
     return actions.move(this.dirPriority[this.target]);
   }
+
+  public onTakeDamage(
+    enemyId: number,
+    damage: number,
+    type: DamageType,
+    ability?: AbilityType
+  ): void {}
+  public onNegativeStatusApplied(
+    enemyId: number,
+    status: StatusEffectType
+  ): void {}
 }
 
 const otherTeam: Team = {

@@ -38,8 +38,9 @@ export class HealthPotion extends Spell {
   ): void {
     caster.applyStatusEffect(
       new ChannelingStatus(DRINK_TIME, "Health Potion", mmHealthPotion, () => {
-        (target ?? caster).applyStatusEffect(new HealthPotionStatus());
-      })
+        (target ?? caster).applyStatusEffect(new HealthPotionStatus(), caster);
+      }),
+      caster
     );
 
     loggingManager.logSpell({

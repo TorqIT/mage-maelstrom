@@ -34,7 +34,7 @@ export class Haste extends Spell {
     target: Entrant | undefined,
     gameManager: GameManager
   ): void {
-    (target ?? caster).applyStatusEffect(new HasteStatus());
+    (target ?? caster).applyStatusEffect(new HasteStatus(), caster);
   }
 }
 

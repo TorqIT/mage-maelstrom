@@ -28,7 +28,7 @@ export class Stun extends Spell {
     target: Entrant,
     gameManager: GameManager
   ): void {
-    target.applyStatusEffect(new StunStatus());
+    target.applyStatusEffect(new StunStatus(), caster);
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),

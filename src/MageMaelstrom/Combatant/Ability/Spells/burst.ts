@@ -37,7 +37,7 @@ export class Burst extends Spell {
     );
 
     enemies.forEach((e) => {
-      e.takeDamage(DAMAGE, caster, "magic");
+      e.takeDamage(DAMAGE, caster, "magic", "burst");
 
       const dir = caster.getCoords().getRelativeDirectionOf(e.getCoords());
 

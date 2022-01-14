@@ -35,7 +35,7 @@ export class Poison extends Spell {
       return;
     }
 
-    target.applyStatusEffect(new Poisoned(caster));
+    target.applyStatusEffect(new Poisoned(caster), caster);
 
     loggingManager.logSpell({
       caster: caster.getCombatantInfo(),
@@ -73,7 +73,7 @@ export class Poisoned extends StatusEffect {
 
   public override updateEffect(entrant: Entrant) {
     if (this.timer % 50 === 1) {
-      entrant.takeDamage(DAMAGE / 2, this.source, "magic");
+      entrant.takeDamage(DAMAGE / 2, this.source, "magic", "poison");
     }
   }
 }

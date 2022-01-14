@@ -33,7 +33,9 @@ export class Frost extends Passive {
       "enemies"
     );
 
-    adjacentEnemies.forEach((e) => e.applyStatusEffect(new FrostStatus()));
+    adjacentEnemies.forEach((e) =>
+      e.applyStatusEffect(new FrostStatus(), self)
+    );
   }
 }
 

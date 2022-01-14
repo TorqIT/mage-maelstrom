@@ -320,15 +320,34 @@ export class Entrant {
     actualSpell.cast(this, target, gameManager);
   }
 
-  public takeDamage(amount: number, source: Entrant, damageType: DamageType) {
+  public takeDamage(
+    amount: number,
+    source: Entrant,
+    damageType: DamageType,
+    ability?: AbilityType
+  ) {
     this.passives.forEach((p) => p.onTakeDamage(source, this, damageType));
-    this.health.value -=
+    const actualDamage =
       amount *
       aggMult(this.passives, (p) => p.getDamageTakenMultiplier(damageType)) *
       aggMult(this.statusEffects, (s) =>
         s.getDamageTakenMultiplier(damageType)
       );
+
+    this.health.value -= actualDamage;
+
     this.clampMeter(this.health);
+
+    try {
+      this.combatant.onTakeDamage(
+        source.getId(),
+        actualDamage,
+        damageType,
+        ability
+      );
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   public heal(amount: number) {
@@ -345,11 +364,22 @@ export class Entrant {
     meter.value = Math.max(0, Math.min(meter.value, meter.max));
   }
 
-  public applyStatusEffect(effect: StatusEffect) {
+  public applyStatusEffect(effect: StatusEffect, source: Entrant) {
     this.statusEffects = this.statusEffects.filter(
       (e) => e.getType() !== effect.getType()
     );
     this.statusEffects.push(effect);
+
+    if (!effect.isPositive()) {
+      try {
+        this.combatant.onNegativeStatusApplied(
+          source.getId(),
+          effect.getType()
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 
   public clearStatusEffects(clearNegative: boolean) {
