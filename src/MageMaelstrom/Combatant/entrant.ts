@@ -288,9 +288,6 @@ export class Entrant {
       (damageMultiplier ?? 1);
     const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
-    this.passives.forEach((p) => p.onDealDamage(this, target, "attack"));
-    target.takeDamage(damage * mult, this, "attack");
-
     loggingManager.logAttack({
       target: target.getCombatantInfo(),
       attacker: this.getCombatantInfo(),
@@ -298,6 +295,9 @@ export class Entrant {
       remainingHealth: target.getHealth(),
       isCrit: mult !== 1,
     });
+
+    this.passives.forEach((p) => p.onDealDamage(this, target, "attack"));
+    target.takeDamage(damage * mult, this, "attack");
   }
 
   public canCast(
@@ -346,15 +346,19 @@ export class Entrant {
 
     this.clampMeter(this.health);
 
-    try {
-      this.combatant.onTakeDamage(
-        source.getId(),
-        actualDamage,
-        damageType,
-        ability
-      );
-    } catch (e) {
-      console.error(e);
+    if (this.health.value > 0) {
+      try {
+        this.combatant.onTakeDamage(
+          source.getId(),
+          actualDamage,
+          damageType,
+          ability
+        );
+      } catch (e) {
+        console.error(e);
+      }
+    } else if (this.essential) {
+      loggingManager.logDeath({ entrant: this.getCombatantInfo() });
     }
   }
 

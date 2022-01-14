@@ -3,6 +3,7 @@ import {
   AttackLog,
   BattleLogEvent,
   DanceLog,
+  DeathLog,
   LogType,
   SpellLog,
   VictoryLog,
@@ -62,6 +63,16 @@ class LoggingManager {
       ...log,
       id: nextId(),
       type: LogType.Dance,
+    });
+
+    this.changed();
+  }
+
+  public logDeath(log: Omit<DeathLog, "id" | "type">) {
+    this.logs.push({
+      ...log,
+      id: nextId(),
+      type: LogType.Death,
     });
 
     this.changed();

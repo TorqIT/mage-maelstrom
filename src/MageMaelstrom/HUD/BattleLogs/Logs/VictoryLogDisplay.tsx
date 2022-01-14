@@ -35,14 +35,14 @@ export const VictoryLogDisplay = React.memo<VictoryLogDisplayProps>(
           {team.entrants
             .filter((e) => e.essential)
             .map((e) => (
-              <div className={styles.icon} key={e.status.id}>
-                <CombatantIcon
-                  name={e.combatant.name}
-                  icon={e.combatant.icon}
-                  color={e.color}
-                  horizontalFlip={team.flip}
-                />
-              </div>
+              <CombatantIcon
+                key={e.status.id}
+                name={e.combatant.name}
+                icon={e.combatant.icon}
+                color={e.color}
+                horizontalFlip={team.flip}
+                size={94}
+              />
             ))}
         </Stack>
       </Stack>

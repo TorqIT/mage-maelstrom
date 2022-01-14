@@ -7,6 +7,7 @@ import { useLogging } from "../../Logging/LoggingProvider";
 import { SpellLogDisplay } from "./Logs/SpellLogDisplay";
 import { DanceLogDisplay } from "./Logs/DanceLogDisplay";
 import { useVirtual } from "react-virtual";
+import { DeathLogDisplay } from "./Logs/DeathLogDisplay";
 
 export interface BattleLogsProps {}
 
@@ -25,6 +26,8 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
           return 54;
         case LogType.Victory:
           return 201;
+        case LogType.Death:
+          return 104;
       }
     },
     [logs]
@@ -51,6 +54,8 @@ export const BattleLogs: React.FC<BattleLogsProps> = ({}) => {
         return <SpellLogDisplay log={log} />;
       case LogType.Dance:
         return <DanceLogDisplay log={log} />;
+      case LogType.Death:
+        return <DeathLogDisplay log={log} />;
     }
   };
 

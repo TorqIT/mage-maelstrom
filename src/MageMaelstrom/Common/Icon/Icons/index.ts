@@ -40,6 +40,7 @@ import burst from "./mighty-force.svg";
 import mind from "./psychic-waves.svg";
 import ranged from "./arrow-scope.svg";
 import sentry from "./sentry-gun.svg";
+import skull from "./skull-crack.svg";
 
 export interface IconDef {
   file: string;
@@ -242,4 +243,10 @@ export const mmRanged: IconDef = {
 
 export const mmSentry: IconDef = {
   file: sentry,
+};
+
+export const mmSkull: IconDef = {
+  file: skull,
+  filter:
+    "invert(100%) sepia(0%) saturate(2%) hue-rotate(206deg) brightness(108%) contrast(101%)",
 };
