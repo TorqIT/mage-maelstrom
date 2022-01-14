@@ -38,6 +38,7 @@ import clock from "./clockwork.svg";
 import haste from "./fire-dash.svg";
 import burst from "./mighty-force.svg";
 import mind from "./psychic-waves.svg";
+import ranged from "./arrow-scope.svg";
 
 export interface IconDef {
   file: string;
@@ -232,4 +233,8 @@ export const mmMind: IconDef = {
   file: mind,
   filter:
     "invert(73%) sepia(13%) saturate(5776%) hue-rotate(165deg) brightness(104%) contrast(97%)",
+};
+
+export const mmRanged: IconDef = {
+  file: ranged,
 };

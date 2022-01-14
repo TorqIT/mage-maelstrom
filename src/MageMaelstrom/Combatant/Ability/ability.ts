@@ -34,6 +34,7 @@ const passiveTypes = [
   "evasion",
   "frost",
   "mind",
+  "ranged",
 ] as const;
 
 export type SpellType = typeof spellTypes[number];

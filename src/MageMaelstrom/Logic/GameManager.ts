@@ -377,7 +377,9 @@ export class GameManager {
       return "TargetIsDead";
     }
 
-    return entrant.getCoords().isNextTo(targetEntrant.getCoords())
+    return entrant
+      .getCoords()
+      .isWithinRangeOf(entrant.getAttackRange(), targetEntrant.getCoords())
       ? "Success"
       : "OutOfRange";
   }

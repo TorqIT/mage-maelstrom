@@ -20,7 +20,7 @@ import {
 import { Combatant, CombatantDefinition } from "./combatant";
 import { loggingManager } from "../Logging";
 import { GameManager } from "../Logic/GameManager";
-import { aggMult, aggSum } from "../Common/aggregates";
+import { aggMax, aggMult, aggSum } from "../Common/aggregates";
 import { ActionFactory } from "./actions";
 import { mmEvasion } from "../Common/Icon";
 
@@ -180,6 +180,10 @@ export class Entrant {
       aggSum(this.passives, (p) => p.getVisionAdjustment()) +
       aggSum(this.statusEffects, (s) => s.getVisionAdjustment())
     );
+  }
+
+  public getAttackRange() {
+    return aggMax(this.passives, (p) => p.getAttackRange(), 1);
   }
 
   private rollForEvasion() {
