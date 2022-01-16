@@ -14,6 +14,7 @@ export class Fireball extends Spell {
     super({
       desc: {
         name: "Fireball",
+        category: "damage",
         description:
           `Deal ${DAMAGE} and set the target ablaze, dealing ${DOT} damage per second for ` +
           `${DURATION / 100}s and halving their regen.`,

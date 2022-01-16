@@ -20,6 +20,7 @@ export class HealthPotion extends Spell {
       range: 2,
       desc: {
         name: "Health Potion",
+        category: "restoration",
         description:
           `Drink down a health potion after ${DRINK_TIME / 100}s and heal ` +
           `${HEAL_PER_SECOND} health per second for ${

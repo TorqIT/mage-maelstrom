@@ -16,6 +16,7 @@ export class Flash extends Spell {
       targetTypes: "nothing",
       desc: {
         name: "Flash",
+        category: "buff",
         description: `Gain vision over the entire arena for ${
           DURATION / 100
         } second(s)`,

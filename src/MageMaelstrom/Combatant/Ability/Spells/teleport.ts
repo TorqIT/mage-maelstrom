@@ -18,6 +18,7 @@ export class Teleport extends Spell {
       targetTypes: "coordinate",
       desc: {
         name: "Teleport",
+        category: "mobility",
         description:
           `After channeling for ${
             CHANNEL_TIME / 100

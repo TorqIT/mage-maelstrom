@@ -13,6 +13,7 @@ export class Frost extends Passive {
       type: "frost",
       desc: {
         name: "Frost Aura",
+        category: "restoration",
         description: `+${MANA_REGEN} mana regen. Enemies standing next to you are slowed by ${invertPercentage(
           SLOW
         )}%`,

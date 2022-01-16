@@ -23,7 +23,7 @@ class WowDude extends Combatant {
       agility: 20,
       intelligence: 10,
 
-      abilities: ["sentry", "swift", "manasteal", "ranged"],
+      abilities: ["bear", "swift", "manasteal", "ranged"],
     };
   }
   public init(): void {}

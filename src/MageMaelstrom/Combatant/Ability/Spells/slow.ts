@@ -18,6 +18,7 @@ export class Slow extends Spell {
       targetTypes: "entrant",
       desc: {
         name: "Slow",
+        category: "debuff",
         description: `Reduces the target's turn frequency by ${(
           (1 - SLOW_MULT) *
           100

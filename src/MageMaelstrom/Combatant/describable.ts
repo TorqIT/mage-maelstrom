@@ -6,3 +6,14 @@ export interface DescriptiveIcon {
   description: string;
   flavorText?: string;
 }
+
+export interface CategorizedDescriptiveIcon extends DescriptiveIcon {
+  category:
+    | "damage"
+    | "restoration"
+    | "defensive"
+    | "mobility"
+    | "summon"
+    | "buff"
+    | "debuff";
+}

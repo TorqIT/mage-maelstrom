@@ -15,6 +15,7 @@ export class Dispel extends Spell {
       targetTypes: ["entrant", "nothing"],
       desc: {
         name: "Dispel",
+        category: "restoration",
         description:
           "If cast on an ally, clear all negative status effects. If cast on " +
           "an enemy, clear all positive status effects. Channeling cannot be dispelled.",

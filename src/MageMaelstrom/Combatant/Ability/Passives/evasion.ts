@@ -10,6 +10,7 @@ export class Evasion extends Passive {
       type: "evasion",
       desc: {
         name: "Evasion",
+        category: "defensive",
         description: `${CHANCE * 100}% chance to dodge incoming attacks`,
         icon: mmEvasion,
       },

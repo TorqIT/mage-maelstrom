@@ -18,6 +18,7 @@ export class Snipe extends Spell {
       targetTypes: "entrant",
       desc: {
         name: "Snipe",
+        category: "damage",
         description: `Aim for ${
           AIM_TIME / 100
         } seconds and then fire a bolt that does ${DAMAGE} damage. Unlimited range.`,

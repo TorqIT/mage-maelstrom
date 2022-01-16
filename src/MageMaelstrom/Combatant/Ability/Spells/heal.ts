@@ -16,6 +16,7 @@ export class Heal extends Spell {
       targetTypes: ["nothing", "entrant"],
       desc: {
         name: "Heal",
+        category: "restoration",
         description: `Heal the target for ${HEAL_AMOUNT} health`,
         icon: mmHeal,
       },

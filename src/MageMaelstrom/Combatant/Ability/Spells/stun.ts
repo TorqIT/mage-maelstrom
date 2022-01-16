@@ -17,6 +17,7 @@ export class Stun extends Spell {
       targetTypes: "entrant",
       desc: {
         name: "Stun",
+        category: "debuff",
         description: `Stuns the target for ${DURATION / 100} seconds`,
         icon: mmStun,
       },

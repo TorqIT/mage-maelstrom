@@ -18,6 +18,7 @@ export class Force extends Spell {
       targetTypes: ["direction", "entrant"],
       desc: {
         icon: mmForce,
+        category: "mobility",
         name: "Force",
         description: `Deal ${DAMAGE} damage to an enemy target and push them ${DISTANCE} tiles away`,
       },

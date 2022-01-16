@@ -1,12 +1,6 @@
 import Pathfinding from "pathfinding";
 import { Coordinate, MovementDirection, ReadonlyCoordinate } from "../Arena";
-import {
-  AbilityType,
-  ExtendedAbilityType,
-  SpellStatus,
-  SpellTarget,
-  SpellType,
-} from "./Ability";
+import { ExtendedAbilityType, SpellStatus, SpellTarget } from "./Ability";
 import { ReadonlyEntrantStatus } from "./entrant";
 
 export enum ActionType {

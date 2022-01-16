@@ -22,6 +22,7 @@ export class Meteor extends Spell {
       targetTypes: "coordinate",
       desc: {
         name: "Meteor",
+        category: "damage",
         description:
           `Channel for ${DELAY / 100} seconds to summon a meteor that ` +
           `deals ${DAMAGE} damage in a ${RADIUS} radius. Starts on a ${

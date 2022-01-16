@@ -16,6 +16,7 @@ export class Teleportitis extends Passive {
       type: "teleportitis",
       desc: {
         name: "Teleportitis",
+        category: "mobility",
         description:
           `Every ${MIN_DELAY / 100} to ${
             MAX_DELAY / 100

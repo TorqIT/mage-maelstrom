@@ -1,7 +1,7 @@
+import { CategorizedDescriptiveIcon } from "..";
 import { nextId } from "../../Common";
-import { DescriptiveIcon } from "../describable";
 
-const spellTypes = [
+export const spellTypeArray = [
   "fireball",
   "poison",
   "bear",
@@ -24,7 +24,7 @@ const spellTypes = [
   "sentry",
 ] as const;
 
-const passiveTypes = [
+export const passiveTypeArray = [
   "talented",
   "critical",
   "thorns",
@@ -38,8 +38,8 @@ const passiveTypes = [
   "ranged",
 ] as const;
 
-export type SpellType = typeof spellTypes[number];
-export type PassiveType = typeof passiveTypes[number];
+export type SpellType = typeof spellTypeArray[number];
+export type PassiveType = typeof passiveTypeArray[number];
 
 export type AbilityType = SpellType | PassiveType;
 
@@ -51,15 +51,15 @@ export type ExtendedPassiveType = PassiveType | InternalPassiveType;
 export type ExtendedAbilityType = SpellType | ExtendedPassiveType;
 
 export function isSpell(type: AbilityType): type is SpellType {
-  return spellTypes.includes(type as SpellType);
+  return spellTypeArray.includes(type as SpellType);
 }
 
 export function isPassive(type: ExtendedAbilityType): type is PassiveType {
-  return passiveTypes.includes(type as PassiveType);
+  return passiveTypeArray.includes(type as PassiveType);
 }
 
 export interface AbilityDefinition {
-  desc?: DescriptiveIcon;
+  desc?: CategorizedDescriptiveIcon;
   type: ExtendedAbilityType;
 }
 

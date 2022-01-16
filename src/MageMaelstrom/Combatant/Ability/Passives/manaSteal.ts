@@ -11,6 +11,7 @@ export class ManaSteal extends Passive {
       type: "manasteal",
       desc: {
         name: "Mana Steal",
+        category: "restoration",
         description: `Steal ${MANA_STEAL} mana each time you attack a target (if they have mana to steal)`,
         icon: mmManaSteal,
       },

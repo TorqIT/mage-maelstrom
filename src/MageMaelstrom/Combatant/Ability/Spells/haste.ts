@@ -17,6 +17,7 @@ export class Haste extends Spell {
       range: 5,
       desc: {
         name: "Burning Haste",
+        category: "mobility",
         description:
           `Boosts the target's turn speed up to ${HIGH_SPEED_MULT}x, then slows ` +
           `them down to ${LOW_SPEED_MULT}x speed over ${

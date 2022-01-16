@@ -16,6 +16,7 @@ export class Swift extends Spell {
       range: 1,
       desc: {
         name: "Swift",
+        category: "damage",
         description: `Attack twice at ${DAMAGE_MULT * 100}% attack damage`,
         icon: mmSwift,
       },

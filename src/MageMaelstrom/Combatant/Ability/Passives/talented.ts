@@ -9,6 +9,7 @@ export class Talented extends Passive {
       type: "talented",
       desc: {
         name: "Talented",
+        category: "buff",
         description: `+${MAX_STAT_BOOST} Max Stats`,
         icon: mmTalented,
       },

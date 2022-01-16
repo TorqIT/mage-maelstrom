@@ -10,6 +10,7 @@ export class Critical extends Passive {
       desc: {
         name: "Critical",
         icon: mmCrit,
+        category: "damage",
         description: `Every attack has a ${
           CRIT_CHANCE * 100
         }% to critical hit for double damage`,

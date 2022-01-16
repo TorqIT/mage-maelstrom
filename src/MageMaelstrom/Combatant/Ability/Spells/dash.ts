@@ -17,6 +17,7 @@ export class Dash extends Spell {
       targetTypes: "direction",
       desc: {
         name: "Dash",
+        category: "mobility",
         description: `Leap forward ${DISTANCE} tiles`,
         icon: mmDash,
       },

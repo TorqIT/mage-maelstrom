@@ -20,6 +20,7 @@ export class Barrier extends Spell {
       targetTypes: ["nothing", "entrant"],
       desc: {
         name: "Barrier",
+        category: "defensive",
         description:
           `Reduce magic damage taken by ${invertPercentage(MAGIC_MULT)}% and ` +
           `attack damage taken by ${invertPercentage(ATTACK_MULT)}% for ${

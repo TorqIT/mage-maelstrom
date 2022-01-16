@@ -20,6 +20,7 @@ export class Sentry extends Spell {
       targetTypes: "nothing",
       desc: {
         name: "Build Sentry",
+        category: "summon",
         description:
           "Builds an immobile sentry gun that shoots anything that gets close.  " +
           `Sentries are slightly resistant to magic but cannot be healed. Lasts ${

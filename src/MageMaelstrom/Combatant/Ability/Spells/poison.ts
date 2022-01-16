@@ -15,6 +15,7 @@ export class Poison extends Spell {
       desc: {
         icon: mmPoison,
         name: "Poison",
+        category: "damage",
         description:
           `Poisons the target for ${DAMAGE} damage per second for ${SECONDS} seconds ` +
           ` and slowing them by ${((1 - SLOW) * 100).toFixed(0)}%`,

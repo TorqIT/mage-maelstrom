@@ -13,6 +13,7 @@ export class Vision extends Passive {
       type: "vision",
       desc: {
         icon: mmVision,
+        category: "buff",
         name: "Vision",
         description: `Increases vision range by ${EXTRA_VISION}`,
       },

@@ -9,6 +9,7 @@ export class DoubleTap extends Passive {
       type: "doubletap",
       desc: {
         name: "Double Tap",
+        category: "damage",
         description:
           `${CHANCE * 100}% chance to immediately act again after an action. ` +
           `Follow up actions have the same chance to have more follow up actions.`,

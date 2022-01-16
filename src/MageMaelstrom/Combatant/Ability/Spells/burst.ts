@@ -16,6 +16,7 @@ export class Burst extends Spell {
       targetTypes: "nothing",
       desc: {
         name: "Burst",
+        category: "damage",
         description:
           `Emit a great burst of energy, hitting all enemies standing next to you ` +
           `(including diagonally), dealing ${DAMAGE} damage and pushing them 2 tiles away.`,

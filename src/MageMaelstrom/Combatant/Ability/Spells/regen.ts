@@ -19,6 +19,7 @@ export class Regen extends Spell {
       targetTypes: ["entrant", "nothing"],
       desc: {
         name: "Regen",
+        category: "restoration",
         description: `Increases the target's regeneration by ${REGEN_PER_SECOND}/s for ${
           DURATION / 100
         } seconds`,
