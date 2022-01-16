@@ -7,8 +7,8 @@ export class Ranged extends Passive {
       type: "ranged",
       desc: {
         name: "Ranged",
-        category: "buff",
-        description: "Increased attack range to 2. Doesn't stack.",
+        category: "buffs",
+        description: "Increases attack range to 2. Doesn't stack.",
         icon: mmRanged,
       },
     });

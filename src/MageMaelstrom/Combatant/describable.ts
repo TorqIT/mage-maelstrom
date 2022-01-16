@@ -13,7 +13,7 @@ export interface CategorizedDescriptiveIcon extends DescriptiveIcon {
     | "restoration"
     | "defensive"
     | "mobility"
-    | "summon"
-    | "buff"
-    | "debuff";
+    | "summons"
+    | "buffs"
+    | "debuffs";
 }

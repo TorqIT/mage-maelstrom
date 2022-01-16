@@ -33,7 +33,8 @@ function App() {
           healthPerStrength: 12,
           healthRegenPerStrength: 0.2,
 
-          agilityBonus: 1.025,
+          baseAttackPeriod: 120,
+          agilityBonus: 0.04,
 
           baseMana: 10,
           baseManaRegen: 0.2,

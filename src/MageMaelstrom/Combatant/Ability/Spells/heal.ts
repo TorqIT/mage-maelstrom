@@ -13,7 +13,7 @@ export class Heal extends Spell {
       cooldown: 1000,
       manaCost: 10,
       range: 6,
-      targetTypes: ["nothing", "entrant"],
+      targetTypes: ["entrant", "nothing"],
       desc: {
         name: "Heal",
         category: "restoration",

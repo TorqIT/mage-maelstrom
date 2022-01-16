@@ -21,7 +21,11 @@ export const PassiveGuide: React.FC<PassiveGuideProps> = ({ status }) => {
           gap={10}
           style={{ justifyContent: "start", fontStyle: "italic" }}
         >
-          <Icon icon={status.desc?.icon} size={48} /> {status.desc?.name}
+          <Icon icon={status.desc?.icon} size={48} />{" "}
+          <Stack direction="vertical" gap={5}>
+            <span>{status.desc?.name}</span>
+            <code className={styles.type}>{status.type}</code>
+          </Stack>
         </Stack>
       </Stack.Item>
       <Stack.Item>{status.desc.description}</Stack.Item>

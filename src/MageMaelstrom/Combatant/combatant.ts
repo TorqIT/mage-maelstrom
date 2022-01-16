@@ -113,7 +113,8 @@ export abstract class Combatant {
 
   public getTurnDelay() {
     return Math.ceil(
-      100 / Math.pow(this.gameSpecs.stats.agilityBonus, this.def.agility)
+      this.gameSpecs.stats.baseAttackPeriod /
+        (1 + this.gameSpecs.stats.agilityBonus * this.def.agility)
     );
   }
 

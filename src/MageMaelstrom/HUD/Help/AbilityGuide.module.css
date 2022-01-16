@@ -15,7 +15,8 @@
   font-size: 14px;
 }
 
-.target {
+.target,
+.type {
   border: 1px solid rgb(77, 76, 99);
   background-color: rgb(36, 34, 56);
   padding: 2px 4px;

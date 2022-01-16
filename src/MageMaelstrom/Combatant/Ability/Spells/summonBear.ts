@@ -27,7 +27,7 @@ export class SummonBear extends Spell {
       desc: {
         icon: mmBear,
         name: "Summon Bear",
-        category: "summon",
+        category: "summons",
         description:
           `Summon a ${STRENGTH}/${AGILITY}/${INTELLIGENCE} bear that lasts for ${
             DURATION / 100

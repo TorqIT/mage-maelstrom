@@ -15,7 +15,7 @@ export class PresenceOfMind extends Passive {
       type: "mind",
       desc: {
         name: "Presence of Mind",
-        category: "buff",
+        category: "buffs",
         description: `If no enemy is within a radius of ${SEARCH_RADIUS}, +${(
           (COOLDOWN_MULT - 1) *
           100

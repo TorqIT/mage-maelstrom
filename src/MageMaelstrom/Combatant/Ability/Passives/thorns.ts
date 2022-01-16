@@ -12,7 +12,7 @@ export class Thorns extends Passive {
       type: "thorns",
       desc: {
         name: "Thorn Armor",
-        category: "damage",
+        category: "defensive",
         description: `Reduces attack damage taken by ${(
           (1 - DAMAGE_MULT) *
           100
