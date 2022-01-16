@@ -13,7 +13,7 @@ export class Critical extends Passive {
         category: "damage",
         description: `Every attack has a ${
           CRIT_CHANCE * 100
-        }% to critical hit for double damage`,
+        }% chance to critical hit for double damage`,
       },
     });
   }

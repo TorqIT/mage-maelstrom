@@ -1,0 +1,12 @@
+.ability {
+  padding: 10px 10px;
+  border-bottom: 1px solid rgb(147, 142, 133);
+}
+
+.ability:last-child {
+  border-bottom: none;
+}
+
+.subCategory {
+  font-style: italic;
+}

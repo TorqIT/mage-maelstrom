@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Stack } from "../../Common";
 import { NiceButton } from "../NiceButton";
-import { SpellGuide } from "./SpellGuide";
+import { AbilityGuide } from "./AbilityGuide";
 
 export interface HelpProps {
   size?: number;
@@ -18,14 +18,18 @@ export const Help: React.FC<HelpProps> = ({ size }) => {
           Stats
         </NiceButton>
         <NiceButton onClick={() => setSpellOpen(true)} style={{ flex: 1 }}>
-          Spells
+          Abilities
         </NiceButton>
       </Stack>
       <Modal visible={open} onCloseRequested={() => setOpen(false)}>
         This is my modal
       </Modal>
-      <Modal visible={spellOpen} onCloseRequested={() => setSpellOpen(false)}>
-        <SpellGuide />
+      <Modal
+        visible={spellOpen}
+        onCloseRequested={() => setSpellOpen(false)}
+        width="90vw"
+      >
+        <AbilityGuide />
       </Modal>
     </div>
   );

@@ -21,7 +21,7 @@ export const Modal: React.FC<ModalProps> = ({
     <div className={styles.background} onClick={onCloseRequested}>
       <div className={styles.modal} style={{ width }}>
         <div className={styles.closer}>✕</div>
-        {children}
+        <div className={styles.content}>{children}</div>
       </div>
     </div>
   );

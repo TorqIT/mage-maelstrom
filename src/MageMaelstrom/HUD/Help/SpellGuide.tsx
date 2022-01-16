@@ -1,21 +1,46 @@
 import React from "react";
-import { categorizedAbilityDefs } from "../../Combatant/Ability/abilityDefs";
+import { ExtendedSpellStatus } from "../../Combatant";
+import { Stack } from "../../Common";
+import { Icon, mmCooldownTimer, mmManaCost, mmRange } from "../../Common/Icon";
 
-export interface SpellGuideProps {}
+export interface SpellGuideProps {
+  status: ExtendedSpellStatus;
+}
 
-export const SpellGuide: React.FC<SpellGuideProps> = ({}) => {
+export const SpellGuide: React.FC<SpellGuideProps> = ({ status }) => {
+  if (!status.desc) {
+    return null;
+  }
+
   return (
-    <div>
-      {categorizedAbilityDefs.map((c) => (
-        <div key={c.category}>
-          <h1>{c.category}</h1>
-          <div>
-            {c.abilities.map((a) => (
-              <div key={a.type}>{a.desc?.name}</div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
+    <Stack alignment="middle" gap={30}>
+      <Stack.Item>
+        <Stack alignment="middle" gap={10} style={{ justifyContent: "start" }}>
+          <Icon icon={status.desc?.icon} size={48} /> {status.desc?.name}
+        </Stack>
+      </Stack.Item>
+      <Stack.Item>{status.desc.description}</Stack.Item>
+      <Stack.Item>
+        <Stack gap={20}>
+          <Stack alignment="middle" gap={4}>
+            <Icon icon={mmCooldownTimer} size={20} />
+            {status.cooldown < 9999999 ? status.cooldown / 100 + "s" : "∞"}
+          </Stack>
+          {status.manaCost > 0 && (
+            <Stack alignment="middle" gap={4}>
+              <Icon icon={mmManaCost} size={20} />
+              {status.manaCost}
+            </Stack>
+          )}
+
+          {status.range && (
+            <Stack alignment="middle" gap={4}>
+              <Icon icon={mmRange} size={20} />
+              {status.range}
+            </Stack>
+          )}
+        </Stack>
+      </Stack.Item>
+    </Stack>
   );
 };

@@ -2,6 +2,8 @@ import {
   AbilityStatus,
   buildPassive,
   buildSpell,
+  ExtendedSpellStatus,
+  isPassive,
   passiveTypeArray,
   spellTypeArray,
 } from ".";
@@ -11,18 +13,40 @@ const abilityDefs = passiveTypeArray
   .map((p) => buildPassive(p).toReadonly())
   .concat(spellTypeArray.map((s) => buildSpell(s).toExtendedReadonly()));
 
-export const categorizedAbilityDefs = abilityDefs.reduce((groups, current) => {
+interface AbilityGroup {
+  category: CategorizedDescriptiveIcon["category"];
+  passives: AbilityStatus[];
+  spells: ExtendedSpellStatus[];
+}
+
+const categorizedAbilityDefs = abilityDefs.reduce((groups, current) => {
   if (!current.desc) {
     return groups.slice();
   }
 
-  const group = groups.find((g) => g.category === current.desc?.category);
+  let group = groups.find((g) => g.category === current.desc?.category);
 
-  if (group) {
-    group.abilities.push(current);
+  if (!group) {
+    group = { category: current.desc.category, passives: [], spells: [] };
+    groups.push(group);
+  }
+
+  if (isPassive(current.type)) {
+    group.passives.push(current);
   } else {
-    groups.push({ category: current.desc.category, abilities: [current] });
+    group.spells.push(current as ExtendedSpellStatus);
   }
 
   return groups.slice();
-}, [] as { category: CategorizedDescriptiveIcon["category"]; abilities: AbilityStatus[] }[]);
+}, [] as AbilityGroup[]);
+
+categorizedAbilityDefs.sort((f, s) => f.category.localeCompare(s.category));
+
+categorizedAbilityDefs.forEach((g) => {
+  g.spells.sort((f, s) => f.desc?.name.localeCompare(s.desc?.name ?? "") ?? 0);
+  g.passives.sort(
+    (f, s) => f.desc?.name.localeCompare(s.desc?.name ?? "") ?? 0
+  );
+});
+
+export { categorizedAbilityDefs };
