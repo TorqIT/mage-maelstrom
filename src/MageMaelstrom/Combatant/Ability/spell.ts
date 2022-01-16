@@ -59,6 +59,7 @@ export interface SpellStatus {
 
 export interface ExtendedSpellStatus extends SpellStatus, AbilityStatus {
   cooldown: number;
+  targetTypes: TargetType[];
 }
 
 function getTargetResult(
@@ -196,6 +197,10 @@ export abstract class Spell extends Ability {
       ...this.toReadonly(),
       ...this.toReadonlySpell(),
       cooldown: this.cooldown,
+      targetTypes:
+        typeof this.targetTypes === "string"
+          ? [this.targetTypes]
+          : this.targetTypes,
     };
   }
 }

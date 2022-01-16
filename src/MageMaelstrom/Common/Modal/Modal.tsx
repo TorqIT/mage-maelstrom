@@ -19,7 +19,11 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className={styles.background} onClick={onCloseRequested}>
-      <div className={styles.modal} style={{ width }}>
+      <div
+        className={styles.modal}
+        style={{ width }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.closer}>✕</div>
         <div className={styles.content}>{children}</div>
       </div>

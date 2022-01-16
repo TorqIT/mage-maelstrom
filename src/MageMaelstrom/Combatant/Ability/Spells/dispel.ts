@@ -18,7 +18,7 @@ export class Dispel extends Spell {
         category: "restoration",
         description:
           "If cast on an ally, clear all negative status effects. If cast on " +
-          "an enemy, clear all positive status effects. Channeling cannot be dispelled.",
+          "an enemy, clear all positive status effects. Channeling and Temporality cannot be dispelled.",
         icon: mmDispel,
       },
     });

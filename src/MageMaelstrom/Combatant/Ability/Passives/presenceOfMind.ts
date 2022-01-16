@@ -24,6 +24,7 @@ export class PresenceOfMind extends Passive {
           100
         ).toFixed()}%`,
         icon: mmMind,
+        flavorText: "PANIC",
       },
     });
   }

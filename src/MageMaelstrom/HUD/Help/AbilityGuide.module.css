@@ -10,3 +10,29 @@
 .subCategory {
   font-style: italic;
 }
+
+.targetLabel {
+  font-size: 14px;
+}
+
+.target {
+  border: 1px solid rgb(77, 76, 99);
+  background-color: rgb(36, 34, 56);
+  padding: 2px 4px;
+  font-size: 12px;
+  margin-right: 1px;
+  color: #b2b29f;
+}
+
+.spellNumber {
+  width: 50px;
+}
+
+.flavorText {
+  font-size: 11px;
+  text-align: right;
+  font-style: italic;
+  font-weight: 100;
+  opacity: 0.5;
+  margin-top: 8px;
+}

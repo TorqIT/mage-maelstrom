@@ -25,6 +25,7 @@ export class Teleport extends Spell {
           } second(s), teleport to any coordinate on the arena. ` +
           `Fails if someone's already standing there.`,
         icon: mmTeleport,
+        flavorText: "No telefragging, sorry!",
       },
     });
   }

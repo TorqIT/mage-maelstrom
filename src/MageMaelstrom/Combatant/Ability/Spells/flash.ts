@@ -5,14 +5,14 @@ import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget } from "../spell";
 
-const DURATION = 100;
+const DURATION = 150;
 
 export class Flash extends Spell {
   public constructor() {
     super({
       type: "flash",
-      cooldown: 500,
-      manaCost: 8,
+      cooldown: 1000,
+      manaCost: 10,
       targetTypes: "nothing",
       desc: {
         name: "Flash",
