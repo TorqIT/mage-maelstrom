@@ -1,10 +1,11 @@
 import { mmThorns } from "../../../Common/Icon";
+import { invertPercentage } from "../../../Common/labels";
 import { loggingManager } from "../../../Logging";
 import { DamageType, Entrant } from "../../entrant";
 import { Passive } from "../passive";
 
-const DAMAGE_MULT = 0.9;
-const THORN_DAMAGE = 4;
+const DAMAGE_MULT = 0.85;
+const THORN_DAMAGE = 3;
 
 export class Thorns extends Passive {
   public constructor() {
@@ -13,10 +14,9 @@ export class Thorns extends Passive {
       desc: {
         name: "Thorn Armor",
         category: "defensive",
-        description: `Reduces attack damage taken by ${(
-          (1 - DAMAGE_MULT) *
-          100
-        ).toFixed(0)}% and deals ${THORN_DAMAGE} every time you're attacked`,
+        description: `Reduces attack damage taken by ${invertPercentage(
+          DAMAGE_MULT
+        )}% and deals ${THORN_DAMAGE} every time you're attacked`,
         icon: mmThorns,
       },
     });

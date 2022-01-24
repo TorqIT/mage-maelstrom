@@ -1,5 +1,6 @@
 import { Coordinate } from "../Arena";
 import { Entrant, isSpell, Team } from "../Combatant";
+import { GameManager } from "./GameManager";
 import { GameSpecs } from "./gameSpecs";
 
 export function validate(team: Team, specs: GameSpecs) {
@@ -16,7 +17,8 @@ export function validate(team: Team, specs: GameSpecs) {
       new SubCombatant(specs),
       { color: team.color, flip: false, id: -1 },
       new Coordinate({ x: 0, y: 0 }),
-      true
+      true,
+      null as any as GameManager
     );
     const combatant = entrant.getCombatant().getDef();
 
@@ -79,7 +81,8 @@ export function warn(team: Team, specs: GameSpecs) {
       new SubCombatant(specs),
       { color: team.color, flip: false, id: -1 },
       new Coordinate({ x: 0, y: 0 }),
-      true
+      true,
+      null as any as GameManager
     );
     const combatant = entrant.getCombatant().getDef();
 

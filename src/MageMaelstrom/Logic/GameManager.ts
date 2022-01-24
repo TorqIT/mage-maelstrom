@@ -67,7 +67,8 @@ export class GameManager {
       new ServerCombatant(specs),
       { color: "", flip: false, id: nextId() },
       new Coordinate({ x: -100, y: -100 }),
-      true
+      true,
+      this
     );
 
     loggingManager.clear();
@@ -103,7 +104,8 @@ export class GameManager {
             new SubCombatant(this.specs),
             { color: team.color, id: team.id, flip: isRight },
             this.generateCoord(isRight),
-            true
+            true,
+            this
           )
       ),
     };
@@ -215,7 +217,7 @@ export class GameManager {
 
     this.getEntrantArray()
       .filter((e) => !e.isDead())
-      .forEach((e) => e.update(this));
+      .forEach((e) => e.update());
 
     const actionsToPerform = this.performTeamActions(
       this.leftTeam,
@@ -396,7 +398,7 @@ export class GameManager {
     //If it's null then they tried to find a particular entrant
     // but had an invalid id.
     if (target !== null) {
-      return entrant.canCast(action.spell, target, this);
+      return entrant.canCast(action.spell, target);
     } else {
       return "CombatantNotFound";
     }
@@ -449,7 +451,7 @@ export class GameManager {
     const target = this.toFullSpellTarget(action.target);
 
     if (target !== null) {
-      entrant.cast(action.spell, target, this);
+      entrant.cast(action.spell, target);
     }
   }
 
@@ -506,7 +508,8 @@ export class GameManager {
       new SubCombatant(this.specs),
       targetTeam,
       targetCoord,
-      false
+      false,
+      this
     );
     entrant.getCombatant().init();
     targetTeam.entrants.push(entrant);

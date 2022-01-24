@@ -72,11 +72,14 @@ export class Entrant {
 
   private essential: boolean;
 
+  private gameManager: GameManager;
+
   public constructor(
     combatant: Combatant,
     team: { color: string; flip: boolean; id: number },
     coords: Coordinate,
-    essential: boolean
+    essential: boolean,
+    gameManager: GameManager
   ) {
     this.combatant = combatant;
     this.coords = coords;
@@ -107,6 +110,7 @@ export class Entrant {
     this.passives = abilities.filter(isPassive).map((a) => buildPassive(a));
 
     this.essential = essential;
+    this.gameManager = gameManager;
   }
 
   //~*~*~*~*~*~*
@@ -200,7 +204,7 @@ export class Entrant {
   //~*~*~*~*
   // UPDATE
 
-  public update(gameManager: GameManager) {
+  public update() {
     this.ticksUntilNextTurn -=
       aggMult(this.passives, (p) => p.getTurnSpeedMultiplier()) *
       aggMult(this.statusEffects, (s) => s.getTurnSpeedMultiplier());
@@ -208,7 +212,7 @@ export class Entrant {
     this.updateMeter(this.health, this.getHealthRegen());
     this.updateMeter(this.mana, this.getManaRegen());
 
-    this.passives.forEach((p) => p.update(this, gameManager));
+    this.passives.forEach((p) => p.update(this, this.gameManager));
     this.spells.forEach((s) =>
       s.update(aggMult(this.passives, (p) => p.getCooldownSpeedMultiplier()))
     );
@@ -302,8 +306,7 @@ export class Entrant {
 
   public canCast(
     spell: ExtendedAbilityType,
-    target: FullSpellTarget,
-    gameManager: GameManager
+    target: FullSpellTarget
   ): SpellResult {
     const actualSpell = this.spells.find((s) => s.getType() === spell);
 
@@ -311,21 +314,17 @@ export class Entrant {
       return "InvalidSpell";
     }
 
-    return actualSpell.canCast(this, target, gameManager);
+    return actualSpell.canCast(this, target, this.gameManager);
   }
 
-  public cast(
-    spell: ExtendedAbilityType,
-    target: FullSpellTarget,
-    gameManager: GameManager
-  ) {
+  public cast(spell: ExtendedAbilityType, target: FullSpellTarget) {
     const actualSpell = this.spells.find((s) => s.getType() === spell);
 
     if (!actualSpell) {
       return;
     }
 
-    actualSpell.cast(this, target, gameManager);
+    actualSpell.cast(this, target, this.gameManager);
   }
 
   public takeDamage(
@@ -334,7 +333,9 @@ export class Entrant {
     damageType: DamageType,
     ability?: AbilityType
   ) {
-    this.passives.forEach((p) => p.onTakeDamage(source, this, damageType));
+    this.passives.forEach((p) =>
+      p.onTakeDamage(source, this, damageType, this.gameManager)
+    );
     const actualDamage =
       amount *
       aggMult(this.passives, (p) => p.getDamageTakenMultiplier(damageType)) *

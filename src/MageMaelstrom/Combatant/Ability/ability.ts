@@ -36,6 +36,7 @@ export const passiveTypeArray = [
   "frost",
   "mind",
   "ranged",
+  "spirits",
 ] as const;
 
 export type SpellType = typeof spellTypeArray[number];
@@ -43,7 +44,11 @@ export type PassiveType = typeof passiveTypeArray[number];
 
 export type AbilityType = SpellType | PassiveType;
 
-const internalPassiveTypes = ["bearPassive", "sentryPassive"] as const;
+const internalPassiveTypes = [
+  "bearPassive",
+  "sentryPassive",
+  "spiritPassive",
+] as const;
 
 export type InternalPassiveType = typeof internalPassiveTypes[number];
 export type ExtendedPassiveType = PassiveType | InternalPassiveType;

@@ -41,6 +41,7 @@ import mind from "./psychic-waves.svg";
 import ranged from "./arrow-scope.svg";
 import sentry from "./sentry-gun.svg";
 import skull from "./skull-crack.svg";
+import spirit from "./spectre.svg";
 
 export interface IconDef {
   file: string;
@@ -249,4 +250,10 @@ export const mmSkull: IconDef = {
   file: skull,
   filter:
     "invert(100%) sepia(0%) saturate(2%) hue-rotate(206deg) brightness(108%) contrast(101%)",
+};
+
+export const mmSpirit: IconDef = {
+  file: spirit,
+  filter:
+    "invert(88%) sepia(35%) saturate(53%) hue-rotate(181deg) brightness(96%) contrast(104%)",
 };

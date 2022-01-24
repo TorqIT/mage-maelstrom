@@ -10,6 +10,7 @@ import { Ranged } from "./Passives/ranged";
 import { Talented } from "./Passives/talented";
 import { Teleportitis } from "./Passives/teleportitis";
 import { Thorns } from "./Passives/thorns";
+import { VengefulSpirits } from "./Passives/vengefulSpirits";
 import { Vision } from "./Passives/vision";
 import { Spell } from "./spell";
 import { Barrier } from "./Spells/barrier";
@@ -102,5 +103,7 @@ export function buildPassive(type: PassiveType): Passive {
       return new PresenceOfMind();
     case "ranged":
       return new Ranged();
+    case "spirits":
+      return new VengefulSpirits();
   }
 }

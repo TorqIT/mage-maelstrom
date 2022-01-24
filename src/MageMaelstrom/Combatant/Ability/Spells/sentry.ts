@@ -118,12 +118,3 @@ class SentryGun extends Combatant {
     status: StatusEffectType
   ): void {}
 }
-
-//THIS ACTUALLY WORKS WOW
-// type Wow = "this" | "that" | "both";
-
-// type CoolType<Thing extends Wow> = (Thing extends ("this" | "both") ? number : never) | (Thing extends ("that" | "both") ? string : never);
-
-// type VeryCool = CoolType<"this">
-// type SomewhatCool = CoolType<"that">
-// type NotCool = CoolType<"both">
