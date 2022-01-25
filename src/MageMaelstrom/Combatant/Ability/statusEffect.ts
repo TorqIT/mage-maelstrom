@@ -15,6 +15,7 @@ export const statusEffectTypes = [
   "frost",
   "temporality",
   "haste",
+  "bleed",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
@@ -82,6 +83,10 @@ export class StatusEffect {
   }
 
   public getDamageTakenMultiplier(damageType: DamageType) {
+    return 1;
+  }
+
+  public getAttackDamageMultiplier() {
     return 1;
   }
 

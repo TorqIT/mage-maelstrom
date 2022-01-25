@@ -7,6 +7,7 @@ import { Frost } from "./Passives/frost";
 import { ManaSteal } from "./Passives/manaSteal";
 import { PresenceOfMind } from "./Passives/presenceOfMind";
 import { Ranged } from "./Passives/ranged";
+import { Serrated } from "./Passives/serrated";
 import { Talented } from "./Passives/talented";
 import { Teleportitis } from "./Passives/teleportitis";
 import { Thorns } from "./Passives/thorns";
@@ -105,5 +106,7 @@ export function buildPassive(type: PassiveType): Passive {
       return new Ranged();
     case "spirits":
       return new VengefulSpirits();
+    case "serrated":
+      return new Serrated();
   }
 }

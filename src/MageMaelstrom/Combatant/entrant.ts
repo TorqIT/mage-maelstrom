@@ -289,6 +289,7 @@ export class Entrant {
     const damage =
       this.combatant.getDamage() *
       aggMult(this.passives, (p) => p.getAttackDamageMultiplier()) *
+      aggMult(this.statusEffects, (s) => s.getAttackDamageMultiplier()) *
       (damageMultiplier ?? 1);
     const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
 
