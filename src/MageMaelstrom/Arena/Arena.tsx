@@ -55,9 +55,10 @@ function getNumberOfTeamsWhoHaveVision(
 
 function isInVisionOf(looker: ReadonlyEntrant, x: number, y: number) {
   return (
+    looker.status.health.value > 0 &&
     Math.pow(looker.status.coords.x - x, 2) +
       Math.pow(looker.status.coords.y - y, 2) <=
-    Math.pow(looker.status.vision, 2)
+      Math.pow(looker.status.vision, 2)
   );
 }
 

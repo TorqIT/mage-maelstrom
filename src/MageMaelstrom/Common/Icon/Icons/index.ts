@@ -43,6 +43,7 @@ import sentry from "./sentry-gun.svg";
 import skull from "./skull-crack.svg";
 import spirit from "./spectre.svg";
 import serrated from "./knife-thrust.svg";
+import darkness from "./eclipse.svg";
 
 export interface IconDef {
   file: string;
@@ -263,4 +264,8 @@ export const mmSerrated: IconDef = {
   file: serrated,
   filter:
     "invert(26%) sepia(56%) saturate(3632%) hue-rotate(351deg) brightness(96%) contrast(95%)",
+};
+
+export const mmDarkness: IconDef = {
+  file: darkness,
 };

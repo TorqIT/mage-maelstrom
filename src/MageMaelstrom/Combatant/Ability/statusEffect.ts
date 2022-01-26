@@ -16,6 +16,7 @@ export const statusEffectTypes = [
   "temporality",
   "haste",
   "bleed",
+  "darkness",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 

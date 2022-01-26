@@ -38,6 +38,7 @@ export const passiveTypeArray = [
   "ranged",
   "spirits",
   "serrated",
+  "darkness",
 ] as const;
 
 export type SpellType = typeof spellTypeArray[number];
