@@ -1,5 +1,6 @@
 import { PassiveType, SpellType } from "./ability";
 import { Passive } from "./passive";
+import { Amplitude } from "./Passives/amplitude";
 import { Critical } from "./Passives/critical";
 import { Darkness } from "./Passives/darkness";
 import { DoubleTap } from "./Passives/doubleTap";
@@ -111,5 +112,7 @@ export function buildPassive(type: PassiveType): Passive {
       return new Serrated();
     case "darkness":
       return new Darkness();
+    case "amplitude":
+      return new Amplitude();
   }
 }

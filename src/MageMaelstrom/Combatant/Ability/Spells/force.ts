@@ -40,15 +40,7 @@ export class Force extends Spell {
     if (!actualTarget) {
       return;
     }
-    actualTarget.takeDamage(DAMAGE, caster, "attack", "force");
-
-    loggingManager.logSpell({
-      caster: caster.getCombatantInfo(),
-      target: actualTarget.getCombatantInfo(),
-      damage: DAMAGE,
-      remainingHealth: actualTarget.getHealth(),
-      spellIcon: mmForce,
-    });
+    caster.dealMagicDamage(actualTarget, DAMAGE, "force", mmForce);
 
     const pushDir = caster
       .getCoords()

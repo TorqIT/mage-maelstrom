@@ -1,3 +1,4 @@
+import { Action, ActParams } from "..";
 import { GameManager } from "../../Logic/GameManager";
 import { DamageType, Entrant } from "../entrant";
 import { Ability, AbilityDefinition, ExtendedPassiveType } from "./ability";
@@ -63,6 +64,14 @@ export abstract class Passive extends Ability {
 
   public getAttackDamageMultiplier() {
     return 1;
+  }
+
+  public getMagicDamageMultipler() {
+    return 1;
+  }
+
+  public getOverrideAction(params: ActParams): Action | undefined {
+    return undefined;
   }
 
   public onTakeDamage(

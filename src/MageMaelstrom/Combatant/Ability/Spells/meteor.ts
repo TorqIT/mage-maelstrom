@@ -49,15 +49,7 @@ export class Meteor extends Spell {
         );
 
         entrants.forEach((e) => {
-          e.takeDamage(DAMAGE, caster, "magic", "meteor");
-
-          loggingManager.logSpell({
-            caster: caster.getCombatantInfo(),
-            spellIcon: mmMeteor,
-            target: e.getCombatantInfo(),
-            damage: DAMAGE,
-            remainingHealth: e.getHealth(),
-          });
+          caster.dealMagicDamage(e, DAMAGE, "meteor", mmMeteor);
         });
       }),
       caster

@@ -44,6 +44,7 @@ import skull from "./skull-crack.svg";
 import spirit from "./spectre.svg";
 import serrated from "./knife-thrust.svg";
 import darkness from "./eclipse.svg";
+import amplitude from "./amplitude.svg";
 
 export interface IconDef {
   file: string;
@@ -268,4 +269,8 @@ export const mmSerrated: IconDef = {
 
 export const mmDarkness: IconDef = {
   file: darkness,
+};
+
+export const mmAmplitude: IconDef = {
+  file: amplitude,
 };

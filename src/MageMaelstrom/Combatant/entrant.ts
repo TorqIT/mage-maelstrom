@@ -22,7 +22,8 @@ import { loggingManager } from "../Logging";
 import { GameManager } from "../Logic/GameManager";
 import { aggMax, aggMult, aggSum } from "../Common/aggregates";
 import { ActionFactory } from "./actions";
-import { mmEvasion } from "../Common/Icon";
+import { IconDef, mmEvasion } from "../Common/Icon";
+import { ActParams } from ".";
 
 interface Meter {
   value: number;
@@ -254,7 +255,8 @@ export class Entrant {
     tick: number
   ) {
     this.ticksUntilNextTurn += this.rollTurnDelay(true);
-    return this.combatant.act({
+
+    const params: ActParams = {
       actions,
       helpers,
       you: this.getStatus(),
@@ -262,7 +264,17 @@ export class Entrant {
       visibleEnemies,
       spells: this.spells.map((s) => s.toReadonlySpell()),
       tick,
-    });
+    };
+
+    for (const passive of this.passives) {
+      const result = passive.getOverrideAction(params);
+
+      if (result) {
+        return result;
+      }
+    }
+
+    return this.combatant.act(params);
   }
 
   private rollTurnDelay(rollForDoubleTap: boolean) {
@@ -273,36 +285,6 @@ export class Entrant {
 
   public move(direction: MovementDirection) {
     this.coords.move(direction);
-  }
-
-  public attack(target: Entrant, damageMultiplier?: number) {
-    if (target.rollForEvasion()) {
-      loggingManager.logSpell({
-        caster: target.getCombatantInfo(),
-        spellIcon: mmEvasion,
-        target: this.getCombatantInfo(),
-      });
-
-      return;
-    }
-
-    const damage =
-      this.combatant.getDamage() *
-      aggMult(this.passives, (p) => p.getAttackDamageMultiplier()) *
-      aggMult(this.statusEffects, (s) => s.getAttackDamageMultiplier()) *
-      (damageMultiplier ?? 1);
-    const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
-
-    loggingManager.logAttack({
-      target: target.getCombatantInfo(),
-      attacker: this.getCombatantInfo(),
-      damage: damage * mult,
-      remainingHealth: target.getHealth(),
-      isCrit: mult !== 1,
-    });
-
-    this.passives.forEach((p) => p.onDealDamage(this, target, "attack"));
-    target.takeDamage(damage * mult, this, "attack");
   }
 
   public canCast(
@@ -328,7 +310,80 @@ export class Entrant {
     actualSpell.cast(this, target, this.gameManager);
   }
 
-  public takeDamage(
+  public attack(target: Entrant, damageMultiplier?: number) {
+    if (target.rollForEvasion()) {
+      loggingManager.logSpell({
+        caster: target.getCombatantInfo(),
+        spellIcon: mmEvasion,
+        target: this.getCombatantInfo(),
+      });
+
+      return;
+    }
+
+    const damage =
+      this.combatant.getDamage() *
+      aggMult(this.passives, (p) => p.getAttackDamageMultiplier()) *
+      aggMult(this.statusEffects, (s) => s.getAttackDamageMultiplier()) *
+      (damageMultiplier ?? 1);
+    const mult = this.passives.some((p) => p.rollForCrit()) ? 2 : 1;
+
+    this.passives.forEach((p) => p.onDealDamage(this, target, "attack"));
+    target.takeDamage(damage * mult, this, "attack");
+
+    loggingManager.logAttack({
+      target: target.getCombatantInfo(),
+      attacker: this.getCombatantInfo(),
+      damage: damage * mult,
+      remainingHealth: target.getHealth(),
+      isCrit: mult !== 1,
+    });
+  }
+
+  public dealMagicDamage(
+    target: Entrant,
+    damage: number,
+    ability: AbilityType,
+    icon: IconDef,
+    log = true
+  ) {
+    const resultingDamage =
+      damage * aggMult(this.passives, (p) => p.getMagicDamageMultipler());
+
+    target.takeDamage(resultingDamage, this, "magic", ability);
+
+    if (log) {
+      loggingManager.logSpell({
+        target: target.getCombatantInfo(),
+        caster: this.getCombatantInfo(),
+        spellIcon: icon,
+        damage: resultingDamage,
+        remainingHealth: target.getHealth(),
+      });
+    }
+  }
+
+  public dealPureDamage(
+    target: Entrant,
+    damage: number,
+    ability: AbilityType,
+    icon: IconDef,
+    log = true
+  ) {
+    target.takeDamage(damage, this, "pure", ability);
+
+    if (log) {
+      loggingManager.logSpell({
+        target: target.getCombatantInfo(),
+        caster: this.getCombatantInfo(),
+        spellIcon: icon,
+        damage: damage,
+        remainingHealth: target.getHealth(),
+      });
+    }
+  }
+
+  private takeDamage(
     amount: number,
     source: Entrant,
     damageType: DamageType,
@@ -337,6 +392,7 @@ export class Entrant {
     this.passives.forEach((p) =>
       p.onTakeDamage(source, this, damageType, this.gameManager)
     );
+
     const actualDamage =
       amount *
       aggMult(this.passives, (p) => p.getDamageTakenMultiplier(damageType)) *

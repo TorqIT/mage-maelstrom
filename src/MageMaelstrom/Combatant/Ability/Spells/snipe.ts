@@ -6,7 +6,7 @@ import { ChannelingStatus } from "../Statuses/channellingStatus";
 import { FullSpellTarget, Spell } from "../spell";
 import { StatusEffect } from "../statusEffect";
 
-const DAMAGE = 50;
+const DAMAGE = 75;
 const AIM_TIME = 150;
 
 export class Snipe extends Spell {
@@ -33,17 +33,9 @@ export class Snipe extends Spell {
     gameManager: GameManager
   ): void {
     caster.applyStatusEffect(
-      new ChannelingStatus(AIM_TIME, "Snipe", mmSnipe, () => {
-        target.takeDamage(DAMAGE, caster, "magic", "snipe");
-
-        loggingManager.logSpell({
-          caster: caster.getCombatantInfo(),
-          target: target.getCombatantInfo(),
-          spellIcon: mmSnipe,
-          damage: DAMAGE,
-          remainingHealth: target.getHealth(),
-        });
-      }),
+      new ChannelingStatus(AIM_TIME, "Snipe", mmSnipe, () =>
+        caster.dealMagicDamage(target, DAMAGE, "snipe", mmSnipe)
+      ),
       caster
     );
 

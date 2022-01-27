@@ -1,5 +1,5 @@
 import { Spell } from "..";
-import { mmBurst } from "../../../Common/Icon";
+import { mmBurst, mmForce } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
@@ -38,7 +38,7 @@ export class Burst extends Spell {
     );
 
     enemies.forEach((e) => {
-      e.takeDamage(DAMAGE, caster, "magic", "burst");
+      caster.dealMagicDamage(e, DAMAGE, "burst", mmBurst);
 
       const dir = caster.getCoords().getRelativeDirectionOf(e.getCoords());
 
@@ -47,14 +47,6 @@ export class Burst extends Spell {
           e.move(dir);
         }
       }
-
-      loggingManager.logSpell({
-        caster: caster.getCombatantInfo(),
-        spellIcon: mmBurst,
-        target: e.getCombatantInfo(),
-        damage: DAMAGE,
-        remainingHealth: e.getHealth(),
-      });
     });
   }
 }

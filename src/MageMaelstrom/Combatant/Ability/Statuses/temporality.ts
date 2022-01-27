@@ -1,5 +1,5 @@
 import { StatusEffect } from "..";
-import { mmClock } from "../../../Common/Icon";
+import { mmClock, mmFireball } from "../../../Common/Icon";
 import { Entrant } from "../../entrant";
 
 export class Temporality extends StatusEffect {
@@ -21,7 +21,13 @@ export class Temporality extends StatusEffect {
 
   public override updateEffect(entrant: Entrant): void {
     if (this.timer === 1) {
-      entrant.takeDamage(entrant.getHealth(), entrant, "pure");
+      entrant.dealPureDamage(
+        entrant,
+        entrant.getHealth(),
+        "fireball",
+        mmFireball,
+        false
+      );
     }
   }
 }

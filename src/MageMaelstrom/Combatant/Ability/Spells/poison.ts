@@ -74,7 +74,13 @@ export class Poisoned extends StatusEffect {
 
   public override updateEffect(entrant: Entrant) {
     if (this.timer % 50 === 1) {
-      entrant.takeDamage(DAMAGE / 2, this.source, "magic", "poison");
+      this.source.dealMagicDamage(
+        entrant,
+        DAMAGE / 2,
+        "poison",
+        mmPoison,
+        false
+      );
     }
   }
 }

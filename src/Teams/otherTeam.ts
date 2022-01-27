@@ -20,10 +20,10 @@ class WowDude extends Combatant {
       icon: "/burst.png",
 
       strength: 5,
-      agility: 30,
-      intelligence: 5,
+      agility: 25,
+      intelligence: 10,
 
-      abilities: ["sentry", "swift", "darkness", "ranged"],
+      abilities: ["bear", "snipe", "darkness", "amplitude"],
     };
   }
   public init(): void {}
@@ -31,7 +31,7 @@ class WowDude extends Combatant {
     actions,
     helpers,
     visibleEnemies,
-    spells: [bear, swift],
+    spells: [bear, snipe],
   }: ActParams): Action {
     if (helpers.canPerform(actions.cast(bear))) {
       return actions.cast(bear);
@@ -39,11 +39,11 @@ class WowDude extends Combatant {
 
     if (visibleEnemies.length > 0) {
       const snipableEnemy = visibleEnemies.find((s) =>
-        helpers.canPerform(actions.cast(swift, s.id))
+        helpers.canPerform(actions.cast(snipe, s.id))
       );
 
       if (snipableEnemy) {
-        return actions.cast(swift, snipableEnemy.id);
+        return actions.cast(snipe, snipableEnemy.id);
       }
 
       const attackableEnemy = visibleEnemies.find((s) =>

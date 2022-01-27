@@ -480,7 +480,7 @@ export class GameManager {
         e.getCombatant().getMaxHealth() * this.specs.suddenDeath.percentDamage +
           this.specs.suddenDeath.flatDamage
       );
-      e.takeDamage(damage, this.serverEntrant, "pure", "meteor");
+      this.serverEntrant.dealPureDamage(e, damage, "meteor", mmMeteor);
 
       loggingManager.logSpell({
         caster: this.serverEntrant.getCombatantInfo(),

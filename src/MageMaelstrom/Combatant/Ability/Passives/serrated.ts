@@ -1,6 +1,7 @@
 import { Passive, StatusEffect } from "..";
 import { mmSerrated } from "../../../Common/Icon";
 import { invertPercentage } from "../../../Common/labels";
+import { loggingManager } from "../../../Logging";
 import { Entrant, DamageType } from "../../entrant";
 
 const CHANCE = 0.5;
@@ -38,6 +39,11 @@ export class Serrated extends Passive {
     }
 
     target.applyStatusEffect(new Bleed(me), me);
+    loggingManager.logSpell({
+      target: target.getCombatantInfo(),
+      caster: me.getCombatantInfo(),
+      spellIcon: mmSerrated,
+    });
   }
 }
 
@@ -67,7 +73,13 @@ class Bleed extends StatusEffect {
 
   public updateEffect(entrant: Entrant): void {
     if (this.timer % 25 === 1) {
-      entrant.takeDamage(DAMAGE_TICK / 4, this.source, "magic", "serrated");
+      this.source.dealMagicDamage(
+        entrant,
+        DAMAGE_TICK / 4,
+        "serrated",
+        mmSerrated,
+        false
+      );
     }
   }
 }

@@ -32,15 +32,7 @@ export class Thorns extends Passive {
     type: DamageType
   ) {
     if (type === "attack") {
-      attacker.takeDamage(THORN_DAMAGE, you, "pure", "thorns");
-
-      loggingManager.logSpell({
-        caster: you.getCombatantInfo(),
-        target: attacker.getCombatantInfo(),
-        damage: THORN_DAMAGE,
-        remainingHealth: attacker.getHealth(),
-        spellIcon: mmThorns,
-      });
+      you.dealMagicDamage(attacker, THORN_DAMAGE, "thorns", mmThorns);
     }
   }
 }
