@@ -1,26 +1,60 @@
 export type MovementDirection = "left" | "right" | "up" | "down";
 
-export class Coordinate {
-  private x: number;
-  private y: number;
+export class ReadonlyCoordinate {
+  protected x: number;
+  protected y: number;
 
-  public static getSide(coord: Coordinate, dir: MovementDirection) {
-    const coordinate = new Coordinate(coord.toReadonly());
-    coordinate.move(dir);
-
-    return coordinate;
-  }
-
-  public constructor(coord: ReadonlyCoordinate) {
+  public constructor(coord: BasicCoordinate) {
     this.x = coord.x;
     this.y = coord.y;
   }
-
   public getX() {
     return this.x;
   }
   public getY() {
     return this.y;
+  }
+
+  public equals(other: ReadonlyCoordinate) {
+    return this.x === other.x && this.y === other.y;
+  }
+
+  public isNextTo(other: ReadonlyCoordinate) {
+    return Math.abs(this.x - other.x) + Math.abs(this.y - other.y) === 1;
+  }
+
+  public isWithinRangeOf(range: number, other: ReadonlyCoordinate) {
+    return (
+      Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2) <=
+      Math.pow(range, 2)
+    );
+  }
+
+  public getRelativeDirectionOf(other: ReadonlyCoordinate): MovementDirection {
+    const xDiff = other.x - this.x;
+    const yDiff = other.y - this.y;
+
+    if (Math.abs(xDiff) >= Math.abs(yDiff)) {
+      return xDiff > 0 ? "right" : "left";
+    } else {
+      return yDiff > 0 ? "up" : "down";
+    }
+  }
+
+  public toBasic(): BasicCoordinate {
+    return {
+      x: this.x,
+      y: this.y,
+    };
+  }
+}
+
+export class Coordinate extends ReadonlyCoordinate {
+  public static getSide(coord: ReadonlyCoordinate, dir: MovementDirection) {
+    const coordinate = new Coordinate(coord.toBasic());
+    coordinate.move(dir);
+
+    return coordinate;
   }
 
   public move(dir: MovementDirection) {
@@ -44,42 +78,9 @@ export class Coordinate {
     this.x = coord.x;
     this.y = coord.y;
   }
-
-  public equals(other: Coordinate) {
-    return this.x === other.x && this.y === other.y;
-  }
-
-  public isNextTo(other: Coordinate) {
-    return Math.abs(this.x - other.x) + Math.abs(this.y - other.y) === 1;
-  }
-
-  public isWithinRangeOf(range: number, other: Coordinate) {
-    return (
-      Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2) <=
-      Math.pow(range, 2)
-    );
-  }
-
-  public getRelativeDirectionOf(other: Coordinate): MovementDirection {
-    const xDiff = other.x - this.x;
-    const yDiff = other.y - this.y;
-
-    if (Math.abs(xDiff) >= Math.abs(yDiff)) {
-      return xDiff > 0 ? "right" : "left";
-    } else {
-      return yDiff > 0 ? "up" : "down";
-    }
-  }
-
-  public toReadonly(): ReadonlyCoordinate {
-    return {
-      x: this.x,
-      y: this.y,
-    };
-  }
 }
 
-export interface ReadonlyCoordinate {
+export interface BasicCoordinate {
   x: number;
   y: number;
 }

@@ -1,6 +1,6 @@
 import { ActionResult } from "./actionResult";
 import { Action, Entrant, ReadonlyEntrantStatus } from "../Combatant";
-import { ReadonlyCoordinate } from "../Arena";
+import { BasicCoordinate } from "../Arena";
 
 export interface Helpers {
   getActionResult: <ActionType extends Action>(
@@ -14,9 +14,6 @@ export interface Helpers {
     condition: () => boolean,
     loop: () => Action | undefined | void
   ) => Action | undefined;
-  coords: {
-    isWithinRange: (target: ReadonlyCoordinate, range: number) => boolean;
-  };
 }
 
 export function buildHelpers(
@@ -46,15 +43,6 @@ export function buildHelpers(
         }
       }
     },
-    coords: {
-      isWithinRange: (target: ReadonlyCoordinate, range: number) => {
-        return (
-          Math.pow(you.coords.x - target.x, 2) +
-            Math.pow(you.coords.y - target.y, 2) <=
-          Math.pow(range, 2)
-        );
-      },
-    },
   };
 }
 
@@ -64,11 +52,11 @@ function getClosest(
   second: ReadonlyEntrantStatus
 ) {
   const firstDist =
-    Math.pow(you.coords.x - first.coords.x, 2) +
-    Math.pow(you.coords.y - first.coords.y, 2);
+    Math.pow(you.coords.getX() - first.coords.getX(), 2) +
+    Math.pow(you.coords.getY() - first.coords.getY(), 2);
   const secondDist =
-    Math.pow(you.coords.x - second.coords.x, 2) +
-    Math.pow(you.coords.y - second.coords.y, 2);
+    Math.pow(you.coords.getX() - second.coords.getX(), 2) +
+    Math.pow(you.coords.getY() - second.coords.getY(), 2);
 
   return firstDist > secondDist ? second : first;
 }

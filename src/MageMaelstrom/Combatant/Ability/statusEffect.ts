@@ -1,3 +1,4 @@
+import { Action, ActParams } from "..";
 import { nextId } from "../../Common";
 import { DescriptiveIcon } from "../describable";
 import { DamageType, Entrant } from "../entrant";
@@ -17,6 +18,7 @@ export const statusEffectTypes = [
   "haste",
   "bleed",
   "darkness",
+  "fear",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
@@ -93,6 +95,10 @@ export class StatusEffect {
 
   public getVisionAdjustment() {
     return 0;
+  }
+
+  public getOverrideAction(params: ActParams): Action | undefined {
+    return undefined;
   }
 
   public toReadonly(): StatusEffectStatus {

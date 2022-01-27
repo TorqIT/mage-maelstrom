@@ -13,9 +13,10 @@ import {
   isReadonlyCoordinate,
   MovementAction,
   ReadonlyActiveTeam,
-  ReadonlyEntrantStatus,
+  BasicEntrantStatus,
   SpellAction,
   SpellTarget,
+  ReadonlyEntrantStatus,
 } from "../Combatant";
 import {
   ActionResult,
@@ -259,17 +260,17 @@ export class GameManager {
           error: "No action returned",
         };
 
-        const you = e.getStatus();
+        const you = e.getReadonlyStatus();
         const allies = team.entrants
           .filter((ally) => ally.getId() !== e.getId())
-          .map((ally) => ally.getStatus());
+          .map((ally) => ally.getReadonlyStatus());
         const visibleEnemies = this.getVisibleEnemyEntrants(team, enemyTeam);
 
         try {
           action = e.act(
             buildActionFactory(you, allies, visibleEnemies, this.specs.arena),
             buildHelpers(
-              e.getStatus(),
+              e.getReadonlyStatus(),
               <ActionType extends Action>(a: ActionType) =>
                 this.getActionResult(e, a)
             ),
@@ -299,7 +300,7 @@ export class GameManager {
             !enemy.isDead() &&
             myTeam.entrants.some((friendly) => friendly.canSee(enemy))
         )
-        .map((e) => e.getStatus()) ?? []
+        .map((e) => e.getReadonlyStatus()) ?? []
     );
   }
 

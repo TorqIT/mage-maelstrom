@@ -5,7 +5,7 @@ import {
   SpellType,
   StatusEffectType,
 } from "../MageMaelstrom";
-import { ReadonlyCoordinate } from "../MageMaelstrom/Arena";
+import { BasicCoordinate } from "../MageMaelstrom/Arena";
 import { CombatantDefinition, Action, ActParams } from "../MageMaelstrom";
 
 export class GoLeft extends Combatant {
@@ -36,7 +36,7 @@ export class GoLeft extends Combatant {
 
     if (
       helpers.canPerform(actions.cast(burst)) &&
-      visibleEnemies.some((e) => helpers.coords.isWithinRange(e.coords, 1.5))
+      visibleEnemies.some((e) => you.coords.isWithinRangeOf(1.5, e.coords))
     ) {
       return actions.cast(burst);
     }
@@ -51,7 +51,7 @@ export class GoLeft extends Combatant {
     return actions.dance();
   }
 
-  private getRandomCoord(): ReadonlyCoordinate {
+  private getRandomCoord(): BasicCoordinate {
     return {
       x: Math.floor(Math.random() * this.getGameSpecs().arena.width),
       y: Math.floor(Math.random() * this.getGameSpecs().arena.height),

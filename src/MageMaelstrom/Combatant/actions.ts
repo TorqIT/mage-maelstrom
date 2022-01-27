@@ -1,7 +1,13 @@
 import Pathfinding from "pathfinding";
-import { Coordinate, MovementDirection, ReadonlyCoordinate } from "../Arena";
+import { ReadonlyEntrantStatus } from ".";
+import {
+  Coordinate,
+  MovementDirection,
+  BasicCoordinate,
+  ReadonlyCoordinate,
+} from "../Arena";
 import { ExtendedAbilityType, SpellStatus, SpellTarget } from "./Ability";
-import { ReadonlyEntrantStatus } from "./entrant";
+import { BasicEntrantStatus } from "./entrant";
 
 export enum ActionType {
   Movement,
@@ -35,7 +41,9 @@ export type Action = MovementAction | AttackAction | SpellAction | DanceAction;
 
 export interface ActionFactory {
   move: (direction: MovementDirection) => MovementAction;
-  moveTo: (targetCoord: ReadonlyCoordinate) => MovementAction | undefined;
+  moveTo: (
+    targetCoord: ReadonlyCoordinate | BasicCoordinate
+  ) => MovementAction | undefined;
   attack: (target: MovementDirection | number) => AttackAction;
   cast: (spell: SpellStatus, target?: SpellTarget) => SpellAction;
   /** /dance */
@@ -55,22 +63,32 @@ export function buildActionFactory(
         direction,
       };
     },
-    moveTo: (targetCoord: ReadonlyCoordinate): MovementAction | undefined => {
+    moveTo: (
+      targetCoord: ReadonlyCoordinate | BasicCoordinate
+    ): MovementAction | undefined => {
+      const actualTarget = coordIsBasic(targetCoord)
+        ? new ReadonlyCoordinate(targetCoord)
+        : targetCoord;
+
       const grid = new Pathfinding.Grid(arena.width, arena.height);
 
       const everyoneButYou = allies.concat(visibleEnemies);
       everyoneButYou
         .filter(
-          (e) => e.coords.x !== targetCoord.x || e.coords.y !== targetCoord.y
+          (e) =>
+            e.coords.getX() !== actualTarget.getX() ||
+            e.coords.getY() !== actualTarget.getY()
         )
-        .forEach((e) => grid.setWalkableAt(e.coords.x, e.coords.y, false));
+        .forEach((e) =>
+          grid.setWalkableAt(e.coords.getX(), e.coords.getY(), false)
+        );
 
       const finder = new Pathfinding.BreadthFirstFinder();
       const path = finder.findPath(
-        you.coords.x,
-        you.coords.y,
-        targetCoord.x,
-        targetCoord.y,
+        you.coords.getX(),
+        you.coords.getY(),
+        actualTarget.getX(),
+        actualTarget.getY(),
         grid
       );
 
@@ -78,11 +96,15 @@ export function buildActionFactory(
         path.length > 2 ||
         (path.length === 2 &&
           !everyoneButYou.some(
-            (e) => e.coords.x === targetCoord.x && e.coords.y === targetCoord.y
+            (e) =>
+              e.coords.getX() === actualTarget.getX() &&
+              e.coords.getY() === actualTarget.getY()
           ))
       ) {
-        const dir = new Coordinate(you.coords).getRelativeDirectionOf(
-          new Coordinate({ x: path[1][0], y: path[1][1] })
+        const dir = new ReadonlyCoordinate(
+          you.coords.toBasic()
+        ).getRelativeDirectionOf(
+          new ReadonlyCoordinate({ x: path[1][0], y: path[1][1] })
         );
 
         return {
@@ -109,4 +131,10 @@ export function buildActionFactory(
 
     dance: (): DanceAction => ({ type: ActionType.Dance }),
   };
+}
+
+function coordIsBasic(
+  coord: ReadonlyCoordinate | BasicCoordinate
+): coord is BasicCoordinate {
+  return (coord as BasicCoordinate).x != null;
 }

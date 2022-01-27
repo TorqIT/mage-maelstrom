@@ -1,5 +1,5 @@
 import { SpellType } from ".";
-import { Coordinate, MovementDirection, ReadonlyCoordinate } from "../../Arena";
+import { Coordinate, MovementDirection, BasicCoordinate } from "../../Arena";
 import { IconDef } from "../../Common/Icon";
 import { SpellLog, SpellResult } from "../../Logic";
 import { GameManager } from "../../Logic/GameManager";
@@ -14,21 +14,21 @@ import {
 export type SpellTarget =
   | number
   | MovementDirection
-  | ReadonlyCoordinate
+  | BasicCoordinate
   | undefined;
 export type FullSpellTarget =
-  | Exclude<SpellTarget, number | ReadonlyCoordinate>
+  | Exclude<SpellTarget, number | BasicCoordinate>
   | Entrant
   | Coordinate;
 
 export function isReadonlyCoordinate(
   target: SpellTarget
-): target is ReadonlyCoordinate {
+): target is BasicCoordinate {
   if (target == null) {
     return false;
   }
 
-  return (target as ReadonlyCoordinate).x != null;
+  return (target as BasicCoordinate).x != null;
 }
 
 export function isCoordinate(target: FullSpellTarget): target is Coordinate {

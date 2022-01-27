@@ -1,4 +1,9 @@
-import { Coordinate, MovementDirection, ReadonlyCoordinate } from "../Arena";
+import {
+  Coordinate,
+  MovementDirection,
+  BasicCoordinate,
+  ReadonlyCoordinate,
+} from "../Arena";
 import { nextId } from "../Common";
 import { ActionResult, CombatantInfo, Helpers, SpellResult } from "../Logic";
 import {
@@ -31,19 +36,22 @@ interface Meter {
   regen: number;
 }
 
-export interface ReadonlyEntrantStatus {
+interface EntStatus<CoordinateType> {
   id: number;
   health: Meter;
   mana: Meter;
-  coords: ReadonlyCoordinate;
+  coords: CoordinateType;
   ticksUntilNextTurn: number;
   vision: number;
   statusesEffects: StatusEffectType[];
 }
 
+export type BasicEntrantStatus = EntStatus<BasicCoordinate>;
+export type ReadonlyEntrantStatus = EntStatus<ReadonlyCoordinate>;
+
 export interface ReadonlyEntrant {
   combatant: CombatantDefinition;
-  status: ReadonlyEntrantStatus;
+  status: BasicEntrantStatus;
   spells: ExtendedSpellStatus[];
   passives: AbilityStatus[];
   statusEffects: StatusEffectStatus[];
@@ -259,7 +267,7 @@ export class Entrant {
     const params: ActParams = {
       actions,
       helpers,
-      you: this.getStatus(),
+      you: this.getReadonlyStatus(),
       allies,
       visibleEnemies,
       spells: this.spells.map((s) => s.toReadonlySpell()),
@@ -465,7 +473,7 @@ export class Entrant {
   public toReadonly(): ReadonlyEntrant {
     return {
       combatant: this.combatant.getDef(),
-      status: this.getStatus(),
+      status: this.getBasicStatus(),
       spells: this.spells.map((s) => s.toExtendedReadonly()),
       passives: this.passives.map((p) => p.toReadonly()),
       statusEffects: this.statusEffects.map((s) => s.toReadonly()),
@@ -475,7 +483,7 @@ export class Entrant {
     };
   }
 
-  public getStatus(): ReadonlyEntrantStatus {
+  public getBasicStatus(): BasicEntrantStatus {
     return {
       id: this.id,
       health: {
@@ -484,7 +492,22 @@ export class Entrant {
       },
       mana: { ...this.mana, regen: this.getManaRegen() },
       ticksUntilNextTurn: this.ticksUntilNextTurn,
-      coords: this.coords.toReadonly(),
+      coords: this.coords.toBasic(),
+      vision: this.getVision(),
+      statusesEffects: this.statusEffects.map((s) => s.getType()),
+    };
+  }
+
+  public getReadonlyStatus(): ReadonlyEntrantStatus {
+    return {
+      id: this.id,
+      health: {
+        ...this.health,
+        regen: this.getHealthRegen(),
+      },
+      mana: { ...this.mana, regen: this.getManaRegen() },
+      ticksUntilNextTurn: this.ticksUntilNextTurn,
+      coords: new ReadonlyCoordinate(this.coords.toBasic()),
       vision: this.getVision(),
       statusesEffects: this.statusEffects.map((s) => s.getType()),
     };

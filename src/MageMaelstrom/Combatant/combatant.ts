@@ -1,10 +1,10 @@
-import { DamageType } from ".";
+import { DamageType, ReadonlyEntrantStatus } from ".";
 import { nextId } from "../Common";
 import { GameSpecs, Helpers } from "../Logic";
 import { SpellStatus, StatusEffectType } from "./Ability";
 import { AbilityType } from "./Ability/ability";
 import { Action, ActionFactory } from "./actions";
-import { ReadonlyEntrantStatus } from "./entrant";
+import { BasicEntrantStatus } from "./entrant";
 
 export interface CombatantDefinition {
   name: string;

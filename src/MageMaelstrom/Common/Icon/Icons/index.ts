@@ -45,6 +45,7 @@ import spirit from "./spectre.svg";
 import serrated from "./knife-thrust.svg";
 import darkness from "./eclipse.svg";
 import amplitude from "./amplitude.svg";
+import fear from "./screaming.svg";
 
 export interface IconDef {
   file: string;
@@ -273,4 +274,8 @@ export const mmDarkness: IconDef = {
 
 export const mmAmplitude: IconDef = {
   file: amplitude,
+};
+
+export const mmFear: IconDef = {
+  file: fear,
 };

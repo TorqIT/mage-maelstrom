@@ -10,7 +10,7 @@ import { mmSpirit } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { Helpers } from "../../../Logic";
 import { GameManager } from "../../../Logic/GameManager";
-import { Entrant, DamageType, ReadonlyEntrantStatus } from "../../entrant";
+import { Entrant, DamageType, BasicEntrantStatus } from "../../entrant";
 import { Temporality } from "../Statuses/temporality";
 
 const CHANCE = 0.25;
@@ -133,7 +133,7 @@ class SpiritCombatant extends Combatant {
   private tryEngageEnemy(
     actions: ActionFactory,
     helpers: Helpers,
-    visibleEnemies: ReadonlyEntrantStatus[]
+    visibleEnemies: BasicEntrantStatus[]
   ) {}
 
   public onTakeDamage(

@@ -5,12 +5,14 @@ import {
   ActParams,
   Combatant,
   CombatantDefinition,
+  ReadonlyEntrant,
+  ReadonlyEntrantStatus,
 } from "../..";
 import { mmBear } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { Helpers } from "../../../Logic";
 import { GameManager } from "../../../Logic/GameManager";
-import { DamageType, Entrant, ReadonlyEntrantStatus } from "../../entrant";
+import { DamageType, Entrant, BasicEntrantStatus } from "../../entrant";
 import { Passive } from "../passive";
 import { FullSpellTarget, Spell } from "../spell";
 import { Temporality } from "../Statuses/temporality";
@@ -105,7 +107,7 @@ class BearCombatant extends Combatant {
   }
 
   public act({ actions, helpers, you, visibleEnemies }: ActParams): Action {
-    const action = this.tryEngageEnemy(actions, helpers, visibleEnemies);
+    const action = this.tryEngageEnemy(actions, helpers, you, visibleEnemies);
 
     if (action) {
       return action;
@@ -123,12 +125,13 @@ class BearCombatant extends Combatant {
   private tryEngageEnemy(
     actions: ActionFactory,
     helpers: Helpers,
+    you: ReadonlyEntrantStatus,
     visibleEnemies: ReadonlyEntrantStatus[]
   ) {
     for (const enemy of visibleEnemies) {
       if (helpers.canPerform(actions.attack(enemy.id))) {
         return actions.attack(enemy.id);
-      } else if (helpers.coords.isWithinRange(enemy.coords, 3)) {
+      } else if (you.coords.isWithinRangeOf(3, enemy.coords)) {
         return actions.moveTo(enemy.coords);
       }
     }

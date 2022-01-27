@@ -5,7 +5,7 @@ import styles from "./Arena.module.css";
 import { ActiveTeam, ReadonlyActiveTeam, ReadonlyEntrant } from "../Combatant";
 import { useGameManager } from "../Logic";
 import { useGameSpecs } from "../Logic/GameSpecsProvider";
-import { ReadonlyCoordinate } from ".";
+import { BasicCoordinate } from ".";
 
 function findOccupant(
   perspectiveTeams: ReadonlyActiveTeam[],
