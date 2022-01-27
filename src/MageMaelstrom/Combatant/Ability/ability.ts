@@ -22,6 +22,7 @@ export const spellTypeArray = [
   "haste",
   "burst",
   "sentry",
+  "fear",
 ] as const;
 
 export const passiveTypeArray = [

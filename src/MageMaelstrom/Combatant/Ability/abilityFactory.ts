@@ -20,6 +20,7 @@ import { Barrier } from "./Spells/barrier";
 import { Burst } from "./Spells/burst";
 import { Dash } from "./Spells/dash";
 import { Dispel } from "./Spells/dispel";
+import { Fear } from "./Spells/fear";
 import { Fireball } from "./Spells/fireball";
 import { Flash } from "./Spells/flash";
 import { Force } from "./Spells/force";
@@ -79,6 +80,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Burst();
     case "sentry":
       return new Sentry();
+    case "fear":
+      return new Fear();
   }
 }
 

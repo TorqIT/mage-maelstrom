@@ -282,6 +282,14 @@ export class Entrant {
       }
     }
 
+    for (const status of this.statusEffects) {
+      const result = status.getOverrideAction(params);
+
+      if (result) {
+        return result;
+      }
+    }
+
     return this.combatant.act(params);
   }
 
@@ -346,6 +354,8 @@ export class Entrant {
       remainingHealth: target.getHealth(),
       isCrit: mult !== 1,
     });
+
+    target.checkForDeathLog();
   }
 
   public dealMagicDamage(
@@ -369,6 +379,8 @@ export class Entrant {
         remainingHealth: target.getHealth(),
       });
     }
+
+    target.checkForDeathLog();
   }
 
   public dealPureDamage(
@@ -389,6 +401,8 @@ export class Entrant {
         remainingHealth: target.getHealth(),
       });
     }
+
+    target.checkForDeathLog();
   }
 
   private takeDamage(
@@ -423,7 +437,11 @@ export class Entrant {
       } catch (e) {
         console.error(e);
       }
-    } else if (this.essential) {
+    }
+  }
+
+  private checkForDeathLog() {
+    if (this.essential && this.health.value <= 0) {
       loggingManager.logDeath({ entrant: this.getCombatantInfo() });
     }
   }

@@ -18,7 +18,7 @@ export class GoLeft extends Combatant {
       agility: 5,
       intelligence: 9,
 
-      abilities: ["potion", "teleport", "burst", "evasion"],
+      abilities: ["potion", "heal", "burst", "evasion"],
     };
   }
   public init(): void {}
@@ -27,11 +27,10 @@ export class GoLeft extends Combatant {
     helpers,
     you,
     visibleEnemies,
-    spells: [potion, teleport, burst],
+    spells: [potion, heal, burst],
   }: ActParams): Action {
-    const coord = this.getRandomCoord();
-    if (helpers.canPerform(actions.cast(teleport, coord))) {
-      return actions.cast(teleport, coord);
+    if (helpers.canPerform(actions.cast(heal))) {
+      return actions.cast(heal);
     }
 
     if (
