@@ -3,8 +3,8 @@ import { mmAmplitude } from "../../../Common/Icon";
 import { Action } from "../../actions";
 import { ActParams } from "../../combatant";
 
-const MAGIC_DAMAGE_MULT = 1.4;
-const DANCE_CHANCE = 0.2;
+const MAGIC_DAMAGE_MULT = 1.15;
+const DANCE_CHANCE = 0.1;
 
 export class Amplitude extends Passive {
   public constructor() {

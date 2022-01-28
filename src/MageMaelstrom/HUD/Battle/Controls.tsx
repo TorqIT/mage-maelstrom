@@ -21,6 +21,7 @@ export const Controls = React.memo<ControlsProps>(() => {
     victor,
     gameSpeed,
     setGameSpeed,
+    simulate,
     simulateFullGame,
   } = useGameManager();
 
@@ -37,6 +38,18 @@ export const Controls = React.memo<ControlsProps>(() => {
         </NiceButton>
         <NiceButton onClick={tick} disabled={victor !== undefined}>
           +10<span style={{ fontFamily: "Body" }}>ms</span>
+        </NiceButton>
+        <NiceButton
+          onClick={() => simulate(100)}
+          disabled={victor !== undefined}
+        >
+          +1<span style={{ fontFamily: "Body" }}>s</span>
+        </NiceButton>
+        <NiceButton
+          onClick={() => simulate(1000)}
+          disabled={victor !== undefined}
+        >
+          +10<span style={{ fontFamily: "Body" }}>s</span>
         </NiceButton>
       </Stack>
       <div className={classNames(styles.tickCounter, styles.section)}>

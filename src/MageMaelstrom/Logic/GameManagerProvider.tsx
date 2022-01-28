@@ -20,6 +20,7 @@ export interface GameManagerData extends GameManagerProviderProps {
   setGameSpeed: React.Dispatch<React.SetStateAction<number>>;
   tick: () => void;
   toggleLooping: () => void;
+  simulate: (ticks: number) => void;
   simulateFullGame: () => void;
 }
 
@@ -45,6 +46,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
     isLooping,
     gameSpeed,
     setGameSpeed,
+    simulate,
     simulateFullGame,
   } = useGameControls(gameManager, victor !== undefined);
 
@@ -62,6 +64,7 @@ export const GameManagerProvider: React.FC<GameManagerProviderProps> = ({
         entrants,
         gameSpeed,
         setGameSpeed,
+        simulate,
         simulateFullGame,
       }}
     >

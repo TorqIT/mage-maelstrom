@@ -482,14 +482,6 @@ export class GameManager {
           this.specs.suddenDeath.flatDamage
       );
       this.serverEntrant.dealPureDamage(e, damage, "meteor", mmMeteor);
-
-      loggingManager.logSpell({
-        caster: this.serverEntrant.getCombatantInfo(),
-        spellIcon: mmMeteor,
-        target: e.getCombatantInfo(),
-        damage: damage,
-        remainingHealth: e.getHealth(),
-      });
     });
   }
 

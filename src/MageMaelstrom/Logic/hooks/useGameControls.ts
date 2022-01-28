@@ -59,6 +59,19 @@ export function useGameControls(
     }
   }, [hasVictor, isLooping]);
 
+  const simulate = useCallback(
+    (ticks: number) => {
+      if (!gameManager) {
+        return;
+      }
+
+      for (let j = 0; j < ticks && !gameManager.isFinished(); j++) {
+        gameManager.tick(j === ticks - 1);
+      }
+    },
+    [gameManager]
+  );
+
   const simulateFullGame = useCallback(() => {
     if (!gameManager) {
       return;
@@ -75,6 +88,7 @@ export function useGameControls(
     isLooping,
     gameSpeed,
     setGameSpeed,
+    simulate,
     simulateFullGame,
   };
 }

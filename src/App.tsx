@@ -20,8 +20,8 @@ function App() {
           start: 15000,
           delay: 10,
           radius: 3.5,
-          flatDamage: 25,
-          percentDamage: 0.12,
+          flatDamage: 15,
+          percentDamage: 0.15,
         },
         arena: {
           width: 14,

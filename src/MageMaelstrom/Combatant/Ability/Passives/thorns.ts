@@ -16,7 +16,7 @@ export class Thorns extends Passive {
         category: "defensive",
         description: `Reduces attack damage taken by ${invertPercentage(
           DAMAGE_MULT
-        )}% and deals ${THORN_DAMAGE} every time you're attacked`,
+        )}% and deals ${THORN_DAMAGE} damage every time you're attacked`,
         icon: mmThorns,
       },
     });
