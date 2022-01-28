@@ -1,0 +1,15 @@
+.rules {
+  padding: 0px 20px;
+}
+
+.rules li {
+  margin-top: 4px;
+}
+
+.rules li:first-of-type {
+  margin-top: 0px;
+}
+
+.rules b {
+  letter-spacing: 1px;
+}

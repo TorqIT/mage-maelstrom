@@ -17,10 +17,13 @@
   min-height: 148px;
 }
 
-.pool {
+.poolWrapper {
   margin: 50px;
-  height: calc(100vh - 340px);
+}
+
+.pool {
   overflow-y: auto;
+  height: calc(100vh - 340px);
 }
 
 .versus {

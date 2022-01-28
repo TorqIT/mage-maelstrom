@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import { Stack } from "../../Common";
 import { useTeamSelection } from "../../Logic/TeamSelectionProvider";
+import { Help } from "../Help";
 import { NiceButton } from "../NiceButton";
 import { SelectableTeam } from "./SelectableTeam";
 import styles from "./TeamSelector.module.css";
@@ -61,19 +62,24 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({}) => {
           </Stack>
         </Stack.Item>
       </Stack>
-      <div className={classNames(styles.openSlot, styles.pool)}>
-        <Stack style={{ flexWrap: "wrap" }}>
-          {teams.map((t, index) => (
-            <SelectableTeam
-              key={t.team.id}
-              team={t.team}
-              errors={t.errors}
-              warnings={t.warnings}
-              onClick={() => clickTeam(index)}
-            />
-          ))}
-        </Stack>
-      </div>
+      <Stack className={styles.poolWrapper} gap={50} stretch>
+        <Stack.Item>
+          <div className={classNames(styles.openSlot, styles.pool)}>
+            <Stack style={{ flexWrap: "wrap" }}>
+              {teams.map((t, index) => (
+                <SelectableTeam
+                  key={t.team.id}
+                  team={t.team}
+                  errors={t.errors}
+                  warnings={t.warnings}
+                  onClick={() => clickTeam(index)}
+                />
+              ))}
+            </Stack>
+          </div>
+        </Stack.Item>
+        <Help vertical size={250} />
+      </Stack>
     </div>
   );
 };

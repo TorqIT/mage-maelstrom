@@ -24,7 +24,9 @@ export const Modal: React.FC<ModalProps> = ({
         style={{ width }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={styles.closer}>✕</div>
+        <div className={styles.closer} onClick={onCloseRequested}>
+          ✕
+        </div>
         <div className={styles.content}>{children}</div>
       </div>
     </div>
