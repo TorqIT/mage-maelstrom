@@ -33,9 +33,9 @@ export class GoLeft extends Combatant {
       abilities: ["potion", "heal", "burst", "evasion"],
     };
   }
-  public init(params: InitParams): void {
-    console.log(params.enemies);
-  }
+
+  public init(params: InitParams): void {}
+
   public act({
     actions,
     helpers,
@@ -62,13 +62,6 @@ export class GoLeft extends Combatant {
     }
 
     return actions.dance();
-  }
-
-  private getRandomCoord(): BasicCoordinate {
-    return {
-      x: Math.floor(Math.random() * this.arena.width),
-      y: Math.floor(Math.random() * this.arena.height),
-    };
   }
 
   public onTakeDamage(params: OnTakeDamageParams): void {}
