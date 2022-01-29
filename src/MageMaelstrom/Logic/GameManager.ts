@@ -61,11 +61,16 @@ export class GameManager {
     this.leftTeam = this.buildActiveTeam(left, false);
     this.rightTeam = this.buildActiveTeam(right, true);
 
-    this.leftTeam.entrants.forEach((e) => e.getCombatant().init());
-    this.rightTeam.entrants.forEach((e) => e.getCombatant().init());
+    this.leftTeam.entrants.forEach((e) =>
+      this.initCombatant(e, this.leftTeam, this.rightTeam, true)
+    );
+    this.rightTeam.entrants.forEach((e) =>
+      this.initCombatant(e, this.rightTeam, this.leftTeam, false)
+    );
 
     this.serverEntrant = new Entrant(
-      new ServerCombatant(specs),
+      specs,
+      new ServerCombatant(),
       { color: "", flip: false, id: nextId() },
       new Coordinate({ x: -100, y: -100 }),
       true,
@@ -76,21 +81,10 @@ export class GameManager {
   }
 
   //~*~*~*~*~*
-  // LISTENERS
-
-  public setOnChange(onChange: OnChangeListener) {
-    this.onChange = onChange;
-  }
-
-  public clearOnChange() {
-    this.onChange = undefined;
-  }
-
-  //~*~*~*~*~*
   // INITIALIZATION
 
   public buildCombatant(SubCombatant: CombatantSubclass) {
-    return new SubCombatant(this.specs);
+    return new SubCombatant();
   }
 
   private buildActiveTeam(team: IdentifiedTeam, isRight: boolean): ActiveTeam {
@@ -102,7 +96,8 @@ export class GameManager {
       entrants: team.CombatantSubclasses.map(
         (SubCombatant) =>
           new Entrant(
-            new SubCombatant(this.specs),
+            this.specs,
+            new SubCombatant(),
             { color: team.color, id: team.id, flip: isRight },
             this.generateCoord(isRight),
             true,
@@ -119,6 +114,38 @@ export class GameManager {
         (right ? Math.ceil(this.specs.arena.width / 2 + 1) : 0),
       y: Math.floor(Math.random() * this.specs.arena.height),
     });
+  }
+
+  private initCombatant(
+    entrant: Entrant,
+    yourTeam: ActiveTeam,
+    enemyTeam: ActiveTeam,
+    isLeft: boolean
+  ) {
+    entrant.getCombatant().init({
+      you: entrant.getReadonlyStatus(),
+      allies: yourTeam.entrants
+        .filter((e) => e.getId() !== entrant.getId())
+        .map((e) => e.getReadonlyStatus()),
+      enemies: enemyTeam.entrants.map((e) => {
+        const { coords, ...everythingElse } = e.getReadonlyStatus();
+
+        return everythingElse;
+      }),
+      arena: this.specs.arena,
+      isLeft,
+    });
+  }
+
+  //~*~*~*~*~*
+  // LISTENERS
+
+  public setOnChange(onChange: OnChangeListener) {
+    this.onChange = onChange;
+  }
+
+  public clearOnChange() {
+    this.onChange = undefined;
   }
 
   //~*~*~*~*~*
@@ -478,7 +505,7 @@ export class GameManager {
 
     entrants.forEach((e) => {
       const damage = Math.ceil(
-        e.getCombatant().getMaxHealth() * this.specs.suddenDeath.percentDamage +
+        e.getMaxHealth() * this.specs.suddenDeath.percentDamage +
           this.specs.suddenDeath.flatDamage
       );
       this.serverEntrant.dealPureDamage(e, damage, "meteor", mmMeteor);
@@ -493,18 +520,23 @@ export class GameManager {
     teamId: number,
     coord: Coordinate
   ) {
-    const targetTeam =
-      this.leftTeam.id === teamId ? this.leftTeam : this.rightTeam;
+    const { targetTeam, enemyTeam } =
+      this.leftTeam.id === teamId
+        ? { targetTeam: this.leftTeam, enemyTeam: this.rightTeam }
+        : { targetTeam: this.rightTeam, enemyTeam: this.leftTeam };
     const targetCoord = this.findNearestOpenSpot(coord);
 
     const entrant = new Entrant(
-      new SubCombatant(this.specs),
+      this.specs,
+      new SubCombatant(),
       targetTeam,
       targetCoord,
       false,
       this
     );
-    entrant.getCombatant().init();
+
+    this.initCombatant(entrant, targetTeam, enemyTeam, true);
+
     targetTeam.entrants.push(entrant);
 
     return entrant;

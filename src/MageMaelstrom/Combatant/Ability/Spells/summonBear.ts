@@ -5,6 +5,7 @@ import {
   ActParams,
   Combatant,
   CombatantDefinition,
+  InitParams,
   ReadonlyEntrant,
   ReadonlyEntrantStatus,
 } from "../..";
@@ -91,6 +92,13 @@ class BearCombatant extends Combatant {
   private targetX = 0;
   private targetY = 0;
 
+  private arena: { width: number; height: number };
+
+  public constructor() {
+    super();
+    this.arena = { width: 0, height: 0 };
+  }
+
   public define(): CombatantDefinition {
     return {
       name: "A Bear",
@@ -102,7 +110,8 @@ class BearCombatant extends Combatant {
     };
   }
 
-  public init(): void {
+  public init({ arena }: InitParams): void {
+    this.arena = arena;
     this.generateTarget();
   }
 
@@ -154,8 +163,8 @@ class BearCombatant extends Combatant {
   }
 
   private generateTarget() {
-    this.targetX = Math.floor(Math.random() * this.getGameSpecs().arena.width);
-    this.targetY = Math.floor(Math.random() * this.getGameSpecs().arena.height);
+    this.targetX = Math.floor(Math.random() * this.arena.width);
+    this.targetY = Math.floor(Math.random() * this.arena.height);
   }
 
   public onTakeDamage(

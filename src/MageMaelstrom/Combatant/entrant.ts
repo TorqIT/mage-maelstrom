@@ -5,7 +5,13 @@ import {
   ReadonlyCoordinate,
 } from "../Arena";
 import { nextId } from "../Common";
-import { ActionResult, CombatantInfo, Helpers, SpellResult } from "../Logic";
+import {
+  ActionResult,
+  CombatantInfo,
+  GameSpecs,
+  Helpers,
+  SpellResult,
+} from "../Logic";
 import {
   AbilityStatus,
   AbilityType,
@@ -63,6 +69,7 @@ export interface ReadonlyEntrant {
 export type DamageType = "attack" | "magic" | "pure";
 
 export class Entrant {
+  private gameSpecs: GameSpecs;
   private combatant: Combatant;
 
   private color: string;
@@ -84,12 +91,14 @@ export class Entrant {
   private gameManager: GameManager;
 
   public constructor(
+    gameSpecs: GameSpecs,
     combatant: Combatant,
     team: { color: string; flip: boolean; id: number },
     coords: Coordinate,
     essential: boolean,
     gameManager: GameManager
   ) {
+    this.gameSpecs = gameSpecs;
     this.combatant = combatant;
     this.coords = coords;
 
@@ -98,17 +107,6 @@ export class Entrant {
     this.teamId = team.id;
 
     this.id = nextId();
-    this.health = {
-      max: combatant.getMaxHealth(),
-      value: combatant.getMaxHealth(),
-      regen: combatant.getHealthRegen(),
-    };
-
-    this.mana = {
-      max: combatant.getMaxMana(),
-      value: combatant.getMaxMana(),
-      regen: combatant.getManaRegen(),
-    };
 
     this.ticksUntilNextTurn = this.rollTurnDelay(false);
 
@@ -117,6 +115,18 @@ export class Entrant {
     this.statusEffects = [];
     this.spells = abilities.filter(isSpell).map((a) => buildSpell(a));
     this.passives = abilities.filter(isPassive).map((a) => buildPassive(a));
+
+    this.health = {
+      max: this.getMaxHealth(),
+      value: this.getMaxHealth(),
+      regen: this.getHealthRegen(),
+    };
+
+    this.mana = {
+      max: this.getMaxMana(),
+      value: this.getMaxMana(),
+      regen: this.getManaRegen(),
+    };
 
     this.essential = essential;
     this.gameManager = gameManager;
@@ -160,6 +170,64 @@ export class Entrant {
     };
   }
 
+  private getDamage() {
+    return (
+      Math.max(
+        this.combatant.getStrength(),
+        this.combatant.getAgility(),
+        this.combatant.getIntelligence()
+      ) + this.gameSpecs.stats.baseDamage
+    );
+  }
+
+  public getMaxHealth() {
+    return (
+      this.combatant.getStrength() * this.gameSpecs.stats.healthPerStrength +
+      this.gameSpecs.stats.baseHealth
+    );
+  }
+
+  private getHealthRegen() {
+    return (
+      (this.combatant.getStrength() *
+        this.gameSpecs.stats.healthRegenPerStrength +
+        this.gameSpecs.stats.baseHealthRegen +
+        aggSum(this.statusEffects, (s) => s.getHealthRegenBonus())) *
+      aggMult(this.statusEffects, (s) => s.getHealthRegenMultiplier()) *
+      aggMult(this.passives, (p) => p.getHealthRegenMultiplier())
+    );
+  }
+
+  private getMaxMana() {
+    return (
+      this.combatant.getIntelligence() * this.gameSpecs.stats.manaPerInt +
+      this.gameSpecs.stats.baseMana
+    );
+  }
+
+  private getManaRegen() {
+    return (
+      this.combatant.getIntelligence() * this.gameSpecs.stats.manaRegenPerInt +
+      this.gameSpecs.stats.baseManaRegen +
+      aggSum(this.passives, (p) => p.getManaRegenBonus())
+    );
+  }
+
+  private getTurnDelay() {
+    return Math.ceil(
+      this.gameSpecs.stats.baseAttackPeriod /
+        (1 + this.gameSpecs.stats.agilityBonus * this.combatant.getAgility())
+    );
+  }
+
+  public getVision() {
+    return (
+      this.gameSpecs.stats.vision +
+      aggSum(this.passives, (p) => p.getVisionAdjustment()) +
+      aggSum(this.statusEffects, (s) => s.getVisionAdjustment())
+    );
+  }
+
   public getCoords() {
     return this.coords;
   }
@@ -185,14 +253,6 @@ export class Entrant {
 
   public isDead() {
     return this.health.value <= 0;
-  }
-
-  public getVision() {
-    return (
-      this.combatant.getVision() +
-      aggSum(this.passives, (p) => p.getVisionAdjustment()) +
-      aggSum(this.statusEffects, (s) => s.getVisionAdjustment())
-    );
   }
 
   public getAttackRange() {
@@ -234,21 +294,6 @@ export class Entrant {
     meter.value = Math.min(
       meter.max,
       meter.value + (regen ?? meter.regen) / 100
-    );
-  }
-
-  private getHealthRegen() {
-    return (
-      (this.health.regen +
-        aggSum(this.statusEffects, (s) => s.getHealthRegenBonus())) *
-      aggMult(this.statusEffects, (s) => s.getHealthRegenMultiplier()) *
-      aggMult(this.passives, (p) => p.getHealthRegenMultiplier())
-    );
-  }
-
-  private getManaRegen() {
-    return (
-      this.mana.regen + aggSum(this.passives, (p) => p.getManaRegenBonus())
     );
   }
 
@@ -296,7 +341,7 @@ export class Entrant {
   private rollTurnDelay(rollForDoubleTap: boolean) {
     return rollForDoubleTap && this.passives.some((p) => p.rollForDoubleTap())
       ? 0
-      : this.combatant.getTurnDelay() * (0.92 + Math.random() * 0.16);
+      : this.getTurnDelay() * (0.92 + Math.random() * 0.16);
   }
 
   public move(direction: MovementDirection) {
@@ -338,7 +383,7 @@ export class Entrant {
     }
 
     const damage =
-      this.combatant.getDamage() *
+      this.getDamage() *
       aggMult(this.passives, (p) => p.getAttackDamageMultiplier()) *
       aggMult(this.statusEffects, (s) => s.getAttackDamageMultiplier()) *
       (damageMultiplier ?? 1);

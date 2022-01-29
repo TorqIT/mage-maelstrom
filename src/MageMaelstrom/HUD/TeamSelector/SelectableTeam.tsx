@@ -21,13 +21,11 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
   warnings,
   onClick,
 }) => {
-  const specs = useGameSpecs();
   const isSelectable = errors == null || errors?.length === 0;
 
   const intializedCombatants = useMemo(
-    () =>
-      team.CombatantSubclasses.map((SubCombatant) => new SubCombatant(specs)),
-    [team, specs]
+    () => team.CombatantSubclasses.map((SubCombatant) => new SubCombatant()),
+    [team]
   );
 
   return (

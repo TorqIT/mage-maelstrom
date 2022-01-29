@@ -9,6 +9,13 @@ import { BasicCoordinate } from "../MageMaelstrom/Arena";
 import { CombatantDefinition, Action, ActParams } from "../MageMaelstrom";
 
 export class GoLeft extends Combatant {
+  private arena: { width: number; height: number };
+
+  public constructor() {
+    super();
+    this.arena = { width: 0, height: 0 };
+  }
+
   public define(): CombatantDefinition {
     return {
       name: "STAND",
@@ -52,8 +59,8 @@ export class GoLeft extends Combatant {
 
   private getRandomCoord(): BasicCoordinate {
     return {
-      x: Math.floor(Math.random() * this.getGameSpecs().arena.width),
-      y: Math.floor(Math.random() * this.getGameSpecs().arena.height),
+      x: Math.floor(Math.random() * this.arena.width),
+      y: Math.floor(Math.random() * this.arena.height),
     };
   }
 

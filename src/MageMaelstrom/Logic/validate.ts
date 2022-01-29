@@ -14,7 +14,8 @@ export function validate(team: Team, specs: GameSpecs) {
 
   team.CombatantSubclasses.forEach((SubCombatant) => {
     const entrant = new Entrant(
-      new SubCombatant(specs),
+      specs,
+      new SubCombatant(),
       { color: team.color, flip: false, id: -1 },
       new Coordinate({ x: 0, y: 0 }),
       true,
@@ -78,7 +79,8 @@ export function warn(team: Team, specs: GameSpecs) {
 
   team.CombatantSubclasses.forEach((SubCombatant) => {
     const entrant = new Entrant(
-      new SubCombatant(specs),
+      specs,
+      new SubCombatant(),
       { color: team.color, flip: false, id: -1 },
       new Coordinate({ x: 0, y: 0 }),
       true,

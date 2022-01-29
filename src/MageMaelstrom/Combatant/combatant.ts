@@ -15,6 +15,14 @@ export interface CombatantDefinition {
   abilities: AbilityType[];
 }
 
+export interface InitParams {
+  you: ReadonlyEntrantStatus;
+  allies: ReadonlyEntrantStatus[];
+  enemies: Omit<ReadonlyEntrantStatus, "coords">[];
+  arena: { width: number; height: number };
+  isLeft: boolean;
+}
+
 export interface ActParams {
   actions: ActionFactory;
   helpers: Helpers;
@@ -27,12 +35,10 @@ export interface ActParams {
 
 export abstract class Combatant {
   private def: CombatantDefinition;
-  private gameSpecs: GameSpecs;
   private id: number;
 
-  public constructor(specs: GameSpecs) {
+  public constructor() {
     this.def = this.define();
-    this.gameSpecs = specs;
     this.id = nextId();
   }
 
@@ -41,7 +47,7 @@ export abstract class Combatant {
 
   public abstract define(): CombatantDefinition;
 
-  public abstract init(): void;
+  public abstract init(params: InitParams): void;
 
   public abstract act(params: ActParams): Action;
 
@@ -76,58 +82,8 @@ export abstract class Combatant {
   //~*~*~*~*
   //STATS
 
-  public getDamage() {
-    return (
-      Math.max(this.def.strength, this.def.agility, this.def.intelligence) +
-      this.gameSpecs.stats.baseDamage
-    );
-  }
-
-  public getMaxHealth() {
-    return (
-      this.def.strength * this.gameSpecs.stats.healthPerStrength +
-      this.gameSpecs.stats.baseHealth
-    );
-  }
-
-  public getHealthRegen() {
-    return (
-      this.def.strength * this.gameSpecs.stats.healthRegenPerStrength +
-      this.gameSpecs.stats.baseHealthRegen
-    );
-  }
-
-  public getMaxMana() {
-    return (
-      this.def.intelligence * this.gameSpecs.stats.manaPerInt +
-      this.gameSpecs.stats.baseMana
-    );
-  }
-
-  public getManaRegen() {
-    return (
-      this.def.intelligence * this.gameSpecs.stats.manaRegenPerInt +
-      this.gameSpecs.stats.baseManaRegen
-    );
-  }
-
-  public getTurnDelay() {
-    return Math.ceil(
-      this.gameSpecs.stats.baseAttackPeriod /
-        (1 + this.gameSpecs.stats.agilityBonus * this.def.agility)
-    );
-  }
-
-  public getVision() {
-    return this.gameSpecs.stats.vision;
-  }
-
   //~*~*~*~*
   //TECHNICAL
-
-  public getGameSpecs() {
-    return this.gameSpecs;
-  }
 
   public getDef() {
     return this.def;
@@ -138,4 +94,4 @@ export abstract class Combatant {
   }
 }
 
-export type CombatantSubclass = new (specs: GameSpecs) => Combatant;
+export type CombatantSubclass = new () => Combatant;

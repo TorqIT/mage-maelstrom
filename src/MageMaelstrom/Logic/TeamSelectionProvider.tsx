@@ -98,14 +98,12 @@ export const TeamSelectionProvider: React.FC<TeamSelectionProviderProps> = ({
     () =>
       teamSelection
         ? teamSelection.left.CombatantSubclasses.map((C) =>
-            new C(specs).getDef()
+            new C().getDef()
           ).concat(
-            teamSelection.right.CombatantSubclasses.map((C) =>
-              new C(specs).getDef()
-            )
+            teamSelection.right.CombatantSubclasses.map((C) => new C().getDef())
           )
         : [],
-    [teamSelection, specs]
+    [teamSelection]
   );
 
   const startGame = useCallback(
