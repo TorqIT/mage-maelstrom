@@ -16,7 +16,7 @@ export class Haste extends Spell {
       targetTypes: ["entrant", "nothing"],
       range: 5,
       desc: {
-        name: "Burning Haste",
+        name: "Burnout",
         category: "mobility",
         description:
           `Boosts the target's turn speed up to ${HIGH_SPEED_MULT}x, then slows ` +
@@ -46,7 +46,7 @@ class HasteStatus extends StatusEffect {
       duration: DURATION,
       isPositive: true,
       desc: {
-        name: "Burning Haste",
+        name: "Burnout",
         description:
           `Boosts turn speed up to ${HIGH_SPEED_MULT}x, then slow ` +
           `down to ${LOW_SPEED_MULT}x speed over ${DURATION / 100} seconds`,

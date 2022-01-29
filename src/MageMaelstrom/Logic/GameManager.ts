@@ -289,7 +289,7 @@ export class GameManager {
 
         const you = e.getReadonlyStatus();
         const allies = team.entrants
-          .filter((ally) => ally.getId() !== e.getId())
+          .filter((ally) => ally.getId() !== e.getId() && !ally.isDead())
           .map((ally) => ally.getReadonlyStatus());
         const visibleEnemies = this.getVisibleEnemyEntrants(team, enemyTeam);
 

@@ -5,6 +5,8 @@ import {
   ActParams,
   Combatant,
   CombatantDefinition,
+  OnStatusEffectAppliedParams,
+  OnTakeDamageParams,
 } from "../..";
 import { mmSpirit } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
@@ -136,14 +138,6 @@ class SpiritCombatant extends Combatant {
     visibleEnemies: BasicEntrantStatus[]
   ) {}
 
-  public onTakeDamage(
-    enemyId: number,
-    damage: number,
-    type: DamageType,
-    ability?: AbilityType
-  ): void {}
-  public onNegativeStatusApplied(
-    enemyId: number,
-    status: StatusEffectType
-  ): void {}
+  public onTakeDamage(params: OnTakeDamageParams): void {}
+  public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
 }

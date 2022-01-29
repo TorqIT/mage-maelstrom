@@ -1,7 +1,7 @@
 import { mmTalented } from "../../../Common/Icon";
 import { Passive } from "../passive";
 
-const MAX_STAT_BOOST = 7;
+const MAX_STAT_BOOST = 6;
 
 export class Talented extends Passive {
   public constructor() {

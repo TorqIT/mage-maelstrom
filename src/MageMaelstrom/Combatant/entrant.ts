@@ -44,13 +44,24 @@ interface Meter {
 }
 
 interface EntStatus<CoordinateType> {
+  /** The combatant's unique ID. Changes every battle */
   id: number;
+  /** The combatant's health's current value, maximum and regeneration */
   health: Meter;
+  /** The combatant's mana's current value, maximum and regeneration */
   mana: Meter;
+  /** The combatant's current location */
   coords: CoordinateType;
+  /** How long until this combatant performs their action. **Note:** Slows, stuns and haste
+   * change the **rate** at which this number shrinks, meaning this is not an exact measure
+   * of when this combatant will next act.
+   */
   ticksUntilNextTurn: number;
+  /** How far this combatant can see */
   vision: number;
+  /** The stats effects currently affecting this combatant */
   statusesEffects: StatusEffectType[];
+  /** A list of the spells and passives belonging to this combatant */
   abilities: AbilityType[];
 }
 
@@ -475,12 +486,12 @@ export class Entrant {
 
     if (this.health.value > 0) {
       try {
-        this.combatant.onTakeDamage(
-          source.getId(),
-          actualDamage,
-          damageType,
-          ability
-        );
+        this.combatant.onTakeDamage({
+          enemyId: source.getId(),
+          damage: actualDamage,
+          type: damageType,
+          ability,
+        });
       } catch (e) {
         console.error(e);
       }
@@ -514,15 +525,14 @@ export class Entrant {
     );
     this.statusEffects.push(effect);
 
-    if (!effect.isPositive()) {
-      try {
-        this.combatant.onNegativeStatusApplied(
-          source.getId(),
-          effect.getType()
-        );
-      } catch (e) {
-        console.error(e);
-      }
+    try {
+      this.combatant.onStatusEffectApplied({
+        entrantId: source.getId(),
+        status: effect.getType(),
+        isPositive: effect.isPositive(),
+      });
+    } catch (e) {
+      console.error(e);
     }
   }
 

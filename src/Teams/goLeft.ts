@@ -7,7 +7,11 @@ import {
 } from "../MageMaelstrom";
 import { BasicCoordinate } from "../MageMaelstrom/Arena";
 import { CombatantDefinition, Action, ActParams } from "../MageMaelstrom";
-import { InitParams } from "../MageMaelstrom/Combatant";
+import {
+  InitParams,
+  OnStatusEffectAppliedParams,
+  OnTakeDamageParams,
+} from "../MageMaelstrom/Combatant";
 
 export class GoLeft extends Combatant {
   private arena: { width: number; height: number };
@@ -67,14 +71,6 @@ export class GoLeft extends Combatant {
     };
   }
 
-  public onTakeDamage(
-    enemyId: number,
-    damage: number,
-    type: DamageType,
-    ability?: AbilityType
-  ): void {}
-  public onNegativeStatusApplied(
-    enemyId: number,
-    status: StatusEffectType
-  ): void {}
+  public onTakeDamage(params: OnTakeDamageParams): void {}
+  public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
 }

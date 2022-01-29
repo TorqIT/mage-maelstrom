@@ -5,6 +5,8 @@ import {
   Combatant,
   CombatantDefinition,
   DamageType,
+  OnStatusEffectAppliedParams,
+  OnTakeDamageParams,
   SpellType,
   StatusEffectType,
 } from "../Combatant";
@@ -33,14 +35,6 @@ export class ServerCombatant extends Combatant {
     return actions.dance();
   }
 
-  public onTakeDamage(
-    enemyId: number,
-    damage: number,
-    type: DamageType,
-    ability?: AbilityType
-  ): void {}
-  public onNegativeStatusApplied(
-    enemyId: number,
-    status: StatusEffectType
-  ): void {}
+  public onTakeDamage(params: OnTakeDamageParams): void {}
+  public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
 }

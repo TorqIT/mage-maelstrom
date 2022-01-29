@@ -6,6 +6,8 @@ import {
   Combatant,
   CombatantDefinition,
   InitParams,
+  OnStatusEffectAppliedParams,
+  OnTakeDamageParams,
   ReadonlyEntrant,
   ReadonlyEntrantStatus,
 } from "../..";
@@ -167,14 +169,6 @@ class BearCombatant extends Combatant {
     this.targetY = Math.floor(Math.random() * this.arena.height);
   }
 
-  public onTakeDamage(
-    enemyId: number,
-    damage: number,
-    type: DamageType,
-    ability?: AbilityType
-  ): void {}
-  public onNegativeStatusApplied(
-    enemyId: number,
-    status: StatusEffectType
-  ): void {}
+  public onTakeDamage(params: OnTakeDamageParams): void {}
+  public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
 }

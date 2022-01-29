@@ -4,7 +4,12 @@ import { mmSentry } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { GameManager } from "../../../Logic/GameManager";
 import { Action } from "../../actions";
-import { CombatantDefinition, ActParams } from "../../combatant";
+import {
+  CombatantDefinition,
+  ActParams,
+  OnTakeDamageParams,
+  OnStatusEffectAppliedParams,
+} from "../../combatant";
 import { DamageType, Entrant } from "../../entrant";
 import { AbilityType } from "../ability";
 import { Temporality } from "../Statuses/temporality";
@@ -107,14 +112,7 @@ class SentryGun extends Combatant {
 
     return actions.dance();
   }
-  public onTakeDamage(
-    enemyId: number,
-    damage: number,
-    type: DamageType,
-    ability?: AbilityType
-  ): void {}
-  public onNegativeStatusApplied(
-    enemyId: number,
-    status: StatusEffectType
-  ): void {}
+
+  public onTakeDamage(params: OnTakeDamageParams): void {}
+  public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
 }
