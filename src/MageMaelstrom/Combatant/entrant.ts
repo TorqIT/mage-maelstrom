@@ -20,6 +20,7 @@ import {
   ExtendedAbilityType,
   ExtendedSpellStatus,
   FullSpellTarget,
+  isAbility,
   isPassive,
   isSpell,
   Passive,
@@ -50,6 +51,7 @@ interface EntStatus<CoordinateType> {
   ticksUntilNextTurn: number;
   vision: number;
   statusesEffects: StatusEffectType[];
+  abilities: AbilityType[];
 }
 
 export type BasicEntrantStatus = EntStatus<BasicCoordinate>;
@@ -558,6 +560,10 @@ export class Entrant {
       coords: this.coords.toBasic(),
       vision: this.getVision(),
       statusesEffects: this.statusEffects.map((s) => s.getType()),
+      abilities: this.spells
+        .map((s) => s.getType())
+        .concat(this.passives.map((p) => p.getType()))
+        .filter(isAbility),
     };
   }
 
@@ -573,6 +579,10 @@ export class Entrant {
       coords: new ReadonlyCoordinate(this.coords.toBasic()),
       vision: this.getVision(),
       statusesEffects: this.statusEffects.map((s) => s.getType()),
+      abilities: this.spells
+        .map((s) => s.getType())
+        .concat(this.passives.map((p) => p.getType()))
+        .filter(isAbility),
     };
   }
 }

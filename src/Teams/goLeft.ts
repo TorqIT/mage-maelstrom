@@ -7,6 +7,7 @@ import {
 } from "../MageMaelstrom";
 import { BasicCoordinate } from "../MageMaelstrom/Arena";
 import { CombatantDefinition, Action, ActParams } from "../MageMaelstrom";
+import { InitParams } from "../MageMaelstrom/Combatant";
 
 export class GoLeft extends Combatant {
   private arena: { width: number; height: number };
@@ -28,7 +29,9 @@ export class GoLeft extends Combatant {
       abilities: ["potion", "heal", "burst", "evasion"],
     };
   }
-  public init(): void {}
+  public init(params: InitParams): void {
+    console.log(params.enemies);
+  }
   public act({
     actions,
     helpers,

@@ -59,12 +59,16 @@ export type ExtendedPassiveType = PassiveType | InternalPassiveType;
 
 export type ExtendedAbilityType = SpellType | ExtendedPassiveType;
 
-export function isSpell(type: AbilityType): type is SpellType {
+export function isSpell(type: ExtendedAbilityType): type is SpellType {
   return spellTypeArray.includes(type as SpellType);
 }
 
 export function isPassive(type: ExtendedAbilityType): type is PassiveType {
   return passiveTypeArray.includes(type as PassiveType);
+}
+
+export function isAbility(type: ExtendedAbilityType): type is AbilityType {
+  return isSpell(type) || isPassive(type);
 }
 
 export interface AbilityDefinition {
