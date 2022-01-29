@@ -23,7 +23,7 @@ export interface MovementAction {
 
 export interface AttackAction {
   type: ActionType.Attack;
-  target: MovementDirection | number;
+  target: number;
 }
 
 export interface SpellAction {
@@ -44,7 +44,7 @@ export interface ActionFactory {
   moveTo: (
     targetCoord: ReadonlyCoordinate | BasicCoordinate
   ) => MovementAction | undefined;
-  attack: (target: MovementDirection | number) => AttackAction;
+  attack: (target: number) => AttackAction;
   cast: (spell: SpellStatus, target?: SpellTarget) => SpellAction;
   /** /dance */
   dance: () => DanceAction;
@@ -115,7 +115,7 @@ export function buildActionFactory(
 
       return undefined;
     },
-    attack: (target: MovementDirection | number): AttackAction => {
+    attack: (target: number): AttackAction => {
       return {
         type: ActionType.Attack,
         target,
