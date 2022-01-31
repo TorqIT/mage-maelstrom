@@ -16,4 +16,5 @@ export interface CategorizedDescriptiveIcon extends DescriptiveIcon {
     | "summons"
     | "buffs"
     | "debuffs";
+  notes?: string[];
 }

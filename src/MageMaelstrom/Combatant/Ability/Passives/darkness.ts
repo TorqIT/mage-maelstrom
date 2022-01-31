@@ -14,7 +14,8 @@ export class Darkness extends Passive {
         name: "Aura of Darkness",
         description:
           `All enemies within a radius of ${RADIUS} of you have their ` +
-          `vision reduced by ${VISION_REDUCTION}. Doesn't stack.`,
+          `vision reduced by ${VISION_REDUCTION}.`,
+        notes: ["Doesn't stack."],
         category: "debuffs",
         icon: mmDarkness,
       },

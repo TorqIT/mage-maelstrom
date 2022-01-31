@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Stack } from "../../Common";
 import { NiceButton } from "../NiceButton";
 import { AbilityGuide } from "./AbilityGuide";
+import { CodingTips } from "./CodingTips";
 import { RulesGuide } from "./RulesGuide";
 
 export interface HelpProps {
@@ -12,6 +13,7 @@ export interface HelpProps {
 export const Help: React.FC<HelpProps> = ({ size, vertical }) => {
   const [open, setOpen] = useState(false);
   const [spellOpen, setSpellOpen] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
 
   return (
     <div>
@@ -28,6 +30,9 @@ export const Help: React.FC<HelpProps> = ({ size, vertical }) => {
         <NiceButton onClick={() => setSpellOpen(true)} style={{ flex: 1 }}>
           Abilities
         </NiceButton>
+        <NiceButton onClick={() => setCodeOpen(true)} style={{ flex: 1 }}>
+          Coding
+        </NiceButton>
       </Stack>
       <Modal
         visible={open}
@@ -39,9 +44,16 @@ export const Help: React.FC<HelpProps> = ({ size, vertical }) => {
       <Modal
         visible={spellOpen}
         onCloseRequested={() => setSpellOpen(false)}
-        width="90vw"
+        width="85vw"
       >
         <AbilityGuide />
+      </Modal>
+      <Modal
+        visible={codeOpen}
+        onCloseRequested={() => setCodeOpen(false)}
+        width="70vw"
+      >
+        <CodingTips />
       </Modal>
     </div>
   );

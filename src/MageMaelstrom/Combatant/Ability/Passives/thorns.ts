@@ -4,7 +4,7 @@ import { loggingManager } from "../../../Logging";
 import { DamageType, Entrant } from "../../entrant";
 import { Passive } from "../passive";
 
-const DAMAGE_MULT = 0.85;
+const DAMAGE_MULT = 0.88;
 const THORN_DAMAGE = 3;
 
 export class Thorns extends Passive {

@@ -28,7 +28,16 @@ export const PassiveGuide: React.FC<PassiveGuideProps> = ({ status }) => {
           </Stack>
         </Stack>
       </Stack.Item>
-      <Stack.Item>{status.desc.description}</Stack.Item>
+      <Stack.Item>
+        <div>{status.desc.description}</div>
+        {status.desc.notes && status.desc.notes.length > 0 && (
+          <ul className={styles.notes}>
+            {status.desc.notes.map((n) => (
+              <li>{n}</li>
+            ))}
+          </ul>
+        )}
+      </Stack.Item>
       <Stack.Item className={styles.flavorText}>
         {status.desc.flavorText}
       </Stack.Item>

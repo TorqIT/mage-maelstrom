@@ -18,6 +18,10 @@ export class Swift extends Spell {
         name: "Swift",
         category: "damage",
         description: `Attack twice at ${DAMAGE_MULT * 100}% attack damage`,
+        notes: [
+          "Attacks are considered ordinary attacks, dealing attack damage and activating " +
+            "attack effects",
+        ],
         icon: mmSwift,
       },
     });
