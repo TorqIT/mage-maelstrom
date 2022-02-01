@@ -1,10 +1,11 @@
+import { dashingRogues } from "./dashingRogues";
 import { otherTeam } from "./otherTeam";
 import { sampleTeam } from "./sampleTeam";
 
 const teams = [
   sampleTeam,
   otherTeam,
-  //CONFLICT PREVENTION, REPLACE A RANDOM LINE WITH YOUR TEAM
+  dashingRogues,
   //CONFLICT PREVENTION, REPLACE A RANDOM LINE WITH YOUR TEAM
   //CONFLICT PREVENTION, REPLACE A RANDOM LINE WITH YOUR TEAM
   //CONFLICT PREVENTION, REPLACE A RANDOM LINE WITH YOUR TEAM

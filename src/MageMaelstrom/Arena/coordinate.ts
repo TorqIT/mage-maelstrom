@@ -4,9 +4,9 @@ export class ReadonlyCoordinate {
   protected x: number;
   protected y: number;
 
-  public constructor(coord: BasicCoordinate) {
-    this.x = coord.x;
-    this.y = coord.y;
+  public constructor(coord?: BasicCoordinate) {
+    this.x = coord?.x ?? 0;
+    this.y = coord?.y ?? 0;
   }
   public getX() {
     return this.x;
@@ -46,6 +46,10 @@ export class ReadonlyCoordinate {
       x: this.x,
       y: this.y,
     };
+  }
+
+  public toString() {
+    return `X: ${this.x} Y: ${this.y}`;
   }
 }
 
