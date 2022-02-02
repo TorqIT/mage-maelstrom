@@ -59,6 +59,8 @@ interface EntStatus<CoordinateType> {
   ticksUntilNextTurn: number;
   /** How far this combatant can see */
   vision: number;
+  /** How far this combatant can attack from */
+  attackRange: number;
   /** The stats effects currently affecting this combatant */
   statusesEffects: StatusEffectType[];
   /** A list of the spells and passives belonging to this combatant */
@@ -569,6 +571,7 @@ export class Entrant {
       ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: this.coords.toBasic(),
       vision: this.getVision(),
+      attackRange: this.getAttackRange(),
       statusesEffects: this.statusEffects.map((s) => s.getType()),
       abilities: this.spells
         .map((s) => s.getType())
@@ -588,6 +591,7 @@ export class Entrant {
       ticksUntilNextTurn: this.ticksUntilNextTurn,
       coords: new ReadonlyCoordinate(this.coords.toBasic()),
       vision: this.getVision(),
+      attackRange: this.getAttackRange(),
       statusesEffects: this.statusEffects.map((s) => s.getType()),
       abilities: this.spells
         .map((s) => s.getType())

@@ -45,6 +45,9 @@ export interface ActionFactory {
     targetCoord: ReadonlyCoordinate | BasicCoordinate
   ) => MovementAction | undefined;
   attack: (target: number) => AttackAction;
+  attackMove: (
+    target: ReadonlyEntrantStatus
+  ) => AttackAction | MovementAction | undefined;
   cast: (spell: SpellStatus, target?: SpellTarget) => SpellAction;
   /** /dance */
   dance: () => DanceAction;
@@ -56,6 +59,59 @@ export function buildActionFactory(
   visibleEnemies: ReadonlyEntrantStatus[],
   arena: { width: number; height: number }
 ): ActionFactory {
+  function moveTo(
+    targetCoord: ReadonlyCoordinate | BasicCoordinate
+  ): MovementAction | undefined {
+    const actualTarget = coordIsBasic(targetCoord)
+      ? new ReadonlyCoordinate(targetCoord)
+      : targetCoord;
+
+    const grid = new Pathfinding.Grid(arena.width, arena.height);
+
+    const everyoneButYou = allies.concat(visibleEnemies);
+    everyoneButYou
+      .filter(
+        (e) =>
+          e.coords.getX() !== actualTarget.getX() ||
+          e.coords.getY() !== actualTarget.getY()
+      )
+      .forEach((e) =>
+        grid.setWalkableAt(e.coords.getX(), e.coords.getY(), false)
+      );
+
+    const finder = new Pathfinding.BreadthFirstFinder();
+    const path = finder.findPath(
+      you.coords.getX(),
+      you.coords.getY(),
+      actualTarget.getX(),
+      actualTarget.getY(),
+      grid
+    );
+
+    if (
+      path.length > 2 ||
+      (path.length === 2 &&
+        !everyoneButYou.some(
+          (e) =>
+            e.coords.getX() === actualTarget.getX() &&
+            e.coords.getY() === actualTarget.getY()
+        ))
+    ) {
+      const dir = new ReadonlyCoordinate(
+        you.coords.toBasic()
+      ).getRelativeDirectionOf(
+        new ReadonlyCoordinate({ x: path[1][0], y: path[1][1] })
+      );
+
+      return {
+        type: ActionType.Movement,
+        direction: dir,
+      };
+    }
+
+    return undefined;
+  }
+
   return {
     move: (direction: MovementDirection): MovementAction => {
       return {
@@ -63,63 +119,24 @@ export function buildActionFactory(
         direction,
       };
     },
-    moveTo: (
-      targetCoord: ReadonlyCoordinate | BasicCoordinate
-    ): MovementAction | undefined => {
-      const actualTarget = coordIsBasic(targetCoord)
-        ? new ReadonlyCoordinate(targetCoord)
-        : targetCoord;
-
-      const grid = new Pathfinding.Grid(arena.width, arena.height);
-
-      const everyoneButYou = allies.concat(visibleEnemies);
-      everyoneButYou
-        .filter(
-          (e) =>
-            e.coords.getX() !== actualTarget.getX() ||
-            e.coords.getY() !== actualTarget.getY()
-        )
-        .forEach((e) =>
-          grid.setWalkableAt(e.coords.getX(), e.coords.getY(), false)
-        );
-
-      const finder = new Pathfinding.BreadthFirstFinder();
-      const path = finder.findPath(
-        you.coords.getX(),
-        you.coords.getY(),
-        actualTarget.getX(),
-        actualTarget.getY(),
-        grid
-      );
-
-      if (
-        path.length > 2 ||
-        (path.length === 2 &&
-          !everyoneButYou.some(
-            (e) =>
-              e.coords.getX() === actualTarget.getX() &&
-              e.coords.getY() === actualTarget.getY()
-          ))
-      ) {
-        const dir = new ReadonlyCoordinate(
-          you.coords.toBasic()
-        ).getRelativeDirectionOf(
-          new ReadonlyCoordinate({ x: path[1][0], y: path[1][1] })
-        );
-
-        return {
-          type: ActionType.Movement,
-          direction: dir,
-        };
-      }
-
-      return undefined;
-    },
+    moveTo,
     attack: (target: number): AttackAction => {
       return {
         type: ActionType.Attack,
         target,
       };
+    },
+    attackMove: (
+      target: ReadonlyEntrantStatus
+    ): AttackAction | MovementAction | undefined => {
+      if (target.coords.isWithinRangeOf(you.attackRange, you.coords)) {
+        return {
+          type: ActionType.Attack,
+          target: target.id,
+        };
+      }
+
+      return moveTo(target.coords);
     },
     cast: (spell: SpellStatus, target?: SpellTarget): SpellAction => {
       return {

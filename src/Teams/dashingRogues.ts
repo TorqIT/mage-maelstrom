@@ -35,7 +35,7 @@ class Dashing extends Combatant {
   public act(params: ActParams): Action {
     return (
       this.getFirstValidAction([
-        () => this.approachEnemy(params),
+        () => this.attackAndDethrone(params),
         () => this.hunt(params),
       ]) ?? params.actions.dance()
     );
@@ -63,7 +63,14 @@ class Dashing extends Combatant {
     }
   }
 
-  private approachEnemy({
+  private buildHuntTarget(targetRight: boolean) {
+    this.huntTarget = new ReadonlyCoordinate({
+      x: targetRight ? this.arena.width - 2 : 2,
+      y: Math.random() > 0.5 ? this.arena.height - 2 : 2,
+    });
+  }
+
+  private attackAndDethrone({
     visibleEnemies,
     you,
     actions,
@@ -85,30 +92,10 @@ class Dashing extends Combatant {
         }
       }
 
-      return actions.moveTo(closestEnemy.coords);
+      return actions.attackMove(closestEnemy);
     }
 
     return undefined;
-  }
-
-  // private enemyInDashSweetSpot(yourPos: ReadonlyCoordinate, theirPos: ReadonlyCoordinate)
-  // {
-  //   const xDif = Math.abs(yourPos.getX() - theirPos.getX());
-  //   const yDif = Math.abs(yourPos.getY() - theirPos.getY());
-
-  //   return this.isInDashArea(xDif, yDif) || this.isInDashArea(yDif, xDif);
-  // }
-
-  // private isInDashArea(firstDif: number, secondDif: number)
-  // {
-  //   return firstDif >= 3 && firstDif <= 5 && secondDif <= 1;
-  // }
-
-  private buildHuntTarget(targetRight: boolean) {
-    this.huntTarget = new ReadonlyCoordinate({
-      x: targetRight ? this.arena.width - 2 : 2,
-      y: Math.random() > 0.5 ? this.arena.height - 2 : 2,
-    });
   }
 
   public onTakeDamage(params: OnTakeDamageParams): void {}
