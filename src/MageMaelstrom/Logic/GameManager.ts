@@ -305,8 +305,8 @@ export class GameManager {
             visibleEnemies,
             this.currentTick
           );
-        } catch (e) {
-          action = { type: ActionType.Dance, error: e as string };
+        } catch (e: any) {
+          action = { type: ActionType.Dance, error: e?.message };
         }
 
         return {

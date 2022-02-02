@@ -33,23 +33,76 @@ class Dashing extends Combatant {
   }
 
   public act(params: ActParams): Action {
-    return [this.hunt(params)].find((a) => a != null) ?? params.actions.dance();
+    return (
+      this.getFirstValidAction([
+        () => this.approachEnemy(params),
+        () => this.hunt(params),
+      ]) ?? params.actions.dance()
+    );
+  }
+
+  private getFirstValidAction(actions: (() => Action | undefined)[]) {
+    for (const act of actions) {
+      const result = act();
+
+      if (result) {
+        return result;
+      }
+    }
   }
 
   private hunt({ actions, helpers }: ActParams) {
-    return helpers.safeWhile(
-      () => true,
-      () => {
-        const result = actions.moveTo(this.huntTarget);
-        if (result && helpers.canPerform(result)) {
-          return result;
-        }
-
-        this.buildHuntTarget(Math.random() > 0.5);
-        console.log("I AM HUNTING TO", this.huntTarget.toString());
+    for (let j = 0; j < 10; j++) {
+      const result = actions.moveTo(this.huntTarget);
+      if (result && helpers.canPerform(result)) {
+        return result;
       }
-    );
+
+      this.buildHuntTarget(Math.random() > 0.5);
+      console.log("I AM HUNTING TO", this.huntTarget.toString());
+    }
   }
+
+  private approachEnemy({
+    visibleEnemies,
+    you,
+    actions,
+    helpers,
+    spells: [dash],
+  }: ActParams) {
+    const closestEnemy = helpers.getClosest(visibleEnemies);
+
+    if (closestEnemy) {
+      if (
+        !closestEnemy.coords.isWithinRangeOf(3, you.coords) &&
+        closestEnemy.coords.isWithinRangeOf(5, you.coords)
+      ) {
+        const dir = you.coords.getRelativeDirectionOf(closestEnemy.coords);
+        const dashAction = actions.cast(dash, dir);
+
+        if (helpers.canPerform(dashAction)) {
+          return dashAction;
+        }
+      }
+
+      return actions.moveTo(closestEnemy.coords);
+    }
+
+    return undefined;
+  }
+
+  // private enemyInDashSweetSpot(yourPos: ReadonlyCoordinate, theirPos: ReadonlyCoordinate)
+  // {
+  //   const xDif = Math.abs(yourPos.getX() - theirPos.getX());
+  //   const yDif = Math.abs(yourPos.getY() - theirPos.getY());
+
+  //   return this.isInDashArea(xDif, yDif) || this.isInDashArea(yDif, xDif);
+  // }
+
+  // private isInDashArea(firstDif: number, secondDif: number)
+  // {
+  //   return firstDif >= 3 && firstDif <= 5 && secondDif <= 1;
+  // }
 
   private buildHuntTarget(targetRight: boolean) {
     this.huntTarget = new ReadonlyCoordinate({

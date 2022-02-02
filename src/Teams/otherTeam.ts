@@ -52,12 +52,13 @@ class WowDude extends Combatant {
       }
     }
 
-    helpers.safeWhile(
-      () => !helpers.canPerform(actions.move(this.dirPriority[this.target])),
-      () => {
-        this.target = (this.target + 1) % 4;
-      }
-    );
+    for (
+      let j = 0;
+      j < 4 && !helpers.canPerform(actions.move(this.dirPriority[this.target]));
+      j++
+    ) {
+      this.target = (this.target + 1) % 4;
+    }
 
     return actions.move(this.dirPriority[this.target]);
   }

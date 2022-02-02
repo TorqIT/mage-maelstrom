@@ -10,10 +10,6 @@ export interface Helpers {
   getClosest: (
     entrants: ReadonlyEntrantStatus[]
   ) => ReadonlyEntrantStatus | undefined;
-  safeWhile: (
-    condition: () => boolean,
-    loop: () => Action | undefined | void
-  ) => Action | undefined;
 }
 
 export function buildHelpers(
@@ -31,18 +27,6 @@ export function buildHelpers(
             getClosest(you, closest, current)
           )
         : undefined,
-    safeWhile: (
-      condition: () => boolean,
-      loop: () => Action | undefined | void
-    ) => {
-      for (let j = 0; j < 100 && condition(); j++) {
-        const result = loop();
-
-        if (result) {
-          return result;
-        }
-      }
-    },
   };
 }
 
