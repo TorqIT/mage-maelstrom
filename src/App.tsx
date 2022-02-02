@@ -28,7 +28,7 @@ function App() {
           height: 10,
         },
         stats: {
-          baseHealth: 40,
+          baseHealth: 60,
           baseHealthRegen: 0.4,
           healthPerStrength: 12,
           healthRegenPerStrength: 0.2,

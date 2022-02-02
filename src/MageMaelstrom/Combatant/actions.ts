@@ -42,7 +42,7 @@ export type Action = MovementAction | AttackAction | SpellAction | DanceAction;
 export interface ActionFactory {
   move: (direction: MovementDirection) => MovementAction;
   moveTo: (
-    targetCoord: ReadonlyCoordinate | BasicCoordinate
+    targetCoord: ReadonlyEntrantStatus | ReadonlyCoordinate | BasicCoordinate
   ) => MovementAction | undefined;
   attack: (target: number) => AttackAction;
   attackMove: (
@@ -60,11 +60,13 @@ export function buildActionFactory(
   arena: { width: number; height: number }
 ): ActionFactory {
   function moveTo(
-    targetCoord: ReadonlyCoordinate | BasicCoordinate
+    targetCoord: ReadonlyEntrantStatus | ReadonlyCoordinate | BasicCoordinate
   ): MovementAction | undefined {
     const actualTarget = coordIsBasic(targetCoord)
       ? new ReadonlyCoordinate(targetCoord)
-      : targetCoord;
+      : isCoord(targetCoord)
+      ? targetCoord
+      : targetCoord.coords;
 
     const grid = new Pathfinding.Grid(arena.width, arena.height);
 
@@ -151,7 +153,13 @@ export function buildActionFactory(
 }
 
 function coordIsBasic(
-  coord: ReadonlyCoordinate | BasicCoordinate
+  coord: ReadonlyEntrantStatus | ReadonlyCoordinate | BasicCoordinate
 ): coord is BasicCoordinate {
   return (coord as BasicCoordinate).x != null;
+}
+
+function isCoord(
+  coord: ReadonlyEntrantStatus | ReadonlyCoordinate
+): coord is ReadonlyCoordinate {
+  return (coord as ReadonlyCoordinate).getX != null;
 }

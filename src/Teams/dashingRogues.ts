@@ -23,7 +23,7 @@ class Dashing extends Combatant {
       strength: 8,
       agility: 27,
       intelligence: 5,
-      abilities: ["dash", "swift", "serrated", "critical"],
+      abilities: ["dash", "swift", "serrated", "vision"],
     };
   }
 
@@ -35,7 +35,8 @@ class Dashing extends Combatant {
   public act(params: ActParams): Action {
     return (
       this.getFirstValidAction([
-        () => this.attackAndDethrone(params),
+        () => this.goAllOut(params),
+        () => this.beDashing(params),
         () => this.hunt(params),
       ]) ?? params.actions.dance()
     );
@@ -59,7 +60,6 @@ class Dashing extends Combatant {
       }
 
       this.buildHuntTarget(Math.random() > 0.5);
-      console.log("I AM HUNTING TO", this.huntTarget.toString());
     }
   }
 
@@ -70,7 +70,7 @@ class Dashing extends Combatant {
     });
   }
 
-  private attackAndDethrone({
+  private beDashing({
     visibleEnemies,
     you,
     actions,
@@ -92,10 +92,33 @@ class Dashing extends Combatant {
         }
       }
 
-      return actions.attackMove(closestEnemy);
+      return actions.moveTo(closestEnemy);
     }
 
     return undefined;
+  }
+
+  private goAllOut({
+    helpers,
+    visibleEnemies,
+    spells: [, swift],
+    actions,
+  }: ActParams) {
+    const closestEnemy = helpers.getClosest(visibleEnemies);
+
+    if (closestEnemy) {
+      const swiftAction = actions.cast(swift, closestEnemy.id);
+
+      if (helpers.canPerform(swiftAction)) {
+        return swiftAction;
+      }
+
+      const attackAction = actions.attack(closestEnemy.id);
+
+      if (helpers.canPerform(attackAction)) {
+        return attackAction;
+      }
+    }
   }
 
   public onTakeDamage(params: OnTakeDamageParams): void {}
@@ -105,6 +128,6 @@ class Dashing extends Combatant {
 
 export const dashingRogues: Team = {
   name: "Dashing Rogues",
-  color: "#2A4",
+  color: "#294",
   CombatantSubclasses: [Dashing, Dashing],
 };
