@@ -245,7 +245,7 @@ export class GameManager {
 
     this.getEntrantArray()
       .filter((e) => !e.isDead())
-      .forEach((e) => e.update());
+      .forEach((e) => e.update(this));
 
     const actionsToPerform = this.performTeamActions(
       this.leftTeam,

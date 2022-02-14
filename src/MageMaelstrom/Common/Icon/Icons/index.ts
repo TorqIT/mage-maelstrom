@@ -46,6 +46,7 @@ import serrated from "./knife-thrust.svg";
 import darkness from "./eclipse.svg";
 import amplitude from "./amplitude.svg";
 import fear from "./screaming.svg";
+import zap from "./heavy-lightning.svg";
 
 export interface IconDef {
   file: string;
@@ -278,4 +279,8 @@ export const mmAmplitude: IconDef = {
 
 export const mmFear: IconDef = {
   file: fear,
+};
+
+export const mmZap: IconDef = {
+  file: zap,
 };

@@ -288,7 +288,7 @@ export class Entrant {
   //~*~*~*~*
   // UPDATE
 
-  public update() {
+  public update(gameManager: GameManager) {
     this.ticksUntilNextTurn -=
       aggMult(this.passives, (p) => p.getTurnSpeedMultiplier()) *
       aggMult(this.statusEffects, (s) => s.getTurnSpeedMultiplier());
@@ -300,7 +300,7 @@ export class Entrant {
     this.spells.forEach((s) =>
       s.update(aggMult(this.passives, (p) => p.getCooldownSpeedMultiplier()))
     );
-    this.statusEffects.forEach((e) => e.update(this));
+    this.statusEffects.forEach((e) => e.update(this, gameManager));
 
     this.statusEffects = this.statusEffects.filter((e) => !e.isFinished());
   }

@@ -1,5 +1,10 @@
 export type MovementDirection = "left" | "right" | "up" | "down";
 
+export interface BasicCoordinate {
+  x: number;
+  y: number;
+}
+
 export class ReadonlyCoordinate {
   protected x: number;
   protected y: number;
@@ -28,6 +33,18 @@ export class ReadonlyCoordinate {
       Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2) <=
       Math.pow(range, 2)
     );
+  }
+
+  public getDistance(target: ReadonlyCoordinate) {
+    return Math.sqrt(
+      Math.pow(target.x - this.x, 2) + Math.pow(target.y - this.y, 2)
+    );
+  }
+
+  /** Distance calculation except without the square root. Only useful if you're
+   * _really_ worried about optimization */
+  public getSquaredDistance(target: ReadonlyCoordinate) {
+    return Math.pow(target.x - this.x, 2) + Math.pow(target.y - this.y, 2);
   }
 
   public getRelativeDirectionOf(other: ReadonlyCoordinate): MovementDirection {
@@ -82,9 +99,4 @@ export class Coordinate extends ReadonlyCoordinate {
     this.x = coord.x;
     this.y = coord.y;
   }
-}
-
-export interface BasicCoordinate {
-  x: number;
-  y: number;
 }

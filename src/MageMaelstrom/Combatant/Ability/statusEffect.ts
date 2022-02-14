@@ -1,5 +1,6 @@
 import { Action, ActParams } from "..";
 import { nextId } from "../../Common";
+import { GameManager } from "../../Logic/GameManager";
 import { DescriptiveIcon } from "../describable";
 import { DamageType, Entrant } from "../entrant";
 
@@ -19,6 +20,7 @@ export const statusEffectTypes = [
   "bleed",
   "darkness",
   "fear",
+  "charged",
 ] as const;
 export type StatusEffectType = typeof statusEffectTypes[number];
 
@@ -39,6 +41,8 @@ export class StatusEffect {
   private def: StatusEffectDefinition;
   private id: number;
 
+  private finishNow = false;
+
   protected timer: number;
 
   public constructor(def: StatusEffectDefinition) {
@@ -51,8 +55,12 @@ export class StatusEffect {
     return this.def.type;
   }
 
+  protected forceFinish() {
+    this.finishNow = true;
+  }
+
   public isFinished() {
-    return this.timer <= 0;
+    return this.timer <= 0 || this.finishNow;
   }
 
   public isUndispellable() {
@@ -63,15 +71,15 @@ export class StatusEffect {
     return this.def.isPositive;
   }
 
-  public update(entrant: Entrant) {
+  public update(entrant: Entrant, gameManager: GameManager) {
     this.timer--;
 
     if (this.timer > 0) {
-      this.updateEffect(entrant);
+      this.updateEffect(entrant, gameManager);
     }
   }
 
-  public updateEffect(entrant: Entrant) {}
+  public updateEffect(entrant: Entrant, gameManager: GameManager) {}
 
   public getHealthRegenBonus() {
     return 0;

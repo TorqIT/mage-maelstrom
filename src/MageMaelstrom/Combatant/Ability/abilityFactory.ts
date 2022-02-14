@@ -37,6 +37,7 @@ import { Stun } from "./Spells/stun";
 import { SummonBear } from "./Spells/summonBear";
 import { Swift } from "./Spells/swift";
 import { Teleport } from "./Spells/teleport";
+import { Zap } from "./Spells/zap";
 
 export function buildSpell(type: SpellType): Spell {
   switch (type) {
@@ -82,6 +83,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Sentry();
     case "fear":
       return new Fear();
+    case "zap":
+      return new Zap();
   }
 }
 
