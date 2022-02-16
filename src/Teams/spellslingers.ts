@@ -69,6 +69,28 @@ class Spellslinger extends Combatant {
     }
   }
 
+  private getIntoSweetSpot({
+    actions,
+    helpers,
+    visibleEnemies,
+    you,
+  }: ActParams) {
+    if (visibleEnemies.length === 0) {
+      return;
+    }
+
+    const closestEnemy = helpers.getClosest(visibleEnemies)!;
+    const distance = you.coords.getDistance(closestEnemy.coords);
+
+    if (distance <= 1.5) {
+      //RUN AWAY
+    }
+
+    if (distance > 3) {
+      return actions.moveTo(closestEnemy.coords);
+    }
+  }
+
   public onTakeDamage(params: OnTakeDamageParams): void {}
 
   public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
