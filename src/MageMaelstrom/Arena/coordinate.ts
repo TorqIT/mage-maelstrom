@@ -41,6 +41,26 @@ export class ReadonlyCoordinate {
     );
   }
 
+  public getClosest(targets: ReadonlyCoordinate[]) {
+    if (targets.length === 0) {
+      return undefined;
+    }
+
+    let closest = targets[0];
+    let closestDistance = this.getSquaredDistance(closest);
+
+    for (let j = 1; j < targets.length; j++) {
+      const dist = this.getSquaredDistance(targets[j]);
+
+      if (dist > closestDistance) {
+        closestDistance = dist;
+        closest = targets[j];
+      }
+    }
+
+    return closest;
+  }
+
   /** Distance calculation except without the square root. Only useful if you're
    * _really_ worried about optimization */
   public getSquaredDistance(target: ReadonlyCoordinate) {

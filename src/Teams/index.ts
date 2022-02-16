@@ -1,6 +1,7 @@
 import { dashingRogues } from "./dashingRogues";
 import { otherTeam } from "./otherTeam";
 import { sampleTeam } from "./sampleTeam";
+import { spellslingers } from "./spellslingers";
 import { testDummies } from "./testDummies";
 
 const teams = [
@@ -8,6 +9,7 @@ const teams = [
   sampleTeam,
   otherTeam,
   dashingRogues,
+  spellslingers,
   //CONFLICT PREVENTION, REPLACE A RANDOM LINE WITH YOUR TEAM
   //CONFLICT PREVENTION, REPLACE A RANDOM LINE WITH YOUR TEAM
   //CONFLICT PREVENTION, REPLACE A RANDOM LINE WITH YOUR TEAM
