@@ -13,7 +13,7 @@ export class Zap extends Spell {
     super({
       type: "zap",
       cooldown: 150,
-      manaCost: 7,
+      manaCost: 8,
       range: 3,
       targetTypes: "entrant",
       desc: {
