@@ -48,6 +48,9 @@ export interface ActionFactory {
   attackMove: (
     target: ReadonlyEntrantStatus
   ) => AttackAction | MovementAction | undefined;
+  runFrom: (
+    targetCoord: ReadonlyEntrantStatus | ReadonlyCoordinate | BasicCoordinate
+  ) => MovementAction | undefined;
   cast: (spell: SpellStatus, target?: SpellTarget) => SpellAction;
   /** /dance */
   dance: () => DanceAction;
@@ -81,7 +84,7 @@ export function buildActionFactory(
         grid.setWalkableAt(e.coords.getX(), e.coords.getY(), false)
       );
 
-    const finder = new Pathfinding.BreadthFirstFinder();
+    const finder = new Pathfinding.DijkstraFinder();
     const path = finder.findPath(
       you.coords.getX(),
       you.coords.getY(),
@@ -114,6 +117,49 @@ export function buildActionFactory(
     return undefined;
   }
 
+  function runFrom(you: ReadonlyCoordinate, target: ReadonlyCoordinate) {
+    const xDiff = Math.abs(target.getX() - you.getX());
+    const yDiff = Math.abs(target.getY() - you.getY());
+
+    const lowerLeft = new ReadonlyCoordinate({ x: 0, y: 0 });
+    const lowerRight = new ReadonlyCoordinate({ x: arena.width - 1, y: 0 });
+    const upperLeft = new ReadonlyCoordinate({ x: 0, y: arena.height - 1 });
+    const upperRight = new ReadonlyCoordinate({
+      x: arena.width - 1,
+      y: arena.height - 1,
+    });
+
+    if (you.getX() < target.getX()) {
+      if (you.getY() < target.getY()) {
+        if (you.equals(lowerLeft)) {
+          return moveTo(xDiff > yDiff ? upperLeft : lowerRight);
+        } else {
+          return moveTo(lowerLeft);
+        }
+      } else {
+        if (you.equals(upperLeft)) {
+          return moveTo(xDiff > yDiff ? lowerLeft : upperRight);
+        } else {
+          return moveTo(upperLeft);
+        }
+      }
+    } else {
+      if (you.getY() < target.getY()) {
+        if (you.equals(lowerRight)) {
+          return moveTo(xDiff > yDiff ? upperRight : lowerLeft);
+        } else {
+          return moveTo(lowerRight);
+        }
+      } else {
+        if (you.equals(upperRight)) {
+          return moveTo(xDiff > yDiff ? lowerRight : upperLeft);
+        } else {
+          return moveTo(upperRight);
+        }
+      }
+    }
+  }
+
   return {
     move: (direction: MovementDirection): MovementAction => {
       return {
@@ -121,13 +167,16 @@ export function buildActionFactory(
         direction,
       };
     },
+
     moveTo,
+
     attack: (target: number): AttackAction => {
       return {
         type: ActionType.Attack,
         target,
       };
     },
+
     attackMove: (
       target: ReadonlyEntrantStatus
     ): AttackAction | MovementAction | undefined => {
@@ -140,6 +189,19 @@ export function buildActionFactory(
 
       return moveTo(target.coords);
     },
+
+    runFrom: (
+      targetCoord: ReadonlyEntrantStatus | ReadonlyCoordinate | BasicCoordinate
+    ) => {
+      const actualTarget = coordIsBasic(targetCoord)
+        ? new ReadonlyCoordinate(targetCoord)
+        : isCoord(targetCoord)
+        ? targetCoord
+        : targetCoord.coords;
+
+      return runFrom(you.coords, actualTarget);
+    },
+
     cast: (spell: SpellStatus, target?: SpellTarget): SpellAction => {
       return {
         type: ActionType.Spell,

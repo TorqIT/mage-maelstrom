@@ -19,7 +19,7 @@ class Spellslinger extends Combatant {
 
   public define(): CombatantDefinition {
     return {
-      name: "Dashing Rogue",
+      name: "Spellslinger",
       icon: mmZap.file,
       strength: 10,
       agility: 10,
@@ -83,11 +83,11 @@ class Spellslinger extends Combatant {
     const distance = you.coords.getDistance(closestEnemy.coords);
 
     if (distance <= 1.5) {
-      //RUN AWAY
+      return actions.runFrom(closestEnemy);
     }
 
     if (distance > 3) {
-      return actions.moveTo(closestEnemy.coords);
+      return actions.moveTo(closestEnemy);
     }
   }
 
