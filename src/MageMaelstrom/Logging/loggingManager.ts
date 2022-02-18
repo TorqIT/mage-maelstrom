@@ -15,6 +15,12 @@ class LoggingManager {
   private logs: BattleLogEvent[] = [];
   private onChange?: OnChangeListener;
 
+  private enabled = true;
+
+  public setEnabled(enabled: boolean) {
+    this.enabled = enabled;
+  }
+
   public setOnChange(onChange: OnChangeListener) {
     this.onChange = onChange;
   }
@@ -79,7 +85,7 @@ class LoggingManager {
   }
 
   private changed() {
-    this.onChange && this.onChange(this.logs.slice());
+    this.enabled && this.onChange && this.onChange(this.logs.slice());
   }
 }
 

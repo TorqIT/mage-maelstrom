@@ -17,10 +17,10 @@ class Brute extends Combatant {
     return {
       name: "Brute",
       icon: "/ogre.svg",
-      strength: 37,
+      strength: 42,
       agility: 5,
       intelligence: 5,
-      abilities: ["stun", "burst", "talented", "thorns"],
+      abilities: ["stun", "talented", "talented", "thorns"],
     };
   }
 

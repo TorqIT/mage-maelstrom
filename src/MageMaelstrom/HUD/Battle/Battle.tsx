@@ -8,12 +8,15 @@ import { BattleLogs } from "../BattleLogs";
 import { Controls } from "./Controls";
 import { Help } from "../Help";
 import { useTeamSelection } from "../../Logic/TeamSelectionProvider";
+import { useSimulation } from "../../Logic/SimulationProvider";
+import { SimulationModal } from "./SimulationModal";
 
 export interface BattleProps {}
 
 export const Battle: React.FC<BattleProps> = ({}) => {
   const { resetGame, clearGame } = useTeamSelection();
   const { leftTeam, rightTeam } = useGameManager();
+  const { simulateManyGames } = useSimulation();
 
   const [seeLeft, setSeeLeft] = useState(true);
   const [seeRight, setSeeRight] = useState(true);
@@ -51,6 +54,9 @@ export const Battle: React.FC<BattleProps> = ({}) => {
         <Stack.Item>
           <Stack alignment="end">
             <Stack gap={20}>
+              <NiceButton onClick={simulateManyGames}>
+                Simulate 100 Games
+              </NiceButton>
               <NiceButton onClick={resetGame}>Restart Game</NiceButton>
               <NiceButton onClick={clearGame}>New Game</NiceButton>
             </Stack>
@@ -92,6 +98,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
           <BattleLogs />
         </Stack.Item>
       </Stack>
+      <SimulationModal />
     </div>
   );
 };

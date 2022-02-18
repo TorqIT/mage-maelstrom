@@ -3,6 +3,7 @@ import "./App.css";
 import { GameManagerProvider, MageMaelstrom } from "./MageMaelstrom";
 import { LoggingProvider } from "./MageMaelstrom/Logging";
 import { GameSpecsProvider } from "./MageMaelstrom/Logic/GameSpecsProvider";
+import { SimulationProvider } from "./MageMaelstrom/Logic/SimulationProvider";
 import { TeamSelectionProvider } from "./MageMaelstrom/Logic/TeamSelectionProvider";
 import { teams } from "./Teams";
 
@@ -49,7 +50,9 @@ function App() {
       <TeamSelectionProvider teams={teams}>
         <LoggingProvider>
           <GameManagerProvider>
-            <MageMaelstrom />
+            <SimulationProvider>
+              <MageMaelstrom />
+            </SimulationProvider>
           </GameManagerProvider>
         </LoggingProvider>
       </TeamSelectionProvider>
