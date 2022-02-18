@@ -41,8 +41,10 @@ class Spellslinger extends Combatant {
 
   public act(params: ActParams): Action {
     return (
-      this.getFirstValidAction([() => this.search(params)]) ??
-      params.actions.dance()
+      this.getFirstValidAction([
+        () => this.getIntoSweetSpot(params),
+        () => this.search(params),
+      ]) ?? params.actions.dance()
     );
   }
 
