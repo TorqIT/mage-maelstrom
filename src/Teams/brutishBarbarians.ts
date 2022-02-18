@@ -10,17 +10,16 @@ import {
   OnTakeDamageParams,
   OnStatusEffectAppliedParams,
 } from "../MageMaelstrom/Combatant";
-import { mmZap } from "../MageMaelstrom/Common/Icon";
 
-class TestDummy extends Combatant {
+class Brute extends Combatant {
   public define(): CombatantDefinition {
     return {
-      name: "Dashing Rogue",
-      icon: "/trainingDummy.svg",
-      strength: 58,
+      name: "Brute",
+      icon: "/ogre.svg",
+      strength: 37,
       agility: 5,
       intelligence: 5,
-      abilities: ["talented", "talented", "talented", "talented"],
+      abilities: ["stun", "burst", "talented", "thorns"],
     };
   }
 
@@ -35,8 +34,8 @@ class TestDummy extends Combatant {
   public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
 }
 
-export const testDummies: Team = {
-  name: "The Test Dummies",
+export const brutishBarbarians: Team = {
+  name: "The Brutish Barbarians",
   color: "#000",
-  CombatantSubclasses: [TestDummy, TestDummy],
+  CombatantSubclasses: [Brute, Brute],
 };
