@@ -27,6 +27,18 @@ class Brute extends Combatant {
   public init(params: InitParams): void {}
 
   public act(params: ActParams): Action {
+    if (this.enemyIsVisible(params)) {
+      if (this.canBashHead(params)) {
+        return this.bashHead(params);
+      } else {
+        if (this.canClonk(params)) {
+          return this.clonk(params);
+        } else {
+          return this.comeRunning(params);
+        }
+      }
+    }
+
     return this.wanderAimlessly(params) ?? params.actions.dance();
   }
 
@@ -40,6 +52,52 @@ class Brute extends Combatant {
         return action;
       }
     }
+  }
+
+  private enemyIsVisible({ visibleEnemies }: ActParams) {
+    return visibleEnemies.length > 0;
+  }
+
+  private comeRunning({ visibleEnemies, actions, helpers }: ActParams) {
+    const closest = helpers.getClosest(visibleEnemies)!;
+
+    return actions.moveTo(closest) ?? actions.dance();
+  }
+
+  private canBashHead({
+    actions,
+    visibleEnemies,
+    helpers,
+    spells: [stun],
+  }: ActParams) {
+    const closest = helpers.getClosest(visibleEnemies)!;
+
+    if (
+      !closest.statusesEffects.includes("stun") &&
+      helpers.canPerform(actions.cast(stun, closest.id))
+    ) {
+      return true;
+    }
+  }
+
+  private bashHead({
+    actions,
+    visibleEnemies,
+    helpers,
+    spells: [stun],
+  }: ActParams) {
+    const closest = helpers.getClosest(visibleEnemies)!;
+    return actions.cast(stun, closest.id);
+  }
+
+  private canClonk({ actions, helpers, visibleEnemies }: ActParams) {
+    const closest = helpers.getClosest(visibleEnemies)!;
+    return helpers.canPerform(actions.attack(closest.id));
+  }
+
+  private clonk({ visibleEnemies, helpers, actions }: ActParams) {
+    const closest = helpers.getClosest(visibleEnemies)!;
+    return actions.attack(closest.id);
   }
 
   public onTakeDamage(params: OnTakeDamageParams): void {}

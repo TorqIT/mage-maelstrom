@@ -30,7 +30,7 @@ function App() {
         stats: {
           baseHealth: 60,
           baseHealthRegen: 0.4,
-          healthPerStrength: 12,
+          healthPerStrength: 11,
           healthRegenPerStrength: 0.2,
 
           baseAttackPeriod: 120,

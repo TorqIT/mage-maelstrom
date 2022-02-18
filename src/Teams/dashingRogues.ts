@@ -20,8 +20,8 @@ class Dashing extends Combatant {
     return {
       name: "Dashing Rogue",
       icon: "/rogue.svg",
-      strength: 9,
-      agility: 26,
+      strength: 10,
+      agility: 25,
       intelligence: 5,
       abilities: ["dash", "swift", "serrated", "vision"],
     };
