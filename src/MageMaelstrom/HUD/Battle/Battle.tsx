@@ -55,7 +55,7 @@ export const Battle: React.FC<BattleProps> = ({}) => {
           <Stack alignment="end">
             <Stack gap={20}>
               <NiceButton onClick={simulateManyGames}>
-                Simulate 100 Games
+                Simulate 200 Games
               </NiceButton>
               <NiceButton onClick={resetGame}>Restart Game</NiceButton>
               <NiceButton onClick={clearGame}>New Game</NiceButton>

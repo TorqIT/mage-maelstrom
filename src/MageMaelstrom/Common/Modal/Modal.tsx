@@ -4,12 +4,14 @@ import styles from "./Modal.module.css";
 export interface ModalProps {
   visible?: boolean;
   width?: number | string;
+  hideClose?: boolean;
   onCloseRequested?: () => void;
 }
 
 export const Modal: React.FC<ModalProps> = ({
   visible,
   width,
+  hideClose,
   onCloseRequested,
   children,
 }) => {
@@ -24,9 +26,12 @@ export const Modal: React.FC<ModalProps> = ({
         style={{ width }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={styles.closer} onClick={onCloseRequested}>
-          ✕
-        </div>
+        {!hideClose && (
+          <div className={styles.closer} onClick={onCloseRequested}>
+            ✕
+          </div>
+        )}
+
         <div className={styles.content}>{children}</div>
       </div>
     </div>

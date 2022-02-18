@@ -54,7 +54,7 @@ export const SimulationProvider: React.FC<SimulationProviderProps> = ({
     let r = 0;
     let d = 0;
 
-    for (let j = 0; j < 100; j++) {
+    for (let j = 0; j < 200; j++) {
       await sleep(10);
 
       const gameManager = new GameManager(

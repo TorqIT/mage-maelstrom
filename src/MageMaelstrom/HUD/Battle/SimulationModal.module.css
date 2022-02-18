@@ -1,0 +1,19 @@
+.teamTitle {
+  font-family: SmallTitle;
+  font-size: 30px;
+}
+
+.barWrapper {
+  height: 420px;
+  width: 350px;
+}
+
+.bar {
+  background-color: #d4d4a6;
+  width: 100px;
+}
+
+.winCounter {
+  width: 50px;
+  font-size: 30px;
+}
