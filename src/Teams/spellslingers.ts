@@ -42,6 +42,7 @@ class Spellslinger extends Combatant {
   public act(params: ActParams): Action {
     return (
       this.getFirstValidAction([
+        () => this.slappyHands(params),
         () => this.slingSpell(params),
         () => this.getIntoSweetSpot(params),
         () => this.search(params),
@@ -119,6 +120,12 @@ class Spellslinger extends Combatant {
       if (helpers.canPerform(zapCast)) {
         return zapCast;
       }
+    }
+  }
+
+  private slappyHands({ visibleEnemies, you, actions, helpers }: ActParams) {
+    if (you.mana.value < 20 && visibleEnemies.length > 0) {
+      return actions.attackMove(helpers.getClosest(visibleEnemies)!);
     }
   }
 
