@@ -5,8 +5,8 @@ import { Entrant } from "../../entrant";
 import { Spell } from "../spell";
 import { StatusEffect } from "../statusEffect";
 
-const DURATION = 120;
-const PER_STRENGTH_BONUS = 4;
+const DURATION = 100;
+const PER_STRENGTH_BONUS = 3;
 
 export class Stun extends Spell {
   public constructor() {

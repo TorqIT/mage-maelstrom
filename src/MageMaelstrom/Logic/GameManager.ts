@@ -17,6 +17,7 @@ import {
   SpellAction,
   SpellTarget,
   ReadonlyEntrantStatus,
+  Passive,
 } from "../Combatant";
 import {
   ActionResult,
@@ -518,7 +519,8 @@ export class GameManager {
   public addCombatant(
     SubCombatant: CombatantSubclass,
     teamId: number,
-    coord: Coordinate
+    coord: Coordinate,
+    extraPassives?: Passive[]
   ) {
     const { targetTeam, enemyTeam } =
       this.leftTeam.id === teamId
@@ -532,7 +534,8 @@ export class GameManager {
       targetTeam,
       targetCoord,
       false,
-      this
+      this,
+      extraPassives
     );
 
     this.initCombatant(entrant, targetTeam, enemyTeam, true);

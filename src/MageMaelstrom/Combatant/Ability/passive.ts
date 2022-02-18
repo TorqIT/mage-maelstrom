@@ -18,6 +18,10 @@ export abstract class Passive extends Ability {
     return 0;
   }
 
+  public getHealthAdjustment() {
+    return 0;
+  }
+
   public rollForCrit() {
     return false;
   }

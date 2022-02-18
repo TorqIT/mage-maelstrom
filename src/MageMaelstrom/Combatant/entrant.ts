@@ -111,7 +111,8 @@ export class Entrant {
     team: { color: string; flip: boolean; id: number },
     coords: Coordinate,
     essential: boolean,
-    gameManager: GameManager
+    gameManager: GameManager,
+    extraPassives?: Passive[]
   ) {
     this.gameSpecs = gameSpecs;
     this.combatant = combatant;
@@ -129,7 +130,10 @@ export class Entrant {
 
     this.statusEffects = [];
     this.spells = abilities.filter(isSpell).map((a) => buildSpell(a));
-    this.passives = abilities.filter(isPassive).map((a) => buildPassive(a));
+    this.passives = abilities
+      .filter(isPassive)
+      .map((a) => buildPassive(a))
+      .concat(extraPassives ?? []);
 
     this.health = {
       max: this.getMaxHealth(),
@@ -145,17 +149,6 @@ export class Entrant {
 
     this.essential = essential;
     this.gameManager = gameManager;
-  }
-
-  //~*~*~*~*~*~*
-  // PRE-START SETTERS
-
-  public addSpell(spell: Spell) {
-    this.spells.push(spell);
-  }
-
-  public addPassive(passive: Passive) {
-    this.passives.push(passive);
   }
 
   //~*~*~*~*~*~*
@@ -198,7 +191,8 @@ export class Entrant {
   public getMaxHealth() {
     return (
       this.combatant.getStrength() * this.gameSpecs.stats.healthPerStrength +
-      this.gameSpecs.stats.baseHealth
+      this.gameSpecs.stats.baseHealth +
+      aggSum(this.passives, (p) => p.getHealthAdjustment())
     );
   }
 

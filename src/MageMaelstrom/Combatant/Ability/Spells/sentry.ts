@@ -44,9 +44,9 @@ export class Sentry extends Spell {
     const sentry = gameManager.addCombatant(
       SentryGun,
       caster.getTeamId(),
-      caster.getCoords()
+      caster.getCoords(),
+      [new SentryPassive()]
     );
-    sentry.addPassive(new SentryPassive());
     sentry.applyStatusEffect(new Temporality(DURATION), sentry);
 
     loggingManager.logSpell({
@@ -85,6 +85,10 @@ class SentryPassive extends Passive {
 
   public getHealMultiplier(): number {
     return 0;
+  }
+
+  public getHealthAdjustment(): number {
+    return -150;
   }
 
   public override getDamageTakenMultiplier(damageType: DamageType): number {

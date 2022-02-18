@@ -54,10 +54,10 @@ export class SummonBear extends Spell {
     const bear = gameManager.addCombatant(
       BearCombatant,
       caster.getTeamId(),
-      caster.getCoords()
+      caster.getCoords(),
+      [new BearPassive()]
     );
 
-    bear.addPassive(new BearPassive());
     bear.applyStatusEffect(new Temporality(DURATION), bear);
 
     loggingManager.logSpell({
@@ -87,6 +87,10 @@ class BearPassive extends Passive {
 
   public override getTurnSpeedMultiplier() {
     return this.frenzy ? 4 / 3 : 3 / 4;
+  }
+
+  public getHealthAdjustment(): number {
+    return -100;
   }
 }
 

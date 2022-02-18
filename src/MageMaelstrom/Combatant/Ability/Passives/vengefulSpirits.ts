@@ -58,11 +58,11 @@ export class VengefulSpirits extends Passive {
     const spirit = gameManager.addCombatant(
       SpiritCombatant,
       me.getTeamId(),
-      me.getCoords()
+      me.getCoords(),
+      [new SpiritPassive()]
     );
 
     spirit.applyStatusEffect(new Temporality(DURATION), spirit);
-    spirit.addPassive(new SpiritPassive());
     (spirit.getCombatant() as SpiritCombatant).setTarget(attacker.getId());
 
     loggingManager.logSpell({
@@ -89,6 +89,10 @@ class SpiritPassive extends Passive {
 
   public getVisionAdjustment(): number {
     return -1;
+  }
+
+  public getHealthAdjustment(): number {
+    return -170;
   }
 }
 

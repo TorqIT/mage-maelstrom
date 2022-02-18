@@ -79,6 +79,7 @@ export const SimulationProvider: React.FC<SimulationProviderProps> = ({
     }
 
     setSimulating(false);
+    loggingManager.clear();
     loggingManager.setEnabled(true);
   }, [selection, specs]);
 

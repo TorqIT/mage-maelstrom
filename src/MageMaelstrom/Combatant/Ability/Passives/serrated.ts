@@ -72,10 +72,10 @@ class Bleed extends StatusEffect {
   }
 
   public updateEffect(entrant: Entrant): void {
-    if (this.timer % 25 === 1) {
+    if (this.timer % 5 === 1) {
       this.source.dealMagicDamage(
         entrant,
-        DAMAGE_TICK / 4,
+        DAMAGE_TICK / 20,
         "serrated",
         mmSerrated,
         false
