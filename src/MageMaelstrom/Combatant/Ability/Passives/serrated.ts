@@ -5,7 +5,7 @@ import { loggingManager } from "../../../Logging";
 import { Entrant, DamageType } from "../../entrant";
 
 const CHANCE = 0.5;
-const DAMAGE_TICK = 8;
+const DAMAGE_TICK = 10;
 const DURATION = 300;
 const DAMAGE_REDUCTION_MULT = 0.8;
 

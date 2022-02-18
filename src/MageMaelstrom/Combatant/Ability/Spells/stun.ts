@@ -13,7 +13,7 @@ export class Stun extends Spell {
     super({
       type: "stun",
       cooldown: 800,
-      manaCost: 10,
+      manaCost: 15,
       range: 2,
       targetTypes: "entrant",
       desc: {
