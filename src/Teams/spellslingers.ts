@@ -42,6 +42,7 @@ class Spellslinger extends Combatant {
   public act(params: ActParams): Action {
     return (
       this.getFirstValidAction([
+        () => this.slingSpell(params),
         () => this.getIntoSweetSpot(params),
         () => this.search(params),
       ]) ?? params.actions.dance()
@@ -90,6 +91,34 @@ class Spellslinger extends Combatant {
 
     if (distance > 3) {
       return actions.moveTo(closestEnemy);
+    }
+  }
+
+  private slingSpell({
+    spells: [zap, fireball, poison],
+    visibleEnemies,
+    helpers,
+    actions,
+  }: ActParams) {
+    for (const enemy of visibleEnemies) {
+      const poisonCast = actions.cast(poison, enemy.id);
+      const fireballCast = actions.cast(fireball, enemy.id);
+      const zapCast = actions.cast(zap, enemy.id);
+
+      if (
+        !enemy.statusesEffects.includes("poison") &&
+        helpers.canPerform(poisonCast)
+      ) {
+        return poisonCast;
+      }
+
+      if (helpers.canPerform(fireballCast)) {
+        return fireballCast;
+      }
+
+      if (helpers.canPerform(zapCast)) {
+        return zapCast;
+      }
     }
   }
 
