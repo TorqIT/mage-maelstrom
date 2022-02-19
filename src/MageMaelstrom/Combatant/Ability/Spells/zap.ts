@@ -4,9 +4,9 @@ import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget } from "../spell";
 
-const DAMAGE = 20;
+const DAMAGE = 25;
 const BOUNCE_RANGE = 2.5;
-const BOUNCE_DAMAGE = 12;
+const BOUNCE_DAMAGE = 15;
 
 export class Zap extends Spell {
   public constructor() {

@@ -63,11 +63,14 @@ export const RulesGuide: React.FC<RulesGuideProps> = ({}) => {
             </li>
             <li>
               Each point of <b>Strength</b> provides +{stats.healthPerStrength}{" "}
-              health and +{stats.healthRegenPerStrength}/s health regeneration
+              health, +{stats.healthRegenPerStrength}/s health regeneration and{" "}
+              <span style={{ color: "rgb(244, 85, 48)" }}>
+                -{Math.floor(stats.slowdownPerStrength * 100)}% turn speed
+              </span>
             </li>
             <li>
-              Each point of <b>Agility</b> causes you to act{" "}
-              {(stats.agilityBonus * 100).toFixed(0)}% faster (additively)
+              Each point of <b>Agility</b> provides +
+              {(stats.agilityBonus * 100).toFixed(0)}% turn speed
             </li>
             <li>
               Each point of <b>Intelligence</b> provides +{stats.manaPerInt}{" "}

@@ -29,10 +29,11 @@ function App() {
           height: 10,
         },
         stats: {
-          baseHealth: 200,
+          baseHealth: 180,
           baseHealthRegen: 0.3,
           healthPerStrength: 10,
           healthRegenPerStrength: 0.18,
+          slowdownPerStrength: 0.01,
 
           baseAttackPeriod: 120,
           agilityBonus: 0.04,

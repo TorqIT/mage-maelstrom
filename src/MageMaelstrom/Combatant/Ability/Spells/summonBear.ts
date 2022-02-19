@@ -34,7 +34,7 @@ export class SummonBear extends Spell {
         name: "Summon Bear",
         category: "summons",
         description:
-          `Summon a ${STRENGTH}/${AGILITY}/${INTELLIGENCE} bear that lasts for ${
+          `Summon a bear that lasts for ${
             DURATION / 100
           } seconds. Lumbers around slowly but moves quicker ` +
           "when an enemy is close by.",
@@ -90,7 +90,7 @@ class BearPassive extends Passive {
   }
 
   public getHealthAdjustment(): number {
-    return -100;
+    return -80;
   }
 }
 

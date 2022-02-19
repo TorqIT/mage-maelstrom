@@ -5,7 +5,7 @@ import { SpellLog } from "../../../Logic";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
-const DAMAGE = 10;
+const DAMAGE = 13;
 const SECONDS = 6;
 const SLOW = 0.9;
 

@@ -224,8 +224,11 @@ export class Entrant {
 
   private getTurnDelay() {
     return Math.ceil(
-      this.gameSpecs.stats.baseAttackPeriod /
-        (1 + this.gameSpecs.stats.agilityBonus * this.combatant.getAgility())
+      (this.gameSpecs.stats.baseAttackPeriod /
+        (1 + this.gameSpecs.stats.agilityBonus * this.combatant.getAgility())) *
+        (1 +
+          this.gameSpecs.stats.slowdownPerStrength *
+            this.combatant.getStrength())
     );
   }
 

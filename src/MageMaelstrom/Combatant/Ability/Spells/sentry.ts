@@ -88,7 +88,7 @@ class SentryPassive extends Passive {
   }
 
   public getHealthAdjustment(): number {
-    return -150;
+    return -130;
   }
 
   public override getDamageTakenMultiplier(damageType: DamageType): number {

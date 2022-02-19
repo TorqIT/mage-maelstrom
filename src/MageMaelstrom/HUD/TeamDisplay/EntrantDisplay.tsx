@@ -83,7 +83,7 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
           <div
             className={styles.timerBar}
             style={{
-              width: Math.min(100, entrant.status.ticksUntilNextTurn),
+              width: entrant.status.ticksUntilNextTurn,
             }}
           ></div>
         </Stack>

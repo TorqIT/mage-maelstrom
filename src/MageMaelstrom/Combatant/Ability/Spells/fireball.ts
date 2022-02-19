@@ -5,8 +5,8 @@ import { SpellLog } from "../../../Logic";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
-const DAMAGE = 30;
-const DOT = 6;
+const DAMAGE = 36;
+const DOT = 8;
 const DURATION = 300;
 
 export class Fireball extends Spell {

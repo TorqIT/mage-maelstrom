@@ -21,6 +21,7 @@ export type GameSpecs = Readonly<{
     baseHealthRegen: number;
     healthPerStrength: number;
     healthRegenPerStrength: number;
+    slowdownPerStrength: number;
     baseAttackPeriod: number;
     agilityBonus: number;
     baseMana: number;

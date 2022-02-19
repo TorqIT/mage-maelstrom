@@ -92,7 +92,7 @@ class SpiritPassive extends Passive {
   }
 
   public getHealthAdjustment(): number {
-    return -170;
+    return -150;
   }
 }
 
