@@ -24,7 +24,7 @@ class Spellslinger extends Combatant {
       strength: 10,
       agility: 10,
       intelligence: 20,
-      abilities: ["zap", "fireball", "poison", "evasion"],
+      abilities: ["zap", "fireball", "ice", "ranged"],
     };
   }
 
@@ -42,6 +42,7 @@ class Spellslinger extends Combatant {
   public act(params: ActParams): Action {
     return (
       this.getFirstValidAction([
+        () => this.panicRun(params),
         () => this.slappyHands(params),
         () => this.slingSpell(params),
         () => this.getIntoSweetSpot(params),
@@ -96,21 +97,21 @@ class Spellslinger extends Combatant {
   }
 
   private slingSpell({
-    spells: [zap, fireball, poison],
+    spells: [zap, fireball, ice],
     visibleEnemies,
     helpers,
     actions,
   }: ActParams) {
     for (const enemy of visibleEnemies) {
-      const poisonCast = actions.cast(poison, enemy.id);
+      const iceCast = actions.cast(ice, enemy.id);
       const fireballCast = actions.cast(fireball, enemy.id);
       const zapCast = actions.cast(zap, enemy.id);
 
       if (
-        !enemy.statusesEffects.includes("poison") &&
-        helpers.canPerform(poisonCast)
+        !enemy.statusesEffects.includes("ice") &&
+        helpers.canPerform(iceCast)
       ) {
-        return poisonCast;
+        return iceCast;
       }
 
       if (helpers.canPerform(fireballCast)) {
@@ -126,6 +127,18 @@ class Spellslinger extends Combatant {
   private slappyHands({ visibleEnemies, you, actions, helpers }: ActParams) {
     if (you.mana.value < 20 && visibleEnemies.length > 0) {
       return actions.attackMove(helpers.getClosest(visibleEnemies)!);
+    }
+  }
+
+  private panicRun({ helpers, visibleEnemies, actions, you }: ActParams) {
+    const closestEnemy = helpers.getClosest(visibleEnemies);
+
+    if (
+      closestEnemy &&
+      you.coords.isNextTo(closestEnemy.coords) &&
+      Math.random() > 0.5
+    ) {
+      return actions.runFrom(closestEnemy);
     }
   }
 

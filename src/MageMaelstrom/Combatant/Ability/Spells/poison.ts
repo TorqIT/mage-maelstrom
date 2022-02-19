@@ -2,12 +2,12 @@ import { StatusEffect } from "..";
 import { mmPoison } from "../../../Common/Icon";
 import { loggingManager } from "../../../Logging";
 import { SpellLog } from "../../../Logic";
-import { Entrant } from "../../entrant";
+import { DamageType, Entrant } from "../../entrant";
 import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
-const DAMAGE = 13;
+const DAMAGE = 10;
 const SECONDS = 6;
-const SLOW = 0.9;
+const DAMAGE_MULT = 1.15;
 
 export class Poison extends Spell {
   public constructor() {
@@ -18,7 +18,10 @@ export class Poison extends Spell {
         category: "damage",
         description:
           `Poisons the target for ${DAMAGE} damage per second for ${SECONDS} seconds ` +
-          ` and slowing them by ${((1 - SLOW) * 100).toFixed(0)}%`,
+          `and increasing the attack damage they take by ${(
+            (DAMAGE_MULT - 1) *
+            100
+          ).toFixed(0)}%`,
       },
       type: "poison",
       cooldown: 600,
@@ -54,10 +57,10 @@ export class Poisoned extends StatusEffect {
       type: "poison",
       desc: {
         name: "Poisoned",
-        description: `Take ${DAMAGE} damage per second for ${SECONDS} seconds and act ${(
-          (1 - SLOW) *
+        description: `Take ${DAMAGE} damage per second for ${SECONDS} seconds and take ${(
+          (DAMAGE_MULT - 1) *
           100
-        ).toFixed(0)}% slower`,
+        ).toFixed(0)}% more attack damage`,
         icon: mmPoison,
       },
 
@@ -68,8 +71,8 @@ export class Poisoned extends StatusEffect {
     this.source = source;
   }
 
-  public override getTurnSpeedMultiplier(): number {
-    return SLOW;
+  public getDamageTakenMultiplier(damageType: DamageType): number {
+    return damageType === "attack" ? DAMAGE_MULT : 1;
   }
 
   public override updateEffect(entrant: Entrant) {

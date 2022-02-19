@@ -53,7 +53,7 @@ export const RulesGuide: React.FC<RulesGuideProps> = ({}) => {
                   {stats.baseHealth} health and {stats.baseHealthRegen}/s health
                   regen
                 </li>
-                <li>An turn delay of {stats.baseAttackPeriod} (±10%) ticks</li>
+                <li>A turn delay of {stats.baseAttackPeriod} (±10%) ticks</li>
                 <li>
                   {stats.baseMana} mana and {stats.baseManaRegen}/s mana regen
                 </li>
@@ -65,7 +65,7 @@ export const RulesGuide: React.FC<RulesGuideProps> = ({}) => {
               Each point of <b>Strength</b> provides +{stats.healthPerStrength}{" "}
               health, +{stats.healthRegenPerStrength}/s health regeneration and{" "}
               <span style={{ color: "rgb(244, 85, 48)" }}>
-                -{Math.floor(stats.slowdownPerStrength * 100)}% turn speed
+                -{(stats.slowdownPerStrength * 100).toFixed(1)}% turn speed
               </span>
             </li>
             <li>

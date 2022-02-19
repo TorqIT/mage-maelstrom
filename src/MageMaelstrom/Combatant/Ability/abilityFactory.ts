@@ -31,7 +31,7 @@ import { Meteor } from "./Spells/meteor";
 import { Poison } from "./Spells/poison";
 import { Regen } from "./Spells/regen";
 import { Sentry } from "./Spells/sentry";
-import { Slow } from "./Spells/slow";
+import { IceBlast } from "./Spells/iceBlast";
 import { Snipe } from "./Spells/snipe";
 import { Stun } from "./Spells/stun";
 import { SummonBear } from "./Spells/summonBear";
@@ -53,8 +53,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Regen();
     case "force":
       return new Force();
-    case "slow":
-      return new Slow();
+    case "ice":
+      return new IceBlast();
     case "stun":
       return new Stun();
     case "snipe":

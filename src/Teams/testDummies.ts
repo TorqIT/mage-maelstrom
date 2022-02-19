@@ -17,7 +17,7 @@ class TestDummy extends Combatant {
     return {
       name: "Dashing Rogue",
       icon: "/trainingDummy.svg",
-      strength: 58,
+      strength: 50,
       agility: 5,
       intelligence: 5,
       abilities: ["talented", "talented", "talented", "talented"],

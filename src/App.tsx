@@ -33,15 +33,15 @@ function App() {
           baseHealthRegen: 0.3,
           healthPerStrength: 10,
           healthRegenPerStrength: 0.18,
-          slowdownPerStrength: 0.01,
+          slowdownPerStrength: 0.008,
 
           baseAttackPeriod: 120,
           agilityBonus: 0.04,
 
           baseMana: 10,
-          baseManaRegen: 0.15,
-          manaPerInt: 6,
-          manaRegenPerInt: 0.07,
+          baseManaRegen: 0.1,
+          manaPerInt: 5,
+          manaRegenPerInt: 0.05,
 
           baseDamage: 10,
           vision: 3.5,

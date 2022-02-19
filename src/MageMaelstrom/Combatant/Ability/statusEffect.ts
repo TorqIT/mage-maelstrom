@@ -7,7 +7,7 @@ import { DamageType, Entrant } from "../entrant";
 export const statusEffectTypes = [
   "poison",
   "regen",
-  "slow",
+  "ice",
   "stun",
   "fire",
   "channeling",

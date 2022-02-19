@@ -17,7 +17,7 @@ class Brute extends Combatant {
     return {
       name: "Brute",
       icon: "/ogre.svg",
-      strength: 37,
+      strength: 35,
       agility: 5,
       intelligence: 5,
       abilities: ["stun", "darkness", "talented", "thorns"],

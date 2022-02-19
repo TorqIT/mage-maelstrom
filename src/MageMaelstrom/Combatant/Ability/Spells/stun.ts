@@ -21,7 +21,7 @@ export class Stun extends Spell {
         category: "debuffs",
         description: `Stuns the target for at least ${
           DURATION / 100
-        } seconds. The higher your strength, the longer the stun.`,
+        } second. The higher your strength, the longer the stun.`,
         notes: [
           `Stun duration is calculated as ${DURATION / 100} + ${
             PER_STRENGTH_BONUS / 100
@@ -53,7 +53,7 @@ export class Stun extends Spell {
 class StunStatus extends StatusEffect {
   public constructor(strength: number) {
     super({
-      type: "slow",
+      type: "ice",
       duration: DURATION + PER_STRENGTH_BONUS * strength,
       isPositive: false,
       desc: {

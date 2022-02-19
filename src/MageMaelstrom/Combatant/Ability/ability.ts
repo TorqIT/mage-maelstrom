@@ -8,7 +8,7 @@ export const spellTypeArray = [
   "heal",
   "regen",
   "force",
-  "slow",
+  "ice",
   "stun",
   "snipe",
   "dash",
