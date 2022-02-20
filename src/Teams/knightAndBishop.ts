@@ -126,8 +126,11 @@ class Bishop extends ChessCombatant {
 
   public act(params: ActParams): Action {
     return (
-      this.getFirstValidAction([() => this.followKnight(params)]) ??
-      params.actions.dance()
+      this.getFirstValidAction([
+        () => this.buffKnight(params),
+        () => this.buffMe(params),
+        () => this.followKnight(params),
+      ]) ?? params.actions.dance()
     );
   }
 
@@ -138,6 +141,62 @@ class Bishop extends ChessCombatant {
 
     const knight = allies[0];
     return actions.moveTo(knight);
+  }
+
+  private buffKnight({
+    actions,
+    allies,
+    helpers,
+    visibleEnemies,
+    spells: [, barrier, regen],
+  }: ActParams) {
+    if (visibleEnemies.length === 0 || allies.length === 0) {
+      return;
+    }
+
+    const knight = allies[0];
+
+    if (
+      !knight.statusesEffects.includes("barrier") &&
+      helpers.canPerform(actions.cast(barrier, knight.id))
+    ) {
+      return actions.cast(barrier, knight.id);
+    }
+
+    if (
+      !knight.statusesEffects.includes("regen") &&
+      knight.health.value < 300 &&
+      helpers.canPerform(actions.cast(regen, knight.id))
+    ) {
+      return actions.cast(regen, knight.id);
+    }
+  }
+
+  private buffMe({
+    actions,
+    you,
+    helpers,
+    visibleEnemies,
+    spells: [, barrier, regen],
+  }: ActParams) {
+    if (visibleEnemies.length === 0) {
+      return;
+    }
+
+    if (
+      !you.statusesEffects.includes("barrier") &&
+      helpers.canPerform(actions.cast(barrier, you.id))
+    ) {
+      return actions.cast(barrier, you.id);
+    }
+
+    if (
+      !you.statusesEffects.includes("regen") &&
+      you.health.value < 200 &&
+      helpers.canPerform(actions.cast(regen, you.id))
+    ) {
+      return actions.cast(regen, you.id);
+    }
   }
 }
 

@@ -7,8 +7,8 @@ import { DamageType, Entrant } from "../../entrant";
 import { FullSpellTarget } from "../spell";
 
 const MAGIC_MULT = 0.65;
-const ATTACK_MULT = 0.85;
-const DURATION = 700;
+const ATTACK_MULT = 0.75;
+const DURATION = 800;
 
 export class Barrier extends Spell {
   public constructor() {
