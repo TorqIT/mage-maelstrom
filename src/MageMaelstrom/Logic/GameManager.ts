@@ -307,6 +307,7 @@ export class GameManager {
             this.currentTick
           );
         } catch (e: any) {
+          console.error(e);
           action = { type: ActionType.Dance, error: e?.message };
         }
 

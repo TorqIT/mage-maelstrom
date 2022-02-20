@@ -1,7 +1,7 @@
 import { mmCrit } from "../../../Common/Icon";
 import { Passive } from "../passive";
 
-const CRIT_CHANCE = 0.25;
+const CRIT_CHANCE = 0.2;
 
 export class Critical extends Passive {
   public constructor() {

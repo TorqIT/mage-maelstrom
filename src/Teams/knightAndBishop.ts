@@ -41,6 +41,7 @@ class Knight extends Combatant {
   public act(params: ActParams): Action {
     return (
       this.getFirstValidAction([
+        () => this.getOffMe(params),
         () => this.onslaught(params),
         () => this.searchPerimeter(params),
       ]) ?? params.actions.dance()
@@ -76,6 +77,30 @@ class Knight extends Combatant {
     }
 
     return actions.attackMove(closest);
+  }
+
+  private getOffMe({
+    visibleEnemies,
+    actions,
+    you,
+    helpers,
+    spells: [burst],
+  }: ActParams) {
+    let enemiesNextToMe = 0;
+
+    visibleEnemies.forEach((e) => {
+      if (e.coords.isNextTo(you.coords)) {
+        enemiesNextToMe++;
+      }
+    });
+
+    if (
+      enemiesNextToMe >= 2 &&
+      you.health.value < 200 &&
+      helpers.canPerform(actions.cast(burst))
+    ) {
+      return actions.cast(burst);
+    }
   }
 
   public onTakeDamage(params: OnTakeDamageParams): void {}

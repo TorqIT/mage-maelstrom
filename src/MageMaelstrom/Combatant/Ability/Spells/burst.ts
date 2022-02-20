@@ -1,18 +1,16 @@
 import { Spell } from "..";
-import { mmBurst, mmForce } from "../../../Common/Icon";
-import { loggingManager } from "../../../Logging";
+import { mmBurst } from "../../../Common/Icon";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
-import { FullSpellTarget } from "../spell";
 
-const DAMAGE = 60;
+const DAMAGE = 50;
 
 export class Burst extends Spell {
   public constructor() {
     super({
       type: "burst",
       cooldown: 1500,
-      manaCost: 8,
+      manaCost: 20,
       targetTypes: "nothing",
       desc: {
         name: "Burst",

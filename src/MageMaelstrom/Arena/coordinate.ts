@@ -43,7 +43,7 @@ export class ReadonlyCoordinate {
 
   public getClosest(targets: ReadonlyCoordinate[]) {
     const index = this.getClosestIndex(targets);
-    return index ? targets[index] : undefined;
+    return index !== undefined ? targets[index] : undefined;
   }
 
   public getClosestIndex(targets: ReadonlyCoordinate[]) {
