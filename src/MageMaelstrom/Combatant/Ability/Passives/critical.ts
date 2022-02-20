@@ -14,6 +14,9 @@ export class Critical extends Passive {
         description: `Every attack has a ${
           CRIT_CHANCE * 100
         }% chance to critical hit for double damage`,
+        notes: [
+          "Stacking only increases the chance that a critical occurs. You cannot roll multiple crits for one attack.",
+        ],
       },
     });
   }

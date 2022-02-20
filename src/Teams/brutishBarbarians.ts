@@ -107,6 +107,6 @@ class Brute extends Combatant {
 
 export const brutishBarbarians: Team = {
   name: "The Brutish Barbarians",
-  color: "#000",
+  color: "#B60",
   CombatantSubclasses: [Brute, Brute],
 };

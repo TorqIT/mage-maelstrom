@@ -42,19 +42,24 @@ export class ReadonlyCoordinate {
   }
 
   public getClosest(targets: ReadonlyCoordinate[]) {
+    const index = this.getClosestIndex(targets);
+    return index ? targets[index] : undefined;
+  }
+
+  public getClosestIndex(targets: ReadonlyCoordinate[]) {
     if (targets.length === 0) {
       return undefined;
     }
 
-    let closest = targets[0];
-    let closestDistance = this.getSquaredDistance(closest);
+    let closest = 0;
+    let closestDistance = this.getSquaredDistance(targets[0]);
 
     for (let j = 1; j < targets.length; j++) {
       const dist = this.getSquaredDistance(targets[j]);
 
-      if (dist > closestDistance) {
+      if (dist < closestDistance) {
         closestDistance = dist;
-        closest = targets[j];
+        closest = j;
       }
     }
 
