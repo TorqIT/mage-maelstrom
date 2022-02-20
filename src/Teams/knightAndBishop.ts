@@ -12,7 +12,23 @@ import {
   OnStatusEffectAppliedParams,
 } from "../MageMaelstrom/Combatant";
 
-class Knight extends Combatant {
+abstract class ChessCombatant extends Combatant {
+  protected getFirstValidAction(actions: (() => Action | undefined)[]) {
+    for (const act of actions) {
+      const result = act();
+
+      if (result) {
+        return result;
+      }
+    }
+  }
+
+  public onTakeDamage(params: OnTakeDamageParams): void {}
+
+  public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
+}
+
+class Knight extends ChessCombatant {
   private rotation: ReadonlyCoordinate[] = [];
   private rotationIndex = 0;
 
@@ -46,16 +62,6 @@ class Knight extends Combatant {
         () => this.searchPerimeter(params),
       ]) ?? params.actions.dance()
     );
-  }
-
-  private getFirstValidAction(actions: (() => Action | undefined)[]) {
-    for (const act of actions) {
-      const result = act();
-
-      if (result) {
-        return result;
-      }
-    }
   }
 
   private searchPerimeter({ actions }: ActParams) {
@@ -102,14 +108,41 @@ class Knight extends Combatant {
       return actions.cast(burst);
     }
   }
+}
 
-  public onTakeDamage(params: OnTakeDamageParams): void {}
+class Bishop extends ChessCombatant {
+  public define(): CombatantDefinition {
+    return {
+      name: "Bishop",
+      icon: "/chess-bishop.svg",
+      strength: 5,
+      agility: 12,
+      intelligence: 23,
+      abilities: ["force", "barrier", "regen", "heal"],
+    };
+  }
 
-  public onStatusEffectApplied(params: OnStatusEffectAppliedParams): void {}
+  public init(params: InitParams): void {}
+
+  public act(params: ActParams): Action {
+    return (
+      this.getFirstValidAction([() => this.followKnight(params)]) ??
+      params.actions.dance()
+    );
+  }
+
+  private followKnight({ actions, allies }: ActParams) {
+    if (allies.length === 0) {
+      return;
+    }
+
+    const knight = allies[0];
+    return actions.moveTo(knight);
+  }
 }
 
 export const knightAndBishop: Team = {
   name: "Knight and Bishop",
   color: "#2AF",
-  CombatantSubclasses: [Knight, Knight],
+  CombatantSubclasses: [Knight, Bishop],
 };
