@@ -40,8 +40,10 @@ class Knight extends Combatant {
 
   public act(params: ActParams): Action {
     return (
-      this.getFirstValidAction([() => this.searchPerimeter(params)]) ??
-      params.actions.dance()
+      this.getFirstValidAction([
+        () => this.onslaught(params),
+        () => this.searchPerimeter(params),
+      ]) ?? params.actions.dance()
     );
   }
 
@@ -64,6 +66,16 @@ class Knight extends Combatant {
     }
 
     return moveAction;
+  }
+
+  private onslaught({ actions, helpers, visibleEnemies }: ActParams) {
+    const closest = helpers.getClosest(visibleEnemies);
+
+    if (!closest) {
+      return;
+    }
+
+    return actions.attackMove(closest);
   }
 
   public onTakeDamage(params: OnTakeDamageParams): void {}

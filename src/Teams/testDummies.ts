@@ -15,7 +15,7 @@ import { mmZap } from "../MageMaelstrom/Common/Icon";
 class TestDummy extends Combatant {
   public define(): CombatantDefinition {
     return {
-      name: "Dashing Rogue",
+      name: "Test Dummy",
       icon: "/trainingDummy.svg",
       strength: 50,
       agility: 5,
