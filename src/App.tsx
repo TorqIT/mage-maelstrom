@@ -38,9 +38,9 @@ function App() {
           baseAttackPeriod: 120,
           agilityBonus: 0.04,
 
-          baseMana: 10,
+          baseMana: 0,
           baseManaRegen: 0.1,
-          manaPerInt: 5,
+          manaPerInt: 6,
           manaRegenPerInt: 0.05,
 
           baseDamage: 10,

@@ -115,9 +115,9 @@ class Bishop extends ChessCombatant {
     return {
       name: "Bishop",
       icon: "/chess-bishop.svg",
-      strength: 5,
+      strength: 6,
       agility: 12,
-      intelligence: 23,
+      intelligence: 22,
       abilities: ["force", "barrier", "regen", "heal"],
     };
   }

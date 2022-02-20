@@ -6,14 +6,14 @@ import { Entrant } from "../../entrant";
 import { FullSpellTarget, Spell } from "../spell";
 import { StatusEffect } from "../statusEffect";
 
-const REGEN_PER_SECOND = 8;
+const REGEN_PER_SECOND = 10;
 const DURATION = 800;
 
 export class Regen extends Spell {
   public constructor() {
     super({
       type: "regen",
-      cooldown: 1600,
+      cooldown: 600,
       manaCost: 14,
       range: 4,
       targetTypes: ["entrant", "nothing"],

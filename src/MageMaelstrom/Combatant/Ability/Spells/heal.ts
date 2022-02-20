@@ -4,13 +4,13 @@ import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, isCoordinate, Spell } from "../spell";
 
-const HEAL_AMOUNT = 30;
+const HEAL_AMOUNT = 40;
 
 export class Heal extends Spell {
   public constructor() {
     super({
       type: "heal",
-      cooldown: 1000,
+      cooldown: 600,
       manaCost: 10,
       range: 6,
       targetTypes: ["entrant", "nothing"],

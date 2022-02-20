@@ -7,7 +7,7 @@ import { ChannelingStatus } from "../Statuses/channellingStatus";
 import { FullSpellTarget } from "../spell";
 
 const DRINK_TIME = 100;
-const HEAL_PER_SECOND = 20;
+const HEAL_PER_SECOND = 40;
 const DURATION = 300;
 
 export class HealthPotion extends Spell {
