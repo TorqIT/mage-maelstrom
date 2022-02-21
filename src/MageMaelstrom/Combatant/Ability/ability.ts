@@ -19,7 +19,7 @@ export const spellTypeArray = [
   "swift",
   "dispel",
   "teleport",
-  "haste",
+  "burnout",
   "burst",
   "sentry",
   "fear",

@@ -25,10 +25,8 @@ export class Meteor extends Spell {
         category: "damage",
         description:
           `Channel for ${DELAY / 100} seconds to summon a meteor that ` +
-          `deals ${DAMAGE} damage in a ${RADIUS} radius. Starts on a ${
-            INITIAL_COOLDOWN / 100
-          } ` +
-          `cooldown.`,
+          `deals ${DAMAGE} damage in a ${RADIUS} radius.`,
+        notes: [`Starts on a ${INITIAL_COOLDOWN / 100} cooldown.`],
         icon: mmMeteor,
       },
     });

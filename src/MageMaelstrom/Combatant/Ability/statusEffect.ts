@@ -16,7 +16,7 @@ export const statusEffectTypes = [
   "flash",
   "frost",
   "temporality",
-  "haste",
+  "burnout",
   "bleed",
   "darkness",
   "fear",

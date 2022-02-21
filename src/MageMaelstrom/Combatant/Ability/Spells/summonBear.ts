@@ -77,8 +77,10 @@ class BearPassive extends Passive {
   }
 
   public override update(self: Entrant, gameManager: GameManager) {
-    const enemyTeam = gameManager.getEnemyTeam(self.getTeamId());
-    this.frenzy = enemyTeam.entrants.some((e) => self.canSee(e));
+    if (gameManager.getCurrentTick() % 10 === 0) {
+      const enemyTeam = gameManager.getEnemyTeam(self.getTeamId());
+      this.frenzy = enemyTeam.entrants.some((e) => self.canSee(e));
+    }
   }
 
   public override getVisionAdjustment() {

@@ -24,7 +24,7 @@ import { Fear } from "./Spells/fear";
 import { Fireball } from "./Spells/fireball";
 import { Flash } from "./Spells/flash";
 import { Force } from "./Spells/force";
-import { Haste } from "./Spells/haste";
+import { Burnout } from "./Spells/burnout";
 import { Heal } from "./Spells/heal";
 import { HealthPotion } from "./Spells/healthPotion";
 import { Meteor } from "./Spells/meteor";
@@ -75,8 +75,8 @@ export function buildSpell(type: SpellType): Spell {
       return new Dispel();
     case "teleport":
       return new Teleport();
-    case "haste":
-      return new Haste();
+    case "burnout":
+      return new Burnout();
     case "burst":
       return new Burst();
     case "sentry":
