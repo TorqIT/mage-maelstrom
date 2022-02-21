@@ -22,7 +22,7 @@ import { Temporality } from "../Statuses/temporality";
 
 const DURATION = 4000;
 
-const STRENGTH = 8;
+const STRENGTH = 10;
 const AGILITY = 8;
 const INTELLIGENCE = 5;
 
@@ -89,10 +89,6 @@ class BearPassive extends Passive {
 
   public override getTurnSpeedMultiplier() {
     return this.frenzy ? 4 / 3 : 3 / 4;
-  }
-
-  public getHealthAdjustment(): number {
-    return -80;
   }
 }
 
