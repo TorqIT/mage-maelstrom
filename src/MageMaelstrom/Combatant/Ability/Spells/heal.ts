@@ -10,7 +10,7 @@ export class Heal extends Spell {
   public constructor() {
     super({
       type: "heal",
-      cooldown: 600,
+      cooldown: 500,
       manaCost: 10,
       range: 6,
       targetTypes: ["entrant", "nothing"],

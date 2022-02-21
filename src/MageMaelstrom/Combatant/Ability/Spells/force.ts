@@ -5,15 +5,15 @@ import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 import { FullSpellTarget, Spell } from "../spell";
 
-const DAMAGE = 10;
+const DAMAGE = 12;
 const DISTANCE = 3;
 
 export class Force extends Spell {
   public constructor() {
     super({
       type: "force",
-      cooldown: 300,
-      manaCost: 3,
+      cooldown: 400,
+      manaCost: 4,
       range: 1,
       targetTypes: ["direction", "entrant"],
       desc: {

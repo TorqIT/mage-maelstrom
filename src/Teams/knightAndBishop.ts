@@ -115,9 +115,9 @@ class Bishop extends ChessCombatant {
     return {
       name: "Bishop",
       icon: "/chess-bishop.svg",
-      strength: 6,
-      agility: 12,
-      intelligence: 22,
+      strength: 8,
+      agility: 8,
+      intelligence: 24,
       abilities: ["force", "barrier", "regen", "heal"],
     };
   }
@@ -127,20 +127,26 @@ class Bishop extends ChessCombatant {
   public act(params: ActParams): Action {
     return (
       this.getFirstValidAction([
+        () => this.getOffMe(params),
+        () => this.keepKnightHealthy(params),
         () => this.buffKnight(params),
         () => this.buffMe(params),
         () => this.followKnight(params),
+        () => this.whackWithCrosier(params),
       ]) ?? params.actions.dance()
     );
   }
 
-  private followKnight({ actions, allies }: ActParams) {
+  private followKnight({ actions, allies, you }: ActParams) {
     if (allies.length === 0) {
       return;
     }
 
     const knight = allies[0];
-    return actions.moveTo(knight);
+
+    if (knight.coords.getDistance(you.coords) > 3.5) {
+      return actions.moveTo(knight);
+    }
   }
 
   private buffKnight({
@@ -196,6 +202,52 @@ class Bishop extends ChessCombatant {
       helpers.canPerform(actions.cast(regen, you.id))
     ) {
       return actions.cast(regen, you.id);
+    }
+  }
+
+  private keepKnightHealthy({
+    allies,
+    actions,
+    helpers,
+    spells: [, , , heal],
+  }: ActParams) {
+    if (allies.length === 0) {
+      return;
+    }
+
+    const knight = allies[0];
+
+    if (
+      knight.health.value < 350 &&
+      helpers.canPerform(actions.cast(heal, knight.id))
+    ) {
+      return actions.cast(heal, knight.id);
+    }
+  }
+
+  private getOffMe({
+    actions,
+    helpers,
+    spells: [force],
+    visibleEnemies,
+    you,
+  }: ActParams) {
+    const closestEnemy = helpers.getClosest(visibleEnemies);
+
+    if (
+      closestEnemy &&
+      closestEnemy.coords.isNextTo(you.coords) &&
+      helpers.canPerform(actions.cast(force, closestEnemy.id))
+    ) {
+      return actions.cast(force, closestEnemy.id);
+    }
+  }
+
+  private whackWithCrosier({ visibleEnemies, actions, helpers }: ActParams) {
+    const closestEnemy = helpers.getClosest(visibleEnemies);
+
+    if (closestEnemy) {
+      return actions.attackMove(closestEnemy);
     }
   }
 }

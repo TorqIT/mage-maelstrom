@@ -32,7 +32,7 @@ function App() {
           baseHealth: 180,
           baseHealthRegen: 0.3,
           healthPerStrength: 10,
-          healthRegenPerStrength: 0.18,
+          healthRegenPerStrength: 0.15,
           slowdownPerStrength: 0.008,
 
           baseAttackPeriod: 120,
