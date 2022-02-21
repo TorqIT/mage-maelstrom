@@ -17,7 +17,7 @@ export class Meteor extends Spell {
       type: "meteor",
       cooldown: 3000,
       initialCooldown: INITIAL_COOLDOWN,
-      manaCost: 100,
+      manaCost: 80,
       range: 8,
       targetTypes: "coordinate",
       desc: {

@@ -10,6 +10,7 @@ import {
   InitParams,
   OnTakeDamageParams,
   OnStatusEffectAppliedParams,
+  ReadonlyEntrantStatus,
 } from "../MageMaelstrom/Combatant";
 
 class Summoner extends Combatant {
@@ -31,9 +32,19 @@ class Summoner extends Combatant {
       return this.summonBear(params);
     } else {
       if (this.hasBear(params)) {
-        if (this.isFarFromBear(params)) {
-          return this.followBear(params) ?? params.actions.dance();
+        if (this.bearIsFighting(params)) {
+          if (this.canPoisonBearTarget(params)) {
+            return this.poisonEnemyTarget(params);
+          } else {
+            return this.comeInSwingin(params) ?? params.actions.dance();
+          }
+        } else {
+          if (this.isFarFromBear(params)) {
+            return this.followBear(params) ?? params.actions.dance();
+          }
         }
+      } else {
+        return this.comeInSwingin(params) ?? params.actions.dance();
       }
     }
 
@@ -62,6 +73,53 @@ class Summoner extends Combatant {
     return actions.moveTo(closestBear);
   }
 
+  private bearIsFighting({ helpers, allies, visibleEnemies }: ActParams) {
+    const closestBear = helpers.getClosest(allies.filter((a) => !a.essential))!;
+    return this.getEnemyThatBearIsFighting(closestBear, visibleEnemies) != null;
+  }
+
+  private canPoisonBearTarget({
+    helpers,
+    allies,
+    visibleEnemies,
+    actions,
+    spells: [, poison],
+  }: ActParams) {
+    const closestBear = helpers.getClosest(allies.filter((a) => !a.essential))!;
+    const enemyTarget = this.getEnemyThatBearIsFighting(
+      closestBear,
+      visibleEnemies
+    );
+
+    return (
+      enemyTarget != null &&
+      helpers.canPerform(actions.cast(poison, enemyTarget.id))
+    );
+  }
+
+  private poisonEnemyTarget({
+    helpers,
+    allies,
+    visibleEnemies,
+    actions,
+    spells: [, poison],
+  }: ActParams) {
+    const closestBear = helpers.getClosest(allies.filter((a) => !a.essential))!;
+    const enemyTarget = this.getEnemyThatBearIsFighting(
+      closestBear,
+      visibleEnemies
+    )!;
+
+    return actions.cast(poison, enemyTarget.id);
+  }
+
+  private getEnemyThatBearIsFighting(
+    bear: ReadonlyEntrantStatus,
+    visibleEnemies: ReadonlyEntrantStatus[]
+  ) {
+    return visibleEnemies.find((e) => e.coords.getDistance(bear.coords) < 2.5);
+  }
+
   private wanderAround({ actions, helpers }: ActParams) {
     for (let j = 0; j < 10; j++) {
       const dir: MovementDirection = (
@@ -72,6 +130,25 @@ class Summoner extends Combatant {
         return actions.move(dir);
       }
     }
+  }
+
+  private comeInSwingin({
+    actions,
+    visibleEnemies,
+    helpers,
+    spells: [, poison],
+  }: ActParams) {
+    const closestEnemy = helpers.getClosest(visibleEnemies);
+
+    if (!closestEnemy) {
+      return actions.dance();
+    }
+
+    if (helpers.canPerform(actions.cast(poison, closestEnemy.id))) {
+      return actions.cast(poison, closestEnemy.id);
+    }
+
+    return actions.attackMove(closestEnemy);
   }
 
   public onTakeDamage(params: OnTakeDamageParams): void {}

@@ -14,14 +14,14 @@ import { DamageType, Entrant } from "../../entrant";
 import { AbilityType } from "../ability";
 import { Temporality } from "../Statuses/temporality";
 
-const DURATION = 2000;
+const DURATION = 1500;
 
 export class Sentry extends Spell {
   public constructor() {
     super({
       type: "sentry",
       cooldown: 2000,
-      manaCost: 30,
+      manaCost: 40,
       targetTypes: "nothing",
       desc: {
         name: "Build Sentry",
@@ -72,7 +72,7 @@ class SentryPassive extends Passive {
   }
 
   public getAttackDamageMultiplier(): number {
-    return 2 / 3;
+    return 0.5;
   }
 
   public getVisionAdjustment(): number {
@@ -88,7 +88,7 @@ class SentryPassive extends Passive {
   }
 
   public getHealthAdjustment(): number {
-    return -130;
+    return -160;
   }
 
   public override getDamageTakenMultiplier(damageType: DamageType): number {
@@ -101,7 +101,7 @@ class SentryGun extends Combatant {
     return {
       name: "Sentry Gun",
       abilities: [],
-      strength: 9,
+      strength: 10,
       agility: 0,
       intelligence: 0,
       icon: mmSentry.file,

@@ -30,9 +30,9 @@ function App() {
         },
         stats: {
           baseHealth: 180,
-          baseHealthRegen: 0.3,
+          baseHealthRegen: 0.4,
           healthPerStrength: 10,
-          healthRegenPerStrength: 0.15,
+          healthRegenPerStrength: 0.2,
           slowdownPerStrength: 0.008,
 
           baseAttackPeriod: 120,
@@ -41,7 +41,7 @@ function App() {
           baseMana: 0,
           baseManaRegen: 0.1,
           manaPerInt: 6,
-          manaRegenPerInt: 0.05,
+          manaRegenPerInt: 0.07,
 
           baseDamage: 10,
           vision: 3.5,

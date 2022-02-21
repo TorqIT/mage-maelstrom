@@ -20,10 +20,10 @@ import { Passive } from "../passive";
 import { FullSpellTarget, Spell } from "../spell";
 import { Temporality } from "../Statuses/temporality";
 
-const DURATION = 4000;
+const DURATION = 3000;
 
 const STRENGTH = 10;
-const AGILITY = 10;
+const AGILITY = 8;
 const INTELLIGENCE = 5;
 
 export class SummonBear extends Spell {
@@ -40,7 +40,7 @@ export class SummonBear extends Spell {
           "when an enemy is close by.",
       },
       type: "bear",
-      manaCost: 45,
+      manaCost: 50,
       cooldown: 3000,
       targetTypes: "nothing",
     });
@@ -89,6 +89,10 @@ class BearPassive extends Passive {
 
   public override getTurnSpeedMultiplier() {
     return this.frenzy ? 4 / 3 : 3 / 4;
+  }
+
+  public getHealthAdjustment(): number {
+    return -80;
   }
 }
 

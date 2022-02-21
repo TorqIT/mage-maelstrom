@@ -5,7 +5,7 @@ import { DamageType, Entrant } from "../../entrant";
 import { Passive } from "../passive";
 
 const DAMAGE_MULT = 0.9;
-const THORN_DAMAGE = 2;
+const THORN_DAMAGE = 3;
 
 export class Thorns extends Passive {
   public constructor() {

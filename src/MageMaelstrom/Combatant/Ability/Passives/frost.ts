@@ -4,8 +4,8 @@ import { invertPercentage } from "../../../Common/labels";
 import { GameManager } from "../../../Logic/GameManager";
 import { Entrant } from "../../entrant";
 
-const MANA_REGEN = 2;
-const SLOW = 0.85;
+const MANA_REGEN = 1.5;
+const SLOW = 0.88;
 
 export class Frost extends Passive {
   public constructor() {
