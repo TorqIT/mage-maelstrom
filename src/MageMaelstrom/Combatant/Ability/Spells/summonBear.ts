@@ -23,7 +23,7 @@ import { Temporality } from "../Statuses/temporality";
 const DURATION = 4000;
 
 const STRENGTH = 10;
-const AGILITY = 8;
+const AGILITY = 10;
 const INTELLIGENCE = 5;
 
 export class SummonBear extends Spell {

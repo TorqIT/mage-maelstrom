@@ -29,6 +29,12 @@ class Summoner extends Combatant {
   public act(params: ActParams): Action {
     if (this.canSummon(params)) {
       return this.summonBear(params);
+    } else {
+      if (this.hasBear(params)) {
+        if (this.isFarFromBear(params)) {
+          return this.followBear(params) ?? params.actions.dance();
+        }
+      }
     }
 
     return this.wanderAround(params) ?? params.actions.dance();
@@ -40,6 +46,20 @@ class Summoner extends Combatant {
 
   private summonBear({ actions, spells: [bear] }: ActParams) {
     return actions.cast(bear);
+  }
+
+  private hasBear({ allies }: ActParams) {
+    return allies.some((a) => !a.essential);
+  }
+
+  private isFarFromBear({ allies, helpers, you }: ActParams) {
+    const closestBear = helpers.getClosest(allies.filter((a) => !a.essential))!;
+    return closestBear.coords.getDistance(you.coords) > 4;
+  }
+
+  private followBear({ actions, helpers, allies }: ActParams) {
+    const closestBear = helpers.getClosest(allies.filter((a) => !a.essential))!;
+    return actions.moveTo(closestBear);
   }
 
   private wanderAround({ actions, helpers }: ActParams) {

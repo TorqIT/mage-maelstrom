@@ -65,6 +65,10 @@ interface EntStatus<CoordinateType> {
   statusesEffects: StatusEffectType[];
   /** A list of the spells and passives belonging to this combatant */
   abilities: AbilityType[];
+  /** Whether or not this entrant is part of the core team. If all essential entrants die
+   * the game is over and the remaining team wins
+   */
+  essential: boolean;
 }
 
 export type BasicEntrantStatus = EntStatus<BasicCoordinate>;
@@ -574,6 +578,7 @@ export class Entrant {
         .map((s) => s.getType())
         .concat(this.passives.map((p) => p.getType()))
         .filter(isAbility),
+      essential: this.essential,
     };
   }
 
@@ -594,6 +599,7 @@ export class Entrant {
         .map((s) => s.getType())
         .concat(this.passives.map((p) => p.getType()))
         .filter(isAbility),
+      essential: this.essential,
     };
   }
 }
