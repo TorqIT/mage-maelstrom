@@ -14,6 +14,7 @@ export const Help: React.FC<HelpProps> = ({ size, vertical }) => {
   const [open, setOpen] = useState(false);
   const [spellOpen, setSpellOpen] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
+  const [creditOpen, setCreditOpen] = useState(false);
 
   return (
     <div>
@@ -25,14 +26,15 @@ export const Help: React.FC<HelpProps> = ({ size, vertical }) => {
         fill
       >
         <NiceButton onClick={() => setOpen(true)} style={{ flex: 1 }}>
-          Stats and Rules
+          Stats & Rules
         </NiceButton>
         <NiceButton onClick={() => setSpellOpen(true)} style={{ flex: 1 }}>
           Abilities
         </NiceButton>
         <NiceButton onClick={() => setCodeOpen(true)} style={{ flex: 1 }}>
-          Coding
+          Documentation & Tips
         </NiceButton>
+        <NiceButton onClick={() => setCreditOpen(true)}>Credits</NiceButton>
       </Stack>
       <Modal
         visible={open}
@@ -54,6 +56,31 @@ export const Help: React.FC<HelpProps> = ({ size, vertical }) => {
         width="70vw"
       >
         <CodingTips />
+      </Modal>
+      <Modal
+        visible={creditOpen}
+        onCloseRequested={() => setCreditOpen(false)}
+        width={500}
+      >
+        <ul style={{ fontSize: 20 }}>
+          <li>Implementation by Nicholas MacDonald</li>
+          <li>
+            Inspired by{" "}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://codegolf.stackexchange.com/questions/99744/battle-of-the-fellowships-koth"
+            >
+              Battle of the Fellowships
+            </a>
+          </li>
+          <li>
+            Icons sourced from{" "}
+            <a target="_blank" rel="noreferrer" href="https://game-icons.net/">
+              Game-icons.net
+            </a>
+          </li>
+        </ul>
       </Modal>
     </div>
   );

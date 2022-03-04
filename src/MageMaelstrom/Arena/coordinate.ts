@@ -13,21 +13,28 @@ export class ReadonlyCoordinate {
     this.x = coord?.x ?? 0;
     this.y = coord?.y ?? 0;
   }
+
+  /** Get the horizontal position. 0 is the left most, increasing to the right */
   public getX() {
     return this.x;
   }
+
+  /** Get the vertical position. 0 is the bottom, increasing as you move up */
   public getY() {
     return this.y;
   }
 
+  /** Coordinate equality checker */
   public equals(other: ReadonlyCoordinate) {
     return this.x === other.x && this.y === other.y;
   }
 
+  /** Returns if this coordinate is directly left, right, above, or below the other coordinate */
   public isNextTo(other: ReadonlyCoordinate) {
     return Math.abs(this.x - other.x) + Math.abs(this.y - other.y) === 1;
   }
 
+  /** Check if another coordinate is within a specific range of this coordinate */
   public isWithinRangeOf(range: number, other: ReadonlyCoordinate) {
     return (
       Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2) <=
@@ -35,17 +42,20 @@ export class ReadonlyCoordinate {
     );
   }
 
+  /** Get the pythagorean distance between this coordinate and another */
   public getDistance(target: ReadonlyCoordinate) {
     return Math.sqrt(
       Math.pow(target.x - this.x, 2) + Math.pow(target.y - this.y, 2)
     );
   }
 
+  /** For a list of coordinates, return the coordinate that's closest */
   public getClosest(targets: ReadonlyCoordinate[]) {
     const index = this.getClosestIndex(targets);
     return index !== undefined ? targets[index] : undefined;
   }
 
+  /** For a list of coordinates, return the _index_ of the coordinate that's closest */
   public getClosestIndex(targets: ReadonlyCoordinate[]) {
     if (targets.length === 0) {
       return undefined;
@@ -72,6 +82,10 @@ export class ReadonlyCoordinate {
     return Math.pow(target.x - this.x, 2) + Math.pow(target.y - this.y, 2);
   }
 
+  /** Get if an coordinate is more left, right, above, or below this coordinate.
+   * If the coordinate is perfectly diagonal, then the horizontal direction
+   * is preferred.
+   */
   public getRelativeDirectionOf(other: ReadonlyCoordinate): MovementDirection {
     const xDiff = other.x - this.x;
     const yDiff = other.y - this.y;
@@ -83,6 +97,7 @@ export class ReadonlyCoordinate {
     }
   }
 
+  /** Convert this to a basic interface */
   public toBasic(): BasicCoordinate {
     return {
       x: this.x,
@@ -90,8 +105,9 @@ export class ReadonlyCoordinate {
     };
   }
 
+  /** Prints the coordinate as "X: #, Y: #" */
   public toString() {
-    return `X: ${this.x} Y: ${this.y}`;
+    return `X: ${this.x}, Y: ${this.y}`;
   }
 }
 

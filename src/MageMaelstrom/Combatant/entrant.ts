@@ -38,8 +38,11 @@ import { IconDef, mmEvasion } from "../Common/Icon";
 import { ActParams } from ".";
 
 interface Meter {
+  /** The current value of this meter */
   value: number;
+  /** The maximum value of this meter */
   max: number;
+  /** How much this meter regenerates every 100 ticks (1 second) */
   regen: number;
 }
 

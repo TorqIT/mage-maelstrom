@@ -51,9 +51,15 @@ interface SpellDefinition extends Omit<AbilityDefinition, "type"> {
 }
 
 export interface SpellStatus {
+  /** Which ability this is */
   type: ExtendedAbilityType;
+  /** How long in ticks until this skill is ready. A cooldown of 0 or lower
+   * means the skill is ready
+   */
   cooldownTimer: number;
+  /** The mana cost of this spell */
   manaCost: number;
+  /** The maximum range of this spell. If undefined, this spell has unlimited range */
   range?: number;
 }
 

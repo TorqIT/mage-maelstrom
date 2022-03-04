@@ -15,8 +15,9 @@ export const RulesGuide: React.FC<RulesGuideProps> = ({}) => {
         Two teams of warriors, wizards and rogues battle it out, each with their
         own abilities and powers. Each team is composed of combatants, where
         each combatant has their own health and mana pool. If a combatant runs
-        out of health, they are defeated. The last team with someone still
-        standing wins!
+        out of health, they are defeated. If all of the <b>initial</b> members
+        of a team are defeated (summons do <b>not</b> count), the remaining team
+        wins.
       </p>
       <Stack>
         <Stack.Item size={0.85}>

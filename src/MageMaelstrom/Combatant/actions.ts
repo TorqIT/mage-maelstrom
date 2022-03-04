@@ -40,19 +40,30 @@ export interface DanceAction {
 export type Action = MovementAction | AttackAction | SpellAction | DanceAction;
 
 export interface ActionFactory {
+  /** Move in the specified direction */
   move: (direction: MovementDirection) => MovementAction;
+  /** Move towards a specified coordinate or entrant using Dijkstra
+   * pathfinding. Returns undefined if you've reached your target or if
+   * the movement is impossible (such as when you're trapped)
+   */
   moveTo: (
     targetCoord: ReadonlyEntrantStatus | ReadonlyCoordinate | BasicCoordinate
   ) => MovementAction | undefined;
+  /** Attack a target based on their id */
   attack: (target: number) => AttackAction;
+  /** Move towards an entrant and attack it if you're close enough */
   attackMove: (
     target: ReadonlyEntrantStatus
   ) => AttackAction | MovementAction | undefined;
+  /** Run away from a target to the opposite corner. If cornered, finds another
+   * corner to flee to
+   */
   runFrom: (
     targetCoord: ReadonlyEntrantStatus | ReadonlyCoordinate | BasicCoordinate
   ) => MovementAction | undefined;
+  /** Cast a spell on a specific target. Target type depends on the spell */
   cast: (spell: SpellStatus, target?: SpellTarget) => SpellAction;
-  /** /dance */
+  /** Dance (does nothing) */
   dance: () => DanceAction;
 }
 
