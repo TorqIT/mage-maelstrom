@@ -86,6 +86,7 @@ export interface ReadonlyEntrant {
   color: string;
   flipped: boolean;
   essential: boolean;
+  shout: string;
 }
 
 export type DamageType = "attack" | "magic" | "pure";
@@ -561,6 +562,7 @@ export class Entrant {
       color: this.color,
       flipped: this.flipped,
       essential: this.essential,
+      shout: this.combatant.getShout(),
     };
   }
 

@@ -50,6 +50,7 @@ class Brute extends Combatant {
       const action = actions.move(directions[Math.floor(Math.random() * 4)]);
 
       if (helpers.canPerform(action)) {
+        this.shout("...");
         return action;
       }
     }
@@ -62,6 +63,7 @@ class Brute extends Combatant {
   private comeRunning({ visibleEnemies, actions, helpers }: ActParams) {
     const closest = helpers.getClosest(visibleEnemies)!;
 
+    this.shout("A CHALLENGER IS NEAR");
     return actions.moveTo(closest) ?? actions.dance();
   }
 
@@ -88,6 +90,8 @@ class Brute extends Combatant {
     spells: [stun],
   }: ActParams) {
     const closest = helpers.getClosest(visibleEnemies)!;
+
+    this.shout("BONK");
     return actions.cast(stun, closest.id);
   }
 
@@ -98,6 +102,8 @@ class Brute extends Combatant {
 
   private clonk({ visibleEnemies, helpers, actions }: ActParams) {
     const closest = helpers.getClosest(visibleEnemies)!;
+
+    this.shout("WHAM");
     return actions.attack(closest.id);
   }
 

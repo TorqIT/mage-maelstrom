@@ -38,6 +38,8 @@ class Spellslinger extends Combatant {
     ];
 
     this.target = you.coords.getClosest(this.rotation)!;
+
+    this.shout("Ready for battle!");
   }
 
   public act(params: ActParams): Action {
@@ -67,6 +69,7 @@ class Spellslinger extends Combatant {
       const result = actions.moveTo(this.target);
 
       if (result) {
+        this.shout("We search...");
         return result;
       }
 
@@ -89,10 +92,12 @@ class Spellslinger extends Combatant {
     const distance = you.coords.getDistance(closestEnemy.coords);
 
     if (distance <= 1.5) {
+      this.shout("TOO CLOSE! Repositioning!");
       return actions.runFrom(closestEnemy);
     }
 
     if (distance > 3) {
+      this.shout("Too far! Repositioning!");
       return actions.moveTo(closestEnemy);
     }
   }
@@ -112,14 +117,17 @@ class Spellslinger extends Combatant {
         !enemy.statusesEffects.includes("ice") &&
         helpers.canPerform(iceCast)
       ) {
+        this.shout("I cast... ice!");
         return iceCast;
       }
 
       if (helpers.canPerform(fireballCast)) {
+        this.shout("I cast... fire!");
         return fireballCast;
       }
 
       if (helpers.canPerform(zapCast)) {
+        this.shout("I cast... lightning!");
         return zapCast;
       }
     }
@@ -127,6 +135,7 @@ class Spellslinger extends Combatant {
 
   private slappyHands({ visibleEnemies, you, actions, helpers }: ActParams) {
     if (you.mana.value < 20 && visibleEnemies.length > 0) {
+      this.shout("I cast... uh... fist?");
       return actions.attackMove(helpers.getClosest(visibleEnemies)!);
     }
   }
@@ -139,6 +148,7 @@ class Spellslinger extends Combatant {
       you.coords.isNextTo(closestEnemy.coords) &&
       Math.random() > 0.5
     ) {
+      this.shout("OH GOD WAAAY TOO CLOSE");
       return actions.runFrom(closestEnemy);
     }
   }

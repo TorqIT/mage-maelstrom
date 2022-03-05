@@ -57,6 +57,7 @@ class Summoner extends Combatant {
   }
 
   private summonBear({ actions, spells: [bear] }: ActParams) {
+    this.shout("Aaah, there you are old friend");
     return actions.cast(bear);
   }
 
@@ -71,6 +72,8 @@ class Summoner extends Combatant {
 
   private followBear({ actions, helpers, allies }: ActParams) {
     const closestBear = helpers.getClosest(allies.filter((a) => !a.essential))!;
+
+    this.shout("Hunt them down!");
     return actions.moveTo(closestBear);
   }
 
@@ -111,6 +114,7 @@ class Summoner extends Combatant {
       visibleEnemies
     )!;
 
+    this.shout("This is gonna hurt!");
     return actions.cast(poison, enemyTarget.id);
   }
 
@@ -128,6 +132,7 @@ class Summoner extends Combatant {
       )[Math.floor(Math.random() * 4)];
 
       if (helpers.canPerform(actions.move(dir))) {
+        this.shout("Now where might they be?");
         return actions.move(dir);
       }
     }
@@ -146,9 +151,11 @@ class Summoner extends Combatant {
     }
 
     if (helpers.canPerform(actions.cast(poison, closestEnemy.id))) {
+      this.shout("This is gonna hurt!");
       return actions.cast(poison, closestEnemy.id);
     }
 
+    this.shout("You've got it coming for you now!");
     return actions.attackMove(closestEnemy);
   }
 

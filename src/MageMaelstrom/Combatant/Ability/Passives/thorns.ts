@@ -5,7 +5,8 @@ import { DamageType, Entrant } from "../../entrant";
 import { Passive } from "../passive";
 
 const DAMAGE_MULT = 0.9;
-const THORN_DAMAGE = 3;
+const MIN_DAMAGE = 3;
+const MAX_DAMAGE = 4;
 
 export class Thorns extends Passive {
   public constructor() {
@@ -16,7 +17,7 @@ export class Thorns extends Passive {
         category: "defensive",
         description: `Reduces attack damage taken by ${invertPercentage(
           DAMAGE_MULT
-        )}% and deals ${THORN_DAMAGE} damage every time you're attacked`,
+        )}% and deals ${MIN_DAMAGE} to ${MAX_DAMAGE} damage every time you're attacked`,
         icon: mmThorns,
       },
     });
@@ -32,7 +33,12 @@ export class Thorns extends Passive {
     type: DamageType
   ) {
     if (type === "attack") {
-      you.dealMagicDamage(attacker, THORN_DAMAGE, "thorns", mmThorns);
+      you.dealPureDamage(
+        attacker,
+        MIN_DAMAGE + Math.random() * (MAX_DAMAGE - MIN_DAMAGE),
+        "thorns",
+        mmThorns
+      );
     }
   }
 }

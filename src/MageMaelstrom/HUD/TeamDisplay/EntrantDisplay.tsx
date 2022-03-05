@@ -2,6 +2,7 @@ import React from "react";
 import { CombatantIcon } from "..";
 import { ReadonlyEntrant } from "../../Combatant";
 import { Stack } from "../../Common";
+import { Icon, mmTalk } from "../../Common/Icon";
 import { HealthBar } from "../HealthBar";
 import { DescribableDisplay } from "./DescribableDisplay";
 import styles from "./EntrantDisplay.module.css";
@@ -19,6 +20,18 @@ export const EntrantDisplay: React.FC<EntrantDisplayProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
+      <Stack reverse={flip}>
+        <Stack
+          reverse={flip}
+          gap={10}
+          style={{ padding: "2px 0px" }}
+          alignment="middle"
+        >
+          <Icon icon={mmTalk} size={28} />
+          <div className={styles.speechBubble}>"{entrant.shout}"</div>
+        </Stack>
+      </Stack>
+
       <Stack reverse={flip} fill gap={5} style={{ height: 56 }}>
         <CombatantIcon
           name={entrant.combatant.name}

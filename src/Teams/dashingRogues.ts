@@ -30,6 +30,8 @@ class Dashing extends Combatant {
 
   public init(params: InitParams): void {
     this.arena = params.arena;
+
+    this.shout("Where art thou!?");
     this.buildHuntTarget(!params.isLeft);
   }
 
@@ -57,6 +59,7 @@ class Dashing extends Combatant {
     for (let j = 0; j < 10; j++) {
       const result = actions.moveTo(this.huntTarget);
       if (result && helpers.canPerform(result)) {
+        this.shout("Where art thou!?");
         return result;
       }
 
@@ -89,6 +92,7 @@ class Dashing extends Combatant {
         const dashAction = actions.cast(dash, dir);
 
         if (helpers.canPerform(dashAction)) {
+          this.shout("EN GARDE!!!");
           return dashAction;
         }
       }
@@ -111,12 +115,14 @@ class Dashing extends Combatant {
       const swiftAction = actions.cast(swift, closestEnemy.id);
 
       if (helpers.canPerform(swiftAction)) {
+        this.shout("My finest technique!");
         return swiftAction;
       }
 
       const attackAction = actions.attack(closestEnemy.id);
 
       if (helpers.canPerform(attackAction)) {
+        this.shout("Take this, scoundrel!");
         return attackAction;
       }
     }

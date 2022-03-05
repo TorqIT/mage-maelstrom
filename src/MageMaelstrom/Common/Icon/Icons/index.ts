@@ -48,6 +48,7 @@ import amplitude from "./amplitude.svg";
 import fear from "./screaming.svg";
 import zap from "./heavy-lightning.svg";
 import ice from "./ice-bolt.svg";
+import talk from "./talk.svg";
 
 export interface IconDef {
   file: string;
@@ -290,4 +291,8 @@ export const mmIce: IconDef = {
   file: ice,
   filter:
     "invert(73%) sepia(13%) saturate(5776%) hue-rotate(165deg) brightness(104%) contrast(97%)",
+};
+
+export const mmTalk: IconDef = {
+  file: talk,
 };

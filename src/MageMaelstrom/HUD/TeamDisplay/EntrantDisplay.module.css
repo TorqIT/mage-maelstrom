@@ -1,6 +1,6 @@
 .wrapper {
   padding: 8px;
-  background-color: rgb(73, 73, 108);
+  background-color: rgb(67, 67, 103);
 
   --upper-left-border: rgb(134, 134, 169);
   --lower-right-border: rgb(61, 61, 109);
@@ -23,4 +23,15 @@
   font-weight: bold;
   font-family: Button;
   font-size: 20px;
+}
+
+.speechBubble {
+  background-color: rgb(92, 92, 144);
+  border-radius: 5px;
+  padding: 3px 5px;
+  color: rgb(255, 255, 239);
+  max-width: calc(40vw - 450px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

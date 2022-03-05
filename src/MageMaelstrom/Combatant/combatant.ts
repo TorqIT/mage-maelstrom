@@ -97,6 +97,7 @@ export interface OnStatusEffectAppliedParams {
 export abstract class Combatant {
   private def: CombatantDefinition;
   private id: number;
+  private wordsYelled = "...";
 
   public constructor() {
     this.def = this.define();
@@ -135,10 +136,15 @@ export abstract class Combatant {
   }
 
   //~*~*~*~*
-  //STATS
-
-  //~*~*~*~*
   //TECHNICAL
+
+  protected shout(words: string) {
+    this.wordsYelled = words;
+  }
+
+  public getShout() {
+    return this.wordsYelled;
+  }
 
   public getDef() {
     return this.def;

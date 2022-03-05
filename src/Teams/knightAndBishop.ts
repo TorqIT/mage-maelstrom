@@ -73,6 +73,7 @@ class Knight extends ChessCombatant {
       moveAction = actions.moveTo(this.rotation[this.rotationIndex]);
     }
 
+    this.shout("Moving forward!");
     return moveAction;
   }
 
@@ -83,6 +84,7 @@ class Knight extends ChessCombatant {
       return;
     }
 
+    this.shout("Eat steel!");
     return actions.attackMove(closest);
   }
 
@@ -106,6 +108,7 @@ class Knight extends ChessCombatant {
       you.health.value < 200 &&
       helpers.canPerform(actions.cast(burst))
     ) {
+      this.shout("BEGONE");
       return actions.cast(burst);
     }
   }
@@ -147,6 +150,7 @@ class Bishop extends ChessCombatant {
     const knight = allies[0];
 
     if (knight.coords.getDistance(you.coords) > 3.5) {
+      this.shout("My knight! Where are thee?");
       return actions.moveTo(knight);
     }
   }
@@ -168,6 +172,7 @@ class Bishop extends ChessCombatant {
       !knight.statusesEffects.includes("barrier") &&
       helpers.canPerform(actions.cast(barrier, knight.id))
     ) {
+      this.shout("You are protected!");
       return actions.cast(barrier, knight.id);
     }
 
@@ -176,6 +181,7 @@ class Bishop extends ChessCombatant {
       knight.health.value < 300 &&
       helpers.canPerform(actions.cast(regen, knight.id))
     ) {
+      this.shout("You must persist!");
       return actions.cast(regen, knight.id);
     }
   }
@@ -195,6 +201,7 @@ class Bishop extends ChessCombatant {
       !you.statusesEffects.includes("barrier") &&
       helpers.canPerform(actions.cast(barrier, you.id))
     ) {
+      this.shout("I am protected!");
       return actions.cast(barrier, you.id);
     }
 
@@ -203,6 +210,7 @@ class Bishop extends ChessCombatant {
       you.health.value < 200 &&
       helpers.canPerform(actions.cast(regen, you.id))
     ) {
+      this.shout("I shall recover");
       return actions.cast(regen, you.id);
     }
   }
@@ -223,6 +231,7 @@ class Bishop extends ChessCombatant {
       knight.health.value < 350 &&
       helpers.canPerform(actions.cast(heal, knight.id))
     ) {
+      this.shout("You are healed!");
       return actions.cast(heal, knight.id);
     }
   }
@@ -241,6 +250,7 @@ class Bishop extends ChessCombatant {
       closestEnemy.coords.isNextTo(you.coords) &&
       helpers.canPerform(actions.cast(force, closestEnemy.id))
     ) {
+      this.shout("I repel thee!");
       return actions.cast(force, closestEnemy.id);
     }
   }
@@ -249,6 +259,7 @@ class Bishop extends ChessCombatant {
     const closestEnemy = helpers.getClosest(visibleEnemies);
 
     if (closestEnemy) {
+      this.shout("OH GOD");
       return actions.attackMove(closestEnemy);
     }
   }
