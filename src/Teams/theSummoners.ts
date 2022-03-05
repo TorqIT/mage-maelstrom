@@ -22,6 +22,7 @@ class Summoner extends Combatant {
       agility: 10,
       intelligence: 18,
       abilities: ["bear", "poison", "mind", "evasion"],
+      handicap: true,
     };
   }
 

@@ -19,6 +19,10 @@ export interface CombatantDefinition {
   intelligence: number;
   /** A list of your spells and passives */
   abilities: AbilityType[];
+  /** Reduces your strength, agility and intelligence by 10%. Intended only for the teams
+   * that ship with the game.
+   */
+  handicap?: boolean;
 }
 
 export interface InitParams {
@@ -117,13 +121,13 @@ export abstract class Combatant {
   //ATTRIBUTES
 
   public getStrength() {
-    return this.def.strength;
+    return Math.round(this.def.strength * (this.def.handicap ? 0.9 : 1.0));
   }
   public getAgility() {
-    return this.def.agility;
+    return Math.round(this.def.agility * (this.def.handicap ? 0.9 : 1.0));
   }
   public getIntelligence() {
-    return this.def.intelligence;
+    return Math.round(this.def.intelligence * (this.def.handicap ? 0.9 : 1.0));
   }
 
   public getAbilities() {

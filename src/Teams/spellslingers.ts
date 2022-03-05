@@ -25,6 +25,7 @@ class Spellslinger extends Combatant {
       agility: 10,
       intelligence: 20,
       abilities: ["zap", "fireball", "ice", "ranged"],
+      handicap: true,
     };
   }
 

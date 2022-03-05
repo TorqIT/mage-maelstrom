@@ -21,6 +21,7 @@ class Brute extends Combatant {
       agility: 5,
       intelligence: 5,
       abilities: ["stun", "darkness", "talented", "thorns"],
+      handicap: true,
     };
   }
 

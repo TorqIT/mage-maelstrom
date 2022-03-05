@@ -40,6 +40,7 @@ class Knight extends ChessCombatant {
       agility: 10,
       intelligence: 5,
       abilities: ["burst", "thorns", "critical", "critical"],
+      handicap: true,
     };
   }
 
@@ -119,6 +120,7 @@ class Bishop extends ChessCombatant {
       agility: 8,
       intelligence: 24,
       abilities: ["force", "barrier", "regen", "heal"],
+      handicap: true,
     };
   }
 

@@ -24,6 +24,7 @@ class Dashing extends Combatant {
       agility: 30,
       intelligence: 5,
       abilities: ["dash", "swift", "serrated", "vision"],
+      handicap: true,
     };
   }
 
