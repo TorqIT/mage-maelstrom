@@ -8,7 +8,7 @@ export const CodingTips: React.FC<CodingTipsProps> = ({}) => {
   return (
     <div className={styles.codingTips}>
       <Stack gap={20}>
-        <Stack.Item size={1.3}>
+        <Stack.Item size={1.1}>
           <h1>The Combatant</h1>
           <p>
             You combatant should extend the <code>Combatant</code> class, an
@@ -77,7 +77,7 @@ export const CodingTips: React.FC<CodingTipsProps> = ({}) => {
             just directly browse the interfaces. Sorry ¯\_(ツ)_/¯
           </p>
         </Stack.Item>
-        <Stack.Item size={0.7}>
+        <Stack.Item size={0.9}>
           <h1>
             The basics of <code>act()</code>ing
           </h1>
@@ -129,6 +129,24 @@ export const CodingTips: React.FC<CodingTipsProps> = ({}) => {
                 of an attack or spell cast.
               </i>
             </small>
+          </p>
+          <h1>
+            <code>this.shout()</code>
+          </h1>
+          <p>
+            Curious what's on your character's mind? Combatant provides a{" "}
+            <code>shout()</code> method which outputs a given string directly
+            your combatant's HUD. While you could very much just use{" "}
+            <code>console.log()</code> instead, <code>this.shout()</code> has
+            the advantage of seeing what's going through your combatant's head
+            without needing to take your eyes off the battle, while giving a
+            very clear indication of who's thinking what.
+          </p>
+          <p>
+            Debugging uses aside, don't be afraid to use it to give your
+            character some personality! All shouts will remain visible
+            throughout the final tournament, so keep that in mind when thinking
+            about what you should yell out to the world.
           </p>
         </Stack.Item>
       </Stack>

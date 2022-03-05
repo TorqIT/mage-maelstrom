@@ -53,7 +53,7 @@ export const Help: React.FC<HelpProps> = ({ size, vertical }) => {
       <Modal
         visible={codeOpen}
         onCloseRequested={() => setCodeOpen(false)}
-        width={1280}
+        width="80vw"
       >
         <CodingTips />
       </Modal>
