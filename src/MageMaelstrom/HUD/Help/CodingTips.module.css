@@ -1,8 +1,9 @@
 .codingTips code {
-  border: 1px solid rgb(77, 76, 99);
+  border: 1px solid rgb(59, 59, 77);
   background-color: rgb(36, 34, 56);
-  padding: 1px 4px;
+  padding: 1px 3px;
+  margin-left: 1px;
   margin-right: 1px;
   color: #b2b29f;
-  font-size: 95%;
+  font-size: 92%;
 }

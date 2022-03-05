@@ -113,6 +113,9 @@ export const RulesGuide: React.FC<RulesGuideProps> = ({}) => {
           {(100 * suddenDeath.percentDamage).toFixed(0)}% of the impacted's max
           health
         </li>
+        <li>
+          If two combatants act on the same tick, the turn order is randomized.
+        </li>
       </ul>
     </div>
   );

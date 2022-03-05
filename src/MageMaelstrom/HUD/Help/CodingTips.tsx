@@ -8,7 +8,7 @@ export const CodingTips: React.FC<CodingTipsProps> = ({}) => {
   return (
     <div className={styles.codingTips}>
       <Stack gap={20}>
-        <Stack.Item size={0.9}>
+        <Stack.Item size={1.3}>
           <h1>The Combatant</h1>
           <p>
             You combatant should extend the <code>Combatant</code> class, an
@@ -54,9 +54,9 @@ export const CodingTips: React.FC<CodingTipsProps> = ({}) => {
           </h3>
           <p>
             Called every time your character takes damage. <b>Note:</b> this
-            includes damage over time effects, meaning if an enemy poisons you,
-            this method will get called 16 times over the next in-game 8
-            seconds.
+            includes damage over time effects. Bleed ticks 20 times an in-game
+            second, therefore <code>onTakeDamage()</code> will get called a
+            total of 60 times over its 3 second duration.
           </p>
           <h3>
             <code>
@@ -77,8 +77,59 @@ export const CodingTips: React.FC<CodingTipsProps> = ({}) => {
             just directly browse the interfaces. Sorry ¯\_(ツ)_/¯
           </p>
         </Stack.Item>
-        <Stack.Item size={1.1}>
-          <h1>Coding your Combatant</h1>
+        <Stack.Item size={0.7}>
+          <h1>
+            The basics of <code>act()</code>ing
+          </h1>
+          <p>
+            Every time it's your turn to <code>act()</code>, you're expected to
+            return an <code>Action</code>. While you can technically build these
+            objects yourself, it's <i>highly</i> recommended to use the{" "}
+            <code>actions</code> object provided in the <code>ActParams</code>.
+            The <code>actions</code> object provides an easy way to generate{" "}
+            <code>Action</code> objects, and it even provides some really useful
+            helpers:
+          </p>
+          <ul>
+            <li>
+              <code>moveTo()</code> which handles pathfinding for you
+            </li>
+            <li>
+              <code>attackMove()</code> which lets you automatically attack
+              enemies if they're close enough
+            </li>
+          </ul>
+          <p>
+            Of course you can declare your action, but there's no guarantee that
+            it'll succeed. You can try to walk out the arena, or attack an enemy
+            that's out of range, or cast a spell that's on cooldown, but if you
+            do, your action will simply be ignored and converted to a{" "}
+            <code>dance</code> action. In order to actually guarantee your
+            action, you're going to need to verify it's even possible in the
+            first place. This is where the <code>helpers</code> object comes in.
+          </p>
+          <p>
+            <code>helpers</code> (also provided in the <code>ActParams</code>)
+            provides two methods: <code>canPerform()</code> which returns true
+            or false depending on whether or not an action will succeed, and{" "}
+            <code>getActionResult()</code>, which provides more detail as to why
+            an action would fail. Both of these methods check everything, any
+            obstructions when moving, your distance from the enemy when
+            attacking and casting, your cooldown, your mana, everything. Don't
+            worry about what you're doing. Worry about how you're doing it.
+          </p>
+          <p>
+            <small>
+              <i>
+                Note: An action may still fail in cases where two combatants act
+                on the same turn. For example, if two combatants try to move to
+                the same tile, one will succeed, while the other will fail even
+                though at the start of the turn, it appeared as though the move
+                was possible. The same goes for a combatant moving out of range
+                of an attack or spell cast.
+              </i>
+            </small>
+          </p>
         </Stack.Item>
       </Stack>
     </div>
