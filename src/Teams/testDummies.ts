@@ -38,5 +38,6 @@ class TestDummy extends Combatant {
 export const testDummies: Team = {
   name: "The Test Dummies",
   color: "#000",
+  author: "Nick",
   CombatantSubclasses: [TestDummy, TestDummy],
 };

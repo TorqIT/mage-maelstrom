@@ -268,5 +268,6 @@ class Bishop extends ChessCombatant {
 export const knightAndBishop: Team = {
   name: "Knight and Bishop",
   color: "#2AF",
+  author: "Nick",
   CombatantSubclasses: [Knight, Bishop],
 };

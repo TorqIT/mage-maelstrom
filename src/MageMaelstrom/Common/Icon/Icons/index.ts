@@ -49,6 +49,7 @@ import fear from "./screaming.svg";
 import zap from "./heavy-lightning.svg";
 import ice from "./ice-bolt.svg";
 import talk from "./talk.svg";
+import code from "./auto-repair.svg";
 
 export interface IconDef {
   file: string;
@@ -295,4 +296,8 @@ export const mmIce: IconDef = {
 
 export const mmTalk: IconDef = {
   file: talk,
+};
+
+export const mmCode: IconDef = {
+  file: code,
 };

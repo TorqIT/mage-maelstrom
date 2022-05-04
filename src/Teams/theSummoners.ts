@@ -167,5 +167,6 @@ class Summoner extends Combatant {
 export const summoners: Team = {
   name: "The Summoners",
   color: "#FA2",
+  author: "Nick",
   CombatantSubclasses: [Summoner, Summoner],
 };

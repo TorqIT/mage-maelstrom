@@ -64,6 +64,7 @@
       "export const $TM_FILENAME_BASE: Team = {",
       "  name: \"${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}\",",
       "  color: \"#000\",",
+      "  author: \"[AUTHOR NAME HERE]\",",
       "  CombatantSubclasses: [${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}Combatant1, ${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}Combatant2],",
       "};",
       ""

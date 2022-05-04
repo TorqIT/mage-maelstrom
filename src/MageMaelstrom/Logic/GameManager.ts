@@ -93,6 +93,7 @@ export class GameManager {
       id: team.id,
       name: team.name,
       color: team.color,
+      author: team.author,
       flip: isRight,
       entrants: team.CombatantSubclasses.map(
         (SubCombatant) =>

@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { CombatantIcon } from "..";
 import { IdentifiedTeam } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
-import { Icon, mmWarning } from "../../Common/Icon";
+import { Icon, mmCode, mmWarning } from "../../Common/Icon";
 import { GameSpecs, useGameManager } from "../../Logic";
 import { useGameSpecs } from "../../Logic/GameSpecsProvider";
 import styles from "./SelectableTeam.module.css";
@@ -45,7 +45,13 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
         })}
         onClick={isSelectable ? onClick : undefined}
       >
-        <div className={styles.name}>{team.name}</div>
+        <Stack gap="apart" style={{ gap: 10 }}>
+          <div className={styles.name}>{team.name}</div>
+          <Stack gap={3}>
+            <Icon icon={mmCode} size={15} />
+            <div className={styles.author}>{team.author}</div>
+          </Stack>
+        </Stack>
 
         <Stack gap={20} alignment="middle">
           {intializedCombatants.map((c) => {
@@ -57,7 +63,7 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
                 name={def.name}
                 icon={def.icon}
                 color={team.color}
-                size={100}
+                size={128}
               />
             );
           })}

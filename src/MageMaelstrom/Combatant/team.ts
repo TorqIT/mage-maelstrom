@@ -8,6 +8,7 @@ type Identified<T extends object> = T & {
 export interface Team {
   name: string;
   color: string;
+  author: string;
   CombatantSubclasses: CombatantSubclass[];
 }
 

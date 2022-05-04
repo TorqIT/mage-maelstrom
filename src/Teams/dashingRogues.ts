@@ -136,5 +136,6 @@ class Dashing extends Combatant {
 export const dashingRogues: Team = {
   name: "Dashing Rogues",
   color: "#294",
+  author: "Nick",
   CombatantSubclasses: [Dashing, Dashing],
 };

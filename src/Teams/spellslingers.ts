@@ -161,5 +161,6 @@ class Spellslinger extends Combatant {
 export const spellslingers: Team = {
   name: "Spellslingers",
   color: "#38F",
+  author: "Nick",
   CombatantSubclasses: [Spellslinger, Spellslinger],
 };
