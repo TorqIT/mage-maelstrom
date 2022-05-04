@@ -72,6 +72,7 @@ export const TeamSelector: React.FC<TeamSelectorProps> = ({}) => {
                   team={t.team}
                   errors={t.errors}
                   warnings={t.warnings}
+                  disabled={index === left || index === right}
                   onClick={() => clickTeam(index)}
                 />
               ))}

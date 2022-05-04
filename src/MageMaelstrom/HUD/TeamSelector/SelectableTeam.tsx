@@ -4,14 +4,13 @@ import { CombatantIcon } from "..";
 import { IdentifiedTeam } from "../../Combatant";
 import { Stack, Tooltip } from "../../Common";
 import { Icon, mmCode, mmWarning } from "../../Common/Icon";
-import { GameSpecs, useGameManager } from "../../Logic";
-import { useGameSpecs } from "../../Logic/GameSpecsProvider";
 import styles from "./SelectableTeam.module.css";
 
 export interface SelectableTeamProps {
   team: IdentifiedTeam;
   errors?: string[];
   warnings?: string[];
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -19,9 +18,10 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
   team,
   errors,
   warnings,
+  disabled,
   onClick,
 }) => {
-  const isSelectable = errors == null || errors?.length === 0;
+  const isSelectable = (errors == null || errors?.length === 0) && !disabled;
 
   const intializedCombatants = useMemo(
     () => team.CombatantSubclasses.map((SubCombatant) => new SubCombatant()),
@@ -37,7 +37,7 @@ export const SelectableTeam: React.FC<SelectableTeamProps> = ({
           ))}
         </ul>
       }
-      disabled={isSelectable}
+      disabled={isSelectable || disabled}
     >
       <div
         className={classNames(styles.wrapper, {
