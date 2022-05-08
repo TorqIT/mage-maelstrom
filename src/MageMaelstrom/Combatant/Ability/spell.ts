@@ -154,6 +154,15 @@ export abstract class Spell extends Ability {
       target &&
       typeof target !== "string" &&
       !isCoordinate(target) &&
+      target.isDead()
+    ) {
+      return "TargetIsDead";
+    }
+
+    if (
+      target &&
+      typeof target !== "string" &&
+      !isCoordinate(target) &&
       caster.getTeamId() !== target.getTeamId() &&
       !gameManager.isInVision(target)
     ) {
