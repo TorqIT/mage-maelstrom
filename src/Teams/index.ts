@@ -1,3 +1,4 @@
+import { Team } from "../MageMaelstrom";
 import { brutishBarbarians } from "./brutishBarbarians";
 import { dashingRogues } from "./dashingRogues";
 import { knightAndBishop } from "./knightAndBishop";
@@ -7,11 +8,11 @@ import { summoners } from "./theSummoners";
 
 const teams = [
   testDummies,
-  dashingRogues,
-  spellslingers,
-  brutishBarbarians,
-  knightAndBishop,
-  summoners,
+  dashingRogues as Team,
+  spellslingers as Team,
+  brutishBarbarians as Team,
+  knightAndBishop as Team,
+  summoners as Team,
 ];
 
 export { teams };
