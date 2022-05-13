@@ -39,7 +39,7 @@ export class Teleport extends Spell {
   ): void {
     caster.applyStatusEffect(
       new ChannelingStatus(CHANNEL_TIME, "Teleport", mmTeleport, () => {
-        if (gameManager.isEmpty(target)) {
+        if (gameManager.isEmpty(target) && gameManager.isInArena(target)) {
           caster.getCoords().teleportTo(target);
         }
       }),
