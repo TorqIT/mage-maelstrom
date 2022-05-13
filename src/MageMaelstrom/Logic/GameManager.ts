@@ -89,6 +89,21 @@ export class GameManager {
   }
 
   private buildActiveTeam(team: IdentifiedTeam, isRight: boolean): ActiveTeam {
+    const coords: Coordinate[] = [];
+
+    for (let j = 0; j < team.CombatantSubclasses.length; j++) {
+      var good = false;
+
+      while (!good) {
+        const nextCoord = this.generateCoord(isRight);
+
+        if (!coords.some((c) => c.equals(nextCoord))) {
+          coords.push(nextCoord);
+          good = true;
+        }
+      }
+    }
+
     return {
       id: team.id,
       name: team.name,
@@ -96,12 +111,12 @@ export class GameManager {
       author: team.author,
       flip: isRight,
       entrants: team.CombatantSubclasses.map(
-        (SubCombatant) =>
+        (SubCombatant, index) =>
           new Entrant(
             this.specs,
             new SubCombatant(),
             { color: team.color, id: team.id, flip: isRight },
-            this.generateCoord(isRight),
+            coords[index],
             true,
             this
           )
