@@ -19,7 +19,9 @@ export const Tile = React.memo<TileProps>(
           [styles.bothSeeIt]: teamsWithVision === 2,
         })}
       >
-        {combatant && <CombatantIcon {...combatant} horizontalFlip={flip} />}
+        {combatant && (
+          <CombatantIcon {...combatant} horizontalFlip={flip} size={40} />
+        )}
       </div>
     );
   }

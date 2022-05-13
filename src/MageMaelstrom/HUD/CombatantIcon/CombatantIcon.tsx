@@ -19,16 +19,27 @@ export const CombatantIcon = React.memo<CombatantIconProps>(
         <Tooltip content={name}>
           <div className={styles.iconWrapper} style={{ borderColor: color }}>
             <Stack fill>
-              <img
-                className={classNames(styles.icon, {
-                  [styles.flip]: horizontalFlip,
-                })}
-                src={icon}
-                alt={name}
-                width={size}
-                height={size}
-                style={{ backgroundColor: "white" }}
-              ></img>
+              <div
+                style={{
+                  width: size && size - 4,
+                  height: size && size - 4,
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  className={classNames(styles.icon, {
+                    [styles.flip]: horizontalFlip,
+                  })}
+                  src={icon}
+                  alt={name}
+                  style={{
+                    backgroundColor: "white",
+                    maxWidth: size && size - 4,
+                    maxHeight: size && size - 4,
+                    objectFit: "cover",
+                  }}
+                ></img>
+              </div>
             </Stack>
           </div>
         </Tooltip>
