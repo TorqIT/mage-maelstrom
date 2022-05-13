@@ -1,4 +1,3 @@
-import { Team } from "../MageMaelstrom";
 import { brutishBarbarians } from "./brutishBarbarians";
 import { dashingRogues } from "./dashingRogues";
 import { torqTrolls } from "./eduardo";
@@ -14,11 +13,11 @@ import { tmpTeam } from "./tmpTeam";
 
 const teams = [
   testDummies,
-  dashingRogues as Team,
-  spellslingers as Team,
-  brutishBarbarians as Team,
-  knightAndBishop as Team,
-  summoners as Team,
+  dashingRogues,
+  spellslingers,
+  brutishBarbarians,
+  knightAndBishop,
+  summoners,
   GutsTeam,
   pimconauts,
   sentryBears,
